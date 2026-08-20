@@ -71,14 +71,14 @@ related_wiki:
 
 ## 배운 것
 
-- [[공부/Feature-Sliced Design|Feature-Sliced Design]] — 계층·슬라이스·세그먼트, `index.ts` public API, Next.js `app/`와 FSD `_app`의 분리, Steiger 0.6.0의 `_` 접두사 버그
-- [[공부/JavaScript 모듈 시스템|JavaScript 모듈 시스템]] — `export { default as X } from` 재수출, JS 모듈엔 접근제어자가 없어 슬라이스 경계는 언어가 아니라 린터가 지킨다
-- [[공부/JavaScript 기초 문법|JavaScript 기초 문법]] — 객체 리터럴과 구조 분해가 JS의 절반, `if (!x)`가 성립하는 truthy/falsy 근거
-- [[공부/JavaScript 런타임|JavaScript 런타임]] — Node는 V8 + OS 기능이라 서버가 될 수 있고, 그래서 API 키를 서버에만 둔다
-- [[공부/TypeScript 타입 시스템|TypeScript 타입 시스템]] — 타입은 컴파일하면 사라지므로 `res.ok` 검사를 손으로 넣는다
-- [[공부/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] — 서버 컴포넌트가 직접 `await` 하고, `revalidate`는 데이터가 변하는 속도로 정한다
-- [[공부/네트워크|네트워크]] — 서버는 포트를 잡은 프로그램일 뿐, `localhost`는 루프백이고 `*:3000`은 같은 와이파이에 열려 있다
-- [[공부/외부 API 데이터 모델링|외부 API 데이터 모델링]] — 응답 타입을 두 겹으로, 숫자로 들고 다니다 그릴 때만 포맷, 코인 이름은 업비트에서 받는다
+- [[공부/JS/Feature-Sliced Design|Feature-Sliced Design]] — 계층·슬라이스·세그먼트, `index.ts` public API, Next.js `app/`와 FSD `_app`의 분리, Steiger 0.6.0의 `_` 접두사 버그
+- [[공부/JS/JavaScript 모듈 시스템|JavaScript 모듈 시스템]] — `export { default as X } from` 재수출, JS 모듈엔 접근제어자가 없어 슬라이스 경계는 언어가 아니라 린터가 지킨다
+- [[공부/JS/JavaScript 기초 문법|JavaScript 기초 문법]] — 객체 리터럴과 구조 분해가 JS의 절반, `if (!x)`가 성립하는 truthy/falsy 근거
+- [[공부/JS/JavaScript 런타임|JavaScript 런타임]] — Node는 V8 + OS 기능이라 서버가 될 수 있고, 그래서 API 키를 서버에만 둔다
+- [[공부/JS/TypeScript 타입 시스템|TypeScript 타입 시스템]] — 타입은 컴파일하면 사라지므로 `res.ok` 검사를 손으로 넣는다
+- [[공부/JS/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] — 서버 컴포넌트가 직접 `await` 하고, `revalidate`는 데이터가 변하는 속도로 정한다
+- [[공부/CS/네트워크|네트워크]] — 서버는 포트를 잡은 프로그램일 뿐, `localhost`는 루프백이고 `*:3000`은 같은 와이파이에 열려 있다
+- [[공부/JS/외부 API 데이터 모델링|외부 API 데이터 모델링]] — 응답 타입을 두 겹으로, 숫자로 들고 다니다 그릴 때만 포맷, 코인 이름은 업비트에서 받는다
 
 ## 다음에 정할 것
 

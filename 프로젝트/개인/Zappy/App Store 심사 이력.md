@@ -42,6 +42,7 @@ related_wiki: []
 | 2026-08-18 | **1.6.1 (build 12) 핫픽스 제출** — 호버 하트가 한 번도 동작하지 않은 채 출시된 것을 발견(1.6.0 What's New 3번째 줄에 5개 언어로 광고된 기능). 원인은 셀렉터 이름 불일치: `AppDelegate`가 NSResponder가 아니라 `@objc func mouseEntered(with:)`가 `mouseEnteredWith:`로 나가 AppKit의 `mouseEntered:`와 어긋남 → `@objc(mouseEntered:)` 명시(커밋 `f7e0889`). `fastlane mac release` 한 번에 통과, WAITING_FOR_REVIEW (asc state 확인). What's New 5개 언어는 수정 한 줄만. precheck 자체 오류는 이번에도 발생(제출 무관). 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-18\|개발 기록 08-18]] |
 | 2026-08-19 | 🚀 **1.6.1 승인·출시** (READY_FOR_SALE, `asc state` 확인 — 08-20 시점 대기 버전 없음). 호버 하트가 실제로 동작하는 상태로 스토어에 올라갔다 |
 | 2026-08-20 | **1.7.0 (build 13) 제출** — `fastlane mac release` 한 번에 통과, WAITING_FOR_REVIEW (`asc state` 확인). 구성: **배터리 리포트 + 위젯 확장(라지·테마 선택)** 둘. **데스크톱 펫은 출시 스코프에서 제외**(캐릭터 재설계 필요 — 코드는 남기고 `DesktopPet.featureEnabled` 플래그로 차단, usdz도 번들에서 제외). What's New·설명문 5개 언어에서 펫 줄 삭제, 심사 노트 모션 테마 수 5→6 정정. 스크린샷은 기존 유지(ko 5 / 나머지 3장). 빌드 13은 08-19에 준비만 하고 미업로드였던 번호를 그대로 사용. precheck 자체 오류는 **세 번째 발생**이라 제출 무관 상수로 취급. 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-20\|개발 기록 08-20]] |
+| 2026-08-21 | **1.7.0 승인·출시 확인**(READY_FOR_SALE, 제출 다음 날 — 위키는 이날 `asc state`를 보기 전까지 "심사 대기"였다) → 같은 날 **1.8.0 (build 14) 제출**, WAITING_FOR_REVIEW. 내용: **새 캐릭터 선인장**(Zappy+ 7번째 모션 테마). What's New 5개 언어(이모지 없음), 설명문 "테마 15종·모션 7종", 심사 노트 모션 테마 목록에 Cactus 추가. 스크린샷 기존 유지. `fastlane mac release` 아카이브→제출 약 8분, 이번엔 precheck 오류 없음. 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-21\|개발 기록 08-21]] |
 
 ## 2.1 정보 요청 (2026-07-25)
 

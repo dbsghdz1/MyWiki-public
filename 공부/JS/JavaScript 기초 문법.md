@@ -94,4 +94,4 @@ false · 0 · "" · null · undefined · NaN
 
 - [MDN — Working with objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects) — 객체 리터럴, 점/대괄호 접근, 속성 추가·삭제, 참조 타입 (2026-08-18 확인)
 - [MDN — Destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) — 이름 바꾸기·기본값·중첩·rest·함수 파라미터 분해 (2026-08-18 확인)
-- [MDN — JavaScript 모듈 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) — [[공부/JavaScript 모듈 시스템|모듈 시스템]] 쪽과 이어짐 (2026-08-16 확인)
+- [MDN — JavaScript 모듈 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) — [[공부/JS/JavaScript 모듈 시스템|모듈 시스템]] 쪽과 이어짐 (2026-08-16 확인)

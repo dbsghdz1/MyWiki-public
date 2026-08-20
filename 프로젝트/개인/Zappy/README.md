@@ -6,7 +6,7 @@ aliases:
   - CuteBattery
   - 귀여운 배터리
 created: 2026-07-23
-updated: 2026-08-20
+updated: 2026-08-21
 slack_channel: zappy
 repos:
   - "github.com/dbsghdz1/Zappy"
@@ -24,9 +24,9 @@ macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다
 | 앱 이름 | Zappy (번들 `com.hong.zappy`, 내부 코드명 CuteBattery) |
 | 한 줄 문제 정의 | 숫자로만 보여 무시하기 쉬운 배터리 상태를, 캐릭터의 표정·형태 변화로 직관적으로 전달 |
 | 대상 사용자 | 맥 셋업 꾸미기를 즐기는 일반 사용자, 전 연령 |
-| 현재 개발 단계 | **1.6.1 출시(2026-08-19) · 1.7.0 (build 13) 심사 대기(2026-08-20 제출)**. 1.7 = Zappy+ 강화 **배터리 리포트 + 위젯 라지/테마 선택** — **데스크톱 펫은 캐릭터 재설계가 필요해 출시에서 제외**(코드는 남기고 `DesktopPet.featureEnabled` 플래그로 차단) — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-20\|개발 기록 08-20]] · [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-19\|개발 기록 08-19]] · [[프로젝트/개인/Zappy/Zappy 마케팅 플랜\|마케팅 플랜]] · [[프로젝트/개인/Zappy/App Store 심사 이력\|심사 이력]] |
+| 현재 개발 단계 | **1.7.0 출시(2026-08-21 승인 확인) · 1.8.0 (build 14) 제출(2026-08-21, 새 캐릭터 선인장)** — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-21\|개발 기록 08-21]]. 1.7 = Zappy+ 강화 **배터리 리포트 + 위젯 라지/테마 선택** — **데스크톱 펫은 캐릭터 재설계가 필요해 출시에서 제외**(코드는 남기고 `DesktopPet.featureEnabled` 플래그로 차단) — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-20\|개발 기록 08-20]] · [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-19\|개발 기록 08-19]] · [[프로젝트/개인/Zappy/Zappy 마케팅 플랜\|마케팅 플랜]] · [[프로젝트/개인/Zappy/App Store 심사 이력\|심사 이력]] |
 | 기술 스택 | AppKit(NSStatusItem) + IOKit 전원 API + UserNotifications + ServiceManagement, App Sandbox, 권한은 알림 1개, 네트워크 없음, macOS 13+ |
-| 핵심 기능 | 테마 14종(모찌·고양이·슬라임·유령·달·눈사람·불꽃·로봇·너구리·역도·날씨·사과·소다·픽셀, 로봇·역도·사과 상시 모션 + 날씨 비/번개 + 소다 충전 기포 모션) · 모노크롬/컬러 · 충전 휴식 씬(1.2.0: 눈·물·콘센트·라면, 충전 중 모션 정지) · 저전력 알림 기준 선택(10~30%) · 80% 충전 알림 · 자동 실행 · IOKit 이벤트 갱신 · Zappy+ 일회성 IAP(₩3,300, StoreKit 2) |
+| 핵심 기능 | 테마 15종(모찌·고양이·슬라임·유령·달·눈사람·불꽃·로봇·너구리·역도·날씨·사과·소다·선인장·픽셀, 로봇·역도·사과 상시 모션 + 날씨 비/번개 + 소다 충전 기포 모션) · 모노크롬/컬러 · 충전 휴식 씬(1.2.0: 눈·물·콘센트·라면, 충전 중 모션 정지) · 저전력 알림 기준 선택(10~30%) · 80% 충전 알림 · 자동 실행 · IOKit 이벤트 갱신 · Zappy+ 일회성 IAP(₩3,300, StoreKit 2) |
 | 배포 방식 | Mac App Store 전용. BM은 [[프로젝트/개인/Zappy/Zappy 로드맵과 유료화 계획\|로드맵과 유료화 계획]] 참고 |
 
 ## 프로젝트를 규정한 결정 4가지
@@ -53,14 +53,14 @@ macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다
 
 ## 배운 것
 
-- [[공부/Vercel 배포|Vercel 배포]] — 랜딩을 GitHub 연동으로 바꾸면서 Root Directory(`landing`)를 안 잡아 08-15~19 랜딩·구매 웹훅이 통째로 404였다. Git 연동 배포는 사람이 배포하던 폴더가 아니라 프로젝트 설정이 기준
-- [[공부/App Store Server Notifications|App Store Server Notifications]] — 구매 알림이 안 오면 내 로그보다 `notifications/history`로 Apple 전송 결과를 먼저 본다. 실패해도 72h 안에 서버를 고치면 재시도로 도착한다
-- [[공부/SceneKit과 3D 에셋 파이프라인|SceneKit과 3D 에셋 파이프라인]] — Blender 눈사람을 SceneKit 펫으로 띄우며 얻은 것. **재export가 캐릭터를 바꾼다**는 것을 두 번 사고 내고 배웠고, 녹기는 코드로 짠 배율보다 **원본에 이미 조각돼 있던 셰이프 키**가 압도적으로 나았다
-- [[공부/App Store 성장 도구|App Store 성장 도구]] — Mac 전용 앱은 Apple Ads 계정 개설조차 안 되고 인앱 이벤트·커스텀 제품 페이지도 iOS 전용. 유료 광고 미집행은 예산 판단이 아니라 **구조 판단**이며, 시즌 테마는 피처링 노미네이션으로 태운다
-- [[공부/macOS 메뉴바와 샌드박스|macOS 메뉴바와 샌드박스]] — App Sandbox는 AX만 막고 **IORegistry는 안 막는다**. 배터리 사이클 수·설계 용량·온도는 `AppleSmartBattery`에서 entitlement 없이 읽힌다 — 1.7 배터리 리포트가 성립한 근거
-- [[공부/WidgetKit과 AppIntents|WidgetKit과 AppIntents]] — AppIntents 문구는 컴파일 타임 리터럴만 받는다. 이 앱의 런타임 `L10n.pick(...)`을 못 써서 위젯 인텐트만 문자열 카탈로그로 분리했다
-- [[공부/Xcode 빌드와 번들 구성|Xcode 빌드와 번들 구성]] — 기능을 코드를 지우지 않고 출시에서 빼는 법. 게이트는 **가장 안쪽(`isOn` 게터)에도** 둬야 저장된 설정이 안 샌다. 동기화 폴더에서 에셋 하나 빼기는 pbxproj 예외 세트, 확인은 릴리즈 바이너리 `strings`(대조군 필수)
-- [[공부/Swift와 Objective-C 브리징|Swift와 Objective-C 브리징]] — `@objc`를 붙여도 셀렉터 이름은 Swift 이름+인자 레이블에서 생성된다(`mouseEntered(with:)` → `mouseEnteredWith:`). AppKit이 이름으로 보내는 콜백은 어긋나면 조용히 호출되지 않는다 — 1.6.0 호버 하트가 이것 때문에 한 번도 동작하지 않았다
+- [[공부/도구/Vercel 배포|Vercel 배포]] — 랜딩을 GitHub 연동으로 바꾸면서 Root Directory(`landing`)를 안 잡아 08-15~19 랜딩·구매 웹훅이 통째로 404였다. Git 연동 배포는 사람이 배포하던 폴더가 아니라 프로젝트 설정이 기준
+- [[공부/AppStore/App Store Server Notifications|App Store Server Notifications]] — 구매 알림이 안 오면 내 로그보다 `notifications/history`로 Apple 전송 결과를 먼저 본다. 실패해도 72h 안에 서버를 고치면 재시도로 도착한다
+- [[공부/Apple/SceneKit과 3D 에셋 파이프라인|SceneKit과 3D 에셋 파이프라인]] — Blender 눈사람을 SceneKit 펫으로 띄우며 얻은 것. **재export가 캐릭터를 바꾼다**는 것을 두 번 사고 내고 배웠고, 녹기는 코드로 짠 배율보다 **원본에 이미 조각돼 있던 셰이프 키**가 압도적으로 나았다
+- [[공부/AppStore/App Store 성장 도구|App Store 성장 도구]] — Mac 전용 앱은 Apple Ads 계정 개설조차 안 되고 인앱 이벤트·커스텀 제품 페이지도 iOS 전용. 유료 광고 미집행은 예산 판단이 아니라 **구조 판단**이며, 시즌 테마는 피처링 노미네이션으로 태운다
+- [[공부/Apple/macOS 메뉴바와 샌드박스|macOS 메뉴바와 샌드박스]] — App Sandbox는 AX만 막고 **IORegistry는 안 막는다**. 배터리 사이클 수·설계 용량·온도는 `AppleSmartBattery`에서 entitlement 없이 읽힌다 — 1.7 배터리 리포트가 성립한 근거
+- [[공부/Apple/WidgetKit과 AppIntents|WidgetKit과 AppIntents]] — AppIntents 문구는 컴파일 타임 리터럴만 받는다. 이 앱의 런타임 `L10n.pick(...)`을 못 써서 위젯 인텐트만 문자열 카탈로그로 분리했다
+- [[공부/Apple/Xcode 빌드와 번들 구성|Xcode 빌드와 번들 구성]] — 기능을 코드를 지우지 않고 출시에서 빼는 법. 게이트는 **가장 안쪽(`isOn` 게터)에도** 둬야 저장된 설정이 안 샌다. 동기화 폴더에서 에셋 하나 빼기는 pbxproj 예외 세트, 확인은 릴리즈 바이너리 `strings`(대조군 필수)
+- [[공부/Apple/Swift와 Objective-C 브리징|Swift와 Objective-C 브리징]] — `@objc`를 붙여도 셀렉터 이름은 Swift 이름+인자 레이블에서 생성된다(`mouseEntered(with:)` → `mouseEnteredWith:`). AppKit이 이름으로 보내는 콜백은 어긋나면 조용히 호출되지 않는다 — 1.6.0 호버 하트가 이것 때문에 한 번도 동작하지 않았다
 
 ## 다른 프로젝트와의 경계
 

@@ -44,7 +44,7 @@ React와 TypeScript를 따로 암기하는 대신 실제 제품을 설계하고 
 ## 현재 학습 기준선
 
 > [!note] 실제 학습 기록은 공부 영역에 있다 (2026-08-18)
-> 이 허브의 지도에 대응하는 1인칭 학습 노트가 MyCryptoDiary 작업에서 나오고 있다 — [[공부/JavaScript 기초 문법|JavaScript 기초 문법]] · [[공부/JavaScript 런타임|JavaScript 런타임]] · [[공부/JavaScript 모듈 시스템|JavaScript 모듈 시스템]] · [[공부/TypeScript 타입 시스템|TypeScript 타입 시스템]] · [[공부/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] · [[공부/Feature-Sliced Design|Feature-Sliced Design]]. 새 이해는 그쪽 `## 기록`에 쌓고, 이 허브는 외부 로드맵 기준선과 지식 지도만 유지한다.
+> 이 허브의 지도에 대응하는 1인칭 학습 노트가 MyCryptoDiary 작업에서 나오고 있다 — [[공부/JS/JavaScript 기초 문법|JavaScript 기초 문법]] · [[공부/JS/JavaScript 런타임|JavaScript 런타임]] · [[공부/JS/JavaScript 모듈 시스템|JavaScript 모듈 시스템]] · [[공부/JS/TypeScript 타입 시스템|TypeScript 타입 시스템]] · [[공부/JS/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] · [[공부/JS/Feature-Sliced Design|Feature-Sliced Design]]. 새 이해는 그쪽 `## 기록`에 쌓고, 이 허브는 외부 로드맵 기준선과 지식 지도만 유지한다.
 
 
 roadmap.sh는 React 학습 전에 JavaScript 초급 주제를 익히고, Vite를 이용한 환경 구성에서 함수형 컴포넌트, JSX, props와 state, 조건부 렌더링, 합성으로 진행하는 경로를 제시한다. 이어 기본·공통 Hooks와 렌더링 개념을 다룬 뒤 상태 관리, 라우팅, API 호출, 테스트, TypeScript와 검증, 폼으로 범위를 넓힌다. 순서는 엄격하지 않다고 명시한다. roadmap.sh React 로드맵

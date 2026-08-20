@@ -27,7 +27,7 @@ Apple이 구매·환불 이벤트를 내 서버로 밀어주는 V2 웹훅. **내
 ### 2026-08-19 — 구매 알림 미수신 원인 규명: 서버 404 → Apple 재시도 대기
 - 맥락: [[프로젝트/개인/Zappy/README|Zappy]] — Slack 구매 알림 웹훅(`landing/api/appstore-webhook.js`)이 08-18 밤 구매에 반응하지 않음
 - 배운 것:
-  - 알림 이력 API로 3건 확인: 08-08·08-10 `SUCCESS`, **08-18 23:03 ONE_TIME_CHARGE는 23:03·00:03 두 번 `UNSUCCESSFUL_HTTP_RESPONSE_CODE`** — 우리 웹훅이 404였기 때문([[공부/Vercel 배포|Vercel 배포]]). 파이프라인 코드·Slack·ASC URL 등록은 전부 정상이었다.
+  - 알림 이력 API로 3건 확인: 08-08·08-10 `SUCCESS`, **08-18 23:03 ONE_TIME_CHARGE는 23:03·00:03 두 번 `UNSUCCESSFUL_HTTP_RESPONSE_CODE`** — 우리 웹훅이 404였기 때문([[공부/도구/Vercel 배포|Vercel 배포]]). 파이프라인 코드·Slack·ASC URL 등록은 전부 정상이었다.
   - 서버 복구 후 테스트 알림 2회 모두 `SUCCESS`(04:04:11). 놓친 구매 건은 Apple의 12h 재시도(08-19 ~11:03)에 실리도록 두기로 함 — 수동 재전송하면 재시도와 중복.
   - fastlane의 ASC 팀 키로 App Store Server API가 200으로 열렸다(`bid` 클레임 포함).
 - 근거: `notifications/history` 응답(스크래치 `hist.json`), 테스트 토큰 `76b6cd44…`·`0634aa67…` 결과 `SUCCESS`; 호출 스크립트는 node `crypto.sign('sha256', …, {dsaEncoding:'ieee-p1363'})`로 JWT 생성 → `fetch`. [[프로젝트/개인/Zappy/Zappy 마케팅 플랜]] 장애 기록
