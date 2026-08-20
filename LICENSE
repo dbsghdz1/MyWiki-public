@@ -1,0 +1,33 @@
+이 저장소는 두 가지 라이선스를 함께 씁니다.
+
+## 문서 (`*.md`) — CC BY 4.0
+
+Creative Commons Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/
+
+출처를 밝히면 복제·배포·수정·상업적 이용이 자유롭습니다.
+
+예외: `_wiki/Sources/` 아래의 인용문과 외부 자료는 각 원저작자에게 권리가 있으며
+이 라이선스가 적용되지 않습니다. 해당 파일에 적힌 원 출처를 따르세요.
+
+## 코드 조각 및 스크립트 — MIT
+
+Copyright (c) 2026 Hong
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
