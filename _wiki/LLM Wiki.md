@@ -1,22 +1,25 @@
 ---
 type: hub
-status: needs-review
+status: active
 aliases:
   - LLM-managed Wiki
   - Compounding Knowledge Base
 created: 2026-07-14
-updated: 2026-08-08
+updated: 2026-08-22
 slack_channel: llm-wiki
 sources:
   - "[[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약]]"
+  - "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f"
 ---
 
 # LLM Wiki
 
 LLM Wiki는 LLM이 원본을 매번 검색해 일회성 답을 만드는 데 그치지 않고, 이전 읽기와 질문의 결과를 영구적인 Markdown 위키에 통합하는 지식 관리 패턴이다. 새 자료가 들어올 때 기존 종합, 상호참조, 모순 표시를 함께 갱신하므로 위키 자체가 누적되는 산출물이 된다. [[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약|Karpathy LLM Wiki 사용자 요약]]
 
-> [!note] 근거 상태
-> 현재 페이지는 사용자가 제공한 한국어 요약 한 건을 바탕으로 작성했다. Karpathy 원문과 댓글의 실제 내용은 아직 직접 확인하지 않았으므로 `needs-review` 상태다.
+> [!note] 근거 상태 — 2026-08-22 해소
+> 처음에는 사용자 제공 한국어 요약 한 건만 근거라 `needs-review`였다. **2026-08-22 lint에서 원문 gist를 직접 확인해 해제했다** — [llm-wiki.md (Karpathy, 2026-04-04)](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (2026-08-22 확인).
+> 원문에서 확인된 것: **3계층**(raw sources 불변 · wiki는 LLM 소유 · schema 파일이 구조와 관례를 규정)과 **3연산**(ingest·query·lint), RAG 대비 논지("rediscover knowledge from scratch on every question" ↔ "the wiki is a persistent, compounding artifact — the cross-references are already there"), 그리고 유지 규율 명제 **"The tedious part of maintaining a knowledge base is not the reading or the thinking — it's the bookkeeping."** `index.md`(카테고리별 카탈로그)·`log.md`(append-only 기록)의 역할 구분도 원문과 일치한다.
+> 아직 확인하지 않은 것: **gist 댓글**. 본문 주장에는 영향이 없다.
 
 ## RAG와의 차이
 

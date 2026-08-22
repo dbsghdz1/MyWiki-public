@@ -6,7 +6,7 @@ aliases:
   - CuteBattery
   - 귀여운 배터리
 created: 2026-07-23
-updated: 2026-08-21
+updated: 2026-08-22
 slack_channel: zappy
 repos:
   - "github.com/dbsghdz1/Zappy"
@@ -24,9 +24,9 @@ macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다
 | 앱 이름 | Zappy (번들 `com.hong.zappy`, 내부 코드명 CuteBattery) |
 | 한 줄 문제 정의 | 숫자로만 보여 무시하기 쉬운 배터리 상태를, 캐릭터의 표정·형태 변화로 직관적으로 전달 |
 | 대상 사용자 | 맥 셋업 꾸미기를 즐기는 일반 사용자, 전 연령 |
-| 현재 개발 단계 | **1.7.0 출시(2026-08-21 승인 확인) · 1.8.0 (build 14) 제출(2026-08-21, 새 캐릭터 선인장)** — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-21\|개발 기록 08-21]]. 1.7 = Zappy+ 강화 **배터리 리포트 + 위젯 라지/테마 선택** — **데스크톱 펫은 캐릭터 재설계가 필요해 출시에서 제외**(코드는 남기고 `DesktopPet.featureEnabled` 플래그로 차단) — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-20\|개발 기록 08-20]] · [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-19\|개발 기록 08-19]] · [[프로젝트/개인/Zappy/Zappy 마케팅 플랜\|마케팅 플랜]] · [[프로젝트/개인/Zappy/App Store 심사 이력\|심사 이력]] |
-| 기술 스택 | AppKit(NSStatusItem) + IOKit 전원 API + UserNotifications + ServiceManagement, App Sandbox, 권한은 알림 1개, 네트워크 없음, macOS 13+ |
-| 핵심 기능 | 테마 15종(모찌·고양이·슬라임·유령·달·눈사람·불꽃·로봇·너구리·역도·날씨·사과·소다·선인장·픽셀, 로봇·역도·사과 상시 모션 + 날씨 비/번개 + 소다 충전 기포 모션) · 모노크롬/컬러 · 충전 휴식 씬(1.2.0: 눈·물·콘센트·라면, 충전 중 모션 정지) · 저전력 알림 기준 선택(10~30%) · 80% 충전 알림 · 자동 실행 · IOKit 이벤트 갱신 · Zappy+ 일회성 IAP(₩3,300, StoreKit 2) |
+| 현재 개발 단계 | **1.9.0 출시(해파리 + 충전 습관 리포트 + 주변기기 배터리) · 1.9.1 (build 18) 심사 대기(BLE 주변기기 배터리 — CoreBluetooth GATT)** — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-22\|개발 기록 08-22]] · [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-21\|개발 기록 08-21]]. 1.7 = Zappy+ 강화 **배터리 리포트 + 위젯 라지/테마 선택** — **데스크톱 펫은 캐릭터 재설계가 필요해 출시에서 제외**(코드는 남기고 `DesktopPet.featureEnabled` 플래그로 차단) — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-20\|개발 기록 08-20]] · [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-19\|개발 기록 08-19]] · [[프로젝트/개인/Zappy/Zappy 마케팅 플랜\|마케팅 플랜]] · [[프로젝트/개인/Zappy/App Store 심사 이력\|심사 이력]] |
+| 기술 스택 | AppKit(NSStatusItem) + IOKit 전원 API + UserNotifications + ServiceManagement, App Sandbox, 권한은 알림 1개(+ Zappy+ 주변기기 배터리를 쓸 때만 블루투스), 네트워크 없음, macOS 13+ |
+| 핵심 기능 | 테마 16종(모찌·고양이·슬라임·유령·달·눈사람·불꽃·로봇·너구리·역도·날씨·사과·소다·선인장·해파리·픽셀, 로봇·역도·사과 상시 모션 + 날씨 비/번개 + 소다 충전 기포 모션) · 모노크롬/컬러 · 충전 휴식 씬(1.2.0: 눈·물·콘센트·라면, 충전 중 모션 정지) · 저전력 알림 기준 선택(10~30%) · 80% 충전 알림 · 자동 실행 · IOKit 이벤트 갱신 · Zappy+ 일회성 IAP(₩3,300, StoreKit 2) |
 | 배포 방식 | Mac App Store 전용. BM은 [[프로젝트/개인/Zappy/Zappy 로드맵과 유료화 계획\|로드맵과 유료화 계획]] 참고 |
 
 ## 프로젝트를 규정한 결정 4가지
@@ -60,7 +60,9 @@ macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다
 - [[공부/Apple/macOS 메뉴바와 샌드박스|macOS 메뉴바와 샌드박스]] — App Sandbox는 AX만 막고 **IORegistry는 안 막는다**. 배터리 사이클 수·설계 용량·온도는 `AppleSmartBattery`에서 entitlement 없이 읽힌다 — 1.7 배터리 리포트가 성립한 근거
 - [[공부/Apple/WidgetKit과 AppIntents|WidgetKit과 AppIntents]] — AppIntents 문구는 컴파일 타임 리터럴만 받는다. 이 앱의 런타임 `L10n.pick(...)`을 못 써서 위젯 인텐트만 문자열 카탈로그로 분리했다
 - [[공부/Apple/Xcode 빌드와 번들 구성|Xcode 빌드와 번들 구성]] — 기능을 코드를 지우지 않고 출시에서 빼는 법. 게이트는 **가장 안쪽(`isOn` 게터)에도** 둬야 저장된 설정이 안 샌다. 동기화 폴더에서 에셋 하나 빼기는 pbxproj 예외 세트, 확인은 릴리즈 바이너리 `strings`(대조군 필수)
+- [[공부/Apple/StoreKit 2 권리 확인|StoreKit 2 권리 확인]] — 위젯이 컬러→모노로 튀던 원인은 `currentEntitlements` 빈 결과를 "미구매"로 내린 것. 권리 갱신은 비대칭(올리기 쉽고 내리기 어렵게) (08-21)
 - [[공부/Apple/Swift와 Objective-C 브리징|Swift와 Objective-C 브리징]] — `@objc`를 붙여도 셀렉터 이름은 Swift 이름+인자 레이블에서 생성된다(`mouseEntered(with:)` → `mouseEnteredWith:`). AppKit이 이름으로 보내는 콜백은 어긋나면 조용히 호출되지 않는다 — 1.6.0 호버 하트가 이것 때문에 한 번도 동작하지 않았다
+- [[공부/Apple/블루투스 기기 배터리 읽기|블루투스 기기 배터리 읽기]] — 1.9.0 주변기기 배터리가 사용자 맥에서 아무것도 못 잡은 건 버그가 아니라 **탐지 경로가 절반만 커버**된 것. 클래식 BT HID는 IORegistry `BatteryPercent`지만 **BLE는 그 키가 아예 없고** GATT 0x180F를 CoreBluetooth로 읽어야 한다. 권한 팝업 시점은 `CBCentralManager` 생성 시점으로 통제 (1.9.1, `969d623`)
 
 ## 다른 프로젝트와의 경계
 

@@ -4,7 +4,7 @@ status: paused
 aliases:
   - 데이튠
 created: 2026-08-09
-updated: 2026-08-16
+updated: 2026-08-22
 slack_channel: daytune
 repos:
   - "github.com/dbsghdz1/DayTune"
@@ -40,7 +40,15 @@ related_wiki:
 
 ## 작업 기록
 
+- 2026-08-22 (보류 중 소규모 수정, 미커밋 워킹트리) — `DTGradientCTAButton` 입체감 완화(그라디언트 명도차·베벨·그림자 절반), 건강 앱 연결 권한 허용 직후 SIGABRT 수정(`HealthConnectionViewModel`, `MainActor.run`). 시뮬레이터 iPhone 17 Pro에서 새 설치→허용→수면 데이터 없음 화면까지 검증. 추가: 추천 행 내부 여백 확대(`DTRecommendationRow`), 수면 조회를 36h + 최근 세션 집계로 교체(`latestSleepSession`, 테스트 6개). **Tuist 프로젝트라 새 파일 추가 후 `tuist generate` 필요**(안 하면 테스트 타깃에 안 들어감). `DTNavigationController` 신설로 바 숨김·pop 제스처 일원화(7개 VC 토글 제거)
+
 - [[프로젝트/개인/DayTune/DayTune 개발 기록 2026-08-09|DayTune 개발 기록 2026-08-09]] — Figma 재건축 + 코어 플로우 구현
+
+## 배운 것
+
+- [[공부/Apple/Swift 동시성과 UIKit 메인 스레드|Swift 동시성과 UIKit 메인 스레드]] — 건강 앱 권한 허용 직후 크래시: HealthKit 콜백이 백그라운드로 돌아와 `setViewControllers`가 메인 밖에서 호출됨. `MainActor.run`으로 수정 (2026-08-22)
+- [[공부/Apple/HealthKit 수면 데이터 조회|HealthKit 수면 데이터 조회]] — 새벽 2시에 "수면 데이터 없음": 자정 기준 윈도우가 직전 밤을 놓침. 36h + 최근 세션만 집계로 수정 (2026-08-22)
+- [[공부/Apple/UIKit 내비게이션 바 숨김과 pop 제스처|UIKit 내비게이션 바 숨김과 pop 제스처]] — 바 숨김으로 죽은 엣지 스와이프 pop·전환 중 상단 튐을 `DTNavigationController` 한 곳으로 해결 (2026-08-22)
 
 ## 다음 작업 (재개 시)
 
