@@ -1,6 +1,7 @@
 ---
 type: study
 area: 도구·인프라
+audience: ai
 status: active
 created: 2026-08-21
 updated: 2026-08-21

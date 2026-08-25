@@ -1,6 +1,7 @@
 ---
 type: study
 area: 언어·프레임워크
+audience: ai
 status: active
 created: 2026-08-18
 updated: 2026-08-18

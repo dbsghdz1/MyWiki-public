@@ -1,6 +1,7 @@
 ---
 type: study
 area: 도구
+audience: ai
 status: active
 created: 2026-08-22
 updated: 2026-08-22
