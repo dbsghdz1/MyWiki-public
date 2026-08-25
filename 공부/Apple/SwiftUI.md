@@ -4,7 +4,7 @@ area: 언어·프레임워크
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-08-18
+updated: 2026-08-25
 projects:
   - "탭탭"
 ---
@@ -23,6 +23,62 @@ projects:
 - **알파만 있는 어두운 오버레이 토큰은 다크 모드에서 사라진다.** `#272146 @7%` 같은 호버 색은 흰 배경에선 회색, 검은 배경에선 검정 위 검정이라 안 보인다. 색 토큰에 다크 appearance 변형이 있는지(`Contents.json`의 `appearances`) 확인하고, 없으면 밝기 변형이 있는 중립색(n20 등)을 쓴다.
 
 ## 기록
+
+### 2026-08-25 — 화면 밖으로 나가는 요소는 여백을 잡지 말고 **잘라낸다** (즉석카메라)
+
+카메라 본체 아래로 인화지가 밀려 나오는 연출을 만들면서, 처음에는 배출될 자리를 `VStack`에 **여백으로 확보**했다. 그 대가로 본체가 화면 높이의 32%로 눌려 뷰파인더가 226pt밖에 안 됐다.
+
+해법은 **고정 높이 컨테이너 + `.clipped()`**다. 나올 만큼의 높이를 잡고 잘라내면, 요소는 `-h`(완전히 숨음)에서 `0`(완전히 나옴)까지 내려오면서 컨테이너 밖으로 새지 않는다.
+
+```swift
+ZStack(alignment: .top) {
+    Color.clear                      // 컨테이너 폭을 준다
+    if let item { PaperView(...).offset(y: -h + t * h) }
+}
+.frame(height: h)
+.clipped()
+```
+
+- **`.overlay`는 클리핑되지 않는다.** 오버레이 안에서 `offset`으로 위로 밀면 상위 뷰를 덮는다. 클리핑은 `.frame` + `.clipped()`로 **명시적으로** 걸어야 한다.
+- `.clipped()`는 그림자도 자른다. 물리적으로는 그게 맞다(슬롯 안쪽은 안 보인다).
+- `t`를 1을 넘겨 2까지 보내면 아래로 빠져나가며 사라진다 — 별도의 퇴장 전환이 필요 없다.
+
+**얻은 것: 여백 344pt가 사라지고 뷰파인더가 262pt로 커졌다(면적 +34%).** 배출·서랍·시트처럼 "화면 밖에서 들어오는" 연출 전반에 그대로 쓰인다.
+
+### 2026-08-25 — 시간이 흐르는 것만으로는 `@Published`가 울리지 않는다 (즉석카메라)
+
+`developing`/`developed`처럼 **현재 시각으로 계산되는 computed property**로 목록을 나누면, 시간이 지나 분류가 바뀌어도 **뷰가 다시 그려지지 않는다.** 저장소가 바뀐 게 아니기 때문이다. 실제로 앨범을 열어둔 채 현상이 끝나면 다 된 사진이 "현상 중" 칸에 갇혀 탭도 안 됐다.
+
+1초 타이머로 폴링하는 건 낭비다(초당 목록 전체 재평가). **다음 전환 시각에 딱 한 번 깨우는** 편이 낫고, `.task(id:)`가 그 도구다.
+
+```swift
+@State private var now = Date()
+private var nextFinish: Date? { items.filter { !$0.isDone(at: now) }.map(\.finishesAt).min() }
+
+.task(id: nextFinish) {
+    guard let t = nextFinish else { return }
+    let wait = t.timeIntervalSinceNow
+    if wait > 0 { try? await Task.sleep(nanoseconds: UInt64(wait * 1_000_000_000)) }
+    guard !Task.isCancelled else { return }
+    now = Date()
+}
+```
+
+`now`가 갱신되면 → 분류가 바뀌고 → `nextFinish`가 바뀌고 → **`.task(id:)`가 스스로 다시 걸린다.** 폴링 없이 연쇄가 이어진다. 값이 nil이면(남은 게 없으면) 아무도 안 깨운다.
+
+### 2026-08-25 — 목록의 "고정 랜덤"에 `hashValue`를 쓰면 안 된다 (즉석카메라)
+
+사진마다 미세하게 다른 기울기를 주려고 `abs(photo.id.hashValue) % 41`을 썼다. 스크롤 중에는 고정이라 맞아 보였지만, **Swift의 `Hashable`은 실행마다 시드가 바뀐다.** 앱을 다시 열 때마다 모든 항목의 각도가 재배치됐다 — "실물은 반듯하게 놓이지 않는다"는 연출인데 실물은 다시 봐도 같은 각도로 놓여 있다.
+
+UUID 바이트에서 직접 뽑으면 영구적으로 고정되고, `abs(Int.min)` 트랩도 같이 사라진다.
+
+```swift
+let b = photo.id.uuid                                   // (UInt8, UInt8, ...) 튜플
+let h = Int(b.0) &+ Int(b.1) &* 3 &+ Int(b.2) &* 7
+let angle = Double(h % 41) / 10.0 - 2.0
+```
+
+**규칙: 디스크에 남는 것과 짝을 이뤄야 하는 값에는 `hashValue`를 쓰지 않는다.**
 
 ### 2026-08-25 — 입력 없는 `AVCaptureSession`에 프리뷰를 붙이면 화면이 통째로 죽는다 (즉석카메라)
 - 맥락: 시뮬레이터에서 카메라 권한을 부여하자 **앱 화면 전체가 검게** 나왔다. 로그에 `AttributeGraph: cycle detected`.

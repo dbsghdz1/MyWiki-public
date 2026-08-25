@@ -120,6 +120,42 @@ Xcode 프로젝트·시뮬레이터 없이 `swiftc`로 렌더 스크립트를 �
 
 ## 기록
 
+### 2026-08-25 — 300pt 카드에 그리려고 12MP를 통째로 디코드하고 있었다 (즉석카메라)
+
+현상 진행을 보여주는 뷰가 매번 ① 원본 JPEG 전체 디코드 → ② `CIImage` → ③ 필터 체인 → ④ `createCGImage` → ⑤ 풀해상도 `UIImage`를 `@State`에 보관까지 **메인 스레드에서** 했다. 12MP 기준 정사각 크롭 후 3024×3024, RGBA로 **장당 약 36MB가 뷰마다 상주**한다. 2열 그리드에서 셀 여섯이면 200MB대 — jetsam 사정권이고, 현상 중인 사진은 5초마다 그 비용을 다시 치렀다.
+
+**고칠 곳은 필터가 아니라 디코드다.** `CGImageSourceCreateThumbnailAtIndex`는 전체 디코드를 **건너뛰고** 목표 크기로 바로 뽑는다.
+
+```swift
+let src = CGImageSourceCreateWithURL(url as CFURL,
+    [kCGImageSourceShouldCache: false] as CFDictionary)!
+let cg = CGImageSourceCreateThumbnailAtIndex(src, 0, [
+    kCGImageSourceCreateThumbnailFromImageAlways: true,
+    kCGImageSourceShouldCacheImmediately: true,
+    kCGImageSourceCreateThumbnailWithTransform: true,     // EXIF 방향 반영
+    kCGImageSourceThumbnailMaxPixelSize: Int(maxPixel)
+] as CFDictionary)!
+```
+
+- 목표는 **pt가 아니라 pt × `UIScreen.main.scale`**이다. 300pt 카드면 900px. 픽셀 수가 (900/3024)² ≈ **1/11**로 준다.
+- `kCGImageSourceCreateThumbnailWithTransform: true`가 EXIF 방향까지 반영해준다 — 아래 항목의 함정을 이 경로에서는 공짜로 피한다.
+- **`CIContext`는 스레드 안전하다.** 렌더 전체를 `Task.detached`로 옮기고 결과 `UIImage`만 `MainActor`로 되돌리면 된다.
+
+### 2026-08-25 — `CIImage(image:)`는 `UIImage.imageOrientation`을 무시한다 ★ (즉석카메라)
+
+`AVCapturePhotoOutput`의 `fileDataRepresentation()`은 세로 촬영 시 **픽셀은 가로로, 방향은 EXIF orientation(보통 6)으로** 저장한다. `UIImage(data:)`는 그걸 `imageOrientation` 속성으로 읽지만, **`CIImage(image:)`는 그 속성을 버리고 원본 CGImage 픽셀만 가져간다.** 게다가 `UIImage(cgImage:)`는 방향이 `.up` 고정이라, 파이프라인을 통과하고 나면 세로 사진이 90도 돌아간 채로 표시·내보내기된다.
+
+우회 셋 중 **저장 시점에 픽셀을 세워 굽는 것**이 가장 낫다 — 렌더할 때마다 방향 보정을 반복하지 않아도 된다.
+
+```swift
+guard let ui = UIImage(data: data), ui.imageOrientation != .up else { return nil }  // 이미 .up이면 재인코딩 안 함
+let upright = UIGraphicsImageRenderer(size: ui.size, format: fmt).image { _ in
+    ui.draw(in: CGRect(origin: .zero, size: ui.size))
+}
+```
+
+**시뮬레이터에서는 절대 재현되지 않는다.** 번들에 넣어 테스트하는 JPG는 방향이 `.up`이라 통과한다 — 이 종류의 버그는 실기기에서만 드러난다.
+
 ### 2026-08-25 — 즉석카메라 10분 현상 곡선
 
 - 맥락: [[프로젝트/개인/즉석카메라/README|즉석카메라]] 마일스톤 0. 앱을 만들기 전에 현상 연출만 떼어내 검증했다.
