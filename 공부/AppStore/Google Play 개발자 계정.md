@@ -23,15 +23,36 @@ projects:
 | 개인사업자로 가능한가 | — | **가능** (법인 아니어도 됨) |
 
 - **12명 × 14일은 숫자 채우기가 아니다.** 테스터가 "최근 14일 이상 지속적으로 참여하겠다고 선택한 상태"여야 하며, 설치 후 방치가 아니라 연속 참여로 판정된다. 실제로는 사람을 모으는 것 자체가 병목이 된다.
-- **D-U-N-S는 무료다.** Dun & Bradstreet에 신청하며 사업자등록증과 **영문 사업자등록증명**이 필요하다(홈택스·세무서에서 발급). Apple Developer Program(조직)에서도 같은 번호를 쓰므로 한 번 받아두면 양쪽에 쓴다.
+- **D-U-N-S는 무료다.** 국내 발급기관은 **NICE D&B**이고, **90일 이내 발급된 영문 사업자등록증명**이 필요하다(홈택스에서 별도 발급). 개인·법인 사업자 모두 발급 가능하다.
 - **순서가 중요하다** — D-U-N-S 신청 → 조직 계정 등록 → 앱 개발. 반대로 하면 앱을 다 만들고 30일을 기다리거나, 테스터 12명을 구하러 다녀야 한다.
+
+> [!danger] 개인사업자는 이 번호를 Apple에 쓸 수 없다 (2026-08-26 정정)
+> 처음엔 *"한 번 받아두면 애플·구글 양쪽에 쓴다"*라고 적었는데 **틀렸다.** Apple 공식 문서는 개인사업자를 Organization에서 명시적으로 배제한다.
+> > *"If your legal status is a sole proprietorship/single person business, **enroll as an individual**."*
+> Organization으로 받는 형태는 **Corporation · Limited Partnership · LLC**뿐이고, **sole proprietorship · DBA · 상호명 · 지점은 불가**다. 그리고 Individual 등록에는 D-U-N-S가 **애초에 필요 없다.**
+> **즉 개인사업자에게 D-U-N-S는 Google Play 전용 투자다.** Apple 쪽에서 회수되지 않는다.
+> → [Apple — D-U-N-S 번호](https://developer.apple.com/help/account/membership/D-U-N-S) (2026-08-26 확인)
+
+## 사업자가 있어도 D-U-N-S를 안 받는 이유
+
+받을 수 있는데도 안 받는 사람이 많다. 이유가 다섯 개고, **대부분 합리적이다.**
+
+1. **개인 계정으로도 출시가 된다.** D-U-N-S 없이 앱 등록·출시가 가능하고, 12명 × 14일만 한 번 통과하면 된다. *"D-U-N-S가 없으면 구글 플레이 등록 자체가 불가능"*은 널리 퍼진 오해다.
+2. **조직 계정은 웹사이트를 요구한다.** 계정 생성 필수 정보에 **조직 웹사이트**가 들어 있고, 실무상 **도메인이 연결된 홈페이지**만 인정된다 — 블로그·SNS 채널은 안 된다. 앱만 만드는 1인 개발자에게는 이게 D-U-N-S보다 큰 벽이다.
+3. **최대 30일이 걸린다.** 출시를 앞두고 알게 되면 못 기다린다.
+4. **이름이 세 군데에서 정확히 일치해야 한다.** ① 개발자 계정의 사업자명 ② 사업자등록증의 사업자명 ③ D-U-N-S에 등록된 사업자명. 영문 표기가 조금만 달라도 검증에서 막히고, 고치려면 D&B 쪽 수정을 또 기다린다.
+5. **Apple에서는 회수가 안 된다** (개인사업자 한정). 위 경고 참고 — 애플은 개인사업자를 Individual로만 받고 거기엔 D-U-N-S가 필요 없다. "양쪽에 쓴다"는 기대가 깨지면 동기의 절반이 사라진다.
+
+> [!tip] 그래서 언제 받을 가치가 있나
+> **① 도메인 있는 웹사이트가 이미 있거나 생길 예정이고 ② 앱을 한 번이 아니라 계속 낼 계획이면** 받는 게 낫다. 12명 × 14일은 **신규 앱마다** 반복되는 비용인데, D-U-N-S는 한 번이다.
+> 반대로 앱 하나만 내고 말 거라면 개인 계정으로 12명을 모으는 쪽이 빠르다.
 
 > [!tip] iOS만 해본 사람이 놓치는 지점
 > App Store는 개인이든 조직이든 심사 절차가 같아서 **"계정 유형이 출시 가능 여부를 가른다"는 감각이 없다.** Google Play는 다르다. 계정을 만드는 시점의 선택이 이후 모든 앱의 출시 조건을 결정하고, 나중에 바꾸는 것은 간단하지 않다.
 
 ## 기록
 
-### 2026-08-26 — 웹 + 양대 스토어 출시를 검토하다 D-U-N-S 30일을 발견했다
+### 2026-08-26 — 웹 + 양대 스토어 출시를 검토하다 D-U-N-S 30일을 발견했다 (같은 날 일부 정정)
 
 - 맥락: [[프로젝트/개인/한능검/README|한능검]] 학습 앱을 웹으로 만들고 iOS·Android 양쪽에 내는 구조를 검토하면서, Android 출시 요건을 처음 확인했다. 홍은 iOS·macOS 출시 경험만 있고 **Google Play는 처음**이다.
 - 배운 것:
@@ -46,3 +67,5 @@ projects:
 - [Play Console — 개발자 계정 유형 선택](https://support.google.com/googleplay/android-developer/answer/13634885?hl=ko) — 2026-08-26 확인
 - [Play Console — 새로운 개인 개발자 계정의 앱 테스트 요구사항](https://support.google.com/googleplay/android-developer/answer/14151465?hl=ko) — 2026-08-26 확인
 - [Play Console — 개발자 계정 생성에 필요한 정보](https://support.google.com/googleplay/android-developer/answer/13628312?hl=ko) — 2026-08-26 확인
+- [Apple — D-U-N-S 번호](https://developer.apple.com/help/account/membership/D-U-N-S) — 개인사업자의 Organization 등록 불가 근거, 2026-08-26 확인
+- [NICE D&B — 던스번호 발급](https://global.nicednb.com/servOtsInfo.do) — 국내 유일 발급기관, 2026-08-26 확인
