@@ -3,7 +3,7 @@ type: hub
 status: active
 aliases: [학습 노트, TIL, study]
 created: 2026-08-15
-updated: 2026-08-25
+updated: 2026-08-26
 ---
 
 # 공부

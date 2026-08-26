@@ -105,7 +105,9 @@ related_wiki:
 
 - [[공부/Apple/CoreImage 색 파이프라인|CoreImage 색 파이프라인]] — 색조 이동은 ±10% 안쪽, 블랙 리프트는 bias가 아니라 톤커브, **색은 UI 맥락 없이 판정하면 안 된다**, `CIImage`는 EXIF 방향을 무시한다, 표시 크기로 먼저 디코드
 - [[공부/Apple/시뮬레이터로 UI 검증하기|시뮬레이터로 UI 검증하기]] — `simctl`에 탭이 없고 권한 다이얼로그는 `erase`만 듣는다. 답은 **앱 안의 DEBUG 데모 모드**
-- [[공부/Apple/SwiftUI|SwiftUI]] — 화면 밖 요소는 여백 대신 `.clipped()`, 시간 경과는 `@Published`를 안 울린다(`.task(id:)`로 다음 시각에 한 번), 고정 랜덤에 `hashValue` 금지
+- [[공부/Apple/SwiftUI|SwiftUI]] — 화면 밖 요소는 여백 대신 `.clipped()`, 시간 경과는 `@Published`를 안 울린다(`.task(id:)`로 다음 시각에 한 번), 고정 랜덤에 `hashValue` 금지, **"처음인가"를 `@AppStorage`로 직접 판정 금지**, 겹침 방지는 상수가 아니라 `PreferenceKey`
+- [[공부/Apple/카메라 캡처와 실시간 필터|카메라 캡처와 실시간 필터]] — 촬영음은 관할에 따라 공식 API로도 못 끈다(억지로 켜면 죽는다), **진짜 무음은 사진 출력을 안 쓰는 것**, `AVCaptureVideoPreviewLayer`에는 필터를 못 건다
+- [[공부/AppStore/실물을 흉내 내는 앱의 상표 위험|실물을 흉내 내는 앱의 상표 위험]] — 흰 테두리는 **classic border logo**라는 등록 상표이고 계류 중. 실질 위험은 소송이 아니라 **신고 한 건으로 내려가는 것**
 
 ## 판정 기준 ("1위 수준"의 정의)
 

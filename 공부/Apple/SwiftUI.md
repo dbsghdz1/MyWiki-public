@@ -4,7 +4,7 @@ area: 언어·프레임워크
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-08-25
+updated: 2026-08-26
 projects:
   - "탭탭"
 ---
@@ -20,9 +20,112 @@ projects:
 - **고정 폭 텍스트는 잘린다.** 메뉴처럼 항목 길이가 가변인 곳은 `Text.fixedSize(horizontal: true, vertical: false)` + 컨테이너 `frame(minWidth:)` + `fixedSize(horizontal: true, vertical: false)`로 "최소 폭은 유지, 내용이 길면 늘어남"을 만든다.
 - **SwiftUI에는 배경 블러(backdrop blur)가 없다.** `.blur`는 그 뷰 자체를 흐릴 뿐 뒤 콘텐츠는 그대로다. 피그마의 "Background blur"를 맞추려면 macOS에선 `NSViewRepresentable`로 레이어를 만들고 `layer.backgroundFilters = [CIAffineClamp, CIGaussianBlur]`를 건다 — `view.layerUsesCoreImageFilters = true`가 있어야 적용되고, `CIAffineClamp`을 앞에 두지 않으면 가장자리가 투명을 샘플링해 어두워진다. `hitTest`를 `nil`로 넘겨야 밑의 스크롤·클릭이 막히지 않는다. **`CIGaussianBlur.inputRadius`는 픽셀 단위**라 Retina에서 4를 주면 2pt로 먹는다 — `window.backingScaleFactor`를 곱해야 피그마 4px와 같아진다(`viewDidChangeBackingProperties`에서 재적용). `Material`은 시스템 틴트가 섞여 순수 블러가 아니다.
 - **`.scrollIndicators(.hidden)`은 "숨김 권장"이지 강제가 아니다.** macOS에서 시스템 설정이 스크롤 막대 항상 표시면 그대로 보인다. 확실히 없애려면 `.never`. NSScrollView를 뒤져 스크롤러를 숨기는 우회는 macOS 26 SwiftUI ScrollView에선 효과가 없었다(NSScrollView 기반이 아닌 듯 — 추정).
+- **`.onExitCommand`는 포커스를 가진 뷰에만 온다.** 딤 위에 얹은 팝오버·모달에 붙이면 컴파일은 되지만 Escape가 한 번도 호출되지 않는다. `NSEvent.addLocalMonitorForEvents(matching: .keyDown)`으로 keyCode 53을 직접 받는다.
+- **`Text("\(n)개")`는 천 단위 구분 기호가 붙고, String을 먼저 만들어 넘기면 안 붙는다.** `LocalizedStringKey` 이니셜라이저와 `StringProtocol` 오버로드가 갈리는 탓이라 화면마다 "4,009개"/"4009개"로 조용히 어긋난다. 표기는 포매터 한 곳에서 정한다.
+- **다크 모드의 모달은 배경을 낮추는 게 아니라 카드를 올려서 띄운다.** 알파 딤은 이미 검은 배경을 더 어둡게 못 만들므로, 카드가 배경과 같은 토큰이면 대비가 3/255가 된다. 카드에는 한 단계 위 면 토큰(n0)을 준다.
 - **알파만 있는 어두운 오버레이 토큰은 다크 모드에서 사라진다.** `#272146 @7%` 같은 호버 색은 흰 배경에선 회색, 검은 배경에선 검정 위 검정이라 안 보인다. 색 토큰에 다크 appearance 변형이 있는지(`Contents.json`의 `appearances`) 확인하고, 없으면 밝기 변형이 있는 중립색(n20 등)을 쓴다.
 
 ## 기록
+
+### 2026-08-26 — `.onExitCommand`는 포커스 없는 오버레이에 오지 않는다 (탭탭 macOS)
+
+TapTapMac QA 중 **Escape로 아무 오버레이도 닫히지 않는 것**을 발견했다. 코드에는 분명 `.onExitCommand`가 붙어 있었다 (#132에서 "편집 메뉴/카테고리 이동 오버레이에 Escape 취소 동작 추가"로 머지된 것).
+
+```swift
+ZStack { dim; MacPopup(...) }
+  .onExitCommand { editMenuArticleID = nil }   // ✗ 호출되지 않는다
+```
+
+**`.onExitCommand`는 포커스 체인에 있는 뷰에만 전달된다.** 딤 레이어 위에 얹은 팝오버·모달은 `focusable`도 아니고 포커스를 받지도 않으므로 이벤트가 도달하지 않는다. **컴파일도 되고 코드 리뷰도 통과하지만 런타임에 아무 일도 안 일어난다** — 리뷰에서 못 잡히는 종류의 버그다.
+
+포커스와 무관하게 받으려면 AppKit 이벤트를 직접 가로챈다. 오버레이가 떠 있는 동안에만 모니터를 설치하도록 표시 분기 안쪽에 붙인다.
+
+```swift
+.onAppear {
+  monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+    guard event.keyCode == 53 else { return event }   // 53 = Escape
+    action(); return nil                              // nil = 이벤트 소비
+  }
+}
+.onDisappear { NSEvent.removeMonitor(monitor) }
+```
+
+대안인 `Button("") { }.keyboardShortcut(.cancelAction)`은 포커스된 `TextField`가 Escape를 먼저 먹을 수 있어 모달에서 신뢰하기 어렵다. 로컬 모니터는 responder chain·IME보다 앞이라 확실하다 (대신 한글 조합 중 Escape도 가로챈다 — 검색창처럼 조합 취소가 의미 있는 곳은 트레이드오프를 따져야 한다).
+
+- 근거: `DesignSystem/Sources/macOS/Foundation/EscapeDismiss.swift`, 커밋 `dcc77a5`
+
+### 2026-08-26 — `Text("\(count)개")`와 `Text(문자열)`은 숫자 표기가 다르다 (탭탭 macOS)
+
+같은 링크 개수가 사이드바에서는 **"4,009개"**, 링크 추가 화면에서는 **"4009개"**로 나왔다. 데이터도 로케일도 같았다.
+
+```swift
+Text("\(totalLinkCount)개")            // → "4,009개"
+Text("\(totalLinkCount)개" as String)  // → "4009개"
+```
+
+`Text("...")`는 **`LocalizedStringKey`** 를 받는 이니셜라이저이고, 여기 정수를 보간하면 `_FormatSpecifiable` 경로를 타 **로케일 천 단위 구분 기호가 붙는다.** 반면 `String`을 먼저 만들어 넘기면 `Text(_ content: S) where S: StringProtocol` 오버로드라 그대로 출력된다. **오버로드가 갈리는 지점이 문자열을 넘기는 방식뿐이라** 화면마다 표기가 달라져도 아무도 눈치채지 못한다.
+
+`countText: "\(count)개"`처럼 String으로 만들어 자식 뷰에 넘기는 컴포넌트가 섞여 있으면 반드시 갈라진다. **표기는 `Text`에 맡기지 말고 포매터 한 곳에서 정한다.**
+
+- 근거: `DesignSystem/Sources/Foundation/LinkCountFormat.swift`, 커밋 `15dcbb1`
+
+### 2026-08-26 — 다크 모드에서 "딤 + 모달"은 카드 면을 한 단계 올려야 한다 (탭탭 macOS)
+
+라이트에서 멀쩡하던 모달들이 **다크에서 경계가 사라졌다.** 카드가 어디서 시작하는지 안 보인다.
+
+측정해 보니 원인이 분명했다. 카드 배경이 `Color.background`(다크 `#17171C`)인데, 그 뒤 배경도 같은 `background`이고 딤(`#121221` @65%)을 씌워봐야 **rgb(23,23,28) vs rgb(23,23,34)** — 3/255 차이다.
+
+- 라이트: 카드 250 vs 딤 배경 160 → 충분한 대비
+- 다크: 카드 23 vs 딤 배경 23 → **없음**
+
+**알파 딤은 이미 검은 배경을 더 어둡게 만들지 못한다.** 그래서 다크에서 모달을 띄우는 방식은 "배경을 낮추기"가 아니라 **"카드를 올리기"** 여야 한다. 카드에는 배경 토큰(`background`)이 아니라 한 단계 위 면 토큰(`n0`, 다크 `#202027`)을 준다. 같은 앱 안에서 `n0`을 쓰던 팝오버 하나만 다크에서 정상이었던 게 힌트였다.
+
+카드 안에서 스크롤 끝을 페이드하는 그라데이션도 **카드 색과 같은 토큰**으로 맞춰야 한다 — 배경색으로 페이드하면 카드 위에 다른 색 띠가 생긴다.
+
+**일반화: 색을 "무엇처럼 보이는가"가 아니라 "어느 층인가"로 고른다.** 배경층·표면층·강조층을 토큰으로 나눠 두면 다크에서 층이 무너지지 않는다. [[공부/Apple/macOS 템플릿 아이콘 그리기|템플릿 아이콘]]에서 알파만 남는 것과 같은 종류의 함정이다.
+
+- 근거: `Assets.xcassets/Color/Background/{background,bgDim}.colorset`, 커밋 `8a9a1b9`
+
+### 2026-08-26 — "처음인가"를 `@AppStorage`로 직접 판정하면 안 된다 (즉석카메라)
+
+첫 실행에만 다른 문구를 보여주려고 이렇게 썼다가 **첫 실행에 그 문구가 안 나왔다.**
+
+```swift
+@AppStorage("didExplain") var didExplain = false
+var caption: some View { didExplain ? Text("짧게") : Text("길게") }   // ✗
+.task { ...; didExplain = true }
+```
+
+플래그를 세우는 **그 순간 뷰가 다시 그려져서** 이미 "본 적 있음" 분기로 넘어간다. 화면이 뜰 때 값을 `@State`로 받아 두고, 사라질 때 세운다.
+
+```swift
+@State private var isFirstEver = false
+.onAppear  { isFirstEver = !didExplain }
+.onDisappear { didExplain = true }
+```
+
+**일반화: `@AppStorage`·`@Published`처럼 쓰기가 곧 무효화인 값은 "읽고 나서 그 자리에서 바꾸는" 용도로 못 쓴다.**
+
+### 2026-08-26 — 겹침 방지는 상수가 아니라 `PreferenceKey`로 (즉석카메라)
+
+프리뷰 위에 떠 있는 요소를 조작부 위까지만 내리려고 높이를 상수로 박았더니, **안전 영역이 다른 기기(iPhone 17e)에서 겹쳤다.** 자식의 실제 크기를 부모가 알아야 하는 상황은 `PreferenceKey`가 정답이다.
+
+```swift
+private struct ControlsHeightKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
+}
+controls.background { GeometryReader { g in Color.clear.preference(key: ControlsHeightKey.self, value: g.size.height) } }
+.onPreferenceChange(ControlsHeightKey.self) { controlsHeight = $0 }
+```
+
+`.background`에 `GeometryReader`를 넣는 것이 요령이다 — 오버레이와 달리 **자식의 레이아웃에 영향을 주지 않는다.**
+
+### 2026-08-26 — `ignoresSafeArea`를 섞으면 좌표계가 어긋난다 (즉석카메라)
+
+프리뷰는 화면 끝까지 가야 하고 조작부는 안전 영역을 지켜야 하는 화면에서, 둘을 한 `GeometryReader` 안에 두면 **`geo.size`가 안전 영역 크기라 마스크·가이드가 상단 인셋(약 59pt)만큼 밀린다.**
+
+**바깥은 안전 영역을 지키고 안쪽 `GeometryReader`만 무시하게 나눈다.** 안쪽 `geo.size`가 전체 화면이 되고, 두 값이 필요하면 바깥 `GeometryReader`의 `safeAreaInsets`를 같이 읽는다.
 
 ### 2026-08-25 — 화면 밖으로 나가는 요소는 여백을 잡지 말고 **잘라낸다** (즉석카메라)
 
