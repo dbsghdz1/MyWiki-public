@@ -129,6 +129,14 @@ cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화�
 
 최종: 홍이 "잘 튜닝된 라이트"를 원해 라이트 우선 설계 테마 4종을 실측 비교 → **GitHub Light Default 채택**. 유일하게 ANSI 16색 전부를 흰 배경용 텍스트 색으로 재조정한 팔레트다(노랑 3=`#4d2d00` 진갈색 ~10:1, 8=`#57606a` 7:1). 반면 Flexoki Light(8=`#b7b5ac`)·Selenized Light(0=`#ece3cc`, 8=`#909995`)는 라이트 우선으로 유명해도 **0·8을 배경 톤으로 쓰는 설계**라 dim 텍스트를 ANSI 8로 찍는 Claude Code에선 TokyoNight Day와 같은 방식으로 깨진다. 판별 기준은 하나: **테마 파일에서 palette 0·8이 배경과 충분히 떨어진 텍스트 색인가.**
 
+### 2026-08-27 — "Ghostty 느낌"의 정체는 폰트 — 라틴 JetBrains Mono + 한글 D2Coding 폴백
+
+테마 시리즈의 후속. 테마를 다 맞춘 뒤에도 홍이 "D2Coding이 별로, Ghostty 느낌으로"라고 했는데, **Ghostty 특유의 인상은 기본 폰트 JetBrains Mono에서 온다** — `font-family = "D2Coding"`으로 덮으면 테마가 같아도 느낌이 달라진다.
+
+- 해법: Ghostty는 **`font-family`를 여러 줄 쓰면 순서대로 폴백 체인**이 된다. 1줄째 `JetBrainsMono Nerd Font`(라틴·아이콘), 2줄째 `D2Coding`(한글). JetBrains Mono에는 한글 글리프가 없어서 폴백을 안 두면 시스템 고딕(비고정폭 느낌)이 끼어든다 — 한글 코딩 폰트를 폴백에 명시하는 게 정석.
+- 같은 pt에서 JetBrains Mono가 D2Coding보다 x-height가 커서 크게 보인다 — `font-size`를 17→16으로 내려 체감 크기를 맞췄다.
+- 적용은 역시 `cmux reload-config`로 재시작 없이 반영.
+
 ## 참고 자료
 
 - [Claude Code — Memory (CLAUDE.md·rules)](https://code.claude.com/docs/en/memory) — 2026-08-21 확인
