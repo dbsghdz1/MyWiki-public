@@ -4,7 +4,7 @@ area: 도구·인프라
 audience: ai
 status: active
 created: 2026-08-21
-updated: 2026-08-21
+updated: 2026-08-27
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -107,6 +107,27 @@ esac
 ```
 
 `permissionDecisionReason`에 **재현 명령과 실제 에러 줄**을 넣으면 에이전트가 그것만 보고 고칠 수 있다. 실측에서 gradle 출력 꼬리 25줄을 넣었더니 `e: ...Application.kt:13:24 Initializer type mismatch` 같은 결정적인 줄이 그대로 들어갔다.
+
+### 2026-08-27 — 터미널 테마와 Claude Code 테마는 따로 논다 — ANSI 테마로 맞춘다
+
+cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화면만 색이 겉돌았다.** Claude Code의 `theme`(`(로컬 경로)`)이 `dark`/`light`면 **터미널 팔레트와 무관한 자체 고정색**을 쓰기 때문이다 — 터미널 배경만 바뀌고 글자색은 옛 테마 기준이라 조합이 깨진다.
+
+- 해법: `theme`을 **`dark-ansi`/`light-ansi`** 로. ANSI 테마는 터미널의 16색 ANSI 팔레트를 그대로 쓰므로 터미널 테마를 따라가고, Ghostty가 `theme = light:...,dark:...`로 시스템 모드에 따라 팔레트를 바꾸면 **Claude Code도 같이 전환된다.**
+- `settings.json`을 고쳐도 **떠 있는 세션에는 적용 안 된다**(위 08-21 항목과 같은 계열). 실행 중 세션은 `/theme`에서 즉시 변경.
+- cmux에서 터미널 테마는 `(로컬 경로)`가 정본이고 `cmux reload-config`로 재시작 없이 반영된다.
+
+### 2026-08-27 — ANSI 테마의 대가: 터미널 라이트 팔레트가 저대비면 Claude Code도 같이 안 보인다
+
+위 항목의 후속. ANSI 테마로 맞춘 뒤 **라이트 모드에서 터미널·Claude Code 둘 다 글자가 안 보였는데, 원인은 TokyoNight Day 팔레트 자체**였다 (Desktop 세션에서 Ghostty 테마 파일 실측):
+
+- Day의 ANSI 0(검정) = `#e9e9ed` — 배경 `#e1e2e7`과 사실상 동일. 검정으로 찍히는 텍스트가 통째로 사라진다.
+- ANSI 8(밝은 검정, dim/보조 텍스트) = `#a1a6c5` — 배경 대비 **약 1.8:1**. Claude Code가 보조 텍스트·테두리에 쓰는 색이라 화면 절반이 흐려진다.
+
+**교훈: ANSI 테마는 터미널 팔레트 품질에 종속된다.** 라이트 테마를 고를 때는 `palette 0`·`palette 8`이 배경과 충분히 떨어져 있는지 테마 파일에서 직접 확인해야 한다 (테마 파일 위치: `/Applications/cmux.app/Contents/Resources/ghostty/themes/`). 교체 후보 실측: Catppuccin Latte 8=`#6c6f85`(~5:1), GitHub Light Default 8=`#57606a`(~7:1), One Half Light 8=`#4f525e`. → **라이트를 Catppuccin Latte로 교체**(`theme = light:Catppuccin Latte,dark:TokyoNight Storm`)해서 해결.
+
+후속: 홍이 Latte도 본문이 연하다고 해서 fg `#4c4f69`→`#32364e`(대비 ~11:1)·ANSI 7/8 및 노랑·초록 계열을 진하게 만든 커스텀 테마 **`(로컬 경로)`** 를 만들어 `light:Latte Darker`로 지정. **cmux 내장 Ghostty도 `(로컬 경로)`의 커스텀 테마를 읽고 `cmux reload-config`로 반영된다** — 스크린샷으로 적용 확인(2026-08-27). 내장 테마를 통째로 덮지 말고 이렇게 커스텀 테마 파일로 라이트/다크 한쪽만 고치는 게 정석(config에 `palette`를 직접 쓰면 양쪽 모드에 다 적용돼 버린다).
+
+최종: 홍이 "잘 튜닝된 라이트"를 원해 라이트 우선 설계 테마 4종을 실측 비교 → **GitHub Light Default 채택**. 유일하게 ANSI 16색 전부를 흰 배경용 텍스트 색으로 재조정한 팔레트다(노랑 3=`#4d2d00` 진갈색 ~10:1, 8=`#57606a` 7:1). 반면 Flexoki Light(8=`#b7b5ac`)·Selenized Light(0=`#ece3cc`, 8=`#909995`)는 라이트 우선으로 유명해도 **0·8을 배경 톤으로 쓰는 설계**라 dim 텍스트를 ANSI 8로 찍는 Claude Code에선 TokyoNight Day와 같은 방식으로 깨진다. 판별 기준은 하나: **테마 파일에서 palette 0·8이 배경과 충분히 떨어진 텍스트 색인가.**
 
 ## 참고 자료
 
