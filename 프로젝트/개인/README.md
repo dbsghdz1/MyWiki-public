@@ -28,7 +28,7 @@ related_wiki: []
 | [[프로젝트/개인/Zappy/README|Zappy]] | 배터리 캐릭터 메뉴바 앱 — **1.6.0 출시(2026-08-17, 위젯 첫 도입)**, 1.5.0은 자진 취소·흡수. 테마 14종(8종 무료) + Zappy+ IAP. 개발 정지·런치 플랜 실행 단계 | active |
 | [[프로젝트/개인/math-sprint/README|math-sprint]] | Apps in Toss용 60초 암산 스프린트 게임 — React·Granite 기반, build·`.ait` 통과 상태로 멈춤. **2026-08-18 잠시 중지**(중단 아님, 슬롯 배분 결정) — 지원 마감 11-14 이후 재개 검토 | paused |
 | [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] | 인스타그램 카드뉴스 생성·발행 자동화 도구 (Python) — Oracle systemd timer 08:00·23:00 자율 발행(08-14~) | active |
-| [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] | 가상 1,000만원 모의투자 거래소 + 매매일기 + 유저 랭킹(08-15 전환) — iOS→React 전환용 핵심 포트폴리오, 2주 계획 D2(Neon+Drizzle) 진행 중, 실시간·WebSocket은 Phase 2(08-28~) | active |
+| [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] | 가상 1,000만원 모의투자 거래소 + 매매일기 + 유저 랭킹(08-15 전환) — D2 Neon+Drizzle 6테이블·seed 완료(PR #5), 다음 D3 Clerk 인증, 실시간·WebSocket은 D12 이후 | active |
 
 ## 새 프로젝트 추가 규칙
 
