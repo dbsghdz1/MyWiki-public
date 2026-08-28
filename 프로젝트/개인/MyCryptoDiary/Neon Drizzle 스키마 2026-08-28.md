@@ -69,3 +69,29 @@ D3 Clerk 인증: `proxy.ts`, 로그인·회원가입, 인증 사용자 ID와 `us
 `drizzle.config.ts`에 `out: './drizzle'`을 두고도 `push`만 써서 `drizzle/`이 비어 있다. D2 학습 포인트에 "마이그레이션"이 있는데 이력이 남지 않았다. 혼자 개발하는 동안 `push`로 가는 것은 합리적이나, 배포 후에는 스키마 변경 이력이 필요해지므로 **언제 `generate`+`migrate`로 넘어갈지**를 정해 두는 편이 좋다.
 
 **판단 필요 (연기 가능)**: `DATABASE_URL` 가드 + `neon()` + `drizzle()`가 `client.ts`·`seed.ts`·`drizzle.config.ts` 3곳에 복제돼 있다. `seed.ts`가 `getDB()`를 못 쓰는 이유는 `server-only`가 tsx에서 깨지기 때문이라 근거는 있으나, `server-only` 없는 `createDB()`를 분리하고 배럴에서만 막는 선택지가 있다. / `orders`가 체결 컬럼과 일기 컬럼(`reason`·`review`·`reviewedAt`)을 한 테이블에 담아 일기 편집 사유로 `orders`가 바뀐다 — 다만 이건 "조인 없이 한 행에서 조회"라는 8/15 설계 의도의 결과라 트레이드오프가 이미 선택된 것이다.
+
+
+## 리뷰 반영 (2026-08-28) — PR [#6](https://github.com/dbsghdz1/MyCryptoDiary/pull/6)
+
+PR #5가 먼저 머지돼(`eab6fff`) 후속 PR로 올렸다. 브랜치 `fix/d2-review`, 커밋 4개. **사용자 지시로 에이전트가 직접 작성했다** — 학습 모드의 예외이며, 근거는 이 수정들이 새 판단이 아니라 **이미 내려둔 결정(D1 문 분리·계획서의 트랜잭션 요구)을 복구**하는 것이기 때문이다.
+
+| 커밋 | 내용 |
+|---|---|
+| `f0a68b2` | `AGENTS.md` 신설 — 근본 원인 차단 |
+| `fcab305` | db를 `shared/db` 독립 세그먼트로 분리 (A·B 해소) |
+| `acca6af` | `neon-http` → `neon-serverless` 드라이버 교체 |
+| `61e2194` | seed 정합성 + 트랜잭션 + upsert |
+
+**A. 드라이버 교체** — `neon-http`는 `session.js:152`에서 트랜잭션을 던져 막는다. `Pool` + `drizzle-orm/neon-serverless`(WebSocket)로 교체. Node 24라 `ws` 패키지는 불필요(직접 확인).
+
+**B. `shared/db` 세그먼트 분리** — `shared/api/index.ts`가 db와 upbit를 한 문으로 내보내 D1 결정을 뒤집었고, `server-only`까지 전파됐다. **CLAUDE.md의 "`shared`는 세그먼트가 문"과 D1의 "백엔드별 분리"가 `shared/api/db` 구조에서 충돌**했는데, db를 세그먼트로 올리니 둘 다 만족한다 → `@/shared/api`(upbit) · `@/shared/db`(Neon).
+
+**C. seed 정합성** — 현금만 다르게 주고(1,200만~850만) 수익률·평가액·순위를 파생시켰다. 값을 두 곳에 적으면 또 어긋나기 때문. `onConflictDoNothing`은 값을 고쳐도 재실행에 반영되지 않아 accounts·rankSnapshots를 **upsert**로 바꿨다.
+
+**D. `AGENTS.md`** — Codex는 관례상 `AGENTS.md`만 읽고 `CLAUDE.md`는 보지 않는다. D2 세션이 FSD 규칙·D1 결정·위키 연동을 모르는 채 돌았던 근본 원인이다.
+
+**검증**: `tsc`·`eslint`·`steiger`·`next build` 통과 / `npm run db:seed` 성공(=트랜잭션 실동작 증명, 옛 드라이버면 실패) / 재실행 수렴 / DB 직접 조회로 5명 전부 `(현금−원금)/원금 == 스냅샷 수익률`, `total_value == 현금` 일치 확인.
+
+**미해결로 남긴 것**: `amount`(bigint) ↔ `price × quantity`(numeric)의 **반올림 방향** — D4 착수 시 글로 먼저 정한다. 인덱스·CHECK 제약은 쿼리가 생기는 D4·D6·D8에서 함께(기존 결정 유지).
+
+**정리 필요**: 작업 중 `feat/db-schema`(#5 머지된 브랜치)에 커밋을 잘못 push했고 force push가 정책상 차단돼 되돌리지 못했다. PR #6이 머지되면 내용은 main에 포함되므로 브랜치를 삭제하면 된다.
