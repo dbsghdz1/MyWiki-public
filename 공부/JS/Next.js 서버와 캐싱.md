@@ -97,7 +97,7 @@ matcher: [
 ]
 ```
 
-### 함수로 부르기 vs HTTP로 부르기 — 부르는 사람이 어디 있는가
+### 함수로 부르기 vs HTTP로 부르기 — `src/**/api`와 `app/api`
 
 같은 로직을 두 가지로 노출한다.
 
@@ -107,6 +107,8 @@ app/api/upbit/ticker/route.ts     URL      GET /api/upbit/ticker?markets=KRW-BTC
 ```
 
 `route.ts`는 `client.ts`를 감싼 얇은 껍데기다(쿼리 읽기 → 검증 → shared 함수 호출 → JSON 반환). 구간을 나눠 세면 명확해진다 — **①누가 우리 코드를 부르는가**와 **②우리 코드가 외부 API를 부른다**는 별개이고, ②는 항상 네트워크다.
+
+여기서 두 `api`는 서로 다른 분류 체계의 단어다. `app/api`는 Next 라우팅 경로라 HTTP URL을 만들고, `src/**/api`는 FSD 세그먼트라 외부 데이터와 통신하는 내부 함수를 묶는다. `src`에 `api` 폴더를 만든다고 URL이 생기지 않으며, `app/api`도 폴더명 자체가 특별한 것이 아니라 그 아래 **`route.ts`가 있을 때** HTTP endpoint가 된다.
 
 ```
 서버 컴포넌트: LiveMarketCard ──함수 호출──▶ getTickers() ──네트워크──▶ 업비트   (네트워크 1회)
@@ -184,6 +186,15 @@ export async function GET(request: Request) {
 - `next lint` 제거 → `eslint` 직접 실행.
 
 ## 기록
+
+### 2026-08-29 (2) — `app/api`는 HTTP, `src/**/api`는 내부 통신 코드
+
+맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] 구조를 읽다가 같은 `api` 이름이 두 위치에 있어 차이를 확인했다. 구조 전체 정리는 [[공부/JS/Feature-Sliced Design|Feature-Sliced Design]]의 「루트 app과 src의 경계」에 연결했다.
+
+- `app/api/upbit/ticker/route.ts`는 브라우저·curl이 `/api/upbit/ticker`로 부르는 HTTP 출입구다. 요청 파라미터·상태 코드·JSON 변환을 책임진다.
+- `src/entities/coin/api/getCoins.ts`와 `src/entities/account/api/getOrCreateAccount.ts`는 import해서 쓰는 내부 함수다. 각각 업비트, Clerk·Neon이라는 앱 바깥 데이터와 통신한다는 이유로 FSD의 `api` 세그먼트에 있다.
+- 서버 컴포넌트는 `src` 함수를 직접 부를 수 있지만 브라우저는 서버 파일을 직접 실행할 수 없으므로 HTTP route가 필요하다.
+- 근거: MyCryptoDiary D1 업비트 경로와 D3 커밋 `ffcb94c`, PR #7.
 
 ### 2026-08-29 — Route Group layout으로 인증 경계 묶기 (D3 블록 6)
 
