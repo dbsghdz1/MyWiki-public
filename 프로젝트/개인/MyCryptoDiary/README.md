@@ -4,6 +4,7 @@ status: active
 aliases:
   - My Crypto Diary
   - 마이 크립토 다이어리
+  - CoinPilot
 created: 2026-07-18
 updated: 2026-08-29
 slack_channel: my-crypto-diary
@@ -13,9 +14,9 @@ related_wiki:
   - "[[_wiki/React TypeScript 제품 개발]]"
 ---
 
-# MyCryptoDiary
+# CoinPilot (MyCryptoDiary)
 
-**가상 1,000만원으로 시작하는 모의투자 거래소 + 매매일기 + 유저 랭킹** 앱의 작업공간이다 (2026-08-15 전환, 아래 「모의투자 전환 결정」). 그 전까지는 암호자산 거래 기록을 돌아보고 누적 손익, 거래 수, 승률 같은 지표를 확인하는 개인 앱이었다. 현재 설명은 2026-07-24에 수집한 사용자 학습 노트 [[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes|MyCryptoDiary Day 1–4 학습 노트]]를 기준으로 한다.
+**CoinPilot**은 가상 1,000만원으로 시작하는 모의투자 거래소 + 매매일기 + 유저 랭킹 앱이다. 2026-08-29에 서비스 표시명을 `CoinPilot`로 확정했고, 기존 링크와 코드 저장소 연결을 보존하기 위해 프로젝트 작업공간·저장소 이름은 `MyCryptoDiary`를 유지한다. 2026-08-15 전환 전에는 암호자산 거래 기록을 돌아보고 누적 손익, 거래 수, 승률 같은 지표를 확인하는 개인 앱이었다. 현재 설명은 2026-07-24에 수집한 사용자 학습 노트 [[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes|MyCryptoDiary Day 1–4 학습 노트]]를 기준으로 한다.
 
 ## 현재 확인된 구현
 
@@ -42,9 +43,9 @@ related_wiki:
 
 여러 제품에서 다시 쓸 수 있는 React, TypeScript, Next.js, Tailwind CSS의 원리와 디버깅 지식은 [[_wiki/React TypeScript 제품 개발|React·TypeScript로 제품 만들기]]에 종합한다. MyCryptoDiary에만 해당하는 요구사항과 진행 기록은 이 프로젝트 폴더에 남긴다.
 
-## 우선순위 갱신 (2026-08-28)
+## 우선순위 갱신 (2026-08-29)
 
-8월 잔여는 **소마 1순위**, MyCryptoDiary는 2순위이며 **D2는 2026-08-28에 완료했다.** 08-21~25 공백은 우선순위 위반이 아니라 의도된 배치였다 — Zappy·Fadeo·한능검은 소마 작업 중 AI 대기시간의 자투리 작업이었고, **이 프로젝트는 학습 모드(직접 타이핑)라 자투리 시간에 진행할 수 없다.** 9월부터는 MyCryptoDiary가 최우선으로 올라온다. 2주 계획 기한(~08-28)은 폐기 확정, "12일치를 순서대로"(08-20 결정) 유지. 다음은 D3 Clerk 인증과 최초 계좌 생성이다.
+**CoinPilot을 최우선으로 올렸다.** D3 Clerk 인증과 최초 계좌 생성을 2026-08-29에 완료했고, 다음은 D4 매수 거래 엔진이다. 08-21~25 공백은 우선순위 위반이 아니라 의도된 배치였다 — 이 프로젝트는 학습 모드(직접 타이핑)라 자투리 시간에 진행할 수 없다. 2주 계획 기한(~08-28)은 폐기됐지만 D3~D12 순서는 유지한다.
 
 ## 우선순위 결정 (2026-08-14)
 
@@ -70,8 +71,7 @@ related_wiki:
 |---|---|---|
 | D1 FSD 재구조화 + 업비트 실데이터 | 8/15~20 (4 작업일) | **완료** — DoD 3개 통과. 이전 서술: **부분 완료** — FSD 이사·Steiger 위반 0 (브랜치 `refactor/fsd-structure`, 커밋 `a053007`·`e7751b8`). 업비트 연동은 D2 앞에 붙임. 상세 [[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|D1 작업 기록]] |
 | D2 Neon + Drizzle 스키마 | 8/18 착수 · 8/26~28 | **완료 + 리뷰 반영** — Neon에 6테이블·FK 5개·복합 PK·enum·UNIQUE 반영, 5명 seed 최초·재실행 및 Studio 읽기 확인. 브랜치 `feat/db-schema`, 커밋 `1cfe07c`·`8eadff3`·`f7ccda4`, PR [#5](https://github.com/dbsghdz1/MyCryptoDiary/pull/5). 리뷰 반영은 PR [#6](https://github.com/dbsghdz1/MyCryptoDiary/pull/6)(드라이버 교체·`shared/db` 분리·seed 정합성·AGENTS.md). 상세 [[프로젝트/개인/MyCryptoDiary/Neon Drizzle 스키마 2026-08-28|D2 작업 기록]] |
-
-| D3 Clerk 인증 | 8/28~29 | **진행 중 (4/6 블록)** — proxy·Provider·로그인 라우트·헤더 완료, 계좌 lazy create에서 중단. 브랜치 `feat/clerk-auth`, 커밋 `338e062`·`3001f51`·`7e22168`. 상세 [[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|D3 작업 기록]] |
+| D3 Clerk 인증 | 8/28~29 | **완료** — Clerk 앱·키, proxy·Provider, 로그인·회원가입, 헤더 상태, Clerk ID 기반 계좌 lazy create, 홈 외 UI 보호. 브랜치 `feat/clerk-auth`, 커밋 `338e062`·`3001f51`·`7e22168`·`ffcb94c`·`6f47e54`, PR [#7](https://github.com/dbsghdz1/MyCryptoDiary/pull/7). 서비스 표시명 `CoinPilot` 확정(`7100212`). 상세 [[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|D3 작업 기록]] |
 
 > D4~D12 행은 계획 확정 후 추가 (계획 루틴이 이 표에서 일간 슬롯을 뽑는다)
 
