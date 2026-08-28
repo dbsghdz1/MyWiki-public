@@ -69,7 +69,7 @@ related_wiki:
 | 일차 | 날짜 | 상태 |
 |---|---|---|
 | D1 FSD 재구조화 + 업비트 실데이터 | 8/15~20 (4 작업일) | **완료** — DoD 3개 통과. 이전 서술: **부분 완료** — FSD 이사·Steiger 위반 0 (브랜치 `refactor/fsd-structure`, 커밋 `a053007`·`e7751b8`). 업비트 연동은 D2 앞에 붙임. 상세 [[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|D1 작업 기록]] |
-| D2 Neon + Drizzle 스키마 | 8/18 착수 · 8/26~28 재개 | **완료** — Neon에 6테이블·FK 5개·복합 PK·enum·UNIQUE 반영, 5명 seed 최초·재실행 및 Studio 읽기 확인. 브랜치 `feat/db-schema`, 커밋 `1cfe07c`·`8eadff3`·`f7ccda4`, PR [#5](https://github.com/dbsghdz1/MyCryptoDiary/pull/5). 상세 [[프로젝트/개인/MyCryptoDiary/Neon Drizzle 스키마 2026-08-28|D2 작업 기록]] |
+| D2 Neon + Drizzle 스키마 | 8/18 착수 · 8/26~28 | **완료 + 리뷰 반영** — Neon에 6테이블·FK 5개·복합 PK·enum·UNIQUE 반영, 5명 seed 최초·재실행 및 Studio 읽기 확인. 브랜치 `feat/db-schema`, 커밋 `1cfe07c`·`8eadff3`·`f7ccda4`, PR [#5](https://github.com/dbsghdz1/MyCryptoDiary/pull/5). 리뷰 반영은 PR [#6](https://github.com/dbsghdz1/MyCryptoDiary/pull/6)(드라이버 교체·`shared/db` 분리·seed 정합성·AGENTS.md). 상세 [[프로젝트/개인/MyCryptoDiary/Neon Drizzle 스키마 2026-08-28|D2 작업 기록]] |
 
 > D3~D12 행은 계획 확정 후 추가 (계획 루틴이 이 표에서 일간 슬롯을 뽑는다)
 
