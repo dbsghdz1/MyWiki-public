@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-08-28
+updated: 2026-08-29
 aliases: [서버 컴포넌트, Route Handler, revalidate, App Router, NEXT_PUBLIC, 환경변수, proxy.ts, matcher, 미들웨어]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
@@ -184,6 +184,15 @@ export async function GET(request: Request) {
 - `next lint` 제거 → `eslint` 직접 실행.
 
 ## 기록
+
+### 2026-08-29 — Route Group layout으로 인증 경계 묶기 (D3 블록 6)
+
+맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] D3에서 비로그인 사용자는 홈만 보고 나머지 UI는 로그인하도록 보호했다([[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|작업 기록]]).
+
+- `(protected)`처럼 괄호로 감싼 폴더는 파일을 묶지만 URL에는 나타나지 않는다. 그래서 `app/(protected)/market/page.tsx`를 실제 `/market` 주소 그대로 유지하면서 공통 layout 하나로 보호할 수 있다.
+- 설치된 Clerk v7 타입에서 `createRouteMatcher`는 deprecated였다. 경로 문자열 목록은 실제 라우트 이동과 어긋날 수 있으므로, 요청 전처리용 `proxy.ts`는 Clerk 세션 연결만 맡기고 자원 보호는 Route Group layout의 `auth()`에 뒀다.
+- TypeScript는 `layout.tsx`가 default export여야 한다는 Next 파일 규약을 모른다. named export도 `tsc`를 통과했으므로 `next build`와 로그아웃 직접 접근으로 검증했다.
+- 근거: MyCryptoDiary 커밋 `6f47e54`, PR #7. 로그아웃 `/market`·`/settings`는 로그인으로 이동하고 `/`는 공개, 로그인 후 보호 화면 접근을 확인했다.
 
 ### 2026-08-28 (2) — proxy.ts matcher (D3 블록 2)
 
