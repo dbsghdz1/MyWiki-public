@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-16
-updated: 2026-08-20
+updated: 2026-08-29
 aliases: [FSD, 피처 슬라이스 디자인]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
@@ -23,7 +23,41 @@ projects:
 - `export *` 금지 — index.ts는 "공개 목록이 눈에 보이는 것"이 존재 이유다.
 - **Next.js App Router와 같이 쓸 때**: FSD의 `app`/`pages`를 `_app`/`_pages`로 개명하고, Next 라우팅은 루트 `app/`(한 줄 re-export만), FSD는 `src/`. `app/`은 Next에게 보여주는 얇은 껍데기, `src/_app`은 FSD의 전역 설정 계층 — 이름은 비슷하지만 주인이 다르다.
 
+### 루트 `app/`과 `src/`의 경계
+
+둘은 "프론트엔드/백엔드"로 나뉜 것이 아니다. **루트 `app/`은 Next.js가 파일 위치와 이름으로 읽는 프레임워크 계약**, **`src/`는 우리가 역할과 의존 방향으로 나누는 제품 구현**이다.
+
+| 질문 | 두는 곳 | 예시 |
+|---|---|---|
+| 어느 URL에서 실행되는가? | 루트 `app/` | `page.tsx`, `layout.tsx`, `route.ts` |
+| 실제 화면은 어떻게 조립되는가? | `src/_pages`, `src/widgets` | `HomePage`, `TopNav` |
+| 사용자가 무엇을 하는가? | `src/features` | D4의 매수 |
+| 어떤 업무 명사를 다루는가? | `src/entities` | coin, account, order |
+| 어느 도메인에도 속하지 않는 기반인가? | `src/shared` | DB 연결, 외부 API client, 공용 UI |
+
+`app/`의 예약 파일은 Next가 직접 호출하므로 이름을 바꿀 수 없다. `app/market/page.tsx`는 `/market` 진입점이고, `app/(protected)/layout.tsx`는 하위 라우트를 감싼다. 반대로 `src/widgets/header/ui/TopNav.tsx` 같은 이름은 프로젝트 규칙이며, import되지 않으면 Next는 존재조차 모른다.
+
+의존 흐름은 **`app/ → src/` 한 방향**이다. 라우트 진입점이 `src/_pages`를 부르고, `_pages → widgets → features → entities → shared`로 내려간다. 제품 구현이 특정 URL 폴더를 import하기 시작하면 재사용 가능한 매수·계좌 로직이 라우팅 구조에 묶인다.
+
+### 같은 `api`라는 이름이 두 번 나오는 이유
+
+| 위치 | `api`의 뜻 | URL이 생기는가? |
+|---|---|---|
+| `app/api/.../route.ts` | 외부 요청을 받는 HTTP 출입구 | 예: `/api/upbit/ticker` |
+| `src/**/api/` | DB·Clerk·업비트처럼 바깥 데이터와 통신하는 FSD 세그먼트 | 아니오. import해서 부르는 함수 |
+
+엄밀히 말하면 루트 `app/api`에서 특별한 이름은 `api` 폴더가 아니라 **`route.ts`**다. `api`는 URL을 `/api/...`로 만들기 위한 관례적인 경로 조각이다. 반면 `src/entities/account/api/getOrCreateAccount.ts`는 Clerk·Neon과 통신하지만 HTTP 주소를 만들지 않고, 서버 컴포넌트가 함수로 직접 호출한다.
+
 ## 기록
+
+### 2026-08-29 — `app/`과 `src/`, 두 `api`의 경계
+
+- 맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] D4를 시작하기 전에 "왜 `src`와 `app`을 나눴는가, `app/api`와 `src/**/api`는 왜 둘 다 api인가"를 질문하며 현재 구조를 다시 읽었다.
+- 배운 것:
+  - `app/`은 URL과 Next 예약 파일을 연결하는 얇은 어댑터이고, `src/`는 화면·행동·업무 명사·기반 코드의 실제 소유권을 나누는 곳이다.
+  - HTTP로 공개할 필요가 없는 서버 로직은 `app/api`를 만들지 않는다. `getOrCreateAccount()`는 홈 서버 컴포넌트가 직접 호출하므로 `src/entities/account/api`만 있으면 된다.
+  - 같은 업비트 조회도 서버 컴포넌트는 `src` 함수를 직접 호출하고, 브라우저는 그 파일을 실행할 수 없어 `app/api/.../route.ts`를 HTTP로 호출한다.
+- 근거: `app/page.tsx`, `app/api/upbit/ticker/route.ts`, `src/_pages/home/ui/HomePage.tsx`, `src/entities/account/api/getOrCreateAccount.ts`, `src/entities/coin/api/getCoins.ts`; D3 PR #7.
 
 ### 2026-08-16 — MyCryptoDiary FSD 이사
 
