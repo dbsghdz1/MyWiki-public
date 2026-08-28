@@ -22,7 +22,7 @@ status: active
 | [[프로젝트/개인/Zappy/README|Zappy]] | 배터리 캐릭터 메뉴바 앱 Zappy의 작업공간 — **1.9.1 출시(08-22까지, BLE 주변기기 배터리) · 1.10.0 build 19 심사 대기(새 캐릭터 나무 — 잔량이 곧 계절, 테마 17종·모션 9종)**. 데스크톱 펫은 캐릭터 재설계 필요로 출시 제외(플래그 차단, 코드 보존) | active | 2026-08-25 |
 | [[프로젝트/개인/math-sprint/README|math-sprint]] | Apps in Toss용 60초 암산 스프린트 게임 — React·Granite 기반, lint·production build 통과. **2026-08-18 잠시 중지**(중단 아님 — 슬롯 배분 결정, build 통과 상태로 멈춤) — 지원 마감 11-14 이후 재개 검토 | paused | 2026-08-19 |
 | [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] | 인스타그램 카드뉴스 생성·발행 자동화 도구 (Python) — KBO roundup·개별 기사형 포스트 실발행 중 | active | 2026-08-09 |
-| [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] | 가상 1,000만원 모의투자 거래소 + 매매일기 + 유저 랭킹(2026-08-15 전환, 2주 계획 08-15~28) — iOS→React 전환용 핵심 포트폴리오, **지원 D-day 2026-11-14**. FSD 2.1 + Steiger, 수익률 기반 랭킹, 보상형 광고는 mock provider. D1 FSD 이사·업비트 연동 완료(08-16), D2 Neon+Drizzle 진행(08-18). WebSocket·최적화는 Phase 2(08-28~) | active | 2026-08-18 |
+| [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] | 가상 1,000만원 모의투자 거래소 + 매매일기 + 수익률 랭킹 — iOS→React 전환용 핵심 포트폴리오, **지원 D-day 2026-11-14**. D1 FSD·업비트 연동, **D2 Neon+Drizzle 6테이블·seed 완료(PR #5)**. 다음 D3 Clerk 인증·최초 계좌 생성; WebSocket·최적화는 D12 이후 | active | 2026-08-28 |
 
 ## 공부
 
