@@ -38,11 +38,11 @@ related_wiki: []
 
 외부 홍보 피드백을 받았다: *"이 경우엔 Apple Search, Meta 정도가 맞긴 합니다만. 전환율이 높을 거라고 예상되지 않는다면 유료 마케팅을 하지 않는 것도 방법입니다 (앱 이벤트랑, 피처링만 진행)."*
 
-**결론(유료 스킵)은 채택한다. 다만 이유가 다르고, 거명된 수단 셋 중 둘은 Mac 앱에 아예 없는 옵션이다** — 근거는 [[공부/AppStore/App Store 성장 도구|공부: App Store 성장 도구]](Apple 공식 문서 5건 원문 확인, 2026-08-19).
+**결론(유료 스킵)은 채택한다. 다만 이유가 다르고, 거명된 수단 셋 중 둘은 Mac 앱에 아예 없는 옵션이다** — 근거는 [[작업노트/AppStore/App Store 성장 도구|공부: App Store 성장 도구]](Apple 공식 문서 5건 원문 확인, 2026-08-19).
 
 | 피드백에 나온 수단 | Mac 전용 앱(Zappy)에서 | 판단 |
 |---|---|---|
-| Apple Search Ads(Apple Ads) | ❌ **Zappy는 macOS 앱이라 광고 대상이 아니다** — 광고 지면이 iOS/iPadOS App Store뿐이다. 계정 요건 "app for iPhone or iPad currently on the App Store"는 그 결과 ([[공부/AppStore/App Store 성장 도구\|App Store 성장 도구]]) | 검토 대상에서 제외 (iOS 앱이 생겨도 Zappy는 대상 아님) |
+| Apple Search Ads(Apple Ads) | ❌ **Zappy는 macOS 앱이라 광고 대상이 아니다** — 광고 지면이 iOS/iPadOS App Store뿐이다. 계정 요건 "app for iPhone or iPad currently on the App Store"는 그 결과 ([[작업노트/AppStore/App Store 성장 도구\|App Store 성장 도구]]) | 검토 대상에서 제외 (iOS 앱이 생겨도 Zappy는 대상 아님) |
 | Meta 광고 | △ 가능하지만 **"앱 설치" 캠페인 목표를 못 쓴다**(스토어 대상이 iOS/Android). 랜딩·스토어 링크로 보내는 트래픽 캠페인만 가능 → 설치 이벤트가 광고 플랫폼에 안 돌아오니 최적화·리타게팅 불성립 | 미집행 |
 | 앱 이벤트(In-App Events) | ❌ iOS/iPadOS 전용. ASC도 "can only be attached to iPhone and iPad apps" | **불가 — 대체 수단 필요** |
 | 피처링(Featuring Nomination) | ✅ **가능. macOS 포함** | **주력으로 채택** |

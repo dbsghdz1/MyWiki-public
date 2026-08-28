@@ -69,7 +69,7 @@ macOS 26의 `SpeechAnalyzer` + 온디바이스 번역으로 **맥에서 재생 �
 
 ## 배운 것
 
-- [[공부/Apple/온디바이스 음성 인식과 번역|온디바이스 음성 인식과 번역]] — `SpeechAnalyzer`·`ScreenCaptureKit` 오디오·`TranslationSession`의 실제 제약과 TCC·서명 함정
+- [[작업노트/Apple/온디바이스 음성 인식과 번역|온디바이스 음성 인식과 번역]] — `SpeechAnalyzer`·`ScreenCaptureKit` 오디오·`TranslationSession`의 실제 제약과 TCC·서명 함정
 
 ## 관련
 

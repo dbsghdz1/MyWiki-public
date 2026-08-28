@@ -1,6 +1,6 @@
 ---
 type: study
-area: 도구·인프라
+area: AppStore
 audience: ai
 status: active
 created: 2026-08-19

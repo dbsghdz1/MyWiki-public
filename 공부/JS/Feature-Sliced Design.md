@@ -1,6 +1,6 @@
 ---
 type: study
-area: 개발 방법
+area: JS
 audience: me
 status: active
 created: 2026-08-16
