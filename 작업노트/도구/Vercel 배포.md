@@ -1,6 +1,6 @@
 ---
 type: study
-area: 도구·인프라
+area: 도구
 audience: ai
 status: active
 created: 2026-08-19
@@ -29,7 +29,7 @@ Git 연동 배포는 **레포 루트를 프로젝트 루트로 가정**한다 �
   - 08-14 프로젝트를 GitHub `dbsghdz1/Zappy`에 연결했는데 Root Directory가 비어 있었고, 08-15 push 배포가 레포 루트(Swift 프로젝트)를 빌드해 index.html도 `api/`도 없는 배포가 프로덕션 alias를 차지했다. 그 전까지는 `landing/` 폴더에서 CLI로 배포해 왔기 때문에 문제가 안 보였다.
   - 배포 URL로 웹훅을 찔렀을 땐 401이 나와 "살아 있다"고 착각할 뻔했다 — Deployment Protection의 401이었다. alias로 쳐서 404를 확인한 것이 결정적.
   - `rootDirectory=landing` PATCH + `vercel redeploy` 14초 만에 200/405 복구.
-- 근거: 빌드 로그 `Cloning github.com/dbsghdz1/Zappy (Branch: main, Commit: 047ef1d)` … `Build Completed in 186ms`; 프로젝트 API 응답 `rootDirectory: None → 'landing'`; [[프로젝트/개인/Zappy/Zappy 마케팅 플랜]] 랜딩 절 장애 기록. 관련: [[공부/AppStore/App Store Server Notifications|App Store Server Notifications]]
+- 근거: 빌드 로그 `Cloning github.com/dbsghdz1/Zappy (Branch: main, Commit: 047ef1d)` … `Build Completed in 186ms`; 프로젝트 API 응답 `rootDirectory: None → 'landing'`; [[프로젝트/개인/Zappy/Zappy 마케팅 플랜]] 랜딩 절 장애 기록. 관련: [[작업노트/AppStore/App Store Server Notifications|App Store Server Notifications]]
 
 ## 참고 자료
 - [Vercel — Configuring a Build: Root Directory](https://vercel.com/docs/deployments/configure-a-build#root-directory) — 서브폴더 프로젝트 설정 위치 (2026-08-19 확인)

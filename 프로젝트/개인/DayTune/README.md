@@ -46,9 +46,9 @@ related_wiki:
 
 ## 배운 것
 
-- [[공부/Apple/Swift 동시성과 UIKit 메인 스레드|Swift 동시성과 UIKit 메인 스레드]] — 건강 앱 권한 허용 직후 크래시: HealthKit 콜백이 백그라운드로 돌아와 `setViewControllers`가 메인 밖에서 호출됨. `MainActor.run`으로 수정 (2026-08-22)
-- [[공부/Apple/HealthKit 수면 데이터 조회|HealthKit 수면 데이터 조회]] — 새벽 2시에 "수면 데이터 없음": 자정 기준 윈도우가 직전 밤을 놓침. 36h + 최근 세션만 집계로 수정 (2026-08-22)
-- [[공부/Apple/UIKit 내비게이션 바 숨김과 pop 제스처|UIKit 내비게이션 바 숨김과 pop 제스처]] — 바 숨김으로 죽은 엣지 스와이프 pop·전환 중 상단 튐을 `DTNavigationController` 한 곳으로 해결 (2026-08-22)
+- [[작업노트/Apple/Swift 동시성과 UIKit 메인 스레드|Swift 동시성과 UIKit 메인 스레드]] — 건강 앱 권한 허용 직후 크래시: HealthKit 콜백이 백그라운드로 돌아와 `setViewControllers`가 메인 밖에서 호출됨. `MainActor.run`으로 수정 (2026-08-22)
+- [[작업노트/Apple/HealthKit 수면 데이터 조회|HealthKit 수면 데이터 조회]] — 새벽 2시에 "수면 데이터 없음": 자정 기준 윈도우가 직전 밤을 놓침. 36h + 최근 세션만 집계로 수정 (2026-08-22)
+- [[작업노트/Apple/UIKit 내비게이션 바 숨김과 pop 제스처|UIKit 내비게이션 바 숨김과 pop 제스처]] — 바 숨김으로 죽은 엣지 스와이프 pop·전환 중 상단 튐을 `DTNavigationController` 한 곳으로 해결 (2026-08-22)
 
 ## 다음 작업 (재개 시)
 

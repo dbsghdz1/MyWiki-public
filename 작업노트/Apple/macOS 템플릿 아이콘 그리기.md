@@ -1,6 +1,6 @@
 ---
 type: study
-area: 언어·프레임워크
+area: Apple
 audience: ai
 status: active
 created: 2026-08-25
