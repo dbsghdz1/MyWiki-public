@@ -80,7 +80,7 @@ related_wiki:
 - [[공부/JS/JavaScript 기초 문법|JavaScript 기초 문법]] — 객체 리터럴과 구조 분해가 JS의 절반, `if (!x)`가 성립하는 truthy/falsy 근거
 - [[공부/JS/JavaScript 런타임|JavaScript 런타임]] — Node는 V8 + OS 기능이라 서버가 될 수 있고, 그래서 API 키를 서버에만 둔다
 - [[공부/JS/TypeScript 타입 시스템|TypeScript 타입 시스템]] — 타입은 컴파일하면 사라지므로 `res.ok` 검사를 손으로 넣는다
-- [[공부/JS/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] — 서버 컴포넌트가 직접 `await` 하고, `revalidate`는 데이터가 변하는 속도로 정한다
+- [[공부/JS/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] — 서버 컴포넌트가 직접 `await` 하고, `revalidate`는 데이터가 변하는 속도로 정한다. **`NEXT_PUBLIC_`은 허가가 아니라 브라우저 번들에 박으라는 명령이다**
 - [[공부/CS/네트워크|네트워크]] — 서버는 포트를 잡은 프로그램일 뿐, `localhost`는 루프백이고 `*:3000`은 같은 와이파이에 열려 있다
 - [[공부/JS/외부 API 데이터 모델링|외부 API 데이터 모델링]] — 응답 타입을 두 겹으로, 숫자로 들고 다니다 그릴 때만 포맷, 코인 이름은 업비트에서 받는다
 - [[공부/CS/데이터베이스|데이터베이스]] — 스키마·DTO·Model의 경계, PK·FK·복합 PK, Drizzle `numeric`/`bigint`, 파생 랭킹 스냅샷

@@ -4,8 +4,8 @@ area: JS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-08-18
-aliases: [서버 컴포넌트, Route Handler, revalidate, App Router]
+updated: 2026-08-28
+aliases: [서버 컴포넌트, Route Handler, revalidate, App Router, NEXT_PUBLIC, 환경변수]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
 ---
@@ -50,6 +50,28 @@ Next.js는 **React를 서버에서 실행해 HTML을 만들어 브라우저로 �
 tsc와 Tailwind는 같은 칸(빌드 타임)에 있다 — 둘 다 실행 중에는 존재하지 않는다. [[공부/JS/TypeScript 타입 시스템|타입 소거]]와 같은 이야기.
 
 **이 프로젝트는 모노리스다.** 프론트엔드/백엔드가 별도 저장소로 나뉘지 않고 한 프로젝트에 있다 — `app/api/*/route.ts`가 백엔드, `_pages`·`widgets`가 프론트엔드이며 같은 `npm run dev`로 함께 뜬다. (React는 프레임워크가 아니라 화면 그리는 **라이브러리**고, 프레임워크는 Next.js다.)
+
+### 환경변수 — `NEXT_PUBLIC_`은 허가가 아니라 명령이다
+
+`process`는 **Node의 물건**이다([[공부/JS/JavaScript 런타임|런타임]]). 브라우저엔 `process.env`가 없다. 그래서 브라우저로 갈 코드에 `process.env.X`를 쓰면 Next가 **빌드 타임에 그 자리를 값 문자열로 치환**한다. 읽어오는 게 아니라 **값이 코드에 새겨진다**(인라인).
+
+```js
+const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+// 빌드 후 번들에 실제로 들어가는 것
+const key = "pk_test_a1b2c3...";
+```
+
+아무 변수나 박아넣으면 서버 비밀이 전부 새므로 규칙이 하나 있다 — **`NEXT_PUBLIC_`으로 시작하는 것만 브라우저 번들에 박고, 나머지는 서버에만 남긴다.**
+
+> **`NEXT_PUBLIC_`은 "공개해도 된다"는 표시가 아니라 "브라우저에 박아넣어라"는 명령이다.** 허가가 아니라 지시라서, 붙이면 그게 비밀이든 아니든 시키는 대로 한다.
+
+그래서 `CLERK_SECRET_KEY` 앞에 `NEXT_PUBLIC_`을 붙이면 값이 JS 번들에 문자열로 새겨져 사이트를 여는 **모든 사람**에게 전송된다(개발자 도구 Sources, `view-source`, 크롤러 전부). Clerk secret key는 백엔드 API 키라 아무 유저나 흉내내 토큰을 발급하고 유저 목록을 조회·삭제할 수 있다 — 계정 시스템 전체를 넘겨주는 것과 같다.
+
+**가장 나쁜 건 되돌릴 수 없다는 점이다.** 고쳐서 다시 배포해도 이미 나간 번들은 브라우저 캐시·CDN·아카이브에 남는다. 복구는 **키 폐기 후 재발급**뿐이다.
+
+반대로 publishable key는 이름 그대로 **퍼블리시를 전제로 설계된** 키다. 할 수 있는 일이 제한적이고(로그인 UI 띄우기, 세션 유효성 문의), Clerk 서버가 **요청 도메인**을 확인해 남이 훔쳐 써도 막는다. 애초에 브라우저에 있어야 로그인 창을 그릴 수 있다.
+
+**판단 기준은 하나다 — 이 코드가 유저 컴퓨터로 가는가.** 업비트 때는 CORS·레이트리밋 때문에 route handler 뒤로 숨겼고 여기서는 `NEXT_PUBLIC_`을 안 붙이는 것으로 해결하지만, 묻는 질문은 같다.
 
 ### 함수로 부르기 vs HTTP로 부르기 — 부르는 사람이 어디 있는가
 
@@ -138,6 +160,16 @@ export async function GET(request: Request) {
 - `next lint` 제거 → `eslint` 직접 실행.
 
 ## 기록
+
+### 2026-08-28 — Clerk 키 두 개 (D3 블록 1)
+
+맥락: MyCryptoDiary D3 인증 착수. `.env.local`에 `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`와 `CLERK_SECRET_KEY`를 넣으며 **왜 하나만 접두사가 붙는지** 물어서 정리했다(위 「환경변수」 절).
+
+핵심은 접두사의 성격이다 — 나는 "공개해도 안전하다는 표시"로 읽었는데 실제로는 **"브라우저 번들에 박아라"는 명령**이다. 그래서 secret key에 붙이면 Next가 순순히 박아넣고, 그때부터는 배포를 되돌려도 키를 폐기하는 것 말고 복구 방법이 없다.
+
+빌드 타임 인라인이라는 점에서 [[공부/JS/JavaScript 런타임|런타임]]의 "API 키를 서버에만 둔다", Tailwind 클래스명 조립 금지와 **같은 축**의 이야기다 — 셋 다 "빌드 때 결정되어 번들에 새겨지는 것"이 무엇인지의 문제다.
+
+번들에 실제로 박히는지는 D3 블록 4(Clerk 클라이언트 컴포넌트 투입)에서 빌드 산출물을 직접 뒤져 확인하기로 했다. 지금은 Clerk 코드가 없어 어느 키도 번들에 없다 — 안 나오는 게 당연해서 증명이 되지 않는다.
 
 ### 2026-08-18 — 업비트 연동 (D1)
 
