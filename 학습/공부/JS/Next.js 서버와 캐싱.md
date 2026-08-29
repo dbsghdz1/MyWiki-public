@@ -47,13 +47,13 @@ Next.js는 **React를 서버에서 실행해 HTML을 만들어 브라우저로 �
 
 **Tailwind는 런타임에 호출되지 않는다.** 빌드 때 소스 전체를 훑어 `glass`·`text-rise` 같은 완성된 클래스명을 수집해 CSS 파일을 한 번 만들고 끝난다. 서버는 `className="glass"`를 문자열로 HTML에 박아 보낼 뿐 그게 무슨 색인지 모르고, 브라우저가 CSS 파일을 보고 판단한다. → **Tailwind 클래스명을 `` `bg-${color}-500` ``처럼 조립하면 안 되는 이유**: 빌드 때 소스에 완성된 이름이 없어 수집되지 않고, CSS에 그 클래스가 없어서 런타임에 아무 일도 일어나지 않는다.
 
-tsc와 Tailwind는 같은 칸(빌드 타임)에 있다 — 둘 다 실행 중에는 존재하지 않는다. [[공부/JS/TypeScript 타입 시스템|타입 소거]]와 같은 이야기.
+tsc와 Tailwind는 같은 칸(빌드 타임)에 있다 — 둘 다 실행 중에는 존재하지 않는다. [[학습/공부/JS/TypeScript 타입 시스템|타입 소거]]와 같은 이야기.
 
 **이 프로젝트는 모노리스다.** 프론트엔드/백엔드가 별도 저장소로 나뉘지 않고 한 프로젝트에 있다 — `app/api/*/route.ts`가 백엔드, `_pages`·`widgets`가 프론트엔드이며 같은 `npm run dev`로 함께 뜬다. (React는 프레임워크가 아니라 화면 그리는 **라이브러리**고, 프레임워크는 Next.js다.)
 
 ### 환경변수 — `NEXT_PUBLIC_`은 허가가 아니라 명령이다
 
-`process`는 **Node의 물건**이다([[공부/JS/JavaScript 런타임|런타임]]). 브라우저엔 `process.env`가 없다. 그래서 브라우저로 갈 코드에 `process.env.X`를 쓰면 Next가 **빌드 타임에 그 자리를 값 문자열로 치환**한다. 읽어오는 게 아니라 **값이 코드에 새겨진다**(인라인).
+`process`는 **Node의 물건**이다([[학습/공부/JS/JavaScript 런타임|런타임]]). 브라우저엔 `process.env`가 없다. 그래서 브라우저로 갈 코드에 `process.env.X`를 쓰면 Next가 **빌드 타임에 그 자리를 값 문자열로 치환**한다. 읽어오는 게 아니라 **값이 코드에 새겨진다**(인라인).
 
 ```js
 const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -189,7 +189,7 @@ export async function GET(request: Request) {
 
 ### 2026-08-29 (2) — `app/api`는 HTTP, `src/**/api`는 내부 통신 코드
 
-맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] 구조를 읽다가 같은 `api` 이름이 두 위치에 있어 차이를 확인했다. 구조 전체 정리는 [[공부/JS/Feature-Sliced Design|Feature-Sliced Design]]의 「루트 app과 src의 경계」에 연결했다.
+맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] 구조를 읽다가 같은 `api` 이름이 두 위치에 있어 차이를 확인했다. 구조 전체 정리는 [[학습/공부/JS/Feature-Sliced Design|Feature-Sliced Design]]의 「루트 app과 src의 경계」에 연결했다.
 
 - `app/api/upbit/ticker/route.ts`는 브라우저·curl이 `/api/upbit/ticker`로 부르는 HTTP 출입구다. 요청 파라미터·상태 코드·JSON 변환을 책임진다.
 - `src/entities/coin/api/getCoins.ts`와 `src/entities/account/api/getOrCreateAccount.ts`는 import해서 쓰는 내부 함수다. 각각 업비트, Clerk·Neon이라는 앱 바깥 데이터와 통신한다는 이유로 FSD의 `api` 세그먼트에 있다.
@@ -221,7 +221,7 @@ export async function GET(request: Request) {
 
 핵심은 접두사의 성격이다 — 나는 "공개해도 안전하다는 표시"로 읽었는데 실제로는 **"브라우저 번들에 박아라"는 명령**이다. 그래서 secret key에 붙이면 Next가 순순히 박아넣고, 그때부터는 배포를 되돌려도 키를 폐기하는 것 말고 복구 방법이 없다.
 
-빌드 타임 인라인이라는 점에서 [[공부/JS/JavaScript 런타임|런타임]]의 "API 키를 서버에만 둔다", Tailwind 클래스명 조립 금지와 **같은 축**의 이야기다 — 셋 다 "빌드 때 결정되어 번들에 새겨지는 것"이 무엇인지의 문제다.
+빌드 타임 인라인이라는 점에서 [[학습/공부/JS/JavaScript 런타임|런타임]]의 "API 키를 서버에만 둔다", Tailwind 클래스명 조립 금지와 **같은 축**의 이야기다 — 셋 다 "빌드 때 결정되어 번들에 새겨지는 것"이 무엇인지의 문제다.
 
 번들에 실제로 박히는지는 D3 블록 4(Clerk 클라이언트 컴포넌트 투입)에서 빌드 산출물을 직접 뒤져 확인하기로 했다. 지금은 Clerk 코드가 없어 어느 키도 번들에 없다 — 안 나오는 게 당연해서 증명이 되지 않는다.
 
