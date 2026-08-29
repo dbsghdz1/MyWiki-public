@@ -7,7 +7,7 @@ aliases:
 created: 2026-08-28
 updated: 2026-08-28
 related_wiki:
-  - "[[공부/CS/데이터베이스]]"
+  - "[[학습/공부/CS/데이터베이스]]"
 ---
 
 # MyCryptoDiary D2 — Neon + Drizzle 스키마 (2026-08-18, 26~28)
@@ -43,7 +43,7 @@ related_wiki:
 
 ## 배운 것
 
-- [[공부/CS/데이터베이스|데이터베이스]] — 스키마와 DTO·Model의 차이, PK·FK·복합 PK, 공유 기본키, `numeric`과 `bigint`, 파생 스냅샷
+- [[학습/공부/CS/데이터베이스|데이터베이스]] — 스키마와 DTO·Model의 차이, PK·FK·복합 PK, 공유 기본키, `numeric`과 `bigint`, 파생 스냅샷
 
 ## 다음
 

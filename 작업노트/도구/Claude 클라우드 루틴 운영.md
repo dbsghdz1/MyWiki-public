@@ -32,3 +32,4 @@ projects:
   - 실제 원격은 정상이었다 — 로컬에서 `git merge-base 43d3b88 9e0def6` = `9e0def6`(조상 관계 확인), origin/main도 최신. 루틴의 안전 정지 자체는 올바른 행동이었지만(강제 push 안 함), **판단 근거가 전부 샌드박스 아티팩트였다.**
   - 루틴이 샌드박스 안에 만든 `preserve-local-2026-08-29` 브랜치·stash는 샌드박스 소멸과 함께 사라진다 — 정리할 것 없음.
 - 근거: `RemoteTrigger get_run_log cse_01QzpHvADwJer7UYvpseDxkw` 전문, 로컬 `git merge-base`·`git fetch` 실측 (2026-08-30 01:20 KST).
+- 조치 (2026-08-30): 두 루틴("MyWiki 일간 계획 생성"·"MyWiki 주간 회고 스캐폴드") 프롬프트에 **「git 규칙」 섹션** 추가 — detached HEAD 위에서 그대로 커밋, `git checkout main` 금지, push는 `git pull --rebase origin main` → `git push origin HEAD:main`(거부 시 1회 재시도, 강제 push 금지). 일간 루틴에는 **어제 파일 부재 시 가장 최근 일간 파일로 이월 수집**, 회고 루틴에는 **일간 파일 없는 날 표기** 규칙도 추가. 원본 규격은 계획에 반영.
