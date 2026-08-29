@@ -14,6 +14,10 @@ updated: 2026-08-28
 | Bundle ID | `com.hong.hangeom` |
 | 팀 | `WN2B884S76` |
 
+## 1.0 (build 2) — 2026-08-30 아이폰 전용 전환
+
+**아이패드 스크린샷 요구를 피하려고 iPad 지원을 뺐다** (홍 결정 2026-08-30). `TARGETED_DEVICE_FAMILY = "1,2"` → `1` (Debug·Release 2곳), 빌드 넘버 1→2. IPA의 `UIDeviceFamily [1]`·`CFBundleVersion 2`를 업로드 전에 확인했다. 아이폰 전용이어도 아이패드에선 호환 모드로 실행된다. build 2 업로드 → VALID → 버전 1.0에 연결 완료. 남은 것은 build 1 때와 동일(아래 셋).
+
 ## 1.0 (build 1) — 2026-08-28 준비 중
 
 ### 진행 상태
@@ -21,7 +25,7 @@ updated: 2026-08-28
 | 단계 | 상태 |
 |---|---|
 | 아카이브·IPA | ✅ `fastlane/build/App.ipa` (1.3MB) |
-| 바이너리 업로드 | ✅ build 1 · **VALID** |
+| 바이너리 업로드 | ✅ build 1 · **VALID** → **build 2로 교체 (2026-08-30)** |
 | 버전 연결 | ✅ `asc attach-build` |
 | 메타데이터(ko) | ✅ 이름·부제·설명·키워드·심사메모 |
 | 스크린샷 | ✅ 5장 (1320×2868) — **중복 제거 후 5장 확정** |
