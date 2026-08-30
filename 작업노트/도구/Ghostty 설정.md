@@ -14,7 +14,7 @@ Ghostty 커스텀은 텍스트 config 하나로 하는데, **macOS에선 config 
 
 ## 핵심 정리
 
-- **macOS Ghostty의 config 경로는 두 개다**: XDG `(로컬 경로)`와 `(로컬 경로)`. 둘 다 로드된다. 앱에서 `Cmd+,`(Open Config)로 열면 **Application Support 쪽**이다 — 홍이 붙여넣은 곳도 여기였다. 한 군데만 쓰는 게 안전하다.
+- **macOS Ghostty의 config 경로는 두 개다**: XDG `(로컬 경로)`와 `(로컬 경로)`. 둘 다 로드된다. 앱에서 `Cmd+,`(Open Config)로 열면 **Application Support 쪽**이다 — 홍이 붙여넣은 곳도 여기였다. 한 군데만 쓰는 게 안전한데, **통일은 XDG 쪽으로 해야 한다: cmux는 `(로컬 경로)`만 읽는다**(`cmux config paths` 출력에 명시, 08-31 확인 — 처음엔 App Support로 통일했다가 cmux에 테마가 안 먹어서 뒤집음).
 - **config는 `key = value`만 허용한다.** 안내문의 셸 명령어(`ghostty +list-themes`)를 그대로 붙여넣으면 `config.ghostty:4:ghostty +list-themes: unknown field`. 에러 포맷은 `<파일>:<줄>:<내용>: unknown field`라 위치는 바로 찾힌다.
 - **테마 이름은 대문자+공백이다** (Ghostty 1.3 기준): `Catppuccin Mocha`, `Catppuccin Latte`. 흔히 떠도는 `catppuccin-mocha`(소문자-하이픈)는 `theme "catppuccin-mocha" not found`. 정확한 이름은 `ghostty +list-themes`로 확인.
 - **cmux가 깔려 있으면 PATH의 `ghostty`는 cmux 번들 바이너리다** (`/Applications/cmux.app/Contents/Resources/bin/ghostty`, `app runtime: .none`). 게다가 cmux 터미널 세션엔 `GHOSTTY_RESOURCES_DIR=/Applications/cmux.app/Contents/Resources/ghostty`가 박혀 있어서, **진짜 `/Applications/Ghostty.app/Contents/MacOS/ghostty`를 직접 불러도 테마를 cmux 리소스 폴더에서 찾는다.** 검증은 `env -u GHOSTTY_RESOURCES_DIR /Applications/Ghostty.app/Contents/MacOS/ghostty +validate-config`.
@@ -35,4 +35,5 @@ Ghostty 커스텀은 텍스트 config 하나로 하는데, **macOS에선 config 
 
 - 맥락: 홍의 후속 질문 3건(로고 변경 / 탭 세로 배치 / cmux를 Ghostty 디자인처럼).
 - 배운 것: 핵심 정리의 cmux config 공유·`macos-icon`·탭 항목 전부 이 세션에서 실기기 확인(strings 분석 + `+validate-config`). 홍의 최종 선택: `macos-icon = xray`, cmux는 `matchTerminalBackground: true`.
+- **정정**: cmux는 XDG 경로만 읽으므로 config를 App Support → `(로컬 경로)`로 이동. `cmux reload-config` CLI가 Ghostty config + cmux.json을 앱 재시작 없이 둘 다 리로드한다(`OK Reloaded config`). cmux 편에서 편집 전 백업 권고: cmux.json은 `.bak` 사본을 만들라고 자체 문서(`cmux docs settings`)가 안내.
 - 갱신: `updated: 2026-08-31`.
