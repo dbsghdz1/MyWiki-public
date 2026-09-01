@@ -24,6 +24,13 @@ React/Vite로 만든 웹 코어를 Capacitor로 감싸 iOS 앱으로 내는 법.
 
 ## 기록
 
+### 2026-09-01 — `contentInset: 'always'` + CSS `env(safe-area-inset-top)`는 상단 여백을 두 번 준다
+
+- 맥락: 한능검 2.0, 홍 QA "문제 화면 UI가 이상하다" — 상단 유리 캡슐 위 빈 공간이 화면마다 다르게(91~134pt) 벌어져 있었다.
+- 원인: `capacitor.config.ts` `ios.contentInset: 'always'`는 WKWebView 스크롤뷰의 `contentInsetAdjustmentBehavior = .always`라 콘텐츠 전체를 상태 표시줄만큼 내리는데, CSS `.top { padding-top: calc(env(safe-area-inset-top) + 8px) }`도 같은 값을 더한다. `position: sticky; top: 0`은 스크롤하면 스크롤뷰 인셋 기준으로 붙어 스크롤 전후 위치가 달라 보였다.
+- 해법: `contentInset: 'never'`. `StatusBar.setOverlaysWebView({overlay:true})`와 CSS env()만으로 처리한다. env() 값은 인셋 동작과 무관하게 safeAreaInsets를 그대로 준다 — 적용 후 캡슐이 안전영역+8px(72pt)에 고정됐다.
+- 근거: `web/capacitor.config.ts`, 스크린샷 `web/maestro/shots/20260901-2133-…/…/02-solve.png`(전) vs `20260901-2136-v2.0-question-redesign/02-solve.png`(후).
+
 ### 2026-08-27 — 상태 표시줄은 `overlay:true` + CSS safe-area 가 정답이다
 
 - 맥락: [[프로젝트/개인/한능검/README|한능검]] 앱을 Capacitor로 래핑해 시뮬레이터에서 처음 띄웠더니 **헤더가 상태 표시줄과 겹쳐** 앱 제목과 시계가 뒤엉켰다.
