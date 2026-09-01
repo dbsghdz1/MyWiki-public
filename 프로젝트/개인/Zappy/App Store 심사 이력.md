@@ -4,7 +4,7 @@ status: active
 aliases:
   - Zappy 심사
 created: 2026-07-25
-updated: 2026-08-26
+updated: 2026-09-01
 related_wiki: []
 ---
 
@@ -51,6 +51,7 @@ related_wiki: []
 | 2026-08-26 | **1.10.1 승인·출시 확인**(READY_FOR_SALE, `asc state`) → 같은 날 **1.11.0 (build 21) 제출**, WAITING_FOR_REVIEW (`asc state`로 build 21 VALID·로케일별 스크린샷 확인). 내용: **주변기기 배터리에 AirPods**(연결 중 IORegistry `BatteryPercentLeft/Right/Case`, `IOPropertyExistsMatch` 클래스 무관 매칭) + **연출 제거**(완충 반짝이·호버 하트·유령/역도 충전 반짝이 — 1.6에서 넣은 오버레이 전부 철회). Apple Watch는 잔량이 어느 경로에도 없어 불가 판정. ⚠️ AirPods 행은 **실기기 미검증 제출**(에어팟 미연결 상태, 사용자가 검증 생략 선택) — 1.9.0 주변기기 전례와 같은 형태의 리스크, 안 잡혀도 줄이 안 뜰 뿐. `fastlane mac release` 한 번에 통과. 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-26\|개발 기록 08-26]] |
 | 2026-08-28 | **1.11.0 승인·출시 확인**(READY_FOR_SALE, `asc state`). 단 **에어팟 행은 출시 후 실기기 검증에서 실패** — macOS 26.5.1은 에어팟을 IORegistry에 아예 안 올린다(키 0개·노드 0개, 같은 시각 `system_profiler`는 잔량 표시 = bluetoothd만 안다). 08-26 미검증 리스크가 실제로 확인된 것. What's New 5개 언어가 에어팟 지원을 광고 중이나 설명문·프로모션 텍스트에는 언급 없음. 크래시 없음(행이 안 뜰 뿐). 정정 기록: [[작업노트/Apple/블루투스 기기 배터리 읽기]] 08-28 항목 |
 | 2026-08-28 | **1.12.0 (build 22) 제출**, WAITING_FOR_REVIEW (`asc state`로 build VALID·5로케일 스크린샷 확인). 내용: **풍선 테마**(Zappy+ 10번째 모션 — 잔량=부푼 크기, 충전=발펌프 4프레임) + **AirPods 표시 제거**(macOS 26 반증분, What's New에 제거 사유 고지) + 설명문 낡은 광고 2건 정정(1.2.0에 없어진 충전 숨쉬기, 1.11.0에 제거된 완충 연출) + 랜딩 18종 동기화. `fastlane mac release` 한 번에 통과. 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-28\|개발 기록 08-28]] |
+| 2026-09-01 | **1.12.0 승인·출시 확인**(READY_FOR_SALE, `asc state`) → 같은 날 **1.13.0 (build 23) 제출**, WAITING_FOR_REVIEW. 내용: 리텐션 P0+P1 — 체험형 온보딩 2장(완료는 시작 버튼에서만·메뉴 '사용 안내…')·알림 권한 지연(켠 순간/첫 발송)·메뉴 재정리·위젯 힌트·리포트 진행·NEW 배지·풍선 펌프 8프레임 + **스토어 스크린샷 5로케일×5장을 코드로 재생성**(`docs/store-screenshots`, en/ja/es/zh는 1.0 시절 3장이었음). `release` 레인(`overwrite_screenshots: true`)이 **es-ES에 1_shot.png를 2번 올려 6장** → 심사 취소(`asc cancel-review`, 약 30초 뒤 DEVELOPER_REJECTED) → `asc dedupe-screenshots`(removed 1) → 새 `resubmit` 레인(바이너리·메타·스크린샷 skip, 제출만)으로 재제출까지 3분. 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-01\|개발 기록 09-01]] |
 
 ## 2.1 정보 요청 (2026-07-25)
 
@@ -98,6 +99,7 @@ Zappy+ IAP를 포함한 1.1.0을 심사에 제출했다 (사용자 확인). 첫 
 
 ## 교훈
 
+- **deliver 스크린샷 이중 업로드는 `overwrite_screenshots: true`로도 막히지 않는다** (1.13.0 es-ES 실측, 5로케일 중 1곳) — 제출 직후 `asc state`로 로케일별 장수를 세는 것이 절차이고, 걸리면 `cancel-review` → `dedupe-screenshots` → `resubmit` 레인(제출만) 3분 코스. `submit` 레인으로 재제출하면 deliver가 또 올린다
 - **fastlane precheck 자체 오류("ran into a problem")는 제출과 무관하다** — 1.3.0·1.6.1·1.7.0 세 번 모두 났고 세 번 다 제출은 성공했다. 로그에서 볼 것은 `Successfully submitted the app for review!` 한 줄이고, 최종 판정은 `asc state`
 - **출시에서 기능을 뺄 땐 산출물로 확인한다** — 릴리즈 바이너리 `strings`에서 그 기능 문자열이 사라졌는지, 살아 있어야 할 문자열 하나를 대조군으로 함께 본다 (1.7.0 데스크톱 펫). 소스만 보고 "껐다"고 판단하면 저장된 설정·번들 에셋 같은 다른 경로가 남는다
 - 메뉴바 앱은 **심사 노트에 LSUIElement 안내를 반드시 선제 기입** — BarStack·Zappy 모두 이 지점에서 심사 마찰 발생
