@@ -4,7 +4,7 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-08-26
-updated: 2026-08-26
+updated: 2026-09-01
 projects:
   - "[[프로젝트/개인/한능검/README|한능검]]"
 ---
@@ -48,7 +48,7 @@ projects:
 > 반대로 앱 하나만 내고 말 거라면 개인 계정으로 12명을 모으는 쪽이 빠르다.
 
 > [!tip] iOS만 해본 사람이 놓치는 지점
-> App Store는 개인이든 조직이든 심사 절차가 같아서 **"계정 유형이 출시 가능 여부를 가른다"는 감각이 없다.** Google Play는 다르다. 계정을 만드는 시점의 선택이 이후 모든 앱의 출시 조건을 결정하고, 나중에 바꾸는 것은 간단하지 않다.
+> App Store는 개인이든 조직이든 심사 절차가 같아서 **"계정 유형이 출시 가능 여부를 가른다"는 감각이 없다.** Google Play는 다르다. 계정을 만드는 시점의 선택이 이후 모든 앱의 출시 조건을 결정한다. **개인→조직 전환은 공식 절차가 있다**(아래 2026-09-01 정정). 조직→개인은 불가.
 
 ## 기록
 
@@ -62,6 +62,18 @@ projects:
   - **결론: 계정 준비가 개발보다 먼저다.** 스토어 출시 의사가 조금이라도 있으면 D-U-N-S를 먼저 신청해두고 코드를 짠다. 병렬로 굴리면 비용이 0이고, 순차로 하면 한 달을 잃는다.
 - 근거: [Play Console — 새로운 개인 개발자 계정의 앱 테스트 요구사항](https://support.google.com/googleplay/android-developer/answer/14151465?hl=ko) · [Play Console — 개발자 계정 유형 선택](https://support.google.com/googleplay/android-developer/answer/13634885?hl=ko) (둘 다 2026-08-26 확인)
 
+### 2026-09-01 — DUNS 없이 조직 계정은 못 만들지만, 개인으로 결제하고 나중에 조직으로 전환할 수 있다 (08-26 기록 정정)
+
+- 맥락: HSW — 홍이 DUNS를 08-27 신청(미발급)한 상태에서 **9월 4일까지 Play Console 등록비를 결제해야** 하는 상황. "조직 계정을 DUNS 없이 먼저 결제만 할 수 있나?"가 질문이었다.
+- 배운 것:
+  - **조직 계정은 DUNS 없이 생성 자체가 안 된다.** 공식 원문: *"You will not be able to create a developer account for an organization without one."* 결제 프로필을 조직으로 만드는 단계에서 DUNS 입력이 필수다.
+  - **하지만 개인 계정으로 만든 뒤 조직으로 전환하는 공식 절차가 있다** — 08-26의 *"나중에 바꾸는 것은 간단하지 않다"*는 틀렸다. 절차: 계정 소유자가 ① **조직 웹사이트를 먼저 등록·검증**(이게 안 되면 전환 옵션이 안 열린다: *"Before changing your account type, you need to provide and verify your official organization website."*) → ② 새 **조직용 결제 프로필** 생성(DUNS 입력, 법적 이름·주소는 D&B 프로필과 일치) → ③ 검증 후 Play Console **About you → Link your payments profile to your developer account**. 전환 후 새 앱 제출은 **72시간 대기** 권고.
+  - **역방향(조직→개인)은 불가** — *"we do not support changing an account from organization to individual."* 그래서 마감이 있으면 개인으로 먼저 결제하는 쪽이 안전하다.
+  - **기존 결제 프로필에서는 국가·계정 유형·DUNS를 수정할 수 없다.** 새 프로필을 만들어 링크하는 방식이다.
+  - **전환 시 쓸 Google 계정은 처음부터 사업 전용으로.** 전환은 "account owner"만 할 수 있고, 소유자 변경은 별도 절차다.
+  - 미확인: 전환 후 **기존 개인 계정 시절의 12명×14일 요건이 풀리는지**는 문서에 명시가 없다. 첫 앱 만들기 전에 전환을 끝내는 게 안전.
+- 근거: [Update developer identity details managed by a Google payments profile](https://support.google.com/googleplay/android-developer/answer/16260648?hl=en) · [Keeping your developer account information up to date](https://support.google.com/googleplay/android-developer/answer/13634888?hl=en) · [Required information to create a Play Console developer account](https://support.google.com/googleplay/android-developer/answer/13628312?hl=en) — 모두 2026-09-01 확인
+
 ## 참고 자료
 
 - [Play Console — 개발자 계정 유형 선택](https://support.google.com/googleplay/android-developer/answer/13634885?hl=ko) — 2026-08-26 확인
@@ -69,3 +81,5 @@ projects:
 - [Play Console — 개발자 계정 생성에 필요한 정보](https://support.google.com/googleplay/android-developer/answer/13628312?hl=ko) — 2026-08-26 확인
 - [Apple — D-U-N-S 번호](https://developer.apple.com/help/account/membership/D-U-N-S) — 개인사업자의 Organization 등록 불가 근거, 2026-08-26 확인
 - [NICE D&B — 던스번호 발급](https://global.nicednb.com/servOtsInfo.do) — 국내 유일 발급기관, 2026-08-26 확인
+- [Play Console — Update developer identity details managed by a Google payments profile](https://support.google.com/googleplay/android-developer/answer/16260648?hl=en) — 개인→조직 전환 절차(웹사이트 검증 → 조직 결제 프로필 → 링크), 조직→개인 불가, 2026-09-01 확인
+- [Play Console — Keeping your developer account information up to date](https://support.google.com/googleplay/android-developer/answer/13634888?hl=en) — 결제 프로필의 국가·계정 유형·DUNS는 수정 불가, 새 프로필 생성 후 링크, 2026-09-01 확인
