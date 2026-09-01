@@ -17,7 +17,7 @@ Xcode 프로젝트를 `Project.swift`로 생성하는 도구. 로컬엔 mise로 
 
 - **루트 디렉터리 판정은 `.git` 또는 `Tuist/` 폴더다.** 둘 다 없으면 `Couldn't locate the root directory from path …`로 실패한다. 새 프로젝트는 `git init`을 먼저 한다.
 - **빈 `Tuist/Config.swift`를 만들면 안 된다.** 루트 판정용으로 `touch Tuist/Config.swift`를 했더니 `The encoded data for the manifest is corrupted. The given data was not valid JSON.`로 죽는다 — 빈 매니페스트가 JSON을 안 뱉기 때문. `Tuist/` 폴더를 지우고 `.git`으로 루트를 잡으면 된다.
-- **watchOS 앱 임베드**: iOS 타깃 `dependencies: [.target(name: "WristNoteWatch")]`만으로 `WristNote.app/Watch/WristNoteWatch.app`에 들어간다. 워치 타깃은 `destinations: [.appleWatch]`, `product: .app`, Info.plist에 `WKApplication: true`·`WKCompanionAppBundleIdentifier`·`WKBackgroundModes`. 워치 번들 ID는 `<iOS 번들 ID>.watchkitapp`.
+- **watchOS 앱 임베드**: iOS 타깃 `dependencies: [.target(name: "WristNoteWatch")]`만으로 `WristNote.app/Watch/WristNoteWatch.app`에 들어간다. 워치 타깃은 `destinations: [.appleWatch]`, `product: .app`, Info.plist에 `WKApplication: true`·`WKCompanionAppBundleIdentifier`·`UIBackgroundModes`. 워치 번들 ID는 `<iOS 번들 ID>.watchkitapp`.
 - `tuist generate --no-open` 후 `xcodebuild -workspace WristNote.xcworkspace -scheme WristNote …`. 생성물(`*.xcodeproj`·`*.xcworkspace`·`Derived/`)은 gitignore.
 
 ## 기록
