@@ -142,3 +142,9 @@ cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화�
 - [Claude Code — Memory (CLAUDE.md·rules)](https://code.claude.com/docs/en/memory) — 2026-08-21 확인
 - [Claude Code — Permissions](https://code.claude.com/docs/en/permissions) — 2026-08-21 확인
 - [Claude Code — Skills](https://code.claude.com/docs/en/skills) — 2026-08-21 확인
+
+### 2026-09-01 — 백그라운드 셸은 zsh다 — bash 간접 참조가 조용히 못 쓴다
+
+- 맥락: 보험찾개냥에서 PR 리뷰 감시 Monitor 스크립트가 기동 즉시 exit 1.
+- 배운 것: Bash 도구·Monitor의 스크립트는 **zsh로 실행된다**(사용자 셸 프로필 기준). bash 전용 간접 참조 `${!var}`는 zsh에서 `bad substitution`으로 즉사한다 — 변수 간접 참조 대신 평평한 변수·명시적 분기로 쓴다. `[ -n ]`·`[ -gt ]` 같은 POSIX 표현은 안전.
+- 근거: 에러 원문 `(eval):12: bad substitution`, 간접 참조 제거 후 정상 기동 (2026-09-01 세션)
