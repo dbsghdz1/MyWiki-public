@@ -14,6 +14,22 @@ updated: 2026-08-28
 | Bundle ID | `com.hong.hangeom` |
 | 팀 | `WN2B884S76` |
 
+## 1.1 (build 3) — 2026-09-01 제출 (WAITING_FOR_REVIEW)
+
+1.0이 **READY_FOR_SALE**로 통과한 직후 제출. 기본 모드(640문항)·오답노트·요약 노트(60 topic)·좌우 스와이프·홈 개편(D-day·현황·이어풀기)을 한 번에 실었다.
+
+| 항목 | 내용 |
+|---|---|
+| 부제 | `심화·기본 기출 1,742문항 · 요약 노트` (24/30자) |
+| 키워드 | 기본·4급·요약노트 추가 (63/100자) |
+| 스크린샷 | **새 UI 5장** — Pro Max 시뮬레이터에서 Maestro(`maestro/store.yaml`)로 원본을 찍고 `tools/storeshots.py`가 다크 프레임+헤드라인 합성. 강의 카드는 접힌 상태로만(초상권) |
+| 심사 메모 | 요약 노트가 자체 재서술 저작물임을 추가 |
+| 파이프라인 | `fastlane ios release` 한 번에 아카이브→업로드→메타→제출 성공 |
+
+### 밟은 지뢰 — 이중 업로드 후 정리 경로
+
+deliver가 또 스크린샷을 **두 번 올려 10장**이 됐다(플레이북 경고 그대로). 제출 후엔 삭제가 잠기므로 `asc cancel-review` → 정리 → 재제출로 갔는데, **취소하면 버전 상태가 PREPARE_FOR_SUBMISSION이 아니라 `DEVELOPER_REJECTED`가 된다.** `asc screenshots`·`dedupe-screenshots`가 PREPARE만 편집 가능으로 보고 있어 **"removed: 0"으로 조용히 무동작**했다. 도구의 상태 가드에 DEVELOPER_REJECTED를 추가해 재컴파일 → 5장 제거 → 새 `resubmit` lane(스크린샷·메타·바이너리 skip, 제출만)으로 재제출. 스킬 플레이북에 반영.
+
 ## 1.0 (build 2) — 2026-08-30 아이폰 전용 전환
 
 **아이패드 스크린샷 요구를 피하려고 iPad 지원을 뺐다** (홍 결정 2026-08-30). `TARGETED_DEVICE_FAMILY = "1,2"` → `1` (Debug·Release 2곳), 빌드 넘버 1→2. IPA의 `UIDeviceFamily [1]`·`CFBundleVersion 2`를 업로드 전에 확인했다. 아이폰 전용이어도 아이패드에선 호환 모드로 실행된다. build 2 업로드 → VALID → 버전 1.0에 연결 완료. 남은 것은 build 1 때와 동일(아래 셋).
