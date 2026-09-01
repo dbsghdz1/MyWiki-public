@@ -4,7 +4,9 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-08-25
-updated: 2026-08-25
+updated: 2026-09-02
+projects:
+  - "사업자 운영"
 ---
 
 # 미국 세금 양식 W-8BEN

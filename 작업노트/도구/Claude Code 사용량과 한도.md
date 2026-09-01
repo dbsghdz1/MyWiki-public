@@ -4,7 +4,9 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-22
-updated: 2026-08-22
+updated: 2026-09-02
+projects:
+  - "사업자 운영"
 ---
 
 # Claude Code 사용량과 한도
