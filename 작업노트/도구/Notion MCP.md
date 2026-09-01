@@ -10,11 +10,11 @@ projects: []
 
 # Notion MCP
 
-**claude.ai Notion 커넥터(`mcp__claude_ai_Notion__*`)에는 페이지 삭제 도구가 없다.** DB 행을 지우려면 보관용 페이지를 만들고 `notion-move-pages`로 옮겨 DB에서 빼낸 뒤 사용자가 그 페이지를 통째로 휴지통에 넣게 한다. 검색 정렬·필터, 수식 본문 읽기도 안 된다 — 아래 우회책을 쓴다.
+**claude.ai Notion 커넥터(`mcp__claude_ai_Notion__*`)에는 전용 삭제 도구가 없지만, 페이지 본문에 `<page>`/`<database>` 태그로 나타나는 하위 페이지·(연결)DB 블록은 `update_content`에서 그 태그를 빼고 `allow_deleting_content: true`를 주면 삭제된다** — 먼저 플래그 없이 보내면 `This operation would delete 1 child page(s) or database(s): - database: (untitled) (id: …)`로 정확히 뭐가 지워질지 알려주니 그걸 확인하고 다시 보낸다. DB *행*은 본문에 안 나오므로 이 방법이 안 되고, 보관용 페이지를 만들어 `notion-move-pages`로 옮긴 뒤 사용자가 그 페이지를 통째로 휴지통에 넣게 한다. 검색 정렬·필터, 수식 본문 읽기도 안 된다 — 아래 우회책을 쓴다.
 
 ## 핵심 정리
 
-- **삭제 없음.** `notion-update-page`에 archive/in_trash 인자가 없고, `notion-update-data-source`의 `in_trash`는 **DB 통째**다. 행 정리 = 보관 페이지 생성(`notion-create-pages` parent `page_id`) → `notion-move-pages`(한 번에 100개, `new_parent: {type: page_id}`) → 사용자에게 "이 페이지 휴지통에" 안내. 실측: DB 행 22개를 일반 페이지 밑으로 옮기면 DB 속성은 사라지고 페이지로만 남는다.
+- **삭제는 본문 참조 삭제로.** 행(row)은 못 지우고 하위 페이지·연결 뷰 블록만 된다(위 요약). `notion-update-page`에 archive/in_trash 인자가 없고, `notion-update-data-source`의 `in_trash`는 **DB 통째**다. 행 정리 = 보관 페이지 생성(`notion-create-pages` parent `page_id`) → `notion-move-pages`(한 번에 100개, `new_parent: {type: page_id}`) → 사용자에게 "이 페이지 휴지통에" 안내. 실측: DB 행 22개를 일반 페이지 밑으로 옮기면 DB 속성은 사라지고 페이지로만 남는다.
 - **검색은 basic만.** `notion-search`에 `sort: last_edited`나 `filters`를 주면 `Some requested search filters aren't available for this connection. Retry with a basic search.` — 개인(무료) 플랜 연결. 빈 `query`는 filters 없이는 거부되므로 흔한 단어 하나("페이지")로 검색하거나, 공유 범위 파악은 `notion-list-recent-pages`가 더 빠르다.
 - **수식 본문은 못 읽는다.** 스키마의 `formulaCode://<ds>/<id>`를 `notion-fetch`에 넣으면 `URL type formulaCode not currently supported for fetch tool`(validation_error 400). 수식은 `ALTER COLUMN "X" SET FORMULA('…')`로 **덮어쓰기만** 가능하니, 원본을 모르면 손대지 않는다.
 - **`ALTER COLUMN … SET SELECT(...)`는 기존 옵션을 보존한다.** 기존 옵션명을 같은 색으로 다시 나열하고 뒤에 새 옵션을 붙이면 기존 옵션의 `collectionPropertyOption://…` URL이 그대로 유지됐다(1~4일차 유지, 5~9일차 추가). `SET NUMBER FORMAT 'won'`은 표시 형식만 바꾸고 값·수식은 그대로.
@@ -24,7 +24,7 @@ projects: []
 - **`update-data-source` DDL 배치에서 `RENAME COLUMN "A" TO "B"; ALTER COLUMN "B" …`는 실패한다.** 같은 배치의 뒤 문장이 새 이름 B를 못 찾고 **`"B 1"`이라는 새 열을 만들어버린다**(에러 없음). 실측: `RENAME "현지 통화" TO "금액"; ALTER "금액" SET NUMBER FORMAT` → `금액`(옛 형식 그대로) + `금액 1`(새 형식, 빈 열) 둘 다 생김. 복구는 다음 호출에서 `DROP COLUMN "금액 1"; ALTER COLUMN "금액" …`. **이름을 바꾼 열을 건드리려면 호출을 나눈다.** 같은 이유로 `ADD COLUMN` 뒤에 그 열을 참조하는 FORMULA도 별도 호출이 안전하다.
 - **썸네일**: 페이지 `cover`에 외부 이미지 URL을 넣고 갤러리 뷰(`notion-create-view type: gallery`, `COVER` 생략 = 페이지 커버)를 만들면 된다. og:image가 없는 사이트는 `https://image.thum.io/get/width/800/crop/500/<url>`(무키, image/gif 반환)로 스크린샷을 커버로 쓸 수 있다. `notion-update-page`에 `cover`만 주려면 `command: update_properties` + `properties: {}`로 보내면 된다. 새 뷰는 탭으로 추가될 뿐 기본 뷰는 안 바뀐다.
 - **큰 숫자 위젯(D-day 카운트다운)은 "숫자 차트" 연결 뷰로 만든다.** `notion-update-view`의 `CHART` 지시는 기존 table 뷰를 chart로 **바꾸지 못한다**(응답 `type: table` 그대로, 필터만 적용됨). 대신 `notion-create-view`에 `parent_page_id` + `type: chart` + `CHART number AGGREGATE min ON "<수식열>"`로 만들면 페이지 끝에 **자체 URL을 가진 연결 뷰 블록**이 생기고(`view://` id와 블록 `p/…` URL은 다르다 — 블록 URL은 페이지 fetch에서 `<database url=… data-source-url=…></database>`로 찾는다), 그 URL을 `insert_content`의 `<database url=…>`로 감싸 `<callout>`·`<columns>`·`<details>` 안에 넣으면 **중복 없이 그 자리로 이동**한다. number 차트는 `dateBetween(prop("시각"), now(), "days")` 같은 수식 열 집계도 받는다.
-- **무료 워크스페이스는 차트 뷰가 워크스페이스 전체에서 1개만 된다** — API는 두 번째 차트 생성을 거부하지 않고 만들어주지만 사용자 화면에서 막힌다. 차트를 하나만 쓰고, 불필요한 연결 뷰 블록은 삭제 도구가 없으니 `notion-move-pages`로 보관 페이지에 옮긴 뒤 `update_content`로 남은 `<columns>` 껍데기를 걷어낸다(옮겨진 블록은 fetch에서 사라지고 빈 `<column>`만 남는다).
+- **무료 워크스페이스는 차트 뷰가 워크스페이스 전체에서 1개만 된다** — API는 두 번째 차트 생성을 거부하지 않고 만들어주지만 사용자 화면에서 막힌다. 차트를 하나만 쓰고, 불필요한 연결 뷰 블록은 **옮기기만 하면 워크스페이스 차트 쿼터를 계속 먹는다**(사용자 화면에 "무료 차트 1개 사용됨") — 보관 페이지에서 `update_content` + `allow_deleting_content: true`로 진짜 삭제해야 쿼터가 돌아온다. 원 페이지의 빈 `<columns>` 껍데기는 별도 `update_content`로 걷어낸다.
 - **Gmail 커넥터 `get_thread`의 `PLAIN_TEXT`는 마케팅 메일이면 HTML 원문을 준다.** `plaintextBody`에 `<!doctype html>`부터 통째로 들어오고 5만 자를 넘으면 tool-results 파일로 떨어진다. python `re.sub(r"<style.*?</style>|<!--.*?-->|<[^>]+>", …)` + `html.unescape`로 걷어내면 예약번호·편명·금액이 줄 단위로 남는다. `search_threads` 쿼리는 Gmail 연산자(`from:`, `newer_than:`, OR 괄호)를 그대로 받는다.
 
 ## 기록
