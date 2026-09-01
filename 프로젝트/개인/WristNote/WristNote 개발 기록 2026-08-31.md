@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-31
-updated: 2026-09-01
+updated: 2026-09-02
 related_wiki: []
 ---
 
@@ -14,7 +14,7 @@ related_wiki: []
 
 - **스캐폴딩: Tuist 4.202.5** (로컬에 이미 설치). iOS 앱 + watchOS 앱 임베드 구조.
 - **전사·요약 모두 온디바이스** — iOS 26 `SpeechAnalyzer` + `FoundationModels`. 서버·API 키 없이 v1 성립. SpeechAnalyzer 사용법은 [[작업노트/Apple/온디바이스 음성 인식과 번역|Subly 스파이크 실측]]을 재사용.
-- **워치 백그라운드 녹음**: `WKBackgroundModes: [audio]` + 활성 `AVAudioSession(.record)`. 시뮬레이터로는 화면 꺼짐 지속을 판정할 수 없으므로 **실기기 M0은 별도** — 이번 작업의 검증 범위는 시뮬레이터 페어에서의 파이프라인 관통까지.
+- **워치 백그라운드 녹음**: `UIBackgroundModes: [audio]` + 활성 `AVAudioSession(.record)`. 시뮬레이터로는 화면 꺼짐 지속을 판정할 수 없으므로 **실기기 M0은 별도** — 이번 작업의 검증 범위는 시뮬레이터 페어에서의 파이프라인 관통까지.
 
 ## 진행 (2026-08-31 밤 ~ 09-01)
 
@@ -30,9 +30,18 @@ related_wiki: []
 7. **한국어 전사 품질 실측(맥 호스트)** — 스크래치 SPM CLI로 같은 `SpeechAnalyzer` ko_KR 모델 실행. 0.35초에 전사되지만 "회의"→"매일" 류 오류가 핵심 명사에 집중. 이 전사를 요약에 넣으니 **모델이 보정 없이 그대로 요약** → 전사 품질이 병목. → [[작업노트/Apple/온디바이스 음성 인식과 번역|작업노트]].
 8. **커밋** — `f8c4bd3` "WristNote v1 골격". GitHub 미생성.
 
+## 2026-09-02 — 실기기 M0 → 1.0 제출 (홍 온라인, 대화형)
+
+9. **실기기 빌드** — 홍이 Xcode로 아이폰·워치에 설치(워치 개발자 모드는 설정 → 개인정보 보호 및 보안, 안 보이면 USB 연결 후 Devices 창에서 신뢰). 워치 녹음·`transferFile`·아이폰 `didReceive` **전부 동작** — 시뮬레이터 한계였던 전송이 실기기에선 몇 초 안에 배달.
+10. **전사 "빈 텍스트" 실패 → 세 겹 원인** — `devicectl device copy from`으로 아이폰 컨테이너를 꺼내 보니 파일이 24,588바이트·0.06초. ① `stop()` 직후 전송(`9bcdaff`로 didFinish 뒤로) → ② 그래도 `fileSize=28` 고정: 실기기 AAC 인코더 무출력, 48kHz도 동일(`fc903de`) → 코덱 사다리 IMA4('fmt?' 실패)→**µ-law**(`44cd002`) → ③ 그래도 `fileSize=4096`: 마이크 권한 미요청 — watchOS는 `record()`가 프롬프트를 안 띄움 → `requestRecordPermission`(`61aae30`). 그 뒤 홍 "좋았어 확인했어". → [[작업노트/Apple/WatchConnectivity와 워치 녹음|작업노트]]
+11. **UI** — 탭바(녹음·설정), 날짜별 섹션(오늘/어제/8월 30일 일요일), 설정 탭: 권한·Apple Intelligence 상태 점 + 안내 + 설정 앱 열기, 전사 언어, 저장 공간, 개인정보 처리방침·녹음 유의사항 내장. 제목에서 "회의" 제거, 날짜·시간은 ko_KR 고정(UI가 한국어 전용). 서버 전사 폴백 제거(처리방침 "서버로 안 나감"을 코드가 지키게). (`b3e4121`·`b6abeec`·`84c49a3`)
+12. **온디바이스 AI 대안 정리** — FoundationModels 유지 권고(무료·용량 0), 대안은 MLX/llama.cpp 로컬 모델(1~3GB, 구형 기기), 전사 대안 WhisperKit. 병목은 요약이 아니라 전사.
+13. **1.0 제출** — 홍 결정: 이름 WristNote 유지, 아이콘 미니멀, URL은 Notion(홍이 ASC에 직접 입력), 심사 먼저. 아이콘 생성(`scripts/icon-gen.swift`), Tuist에 팀·버전, fastlane 파이프라인(Fadeo 것 복제 + Xcode 26 export 수정), 메타데이터 ko·en-US, 데모 데이터 훅으로 스크린샷 5장(iPhone 6.9″ 3 + Watch 2). 지뢰 4개(`WKBackgroundModes` 90362 → `UIBackgroundModes`, Fastfile def 스코프, en-US 이름 선점 → `asc add-locale`, 스크린샷 이중 업로드 → cancel·dedupe·resubmit). **02:26 WAITING_FOR_REVIEW.** → [[프로젝트/개인/WristNote/App Store 심사 이력|심사 이력]]
+
 ## 다음 (홍이 할 것)
 
-- 실기기 M0: 워치+아이폰에 설치 → ① 화면 꺼진 채 30분 녹음 ② 전송 도착 ③ 실제 육성 한국어 전사 품질. 이 셋의 결과가 프로젝트 방향을 정한다.
+- **심사 중에 실제 회의 1건**: 화면 꺼진 채 30분+ 녹음 → 도착 → 전사 품질 확인. 1.0은 이 검증 없이 나갔다.
 - GitHub 레포 생성 여부 결정.
+- 콜드 스타트 반응 지연(홍 관찰) — 1.1에서.
 
 배운 것: [[작업노트/Apple/온디바이스 음성 인식과 번역|온디바이스 음성 인식과 번역]] · [[작업노트/Apple/WatchConnectivity와 워치 녹음|WatchConnectivity와 워치 녹음]] · [[작업노트/도구/Tuist|Tuist]]
