@@ -21,6 +21,13 @@ projects:
 
 ## 기록
 
+### 2026-09-01 — 같은 시뮬레이터를 다른 세션이 쓰면 그 앱의 시스템 알림이 주행을 깬다
+
+- 맥락: 한능검 2.0 콘텐츠 최종 회귀 주행(`maestro/record.sh v2.0-content-complete`). 첫 단계 `assertVisible: "한국사 정복"`이 실패했는데 앱은 정상 렌더 상태였다.
+- 원인: 디버그 스크린샷에 **다른 프로젝트(WristNote)의 음성 인식 권한 알림**이 우리 앱 위에 떠 있었다. 계층 로그가 `Find the Application 'com.apple.springboard'` — 시스템 알림이 포그라운드를 가져가면 Maestro는 스프링보드 계층을 잡아 앱 텍스트를 못 찾는다. 같은 iPhone 17 Pro(E6EFBDB2…)를 다른 세션이 동시에 쓰고 있었다.
+- 해법: 주행 전용 시뮬레이터를 분리한다 — `UDID=<다른 기기> record.sh …`. 실패 로그가 springboard를 가리키면 앱 회귀보다 먼저 겹친 알림을 의심할 것.
+- 근거: `web/maestro/shots/20260901-2117-v2.0-content-complete/.maestro/tests/2026-09-01_211716/flow/screenshots/step-004-*.png`.
+
 ### 2026-08-30 — Capacitor(WKWebView) 앱은 텍스트 셀렉터로 완주된다, 단 세 가지 함정
 
 - 맥락: [[프로젝트/개인/한능검/README|한능검]] v1.1 — UI 변경마다 핵심 플로우를 스크린샷으로 기록하는 `maestro/record.sh` 구축. Flutter와 달리 **WKWebView는 접근성 트리가 충실해** 좌표 탭 없이 10스텝을 완주했다.
