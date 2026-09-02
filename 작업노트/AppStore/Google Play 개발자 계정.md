@@ -95,7 +95,9 @@ projects:
   - **"정정(update)"이 아니라 "오매칭 → 신규 발급"으로 접수해야 한다.** D&B는 기존 레코드 정보 갱신과 신규 발급이 별개 프로세스다. update로 접수되면 **남의 레코드를 고치려는 요청**이 되어 거부되거나 더 꼬인다. 신규 발급 요청에는 사업 실체를 뒷받침하는 **서류 2종**이 요구된다(D&B 표준 안내).
   - **Apple 트랙 케이스 폼의 실제 경로** (2026-09-02 브라우저로 확인): [support.dnb.com/?CUST=APPLEDEV](https://support.dnb.com/?CUST=APPLEDEV) → `Submit Case` → User Group **`Developer Program`** → 요청 사유 **`Create New DUNS`** / `Update or Correct DUNS` 중 택1 → 국가(`Korea, South`) → **D-U-N-S Search**(Full Legal Business Name · Address · City · State/Region · Postal Code → `Lookup by Name / Address`). **오매칭이 일어나는 지점이 이 Search 단계다** — 검색 결과에 남의 레코드가 뜨는데 그걸 고르면 그 레코드로 붙는다. 내 사업체가 아니면 고르지 말고 신규 생성으로 빠져야 한다.
   - **`Submit Case`는 로그인 없이 되지만 `Case Status Report`는 D&B SSO가 필요하다.** 이메일만으로 연락처는 인식되는데(`we have located your contact information`) SSO 계정은 별개라 `OneLogin Status: User Not Found`가 뜬다. 포털의 `Create D&B Single Sign-On` 버튼으로 만들면 **초기화 링크가 `noreply@dnb.com`에서 온다** — 그 주소는 **발신 전용**이라 오기는 오고 답장만 안 되는 것이다.
-- 대응: 사건번호 34798515로 회신해 ① 이 레코드는 내 사업자가 아님 ② 사업자등록증대로(개인사업자·소재지) 정정 또는 신규 발급을 요청. **번호 963252083은 어디에도 입력하지 않는다.** 결과는 회신 오면 이어서 기록.
+- 대응 → **신규 발급 케이스 접수 완료 (2026-09-02, Case #34814947)**. `Create New DUNS`로 넣고 Additional Details에 오매칭 경위·기존 Case #34798515·"마포구 레코드를 건드리지 말 것"·"상호가 아니라 사업자등록번호로 매칭할 것"을 명시, 영문 사업자등록증명 첨부. 안내된 처리 기간은 **7~14 영업일 → 2026-09-14 ~ 09-23**(미국 노동절 09-07 제외 기준). 회신은 접수 이메일로 온다. **번호 963252083은 어디에도 입력하지 않는다.**
+  - 폼이 요구한 값 중 사고 방지에 직결된 둘: `Business Structure / Legal Structure`(드롭다운이 아니라 **자유 입력** — `Sole Proprietorship` 타이핑)와 **`Business Registration Number`**(한국 사업자등록번호 전용 필드가 있다). 이 둘이 동명 법인과 갈라주는 장치다. `CEO Title`은 개인사업자면 `Owner`.
+  - 첨부 금지 목록이 명시돼 있다 — 운전면허·여권·주민번호·**통장 사본(Banking Statements)**. 보강 서류는 임대차계약서나 사업자명이 찍힌 공과금 고지서 쪽이다.
 - 여파 없음: iOS는 Individual 등록이라 DUNS가 필요 없고, Play는 개인 계정으로 9/4 결제를 이미 마쳤다 — 조직 전환만 밀린다.
 
 ## 참고 자료
