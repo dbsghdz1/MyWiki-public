@@ -74,6 +74,24 @@ projects:
   - 미확인: 전환 후 **기존 개인 계정 시절의 12명×14일 요건이 풀리는지**는 문서에 명시가 없다. 첫 앱 만들기 전에 전환을 끝내는 게 안전.
 - 근거: [Update developer identity details managed by a Google payments profile](https://support.google.com/googleplay/android-developer/answer/16260648?hl=en) · [Keeping your developer account information up to date](https://support.google.com/googleplay/android-developer/answer/13634888?hl=en) · [Required information to create a Play Console developer account](https://support.google.com/googleplay/android-developer/answer/13628312?hl=en) — 모두 2026-09-01 확인
 
+### 2026-09-02 — 발급됐다는 DUNS가 다른 회사의 레코드였다 (미해결)
+
+- 맥락: HSW — 08-27 NICE D&B에 신청한 DUNS가 09-02 "D&B 애플 고객 지원" 메일로 **963252083 발급 완료**로 통보됐다(사건번호 34798515). 그런데 통보서에 적힌 회사 정보가 홍의 사업자등록증과 **구 단위로** 달랐다.
+- 대조:
+
+  | | 통보된 DUNS 레코드 | 홍의 사업자등록증 |
+  |---|---|---|
+  | 회사명 | HSW 주식회사 | (개인사업자 상호) |
+  | 법적 구조 | **주식회사** | **개인사업자** |
+  | 주소 | 서울 **마포구** ○○로○길 (도로명이 깨진 채로 옴) | 서울 **관악구** ○○로○길 |
+
+- 배운 것:
+  - **D&B는 신청 내용으로 새 레코드를 만드는 대신 기존 레코드에 매칭할 수 있다.** 구·도로명·번지·법적 구조가 전부 다르면 표기 오류가 아니라 **다른 엔티티**다. 발급 통보를 받으면 번호를 어디에도 입력하기 전에 **회사명·법적 구조·주소 3개를 사업자등록증과 대조**한다.
+  - **통보서의 한글 주소는 역번역이라 도로명이 깨져서 온다.** 적혀 온 도로명이 실존하지 않길래 한 글자씩 되짚으니 다른 구의 실존 도로명이었다 — 한글→영문 로마자→한글로 돌면서 깨진 것이다. 즉 그 레코드는 **실재하는 남의 주소**를 가리킨다. 주소가 이상하면 먼저 역번역을 되돌려보고, 그래도 내 주소가 아니면 그때 다른 레코드로 판정한다.
+  - **개인사업자인데 법적 구조가 Corporation으로 잡히면 Play 조직 계정에서 막힌다.** 위 "이름이 세 군데에서 정확히 일치해야 한다" 항목의 실사례다 — 이름뿐 아니라 **법적 구조도 일치 대상**이다.
+- 대응: 사건번호 34798515로 회신해 ① 이 레코드는 내 사업자가 아님 ② 사업자등록증대로(개인사업자·소재지) 정정 또는 신규 발급을 요청. **번호 963252083은 어디에도 입력하지 않는다.** 결과는 회신 오면 이어서 기록.
+- 여파 없음: iOS는 Individual 등록이라 DUNS가 필요 없고, Play는 개인 계정으로 9/4 결제를 이미 마쳤다 — 조직 전환만 밀린다.
+
 ## 참고 자료
 
 - [Play Console — 개발자 계정 유형 선택](https://support.google.com/googleplay/android-developer/answer/13634885?hl=ko) — 2026-08-26 확인
