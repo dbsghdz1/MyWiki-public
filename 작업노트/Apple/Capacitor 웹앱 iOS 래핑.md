@@ -24,6 +24,22 @@ React/Vite로 만든 웹 코어를 Capacitor로 감싸 iOS 앱으로 내는 법.
 
 ## 기록
 
+### 2026-09-02 — capacitor:// 웹뷰에서 유튜브 임베드는 오류 153, https 래퍼 한 장으로 풀린다
+
+- 맥락: 한능검 강의 임베드. 썸네일·플레이어 UI는 떠서 멀쩡해 보였는데 **재생을 누르면 오류 153("동영상 플레이어 구성 오류")**. 시뮬레이터·실기기 동일.
+- 원인: 유튜브는 재생 시점에 임베드한 쪽의 HTTP Referer(https 원점)를 요구한다. capacitor:// 커스텀 스킴 웹뷰는 Referer가 없다. iOS는 `iosScheme`을 http/https로 바꿀 수 없어 앱 쪽에서 해결 불가.
+- 해법: **GitHub Pages 정적 래퍼** — `player.html?v=<id>`가 유튜브를 임베드하고, 앱은 그 https 페이지를 iframe으로 문다. 유튜브 입장에선 정상 웹사이트의 임베드. 재생 실측 통과. 중첩 iframe이므로 allowfullscreen을 양쪽에 줘야 전체화면이 된다.
+- 검증 교훈: `playableInEmbed` 같은 서버 판정과 썸네일 렌더는 재생 보장이 아니다 — **재생 버튼까지 누르는 것**이 임베드 검증의 끝이다.
+- 근거: `dbsghdz1/hangeom-docs`, `web/src/Lecture.tsx`(PLAYER_URL 분기), 재현 스크린샷 오류153 → 재생 중 프레임.
+
+### 2026-09-02 — disabled 버튼은 터치 사각지대다 (스와이프가 안 먹는 영역의 정체)
+
+- 맥락: 한능검, 홍 QA "앞뒤로 넘어가는 제스처가 안 되는 영역이 있다, 하단으로 갈수록". 좌우 스와이프 핸들러는 컨테이너(`.wrap.q`)의 touchstart/touchend에 걸려 있었다.
+- 원인: **WebKit은 `disabled` 폼 요소 위에서 터치/마우스 이벤트를 아예 발생시키지 않는다**(버블링될 이벤트 자체가 없음). 채점 후 선지 `<button disabled>`가 화면의 큰 영역을 차지해 그 위에서 시작한 스와이프가 통째로 죽었다. Maestro 스토어 플로우의 "채점 직후 중앙 스와이프 무시"도 같은 원인(중앙이 disabled 선지 위) — 당시엔 좌표 지정으로 우회했었다.
+- 해법: `disabled` 대신 `aria-disabled` + 클릭 가드(`onClick={() => !answered && onPick(n)}`). CSS는 `:disabled` 셀렉터를 `[aria-disabled="true"]`로. 터치가 정상 전파되고 접근성 의미도 유지된다.
+- 참고: YouTube 임베드 iframe 위도 여전히 사각지대다(iframe 문서로 이벤트가 들어감) — 이건 구조상 수용.
+- 근거: `web/src/Question.tsx`, `web/src/index.css`, 재현 `shots/20260902-*-store` step-013.
+
 ### 2026-09-01 — `contentInset: 'always'` + CSS `env(safe-area-inset-top)`는 상단 여백을 두 번 준다
 
 - 맥락: 한능검 2.0, 홍 QA "문제 화면 UI가 이상하다" — 상단 유리 캡슐 위 빈 공간이 화면마다 다르게(91~134pt) 벌어져 있었다.
