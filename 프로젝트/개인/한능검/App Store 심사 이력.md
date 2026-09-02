@@ -14,6 +14,14 @@ updated: 2026-08-28
 | Bundle ID | `com.hong.hangeom` |
 | 팀 | `WN2B884S76` |
 
+## 2.0.0 (build 4) — 2026-09-02 제출 (WAITING_FOR_REVIEW)
+
+홍 지시 "이제 제출해". 거의 전부 새로 만든 릴리스: 총 1,849문항(심화 1,149·기본 700), 전 문항 해설, 사진 선지 107문항 복원(자유이용 사진 395장 + 출처 표기), 주제별 풀기·모의고사·연표·약한 주제, 온보딩·설정, 노션형+리퀴드 재설계. 스크린샷 6컷 재생성(`tools/storeshots.py`, s6=사진 문항).
+
+- 04:32 `fastlane ios release` — 아카이브 5분, 업로드, 메타·스크린샷, 04:37 제출
+- **또 스크린샷 이중 업로드**(01~04 두 장씩, 10장) — 플레이북 그대로: `cancel-review` → `dedupe-screenshots`(4장 제거) → `HANGEOM_BUILD=4 fastlane ios resubmit` → 04:39 재제출. deliver 업로드 경합은 세 번째 재현이라 이제 **제출 직후 `asc screenshots` 검증이 고정 절차**다.
+- 확정 상태: 2.0.0 WAITING_FOR_REVIEW · build 4(2026-09-02 04:35 KST 업로드분) attached · ko 스크린샷 6.
+
 ## 1.1 (build 3) — 2026-09-01 제출 → **READY_FOR_SALE** (2026-09-01 확인)
 
 > 2026-09-01 밤 ASC API로 지원 URL을 읽다가 확인 — 제출 당일 통과. 1.0(08-30 제출)에 이어 두 번째 무리젝.
