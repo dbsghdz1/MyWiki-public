@@ -93,6 +93,8 @@ projects:
   - **정식 접수구는 웹 폼과 국내 발급기관 둘이다.** ① [D&B Apple 지원 포털](https://support.dnb.com/?CUST=APPLEDEV) ② NICE D&B(국내 발급기관, 한국어). 메일 제목의 `[ ref:...:ref ]`는 Salesforce Email-to-Case 토큰이라, 폼에 넣을 때 **사건번호와 이 토큰을 제목에 유지**하면 같은 케이스에 붙는다.
   - **국내 발급기관은 오매칭을 못 고친다 — 본사 에스컬레이션이다.** NICE D&B에 전화하니 "여기서는 해결이 안 되고 본사에서 해야 한다"는 답이었다(2026-09-02). 국내 기관은 **접수 대행**이고 레코드 매칭·병합 권한은 D&B 본사에 있다. 그래서 국내 경로에서 시간을 쓰지 말고 처음부터 [Apple 지원 포털](https://support.dnb.com/?CUST=APPLEDEV)로 간다.
   - **"정정(update)"이 아니라 "오매칭 → 신규 발급"으로 접수해야 한다.** D&B는 기존 레코드 정보 갱신과 신규 발급이 별개 프로세스다. update로 접수되면 **남의 레코드를 고치려는 요청**이 되어 거부되거나 더 꼬인다. 신규 발급 요청에는 사업 실체를 뒷받침하는 **서류 2종**이 요구된다(D&B 표준 안내).
+  - **Apple 트랙 케이스 폼의 실제 경로** (2026-09-02 브라우저로 확인): [support.dnb.com/?CUST=APPLEDEV](https://support.dnb.com/?CUST=APPLEDEV) → `Submit Case` → User Group **`Developer Program`** → 요청 사유 **`Create New DUNS`** / `Update or Correct DUNS` 중 택1 → 국가(`Korea, South`) → **D-U-N-S Search**(Full Legal Business Name · Address · City · State/Region · Postal Code → `Lookup by Name / Address`). **오매칭이 일어나는 지점이 이 Search 단계다** — 검색 결과에 남의 레코드가 뜨는데 그걸 고르면 그 레코드로 붙는다. 내 사업체가 아니면 고르지 말고 신규 생성으로 빠져야 한다.
+  - **`Submit Case`는 로그인 없이 되지만 `Case Status Report`는 D&B SSO가 필요하다.** 이메일만으로 연락처는 인식되는데(`we have located your contact information`) SSO 계정은 별개라 `OneLogin Status: User Not Found`가 뜬다. 포털의 `Create D&B Single Sign-On` 버튼으로 만들면 **초기화 링크가 `noreply@dnb.com`에서 온다** — 그 주소는 **발신 전용**이라 오기는 오고 답장만 안 되는 것이다.
 - 대응: 사건번호 34798515로 회신해 ① 이 레코드는 내 사업자가 아님 ② 사업자등록증대로(개인사업자·소재지) 정정 또는 신규 발급을 요청. **번호 963252083은 어디에도 입력하지 않는다.** 결과는 회신 오면 이어서 기록.
 - 여파 없음: iOS는 Individual 등록이라 DUNS가 필요 없고, Play는 개인 계정으로 9/4 결제를 이미 마쳤다 — 조직 전환만 밀린다.
 
