@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-27
-updated: 2026-08-27
+updated: 2026-09-02
 projects:
   - "보험찾개냥"
 ---
@@ -42,3 +42,12 @@ projects:
 
 - 목표: 04c→07b 자동 주행 후 캡처. 텍스트 셀렉터로 홈까지는 완주했으나 04c에서 접근성 트리 공백에 막혔고, 전면 좌표 전환은 드리프트로 3회 실패 — 최종적으로 사람이 이동하고 캡처만 자동화했다.
 - 교훈: **Flutter 앱에 Maestro를 제대로 쓰려면 시맨틱스가 먼저다.** 화면별 Semantics 보강(특히 오버레이 화면·TextField 라벨) 없이는 좌표 놀음이 된다. E2E 자산화하려면 그 선행 작업부터.
+
+### 2026-09-02 — 기기가 둘 이상이면 `--device`가 필수다
+
+- 맥락: 소프트웨어마에스트로 SSH-441 — 대표 상태 3장(iOS 라이트·다크·Android)을 찍으려고 iOS 시뮬과 Android 에뮬을 동시에 띄운 상태
+- 증상: 시뮬레이터에서 잘 되던 같은 flow가 갑자기 `Tap on "건너뛰기"... FAILED`로 죽었다. **앱은 멀쩡히 그 화면에 있었다**
+- 원인: 그사이 Android 에뮬레이터가 부팅을 마쳤고, `maestro test`가 **그쪽을 잡았다.** 어느 기기를 골랐는지는 `Running on …` 한 줄에만 나온다
+- 해법: `maestro --device <UDID 또는 emulator-5554> test flow.yaml`. **`--device`는 `test` 앞에 온다**
+- 함께 겪은 것: `takeScreenshot: /tmp/…`는 `it resolves outside this run's takeScreenshot output folder`로 거절된다 — 절대경로를 못 쓴다. 그냥 `xcrun simctl io <udid> screenshot` / `adb exec-out screencap -p >` 로 찍는 게 빠르다
+
