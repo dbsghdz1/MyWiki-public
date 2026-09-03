@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-09-02
-updated: 2026-09-03
+updated: 2026-09-04
 related_wiki: []
 ---
 
@@ -11,6 +11,13 @@ related_wiki: []
 ASC appId `6807479115`, 번들 `com.hong.wristnote` (+ `.watchkitapp`). 파이프라인은 `fastlane/Fastfile`(archive · upload · release · submit · resubmit) + appstore-release 스킬의 `asc` 도구.
 
 ## 타임라인
+
+### 1.1.0 (build 2) — 2026-09-04 00:37 제출 → 스크린샷 정리 후 재제출, WAITING_FOR_REVIEW
+
+- 주제 그래프·칩·옵시디언 마크다운 내보내기·노션 전송·워치 컴플리케이션. 스크린샷을 6장으로 개편(목록·**주제 그래프**·상세(칩)·설정 + 워치 2장), 릴리즈 노트 "회의가 쌓이면 지도가 됩니다".
+- **기본 언어를 ko → en-US로 변경**(`asc set-primary`) — 홍 지시 "그 외 언어권 사용자는 영어로". 한국 사용자는 ko 로케일 그대로.
+- deliver 스크린샷 이중 업로드가 **또** 재발(전 로케일·전 세트 2배) → cancel-review → dedupe(12장 삭제) → `resubmit` lane. 이 지뢰는 이제 첫 제출 표준 절차로 취급할 것.
+- 제출 전 맥 쪽 사고: 터미널(cmux)의 데스크탑 TCC 권한이 세션 중 풀려 `(로컬 경로)` 전체 EPERM — 시스템 설정 → 파일 및 폴더에서 cmux·Ghostty 재허용으로 복구.
 
 ### 1.0 (build 1) — 2026-09-03 승인·출시 (READY_FOR_SALE)
 
