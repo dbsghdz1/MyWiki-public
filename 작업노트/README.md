@@ -3,7 +3,7 @@ type: hub
 status: active
 aliases: [AI 노트, 작업 경험, worknotes]
 created: 2026-08-28
-updated: 2026-09-01
+updated: 2026-09-02
 ---
 
 # 작업노트

@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-25
-updated: 2026-08-25
+updated: 2026-09-02
 projects:
   - "[[프로젝트/개인/즉석카메라/README|즉석카메라]]"
 ---
@@ -119,6 +119,76 @@ Xcode 프로젝트·시뮬레이터 없이 `swiftc`로 렌더 스크립트를 �
 `NSGraphicsContext`로 스트립을 조립할 때 `CGFloat`/`Int` 혼용이 잦은데, **좌표 계산을 미리 `CGFloat` 지역변수로 빼두지 않으면** Swift 타입 체커가 *"unable to type-check this expression in reasonable time"*으로 죽는다.
 
 ## 기록
+
+### 2026-09-02 — 폴라로이드다움은 색이 아니라 **결함**이다 ★ (Fadeo 1.1)
+
+- 맥락: [[프로젝트/개인/즉석카메라/README|Fadeo]] 1.1. 필름 4종을 6종으로 늘리려는데, 필름을 가르는 파라미터가 숫자 6개(그림자 3·하이라이트 3에 커브·채도·비네트)뿐이라 **늘려도 "같은 사진의 색만 조금 다른 것"이 늘 뿐이었다.**
+- 배운 것: 색이 맞아도 실물로 안 읽히는 이유는 **필름이 화학이라서 생기는 결함이 하나도 없어서다.** 네 겹을 넣으니 필름끼리 색이 아니라 질감으로 갈렸다.
+
+| 겹 | 정체 | 구현 |
+|---|---|---|
+| **할레이션** | 빛이 유제층을 지나 뒤에서 반사돼 돌아온다. 장파장이 가장 멀리 번져서 **붉다** | 하이라이트만 뽑아(`CIColorClamp` → `CIColorPolynomial`로 [threshold,1]→[0,1] 펴기) 붉게 물들이고 블러 → **스크린 블렌드** |
+| **입자** | ISO 640 은염 알갱이 | `CIRandomGenerator` → 회색 → 블러 → 0.5 중심 진폭 → **`CIOverlayBlendMode`** (오버레이는 0.5가 무변화라 중간톤에 세게, 검정·흰색엔 거의 안 들어간다 — 은염 분포가 그렇다) |
+| **번짐** | 현상액이 퍼지며 경계가 무뎌진다 | 블러 → **`CIMix`**(`kCIInputAmountKey`) |
+| **현상 얼룩** | 롤러가 한쪽에서 밀어 생기는 좌우 비대칭 농도차 | `CILinearGradient` → `CISourceOverCompositing`. **완벽한 동심원 `CIVignette`만 있으면 필름이 아니라 인쇄물로 보인다** |
+
+- **흑백은 순서가 전부다.** 채도를 **먼저** 0으로 죽이고 스플릿 톤을 얹어야 은염 인화의 "차가운 그림자, 따뜻한 하이라이트"가 나온다. 순서가 반대면 뒤따르는 채도 0이 방금 입힌 색을 지워서 그냥 색 빠진 사진이 된다.
+- 근거: `(로컬 경로)`(6종 렌더)·`polaroid.swift`(겹별 기여도), 사진 3장 교차 검증. 앱 쪽은 `InstantCam` 커밋 `2c678bf`, `Sources/Film/ImagePipeline.swift`.
+
+### 2026-09-02 — `CIAdditionCompositing`은 알파도 더한다 ★★ (Fadeo 1.1)
+
+빛을 더하려고 가산 합성을 쓰면 **색이 절반으로 죽는다.** 알파 1짜리 두 장을 더하면 결과 알파가 2가 되고, CoreImage가 프리멀티플라이드를 되돌리는 순간 RGB가 그만큼 나눠진다.
+
+증상이 단계적으로 나타나서 헷갈렸다. 겹을 하나씩 걸 때는 멀쩡한데 **전부 겹친 것만 새까맣게** 나왔다.
+
+그렇다고 레이어 알파를 0으로 눌러 두면 이번엔 **그 레이어가 통째로 무시된다** — 채널 분리 후 합칠 때 R만 살아남아 화면이 새빨갛게 나왔다.
+
+```swift
+// ❌ 알파가 2가 되어 색이 죽는다
+blurred.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey: img])
+// ❌ 알파 0 레이어는 삼켜진다
+additive(gOnly).applyingFilter("CIAdditionCompositing", ...)   // G·B가 사라짐
+
+// ✅ 빛을 더하는 자리 — 스크린 블렌드. 1-(1-a)(1-b), 알파를 안 건드린다
+blurred.applyingFilter("CIScreenBlendMode", parameters: [kCIInputBackgroundImageKey: img])
+// ✅ 두 그림을 비율로 섞는 자리
+soft.applyingFilter("CIMix", parameters: [kCIInputBackgroundImageKey: img, kCIInputAmountKey: 0.25])
+```
+
+**규칙: CoreImage에서 여러 이미지를 합칠 때 `CIAdditionCompositing`은 쓰지 않는다.** 빛은 스크린, 혼합은 `CIMix`.
+
+### 2026-09-02 — `CIRandomGenerator`는 **알파까지 난수**다 ★ (Fadeo 1.1)
+
+필름 입자를 넣었더니 소금을 뿌린 것처럼 **흰 점이 박혔다.** 진폭을 0.42 → 0.085로 줄여도, 알갱이를 키우고 블러로 뭉쳐도 그대로였다.
+
+원인은 진폭이 아니었다. `CIRandomGenerator`는 RGB뿐 아니라 **알파도 0~1 난수로 채운다.** CoreImage가 그걸 프리멀티플라이드로 해석하면서 알파가 0에 가까운 픽셀의 색이 1을 훌쩍 넘는 값으로 튀고, 렌더할 때 클램프되어 흰 점이 된다.
+
+계측(400×400, R 채널):
+
+| 단계 | min | max | **avg** |
+|---|---|---|---|
+| 원본 | 0 | 255 | 127.4 |
+| 회색 + 알파 1 | 0 | 255 | **190.8** |
+| + 블러 0.9 | 120 | 255 | **253.5** ← 거의 흰색 |
+| 알파를 **먼저** 1로 클램프한 뒤 진폭 0.085 | 123 | 138 | 132.9 ✅ |
+
+```swift
+CIFilter(name: "CIRandomGenerator")!.outputImage!
+    .applyingFilter("CIColorClamp", parameters: [          // ← 이게 먼저
+        "inputMinComponents": CIVector(x: 0, y: 0, z: 0, w: 1),
+        "inputMaxComponents": CIVector(x: 1, y: 1, z: 1, w: 1)])
+```
+
+**진단 요령: 색이 이상하면 눈으로 보지 말고 `ctx.render(_:toBitmap:)`으로 min/max/avg를 찍어라.** 추측 세 번보다 한 번의 숫자가 빨랐다.
+
+### 2026-09-02 — 큰 블러는 1/4 해상도에서 (Fadeo 1.1)
+
+할레이션 반경이 짧은 변의 2%라 프리뷰에서도 20px이 넘는데, 가우시안 비용은 반경에 비례한다. 뷰파인더 GPU가 **1.1ms → 8.2ms**로 뛰었다(실기기 iPhone 16, 프레임당).
+
+축소 → 블러 → 되키우면 **결과가 어차피 뭉갠 빛이라 눈으로는 같고 비용은 1/16**이다. 6.6ms까지 내려갔다.
+
+**입자 크기는 픽셀이 아니라 이미지 대비 비율로 잡되 하한을 둔다.** 고정 픽셀이면 렌더 해상도마다 굵기가 달라져 같은 사진이 앨범과 상세에서 다른 필름처럼 보이고, 순수 비례면 앨범 2열 썸네일(약 540px)에서 알갱이가 1.6px까지 작아져 **필름 입자가 아니라 디지털 노이즈로 보인다.**
+
 
 ### 2026-08-25 — 300pt 카드에 그리려고 12MP를 통째로 디코드하고 있었다 (즉석카메라)
 

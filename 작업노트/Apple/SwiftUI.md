@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-08-27
+updated: 2026-09-02
 projects:
   - "탭탭"
 ---
@@ -28,6 +28,27 @@ projects:
 - **알파만 있는 어두운 오버레이 토큰은 다크 모드에서 사라진다.** `#272146 @7%` 같은 호버 색은 흰 배경에선 회색, 검은 배경에선 검정 위 검정이라 안 보인다. 색 토큰에 다크 appearance 변형이 있는지(`Contents.json`의 `appearances`) 확인하고, 없으면 밝기 변형이 있는 중립색(n20 등)을 쓴다.
 
 ## 기록
+
+### 2026-09-02 — `Text(String)`은 로컬라이즈를 **안 한다** ★★ (Fadeo)
+
+번역이 `Localizable.xcstrings`에 **멀쩡히 있는데도** 영어·일본어·중국어·스페인어 사용자가 상세 화면 버튼 네 개(적기·저장·공유·삭제)를 한국어로 봤다. **1.0에 이 상태로 출시됐다.**
+
+원인은 헬퍼의 인자 타입 하나.
+
+```swift
+// ❌ Text(_ content: some StringProtocol) 오버로드로 잡힌다 → 카탈로그를 안 본다
+private func action(_ title: String, ...) -> some View { Text(title) }
+
+// ✅ Text(_ key: LocalizedStringKey) 오버로드 → 카탈로그를 본다
+private func action(_ title: LocalizedStringKey, ...) -> some View { Text(title) }
+```
+
+호출부(`action("적기", ...)`)는 **양쪽 다 컴파일된다.** 문자열 리터럴이 `LocalizedStringKey`로 자동 변환되므로, 타입을 `String`으로 두면 **조용히 로컬라이즈만 사라진다. 경고도 없다.**
+
+**인자 타입만 보고 판정하면 안 되고 호출부까지 봐야 한다.** 같은 앱의 `AlbumScreen.header(_ title: String, _ count: String)`은 타입이 같은데 멀쩡했다 — 호출부에서 이미 `String(localized:)`로 풀어 넘기고 있었기 때문이다.
+
+**찾는 법: 로케일별 스크린샷을 실제로 찍어 눈으로 비교한다.** 이 버그는 스토어 스크린샷을 en-US로 다시 뽑다가 발견됐다. 코드 리뷰로는 세 번을 지나쳤다.
+
 
 ### 2026-08-27 — 삽입되는 뷰의 `withAnimation`은 삼켜질 수 있다 → 시계로 움직여라 (즉석카메라)
 
