@@ -24,6 +24,15 @@ React/Vite로 만든 웹 코어를 Capacitor로 감싸 iOS 앱으로 내는 법.
 
 ## 기록
 
+### 2026-09-04 — 위젯·iCloud KV를 붙이면 자동 서명이 App Group 등록에서 막힌다 (포털은 `aside repl`로)
+- 맥락: [[프로젝트/개인/한능검/README|한능검]] 2.1.0 — 홈 위젯(`HangeomWidget`, 앱 그룹 UserDefaults 스냅샷)과 iCloud 키-값 백업(`SceneDelegate` `CloudSink` → `NSUbiquitousKeyValueStore`)을 처음 실은 릴리즈. 웹→네이티브는 `WKScriptMessageHandler`(`hangeomWidget`·`hangeomCloud`) 둘로 통했고 Capacitor 플러그인은 안 썼다(Preferences는 앱 그룹 미지원).
+- 배운 것:
+  - `fastlane ios release`(자동 서명 + ASC API 키)가 `Provisioning profile "iOS Team Provisioning Profile: *" doesn't support the group.com.hong.hangeom App Group` / `doesn't include the com.apple.developer.ubiquity-kvstore-identifier` / 위젯 타깃 `Authentication failed: bearer token`으로 죽었다. bundle ID 두 개(앱·위젯)에 `APP_GROUPS` capability는 켜져 있었지만 **그룹 자체가 포털에 없었고**, iCloud capability도 없었다.
+  - iCloud는 ASC API로 켜진다(`POST /v1/bundleIdCapabilities` `ICLOUD`/`ICLOUD_VERSION=XCODE_6` → 201). App Group은 API가 없어 포털 — **Aside의 LLM 크레딧이 소진(OpenAI 402)돼도 `aside repl`(Playwright)로 등록·연결이 된다.** 절차와 URL은 appstore-release 스킬 플레이북에 적었다. 연결 후 재실행하면 자동 서명이 새 프로파일을 만들고 통과한다.
+  - `maestro/record.sh`의 derivedData가 `/tmp`라 SPM 체크아웃이 반쯤 사라져 `Could not resolve package dependencies`(exit 74) — `SourcePackages` 삭제로 복구.
+  - 인앱 버전 문자열은 `src/Settings.tsx`의 `APP_VERSION` 상수다 — pbxproj·Fastfile(`app_version` 3곳, `resubmit`의 `HANGEOM_BUILD` 기본값)과 함께 올려야 한다. 이번에 네 군데를 손으로 맞췄다.
+- 근거: 릴리즈 로그 `release-2.1.0.log`(01:55 서명 실패) → 포털 등록 → `release-2.1.0-b.log` 02:14 제출. 위키 [[프로젝트/개인/한능검/App Store 심사 이력|심사 이력]] 2.1.0 절.
+
 ### 2026-09-02 — capacitor:// 웹뷰에서 유튜브 임베드는 오류 153, https 래퍼 한 장으로 풀린다
 
 - 맥락: 한능검 강의 임베드. 썸네일·플레이어 UI는 떠서 멀쩡해 보였는데 **재생을 누르면 오류 153("동영상 플레이어 구성 오류")**. 시뮬레이터·실기기 동일.
