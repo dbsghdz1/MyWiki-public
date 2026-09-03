@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-20
-updated: 2026-08-22
+updated: 2026-09-02
 projects:
   - "[[프로젝트/개인/Zappy/README|Zappy]]"
   - "보험찾개냥"
@@ -23,6 +23,31 @@ projects:
 - **단, UTF-8 15바이트 이하 Swift 문자열 리터럴은 바이너리에 리터럴로 안 남는다** — Swift small string은 명령어 immediate로 인라인 인코딩된다. `strings`·바이트 검색의 대상과 대조군은 **16바이트 이상** 문자열로 골라야 한다. 실측(Zappy 1.12.0, 2026-08-28): 살아 있는 코드의 `"BatteryPercent"`(14B)는 0건, `"AppleSmartBattery"`(17B)는 1건. 짧은 대조군을 썼다면 "제거 확인"이 헛검증이 될 뻔했다.
 
 ## 기록
+
+### 2026-09-02 — tuist `extendingDefault`는 버전을 **"1.0" 리터럴로 박는다** ★★ (Fadeo 1.1)
+
+`Project.swift`에서 `MARKETING_VERSION`을 1.1로 올리고 `tuist generate`까지 했는데, 업로드가 이걸로 죽었다.
+
+```
+[altool] ERROR: Invalid Pre-Release Train.
+The train version '1.0' is closed for new build submissions (90186)
+```
+
+IPA를 열어 보니 `CFBundleShortVersionString = 1.0`. tuist의 `.extendingDefault(with:)` 기본 Info.plist가 **빌드 세팅을 참조하지 않고 "1.0"을 리터럴로 넣기 때문**이다. `MARKETING_VERSION`을 아무리 바꿔도 번들에는 안 들어간다.
+
+```swift
+infoPlist: .extendingDefault(with: [
+    "CFBundleShortVersionString": "$(MARKETING_VERSION)",     // ← 직접 연결해야 한다
+    "CFBundleVersion": "$(CURRENT_PROJECT_VERSION)",
+    ...
+])
+```
+
+**첫 릴리스에서는 절대 안 드러난다** — 1.0.0이면 기본값과 우연히 같다. 두 번째 버전을 올릴 때 처음 터진다.
+
+확인법: `plutil -p Derived/InfoPlists/<타겟>-Info.plist | grep CFBundleShort` 또는
+`unzip -p fastlane/build/<앱>.ipa "Payload/<앱>.app/Info.plist" | plutil -p -`.
+
 
 ### 2026-08-25 — 앱 아이콘은 1024·알파 없음이어야 하고, 그걸 코드로 만들 때 두 번 걸린다 (현상중)
 - 맥락: [[프로젝트/개인/즉석카메라/README|즉석카메라]] 아이콘을 Swift 렌더 스크립트로 생성.

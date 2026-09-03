@@ -14,7 +14,13 @@ updated: 2026-08-28
 | Bundle ID | `com.hong.hangeom` |
 | 팀 | `WN2B884S76` |
 
-## 2.0.0 (build 4) — 2026-09-02 제출 (WAITING_FOR_REVIEW)
+## 2.0.1 (build 5) — 2026-09-02 18:25 제출 (WAITING_FOR_REVIEW)
+
+2.0.0 통과 확인 직후 당일 후속. 내용: 앱 내 강의 재생(https 래퍼 — 임베드 오류 153 해결), 채점 시 자료 단서 강조(태그 매칭), 화면 전환·엣지 뒤로가기(iOS 곡선), 신호색 톤 다운, disabled 터치 사각지대 수정, 스토어 스크린샷 6컷 재촬영(최종 색감).
+**deliver 스크린샷 이중 업로드 4번째 재현** → cancel → dedupe(4장) → `HANGEOM_BUILD=5 resubmit`. 이 왕복이 고정 비용이 됐다 — 다음 릴리스 땐 release 후 자동으로 screenshots 검증→dedupe→resubmit까지 스크립트로 묶을 것.
+확정: 2.0.1 WAITING_FOR_REVIEW · build 5 · ko 6장.
+
+## 2.0.0 (build 4) — 2026-09-02 제출 → 당일 통과·출시 (READY_FOR_SALE)
 
 홍 지시 "이제 제출해". 거의 전부 새로 만든 릴리스: 총 1,849문항(심화 1,149·기본 700), 전 문항 해설, 사진 선지 107문항 복원(자유이용 사진 395장 + 출처 표기), 주제별 풀기·모의고사·연표·약한 주제, 온보딩·설정, 노션형+리퀴드 재설계. 스크린샷 6컷 재생성(`tools/storeshots.py`, s6=사진 문항).
 

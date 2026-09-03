@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-09-02
-updated: 2026-09-02
+updated: 2026-09-03
 related_wiki: []
 ---
 
@@ -11,6 +11,10 @@ related_wiki: []
 ASC appId `6807479115`, 번들 `com.hong.wristnote` (+ `.watchkitapp`). 파이프라인은 `fastlane/Fastfile`(archive · upload · release · submit · resubmit) + appstore-release 스킬의 `asc` 도구.
 
 ## 타임라인
+
+### 1.0 (build 1) — 2026-09-03 승인·출시 (READY_FOR_SALE)
+
+제출(09-02 02:26)부터 약 하루 만에 통과, automatic_release로 즉시 출시. 리젝 0회.
 
 ### 1.0 (build 1) — 2026-09-02 02:26 제출, WAITING_FOR_REVIEW
 
