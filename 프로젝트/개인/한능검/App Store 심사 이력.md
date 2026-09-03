@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-28
-updated: 2026-08-28
+updated: 2026-09-04
 ---
 
 # App Store 심사 이력 — 한능검 정복
@@ -13,6 +13,21 @@ updated: 2026-08-28
 | App ID | `6806144570` |
 | Bundle ID | `com.hong.hangeom` |
 | 팀 | `WN2B884S76` |
+
+## 2.0.3 (예정) — ASO 메타데이터 교체 (홍 결정 2026-09-04, 2.0.2 심사 중이라 대기)
+
+"한국사" 검색 색인 누락([[작업노트/AppStore/앱 이름과 검색 노출|앱 이름과 검색 노출]] 09-04 기록)을 고치는 메타데이터 전용 변경. 2.0.2 심사를 취소하지 않고 다음 버전에 싣기로 했다.
+
+| 항목 (ko) | 2.0.2 (현재) | 2.0.3 |
+|---|---|---|
+| 이름 | 한능검 정복 | **한능검 정복 - 한국사 기출** (15자) |
+| 부제 | 심화·기본 최신 기출 전 문항 · 해설·노트 | **한국사능력검정시험 심화·기본 전 문항 해설** (23자) |
+| 키워드 | 한능검,한국사능력검정시험,한국사,기출문제,심화,기본,3급,4급,공무원,공시,수능한국사,오답노트,요약노트,기출,역사 (63자) | **기출문제,3급,4급,9급,공무원,공시,수능한국사,오답노트,요약노트,역사,국사,문제집,모의고사,해설,cbt,시험** (61자, 이름·부제와 중복 제거) |
+
+- **`web/fastlane/metadata/ko/{name,subtitle,keywords}.txt`는 09-04에 이미 위 값으로 바꿔뒀다** (레포가 git이 아니라 커밋 없음). 프로모션 문구·설명·en-US는 그대로.
+- 2.0.3 릴리즈 때 할 일: ① 2.0.2 READY_FOR_SALE 확인 ② `ios/App` `MARKETING_VERSION 2.0.2 → 2.0.3`, `CURRENT_PROJECT_VERSION 8 → 9` ③ **`fastlane/Fastfile`의 `app_version: "2.0.2"` 두 곳(`meta`·`deliver_all`)을 `2.0.3`으로** ④ `fastlane ios release` (deliver가 metadata 폴더의 새 이름·부제·키워드를 올린다; 스크린샷 중복 지뢰는 기존 플레이북대로) ⑤ 승인 며칠 뒤 `itunes.apple.com/search?term=한국사&country=kr&entity=software`에서 6806144570 순위 재측정.
+- 주의: metadata 파일이 이미 새 값이므로 **2.0.2가 심사 중인 동안 `fastlane ios meta`를 돌리면 안 된다**(잠긴 버전에 새 이름을 밀어 넣으려다 실패하거나, 개발자 거절 상태면 2.0.2에 섞여 들어간다). `resubmit`은 `skip_metadata: true`라 안전.
+- pbxproj에 `MARKETING_VERSION = 2.1.0 / build 9`인 설정 블록(1F35F02E·9E3D2499)이 별도로 있다 — 어느 타깃인지 릴리즈 전에 확인.
 
 ## 2.0.2 (build 8) — 2026-09-03 15:07 최종 재제출 (WAITING_FOR_REVIEW)
 
