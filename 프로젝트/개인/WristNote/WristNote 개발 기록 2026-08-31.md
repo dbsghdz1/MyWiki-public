@@ -48,6 +48,11 @@ related_wiki: []
     - **노션**: 사용자 integration 토큰(키체인) + 부모 페이지 URL→32hex ID 파싱, `POST /v1/pages` 직접 호출(rich_text 2000자 제한 분할, to_do 블록). 서버 없음.
     - **워치 컴플리케이션**: WidgetKit appExtension 타깃(`com.hong.wristnote.watchkitapp.widget`, accessoryCircular·Corner·Inline) → `widgetURL(wristnote://record)` → 워치 앱 `onOpenURL`에서 즉시 녹음 시작.
     - 시뮬레이터 검증: 그래프·칩·내보내기 섹션 스크린샷 확인. 릴리즈 노트 ko·en 작성.
+16. **위젯 서명·포털 검증 (09-03 오후, 홍 "위젯작업이 안된걸루 알아 확인해봐")** — 확인 결과 코드·서명 모두 완료 상태였다:
+    - Apple Developer 포털 실측(aside): 검증 전엔 App ID 2개뿐(`com.hong.wristnote`·`.watchkitapp`), **위젯 App ID 미등록**이 맞았다.
+    - `fastlane ios archive`(1.1.0 build 2) 성공 → IPA에 `WristNoteWatchWidget.appex` + App Store 프로파일(`WN2B884S76.com.hong.wristnote.watchkitapp.widget`) 포함, 포털 재확인으로 **App ID 자동 등록 확정** (appstore-release 스킬의 `-allowProvisioningUpdates`+API 키 규칙이 기존 앱의 새 익스텐션 타깃에도 적용됨을 실측).
+    - 주의: 이 레포는 Gemfile이 없어 `bundle exec fastlane`은 "Could not locate Gemfile"로 죽는다 — `fastlane` 직접 실행.
+    - 남은 것은 아래 실기기 검증뿐.
 
 ## 다음 (홍이 할 것)
 
