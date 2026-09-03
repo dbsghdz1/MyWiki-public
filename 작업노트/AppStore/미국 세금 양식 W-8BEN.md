@@ -32,6 +32,7 @@ projects:
 ### 양식에 쓸 이름·주소는 ASC 「비즈니스」 화면에서 읽는다
 
 - Apple이 대조하는 값은 **ASC → 비즈니스(Business) 상단의 Legal Entity 이름·주소**다. 사업자등록증명·D&B·Google Play에 넣은 영문 표기(사업자 영문 정보)와 **다를 수 있다** — 2026-09-03 실측: ASC 개인 계정의 Legal Entity는 `Yunhong Kim`(성·이름 순서가 사업자 문서의 `KIM YUNHONG`과 다름)이고 주소는 사업자 주소(서울)가 아니라 **가입 당시 주소(광주)** 였다. 사업자 문서 기준으로 양식을 쓰면 반려된다.
+- **개인 계정의 Legal Entity 주소 변경 경로** (2026-09-03 확인, [Updating your account information](https://developer.apple.com/help/account/membership/updating-your-account-information/)): `developer.apple.com/account` → Membership details 카드 → **"Update your information"** → Membership Information Update 폼. 선택지 Name / Address / Both, 주소는 **Roman character + local character** 두 칸, Additional information(선택). **서류 업로드 칸·처리 기간 안내는 폼에 없다** — Apple 문서는 "must be verified and approved… asked to provide documentation"이라 하므로 제출 후 메일로 증빙을 요구할 수 있다. `account.apple.com`에서 Apple 계정 이름을 바꿔도 개인 멤버십의 법인명·판매자명은 바뀌지 않는다(Apple 명시).
 - 읽기 전용 확인은 `aside "Open App Store Connect → Business … READ-ONLY"`로 충분하다(로그인 세션 재사용). 세금 양식 섹션에서 현재 양식·제출일·상태(활성화됨)도 같이 보인다.
 - IRS `fw8ben.pdf`(Rev. 10-2021)는 AcroForm이라 PyMuPDF로 채울 수 있다. 위젯 이름 매핑: `f_1` Line 1 이름 · `f_2` 국적 · `f_3`/`f_4`/`f_5` Line 3 주소·시/우편번호·국가 · `f_6`~`f_8` Line 4 · `f_9` Line 5 · `f_10` 6a FTIN · `c1_01` 6b · `f_11` Line 7 · `f_12` Line 8 DOB · `f_13` Line 9 · `f_14` Article · `f_15` 세율 · `f_16` 소득 종류 · `f_17`+`f_18` 설명 · `c1_02` 서명 권한 체크 · `f_20` 서명(Signature 위젯) · `Date` · `f_21` 서명자 이름. `w.field_value = …; w.update()` 후 `doc.save()`.
 
@@ -84,7 +85,9 @@ projects:
   - Apple 세금 양식의 정답지는 **ASC 비즈니스 화면**이지 사업자등록증명이 아니다. 개인 계정은 가입 당시 개인 주소가 Legal Entity 주소다.
   - ASC 세금 양식 목록에 이미 `U.S. Form W-8BEN` 2026-07-30 **활성화됨** 상태 — 이번 제출은 Line 10 조약 정보를 추가하는 **갱신**이다.
   - 조약 항 번호는 **14(2)** (10% 저작권). 이전 기록의 14(1)은 오기라 정정했다.
-  - PyMuPDF로 `fw8ben.pdf` 필드를 채워 `(로컬 경로)` 생성. 6a FTIN·8 DOB·서명은 개인정보라 파일에 넣지 않고 인쇄 후 손기입.
+  - PyMuPDF로 `fw8ben.pdf` 필드를 채워 `(로컬 경로)`·`-gwangju.pdf` 두 벌 생성. 6a FTIN·8 DOB·서명은 개인정보라 파일에 넣지 않고 인쇄 후 손기입.
+  - 홍 확인: 사업장도 거주지도 서울 → **순서는 ① Membership 주소 변경 요청 → ② 승인·ASC 비즈니스 화면에 서울 반영 확인 → ③ 서울 주소 W-8BEN 업로드 + 회신.** 광주 주소로 먼저 내면 Line 3(상시 거주지)이 사실과 달라진다.
+  - 주소 변경 폼 제출은 Claude Code 권한 분류기가 차단했다(외부 계정 변경). 읽기 전용 조회까지만 자동화 가능.
 - 근거: aside 세션 `2026-09-03_BU74Tabj8PygkuiK` 스크린샷, irs.gov/pub/irs-trty/korea.pdf Article 14 원문
 
 ## 참고 자료
