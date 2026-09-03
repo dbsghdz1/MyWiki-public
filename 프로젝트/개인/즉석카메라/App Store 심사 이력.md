@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-27
-updated: 2026-09-02
+updated: 2026-09-04
 ---
 
 # Fadeo App Store 심사 이력
@@ -13,7 +13,9 @@ appId `6805274191` · bundle `com.hong.fadeo`
 |---|---|---|---|
 | 2026-08-27 | 1.0 (3) | 제출 | 첫 제출. **무료** |
 | **2026-08-31** | 1.0 (3) | **출시됨** | 22:12 UTC. KR·US 동시 |
-| 2026-09-02 | 1.1 (4) | 제출 | 필름 6종·물성 렌더·콜드 스타트·ASO 개편. **유료 전환(₩1,100) 예정** |
+| 2026-09-02 | 1.1 (4) | 제출 | 필름 6종·물성 렌더·콜드 스타트·ASO 개편 |
+| **2026-09-03** | 1.1 (4) | **출시됨** | 심사 통과 |
+| 2026-09-04 | 1.2 (5) | 제출 | 필름 장전·잠금화면 라이브 액티비티·홈 위젯·인앱 리뷰 요청. **스토어 기본 언어 ko → en-US** |
 
 ## 1.0 (3) 제출 기록 — 세 번 만에 들어갔다
 
@@ -70,3 +72,29 @@ The train version '1.0' is closed for new build submissions (90186)
 - 심사 연락처 4파일은 gitignore — 지워졌으면 재작성
 - **가격은 ASC 웹에서만 된다** (1.0 때 `submit_for_review`가 `is not in valid state`로 막힌 원인이 가격 미설정 + App Privacy 미게시였다)
 - 스크린샷은 `fastlane/make_screenshots.sh` — 시뮬레이터를 지우고 시작한다(안 그러면 상태 표시줄에 이전 앱 복귀 표시가 박힌다)
+
+## 1.2 (5) — 스토어 기본 언어가 한국어였다 ★
+
+**증상**: 일본·중국·프랑스·독일·스페인·브라질 스토어에서 앱 이름이 `Fadeo 페이디오 - 즉석 필름 카메라`로, 설명도 한국어로 나가고 있었다.
+
+**진단법** — 스토어프론트별로 lookup을 돌려 어느 언어로 떨어지는지 본다. 한국어·영어 둘 다 없는 지역이 무엇을 받는지가 곧 기본 언어다.
+
+```bash
+for c in kr us fr de jp cn es br in; do
+  curl -s "https://itunes.apple.com/lookup?id=<appId>&country=$c" |
+    python3 -c "import sys,json; r=json.load(sys.stdin)['results'][0]; print('$c', r['trackName'])"
+done
+```
+
+실측 결과 미국·인도(영어 스토어프론트)만 영어였고 나머지는 전부 한국어 → `primaryLocale = ko` 확정.
+
+**고치는 법**: `PATCH /v1/apps/{id}` 에 `attributes.primaryLocale = "en-US"`.
+
+⚠️ **한 번에 안 바뀐 것처럼 보인다.** PATCH가 200을 주는데 바로 GET 하면 여전히 `ko`다. **심사 대기 버전(PREPARE_FOR_SUBMISSION)이 하나도 없으면 반영되지 않는다** — 새 `appStoreVersions`를 만들고 나서 다시 읽으면 `en-US`로 보인다. `appInfos`에 `primaryLocale`을 PATCH 하는 건 다른 길인 줄 알았는데 `'primaryLocale' is not an attribute`(409)로 막힌다. 앱 리소스 쪽이 맞다.
+
+**앱 안(번들)은 별개고, 이미 맞게 돼 있었다** — `CFBundleDevelopmentRegion: en`, `.lproj` 6개(en·ko·ja·es·zh-Hans·zh-Hant) 전부 포함. 카탈로그 61개 키를 6개 언어로 감사했고 누락은 `%@`·`%@/%@` 둘뿐(번역할 글자가 없는 포맷 문자열).
+
+## 1.2 제출 메모
+
+- 빌드 업로드 직후 `submit`을 돌리면 `Build number: 5 does not exist`로 죽는다. Apple 처리에 1~2분 걸린다 — `/v1/builds?filter[app]=…&sort=-uploadedDate`로 `processingState`가 `VALID`가 될 때까지 기다렸다가 제출한다.
+- **위젯 익스텐션이 처음 들어간 릴리스**였고, 수동 서명(`CODE_SIGN_STYLE=Manual` + 타깃별 `PROVISIONING_PROFILE_SPECIFIER`)으로 아카이브·export·업로드가 전부 통과했다. Xcode에 Apple ID 세션이 없어도 된다.
