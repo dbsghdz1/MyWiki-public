@@ -38,10 +38,21 @@ related_wiki: []
 12. **온디바이스 AI 대안 정리** — FoundationModels 유지 권고(무료·용량 0), 대안은 MLX/llama.cpp 로컬 모델(1~3GB, 구형 기기), 전사 대안 WhisperKit. 병목은 요약이 아니라 전사.
 13. **1.0 제출** — 홍 결정: 이름 WristNote 유지, 아이콘 미니멀, URL은 Notion(홍이 ASC에 직접 입력), 심사 먼저. 아이콘 생성(`scripts/icon-gen.swift`), Tuist에 팀·버전, fastlane 파이프라인(Fadeo 것 복제 + Xcode 26 export 수정), 메타데이터 ko·en-US, 데모 데이터 훅으로 스크린샷 5장(iPhone 6.9″ 3 + Watch 2). 지뢰 4개(`WKBackgroundModes` 90362 → `UIBackgroundModes`, Fastfile def 스코프, en-US 이름 선점 → `asc add-locale`, 스크린샷 이중 업로드 → cancel·dedupe·resubmit). **02:26 WAITING_FOR_REVIEW.** → [[프로젝트/개인/WristNote/App Store 심사 이력|심사 이력]]
 
+## 2026-09-03 — 1.0 출시 확인 → 1.1.0 개발 (홍 지시 "한번에 1.1, 1.2 둘다")
+
+14. **1.0 READY_FOR_SALE** — 제출 하루 만에 승인, 리젝 0회, 자동 출시.
+15. **1.1.0 (build 2) 구현 완료** — 커밋 `2833e05`:
+    - **주제**: 요약 스키마에 `topics` 추가(3~7개 명사구), 1.0 회의는 `extractTopics`로 백필. 표기 흔들림은 `topicKey`(trim+lowercase)로 병합.
+    - **주제 탭**: Canvas force-directed 그래프(Fruchterman–Reingold 250회, 결정적 원형 초기 배치, 노드 크기=회의 수, 엣지=동시 등장) + 주제 목록 + 주제 페이지(백링크). List 안 숨김 NavigationLink는 셰브런을 그려서 탭은 `onTapGesture(location:)`+`navigationDestination(item:)`으로.
+    - **옵시디언 내보내기**: 폴더 security-scoped bookmark 저장, 요약 완료 시 자동 저장 + 상세 화면 수동 버튼. frontmatter(created·duration·source) + 주제 이중대괄호 위키링크 + 요약·결정·액션(`- [ ]`)·전사.
+    - **노션**: 사용자 integration 토큰(키체인) + 부모 페이지 URL→32hex ID 파싱, `POST /v1/pages` 직접 호출(rich_text 2000자 제한 분할, to_do 블록). 서버 없음.
+    - **워치 컴플리케이션**: WidgetKit appExtension 타깃(`com.hong.wristnote.watchkitapp.widget`, accessoryCircular·Corner·Inline) → `widgetURL(wristnote://record)` → 워치 앱 `onOpenURL`에서 즉시 녹음 시작.
+    - 시뮬레이터 검증: 그래프·칩·내보내기 섹션 스크린샷 확인. 릴리즈 노트 ko·en 작성.
+
 ## 다음 (홍이 할 것)
 
-- **심사 중에 실제 회의 1건**: 화면 꺼진 채 30분+ 녹음 → 도착 → 전사 품질 확인. 1.0은 이 검증 없이 나갔다.
+- **실기기에서 1.1.0 확인**: ① 컴플리케이션 추가(시계 화면 편집) → 탭 → 바로 녹음 ② 설정 → 마크다운 폴더에 옵시디언 볼트 지정 → 회의 후 볼트에 파일·그래프 연결 확인 ③ 노션 토큰 연결 → 보내기 ④ **30분+ 백그라운드 녹음(아직 미검증)**
+- 확인되면 "제출해" 한마디 — `fastlane ios release`로 1.1.0 (build 2) 올린다 (스크린샷에 주제 그래프 추가 예정).
 - GitHub 레포 생성 여부 결정.
-- 콜드 스타트 반응 지연(홍 관찰) — 1.1에서.
 
 배운 것: [[작업노트/Apple/온디바이스 음성 인식과 번역|온디바이스 음성 인식과 번역]] · [[작업노트/Apple/WatchConnectivity와 워치 녹음|WatchConnectivity와 워치 녹음]] · [[작업노트/도구/Tuist|Tuist]]
