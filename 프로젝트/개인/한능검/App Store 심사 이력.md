@@ -14,7 +14,28 @@ updated: 2026-08-28
 | Bundle ID | `com.hong.hangeom` |
 | 팀 | `WN2B884S76` |
 
-## 2.0.1 (build 5) — 2026-09-02 18:25 제출 (WAITING_FOR_REVIEW)
+## 2.0.2 (build 8) — 2026-09-03 15:07 최종 재제출 (WAITING_FOR_REVIEW)
+
+홍 실기기 확인 "가로가 별로" → 원인은 세로 고정. **iPadOS 26에선 `UIRequiresFullScreen`이 폐기**돼 세로 전용 앱이 가로에서 떠 있는 창으로 나온다 — 플래그 제거 + iPad 전 방향 허용(리사이즈 가능 창, 단일 컬럼이라 성립). iPhone은 세로 유지. iPad 회귀 118단계 재통과, build 8. 이중 업로드 6번째(9장) → 취소→정리→재제출. 최종: build 8 · 4세트 × 6장.
+
+## (build 7) — 15:54 제출 → 가로 지원 위해 자진 취소 — 영어 페이지 + iPad
+
+홍 지시 연타: 유료 전환 직접 완료(₩6,600) → "iPad용도 개발해". build 6 심사를 취소하고 iPad를 실어 build 7으로.
+- **iPad 지원**: `TARGETED_DEVICE_FAMILY "1,2"` + **세로 고정 + UIRequiresFullScreen**(문제집 UX·멀티태스킹 요건 회피). 레이아웃은 기존 720px 중앙 컬럼이 그대로 성립.
+- **iPad에서 잡은 실버그**: 터치 핸들러가 720px `.wrap`에 있어 **좌우 거터에서 시작한 스와이프가 죽었다** → `.wrap.q`를 전체 폭으로 펴고 내용은 패딩 중앙 정렬. 열린 강의 iframe은 여전히 터치 사각지대(구조상 수용) — 플로우는 캡슐 탭(맨 위로) 후 상단에서 스와이프.
+- **iPad 시뮬 함정**: iPad Pro 시뮬레이터가 가로로 부팅돼 세로 앱과 좌표축이 어긋남 — Simulator 창 열고 ⌘← 회전 후 주행. iPad 회귀 118단계 통과.
+- 스토어 컷: `storeshots.py`를 크기 무관으로(세로 기준 폰트 스케일), iPad 2064×2752 세트(i01~i06)를 ko·en 각각 — deliver가 해상도로 APP_IPAD_PRO_3GEN_129에 매핑.
+- 이중 업로드 5번째(10장 제거) → 재제출. 최종: build 7 · ko 6+6 · en-US 6+6.
+
+## (build 6) — 2026-09-03 제출 → iPad 포함 위해 자진 취소
+
+홍 지시: 가격은 직접(₩6,600, ASC 웹), 주 언어 영어 + 스크린샷에 유튜브. 내용:
+- **en-US 로케일 신설** — 이름 "한능검 정복 – Korean History", 영문 설명·키워드·릴리스 노트, 영문 헤드라인 스크린샷 6컷(`storeshots.py` compose(SHOTS_EN)).
+- **스크린샷에 강의 플레이어** — 래퍼에 중립 포스터(탭 전 유튜브 미로드)를 넣어 강사 초상 없이 플레이어 UI를 노출(s3). 초상권·5.2 리스크 회피 + 문항 로딩 개선 부수효과.
+- 절차 지뢰: 출시된 버전은 편집 불가 → `POST /v1/appStoreVersions`로 2.0.2 레코드 선생성 → 편집 가능 appInfo가 생김 → `add-locale`(appInfo id! appInfoLocalization id 아님) → release(build 6) → cancel→dedupe(ko 1장)→resubmit. **`set-primary en-US`는 "모든 버전에 en-US 스크린샷 필요" 409** — 이미 출시된 과거 버전엔 넣을 수 없으므로 2.0.2 출시 후 재시도.
+- asc.swift에 generic `patch` 추가.
+
+## 2.0.1 (build 5) — 2026-09-02 18:25 제출 → **당일 통과·출시** (READY_FOR_SALE)
 
 2.0.0 통과 확인 직후 당일 후속. 내용: 앱 내 강의 재생(https 래퍼 — 임베드 오류 153 해결), 채점 시 자료 단서 강조(태그 매칭), 화면 전환·엣지 뒤로가기(iOS 곡선), 신호색 톤 다운, disabled 터치 사각지대 수정, 스토어 스크린샷 6컷 재촬영(최종 색감).
 **deliver 스크린샷 이중 업로드 4번째 재현** → cancel → dedupe(4장) → `HANGEOM_BUILD=5 resubmit`. 이 왕복이 고정 비용이 됐다 — 다음 릴리스 땐 release 후 자동으로 screenshots 검증→dedupe→resubmit까지 스크립트로 묶을 것.
