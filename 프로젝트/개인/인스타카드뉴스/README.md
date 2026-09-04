@@ -6,7 +6,7 @@ status: active
 aliases:
   - InstaCardNews
 created: 2026-07-22
-updated: 2026-08-18
+updated: 2026-09-05
 slack_channel: instagram
 repos:
   - "github.com/dbsghdz1/InstaCardNews"
@@ -14,6 +14,13 @@ related_wiki: []
 ---
 
 # 인스타카드뉴스 (InstaCardNews)
+
+## 현재 카드
+- **단계**: 운영
+- **현재**: Oracle systemd timer 08:00·23:00 자율 발행 중. 2026-09-04 실측 팔로워 64·누적 게시물 58([[프로젝트/개인/인스타카드뉴스/발행·지표 일지|발행·지표 일지]]). 자동 지표 수집은 08-13 이후 공백(needs-review) — 본문 08-12 지표는 낡았다
+- **다음 판정**: 지표 자동 수집 복구 여부 — 복구된 뒤에야 릴스 발행 연동 여부를 판정한다
+- **지금 할 일**: 수집 잡 상태 확인·복구(08-13~ 공백, Hermes/Codex 429·엔진 교체 시기와 겹침)
+- **하지 않을 일**: AI 릴스 발행 연동(프로토타입 완료, 연동 판정 전 동결). 사람 시간은 쓰지 않는다(계획 표: 자동 실행)
 
 인스타그램 카드뉴스를 생성하고 발행하는 자동화 도구다. Python 기반이며 템플릿(`templates/`), 디자인 문서(`DESIGN.md`), 테스트(`tests/`)를 갖추고 있다.
 
