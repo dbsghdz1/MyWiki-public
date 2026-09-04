@@ -6,7 +6,7 @@ status: paused
 aliases:
   - 데이튠
 created: 2026-08-09
-updated: 2026-08-22
+updated: 2026-09-05
 slack_channel: daytune
 repos:
   - "github.com/dbsghdz1/DayTune"
@@ -15,6 +15,13 @@ related_wiki:
 ---
 
 # DayTune
+
+## 현재 카드
+- **단계**: 보류
+- **현재**: MVP 화면 전부 merge된 TestFlight 직전 상태에서 2026-08-14 보류. 08-22 보류 중 수정(CTA 버튼·HealthKit 권한 직후 SIGABRT)이 **미커밋 워킹트리**에만 있다(아래 작업 기록)
+- **다음 판정**: 2026-11-14 경과 후 재개 검토(08-14 결정). 09-05 커리어 재편으로 D-day 전제가 사라져 실제 재판정은 소마 종료(2026-12)와 함께 — 취업 운영
+- **지금 할 일**: 08-22 미커밋 워킹트리 변경을 커밋해 유실 위험을 없앤다(재개 시 첫 작업은 ASC 앱 레코드 생성 → `fastlane ios beta`)
+- **하지 않을 일**: 신규 기능 착수·en 번역(재개 판정 전)
 
 지난밤 수면(Apple Health)을 바탕으로 "오늘 하루를 어떻게 보낼지"를 추천하는 iOS 앱. 데이터 나열보다 행동 추천이 먼저이고, 차분한 톤에 의학적 단정을 피하는 것이 제품 원칙이다 (레포 AGENTS.md).
 

@@ -9,7 +9,7 @@ aliases:
   - BarStack
   - CollectionTopBar
 created: 2026-07-18
-updated: 2026-08-18
+updated: 2026-09-05
 slack_channel: barstack
 repos:
   - "github.com/dbsghdz1/MacTopTopBarIconCollection"
@@ -17,6 +17,13 @@ related_wiki: []
 ---
 
 # BarStack — 개인 Mac 앱
+
+## 현재 카드
+- **단계**: 운영
+- **현재**: 1.1.1 App Store 출시 상태(2026-08-17 승인)로 유지보수만. 1.2 Pro IAP는 코드만 있고 숨김 — [[프로젝트/개인/BarStack/1.2 Pro 계획|1.2 Pro 계획]]
+- **다음 판정**: 1.2 Pro 착수 여부 — 지원 마감 역산으로 2026-11-14 이후 재개 검토(계획 우선순위 표의 보류 결정, 이 README엔 미기재였음). 착수 시 피처링 노미네이션은 출시 3주 전
+- **지금 할 일**: 없음 — 심사·버그 대응만
+- **하지 않을 일**: 1.2 Pro 착수(다음 판정 전)
 
 macOS 메뉴바 아이콘 정리 앱이다. 동작 규칙은 하나뿐이다: **"BarStack 아이콘 왼쪽의 `‹` 경계 핸들 기준, 왼쪽에 둔 아이콘은 숨기고 오른쪽은 항상 보여준다."** 리포지터리명은 `CollectionTopBar`(`(로컬 경로)`), 사용자에게 보이는 제품명은 BarStack이다.
 
