@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-31
-updated: 2026-09-02
+updated: 2026-09-05
 related_wiki: []
 ---
 
@@ -54,10 +54,14 @@ related_wiki: []
     - 주의: 이 레포는 Gemfile이 없어 `bundle exec fastlane`은 "Could not locate Gemfile"로 죽는다 — `fastlane` 직접 실행.
     - 남은 것은 아래 실기기 검증뿐.
 
+## 2026-09-05 — 워치 타이머 UI 수정 (1.1.0 심사 중)
+
+17. **경과 시간이 건너뛴다** — 홍 보고: "시간초가 갑자기 올라가 7초 이렇게". 1초 `Timer` tick으로 `elapsed`를 갱신하던 표시를 `Text(timerInterval: startedAt...Date.distantFuture, countsDown: false)`로 교체. 손목 내림·Always-On 감광 중엔 tick이 멈춰 화면을 다시 볼 때 밀린 초가 한 번에 반영되던 것. `@Published var elapsed`도 제거(매초 `objectWillChange`가 나가면 뷰가 어차피 초당 재렌더). 곁가지로 코덱 사다리 성장 판정의 `wall == 2` / `wall == 5` 등호를 부등호 + 기준 +3초로 바꿨다 — tick이 밀리면 판정이 아예 안 돌던 구멍. 커밋 `7e557ec`, 워치 시뮬레이터 자동 테스트로 확인. **1.1.0 build 2(심사 중)에는 안 들어갔다 — 다음 빌드에 실린다.** → [[작업노트/Apple/SwiftUI|작업노트]]
+
 ## 다음 (홍이 할 것)
 
 - **실기기에서 1.1.0 확인**: ① 컴플리케이션 추가(시계 화면 편집) → 탭 → 바로 녹음 ② 설정 → 마크다운 폴더에 옵시디언 볼트 지정 → 회의 후 볼트에 파일·그래프 연결 확인 ③ 노션 토큰 연결 → 보내기 ④ **30분+ 백그라운드 녹음(아직 미검증)**
 - 확인되면 "제출해" 한마디 — `fastlane ios release`로 1.1.0 (build 2) 올린다 (스크린샷에 주제 그래프 추가 예정).
 - GitHub 레포 생성 여부 결정.
 
-배운 것: [[작업노트/Apple/온디바이스 음성 인식과 번역|온디바이스 음성 인식과 번역]] · [[작업노트/Apple/WatchConnectivity와 워치 녹음|WatchConnectivity와 워치 녹음]] · [[작업노트/도구/Tuist|Tuist]]
+배운 것: [[작업노트/Apple/온디바이스 음성 인식과 번역|온디바이스 음성 인식과 번역]] · [[작업노트/Apple/WatchConnectivity와 워치 녹음|WatchConnectivity와 워치 녹음]] · [[작업노트/도구/Tuist|Tuist]] · [[작업노트/Apple/SwiftUI|SwiftUI]]
