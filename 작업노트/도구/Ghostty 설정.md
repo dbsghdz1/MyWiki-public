@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-30
-updated: 2026-08-31
+updated: 2026-09-05
 projects: []
 ---
 
@@ -37,3 +37,9 @@ Ghostty 커스텀은 텍스트 config 하나로 하는데, **macOS에선 config 
 - 배운 것: 핵심 정리의 cmux config 공유·`macos-icon`·탭 항목 전부 이 세션에서 실기기 확인(strings 분석 + `+validate-config`). 홍의 최종 선택: `macos-icon = xray`, cmux는 `matchTerminalBackground: true`.
 - **정정**: cmux는 XDG 경로만 읽으므로 config를 App Support → `(로컬 경로)`로 이동. `cmux reload-config` CLI가 Ghostty config + cmux.json을 앱 재시작 없이 둘 다 리로드한다(`OK Reloaded config`). cmux 편에서 편집 전 백업 권고: cmux.json은 `.bak` 사본을 만들라고 자체 문서(`cmux docs settings`)가 안내.
 - 갱신: `updated: 2026-08-31`.
+
+### 2026-09-05 — 홍은 Ghostty를 직접 쓴다 (cmux 아님) — 기본 키바인드는 바이너리에서 뽑는다
+
+- 맥락: 홍이 "ghostty 단축키 알려줘"라고 물어 기본 키바인드를 정리하며, 08-27~31 기록의 cmux 언급을 근거로 "cmux가 키를 먼저 잡을 수 있다"고 덧붙였다가 홍이 "아니야 고스티 쓰고 있어"라고 정정.
+- 배운 것: **2026-09-05 기준 홍의 터미널은 Ghostty.app 1.3.1 단독**이다. cmux 관련 기록(테마 리로드 `cmux reload-config`, XDG config만 읽음)은 그 시점 사실이고, 현재 환경을 cmux로 가정하지 않는다. `(로컬 경로)`에 `keybind` 항목은 없어 macOS 기본값이 그대로다.
+- 근거: 기본 키바인드 전체는 `/Applications/Ghostty.app/Contents/MacOS/ghostty +list-keybinds --default`로 뽑는다(설치본 기준, 문서보다 정확). 자주 쓰는 것: ⌘D/⌘⇧D 분할, ⌘⌥화살표 스플릿 이동, ⌘⇧Enter 줌, ⌘↑/↓ 프롬프트 점프, ⌘⇧P 커맨드 팔레트, ⌘⇧, 리로드.
