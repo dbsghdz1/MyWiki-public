@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-22
-updated: 2026-08-22
+updated: 2026-09-04
 projects:
   - "소프트웨어 마에스트로"
 ---
@@ -40,3 +40,15 @@ projects:
   - **Jua는 시스템 폰트에 없다.** `(로컬 경로)`에 Pretendard 9종은 있는데 `Jua-Regular.ttf`는 없고, 앱 저장소 `Boheomgaenyang/Client/assets/fonts/`에만 있다. 08-02 스크립트가 `(로컬 경로)`를 가리키고 있어 그대로 돌리면 죽는다 — **앱이 번들하는 폰트를 마케팅 이미지에도 쓸 거면 저장소 쪽을 원본으로 참조한다.** 시스템 설치는 기기마다 다르다.
   - **고정 높이 카드에서 겹침은 렌더 결과를 봐야 잡힌다.** 항목 카드 3개(240px)를 280 간격으로 깔았더니 마지막 카드가 하단 각주를 덮었는데, 스크립트는 정상 종료했다. 08-22에 적은 넘침 검사가 Pillow 경로에는 없다 — **좌표를 손으로 계산하는 렌더러는 눈으로 한 번 보기 전까지 끝난 게 아니다.**
 - 근거: `(로컬 경로)`, 카드 내용 출처는 `Server/src/main/resources/db/migration/V2__create_document_rule.sql`(원본 노션 「보험사 서류 정리」 2026-07-28 기준).
+
+### 2026-09-04 — 메타 광고 소재(9:16·4:5·영상 오버레이)를 Pillow로 찍으면서
+
+- 맥락: 보험찾개냥 전수열 멘토링 미션 "비라이브 광고 3개". 정지 소재 4장(A·C × 9:16·4:5), 영상용 투명 자막 오버레이 3장, 타이밍 미리보기 mp4를 만들었다 → 메타 광고 소재 기획.
+- 배운 것:
+  - **Dia.app은 헤드리스 렌더러가 아니다.** 크로미움 기반이라 `/Applications/Dia.app/Contents/MacOS/Dia --headless=new --screenshot=… --user-data-dir=…`를 시도했지만 60초 넘게 돌아가다 exit 144, PNG 없음. `/Applications`에 Chrome·Chromium이 없으면 이 경로는 보지 말고 바로 Pillow(있음)나 WKWebView(08-22)로 간다.
+  - **Jua 폰트는 Google Fonts에서 직접 받아진다** — `curl -A "Mozilla/5.0" "https://fonts.googleapis.com/css2?family=Jua"`로 CSS를 받으면 `https://fonts.gstatic.com/s/jua/v18/co3KmW9ljjAjcw.ttf`가 나오고 그 TTF를 Pillow가 그대로 연다. 다만 09-02 기록대로 **원본은 앱 저장소 `Client/assets/fonts/Jua-Regular.ttf`** 라 `render.py`는 저장소 파일을 우선하고 gstatic 사본은 폴백으로 뒀다.
+  - **4:5는 9:16을 줄여서 못 만든다.** 같은 레이아웃 함수에 높이만 1350을 넣었더니 CTA가 잘렸다. 카드 내부 여백(`compact=True`: pad 36, 행 간격 56)·스텝 카드 높이(82)·소제목 생략까지 별도 분기가 필요했다. 9:16은 상단 250px·하단 340px가 릴스 UI에 가리므로 본문은 그 안쪽에 둔다.
+  - **발바닥 아이콘은 발가락 비율이 전부다.** 큰 원 3개(r=0.15s)로 그리면 미키마우스로 읽힌다. 납작한 패드(0.72×0.52s) + 작은 발가락 4개(r=0.115s)를 호 모양으로 놓아야 발바닥이 된다. og.png의 실제 아이콘을 보고 고쳤다.
+  - **도장(회전 텍스트)은 임시 RGBA에 그려 `rotate(expand=True)` 후 `alpha_composite`.** 영수증 카드 위에 얹을 때 금액 줄을 덮지 않도록 카드 높이를 늘려(480) 빈 띠에 넣는 편이 "도장이 숫자를 가리는" 것보다 낫다.
+  - **ffmpeg 슬라이드쇼는 `xfade` 체인으로 한 줄.** `-loop 1 -t 4` 입력 3개에 `[0][1]xfade=transition=fade:duration=0.5:offset=3.5[v1];[v1][2]xfade=…:offset=7[v2]` — 두 번째 offset은 앞 구간 합(4+4)에서 전환 길이·앞 전환 겹침을 뺀 값(7). 결과 12초·1080×1920·yuv420p, 애드 매니저 업로드 규격에 맞다.
+- 근거: `(로컬 경로)`(같은 폴더에 산출물 14개), 세션 스크래치패드 `ads/`.
