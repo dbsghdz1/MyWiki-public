@@ -1,5 +1,7 @@
 ---
 type: hub
+title: "작업노트"
+summary: "다음 작업의 AI를 위한 재현 가능한 작업 경험 허브"
 status: active
 aliases: [AI 노트, 작업 경험, worknotes]
 created: 2026-08-28

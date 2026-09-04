@@ -1,5 +1,7 @@
 ---
 type: project
+title: "인스타카드뉴스"
+summary: "인스타그램 카드뉴스 생성·발행 자동화의 작업 진입점"
 status: active
 aliases:
   - InstaCardNews

@@ -1,5 +1,7 @@
 ---
 type: project
+title: "Subly"
+summary: "macOS 실시간 자막·번역 앱 실험의 작업 진입점"
 status: paused
 aliases:
   - Subly

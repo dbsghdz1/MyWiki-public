@@ -1,5 +1,7 @@
 ---
 type: hub
+title: "공부"
+summary: "다시 읽고 이해를 쌓는 개인 학습 노트 허브"
 status: active
 aliases: [학습 노트, TIL, study]
 created: 2026-08-15

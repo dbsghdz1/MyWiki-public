@@ -1,5 +1,7 @@
 ---
 type: project
+title: "CoinPilot (MyCryptoDiary)"
+summary: "가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점"
 status: active
 aliases:
   - My Crypto Diary

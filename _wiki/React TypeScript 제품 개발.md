@@ -1,5 +1,7 @@
 ---
 type: hub
+title: "React·TypeScript로 제품 만들기"
+summary: "React·TypeScript 학습을 실제 제품 개발과 연결하는 지식 허브"
 status: active
 aliases:
   - React TypeScript Product Development

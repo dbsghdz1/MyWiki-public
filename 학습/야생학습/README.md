@@ -1,5 +1,7 @@
 ---
 type: hub
+title: "야생학습"
+summary: "실제 작업을 계기로 손으로 배우는 세션의 허브"
 status: active
 created: 2026-08-30
 updated: 2026-09-02

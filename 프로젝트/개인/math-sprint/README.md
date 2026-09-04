@@ -1,5 +1,7 @@
 ---
 type: project
+title: "math-sprint"
+summary: "60초 암산 스프린트 게임의 작업 진입점"
 status: paused
 aliases:
   - math-sprint

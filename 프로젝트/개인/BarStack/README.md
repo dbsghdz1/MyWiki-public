@@ -1,5 +1,7 @@
 ---
 type: project
+title: "BarStack"
+summary: "macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점"
 status: shipped
 aliases:
   - Personal Mac App

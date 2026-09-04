@@ -1,5 +1,7 @@
 ---
 type: synthesis
+title: "AI 디자인 스킬"
+summary: "코딩 에이전트의 디자인 도구와 실전 활용 경험을 종합한 지식 페이지"
 status: needs-review
 aliases:
   - Claude Code 디자인 스킬
