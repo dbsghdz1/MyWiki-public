@@ -4,9 +4,10 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-09-02
+updated: 2026-09-05
 projects:
   - "탭탭"
+  - "[[프로젝트/개인/WristNote/README|WristNote]]"
 ---
 
 # SwiftUI
@@ -25,9 +26,22 @@ projects:
 - **다크 모드의 모달은 배경을 낮추는 게 아니라 카드를 올려서 띄운다.** 알파 딤은 이미 검은 배경을 더 어둡게 못 만들므로, 카드가 배경과 같은 토큰이면 대비가 3/255가 된다. 카드에는 한 단계 위 면 토큰(n0)을 준다.
 - **"호버가 안 된다"는 신고는 이벤트가 아니라 대비를 먼저 의심한다.** 실제로 `.onHover`는 멀쩡히 발화하는데 색 차이가 눈에 안 잡히는 경우가 많다. 토큰 값을 직접 열어 배경과의 차이를 계산해 보면 바로 갈린다 — `n20`은 라이트에서 `#F6F6F6`이라 `n0`(흰색) 위에서 **9/255**, 다크에서도 10/255 차이다. 팝업·버튼처럼 `n0` 면 위에 얹히는 호버는 `n40`(라이트 Δ31, 다크 Δ20)을 쓴다. DS의 `MacArrowButton`이 이미 `n0 → n40`이다.
 - **호버 색과 같은 색을 기본 배경으로 깔아 두면 그 항목은 영원히 호버 상태로 보인다.** 위험 액션에 `bgDimDanger`를 상시 배경으로 주고 호버 색도 같은 토큰으로 주면 호버가 아무 변화도 못 만든다. 기본은 `.clear`, 강조는 전경색(텍스트·아이콘)으로 준다.
+- **경과 시간 표시를 내 `Timer` tick으로 갱신하면 워치에서 건너뛰며 올라간다.** 손목을 내리거나 Always-On 감광 상태에선 tick이 멈추고, 화면을 다시 보는 순간 밀린 값이 한 번에 반영돼 `0:03 → 0:07`처럼 보인다. 시스템이 직접 다시 그리는 **`Text(timerInterval:countsDown:)`** 을 쓴다 — 앱이 tick하지 않아도 갱신되고, 감광 중엔 시스템이 알아서 분 단위로 낮춘다. 같은 계열: 시간이 흐르는 것만으로는 `@Published`가 울리지 않는다, 애니메이션은 트랜잭션 대신 시계(`TimelineView(.animation)`)로.
+- **매초 바뀌는 값을 `@Published`로 두면 뷰가 초당 한 번 다시 그려진다.** 타이머 텍스트를 시스템에 넘겨도 같은 객체의 다른 `@Published`가 매초 `objectWillChange`를 쏘면 이득이 사라진다. 뷰가 안 읽는 진행값은 `private var`로 내리고, 뷰에 필요한 것(시작 시각)만 노출한다.
 - **알파만 있는 어두운 오버레이 토큰은 다크 모드에서 사라진다.** `#272146 @7%` 같은 호버 색은 흰 배경에선 회색, 검은 배경에선 검정 위 검정이라 안 보인다. 색 토큰에 다크 appearance 변형이 있는지(`Contents.json`의 `appearances`) 확인하고, 없으면 밝기 변형이 있는 중립색(n20 등)을 쓴다.
 
 ## 기록
+
+### 2026-09-05 — 워치 녹음 타이머가 "0:03 → 0:07"로 건너뛴다 → `Text(timerInterval:)` (WristNote)
+
+- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 1.1.0 심사 중, 홍이 실기기에서 "시간초가 갑자기 올라가 7초 이렇게" 라고 보고. 워치 녹음 화면의 경과 시간 표시.
+- 배운 것:
+  - `Timer.scheduledTimer(withTimeInterval: 1, repeats: true)`로 `elapsed`를 갱신하고 `String(format: "%02d:%02d", ...)`로 그리면, **손목 내림·Always-On 감광 중 run loop tick이 멈춘다.** `elapsed`는 `Date().timeIntervalSince(startedAt)` 절대차라 값 자체는 정확하지만, **갱신 시점이 없어서** 화면을 다시 보는 순간 밀린 초가 한 번에 반영된다. 증상은 "타이머가 느리다"가 아니라 **"건너뛴다"** 로 나타난다.
+  - 해결은 시작 시각만 넘기고 그리기를 시스템에 맡기는 것: `Text(timerInterval: startedAt...Date.distantFuture, countsDown: false)`. 앱이 tick하지 않아도 매초 다시 그려진다. 포맷은 시스템이 정해서 `00:05`가 `0:05`, 1시간 넘으면 `1:00:00`이 된다(직접 포맷하던 `%02d:%02d`는 65분에 `65:23`을 찍었다 — 새 쪽이 낫다).
+  - **`@Published var elapsed`를 같이 지워야 의미가 있다.** 남겨 두면 매초 `objectWillChange`가 나가 뷰가 어차피 초당 한 번 다시 그려진다. `startedAt`만 `@Published private(set)`으로 노출하면 시작·정지 두 번만 갱신된다.
+  - **곁가지로 드러난 것: tick에 의존한 판정 로직도 같이 깨진다.** 실기기 코덱 사다리의 성장 판정이 `if wall == 2 { base = size }` / `if wall == 5, size <= base`였는데, tick이 밀려 그 초를 건너뛰면 **판정 자체가 한 번도 안 돈다.** 부등호(`wall >= 2` / `wall >= baselineWall + 3`)로 바꾸되, 기준을 잡은 그 tick에서 바로 비교하면 `size == base`라 "안 자람" 오탐이 나므로 기준 시각 +3초 이후 tick에서만 한 번 비교하도록 했다. **`==`로 특정 tick을 노리는 코드는 tick이 보장될 때만 성립한다.**
+- 근거: `(로컬 경로)` 커밋 `7e557ec` (`WristNoteWatch/Sources/RecorderView.swift`·`WatchRecorder.swift`). 워치 시뮬레이터(Series 11 46mm) `WRISTNOTE_AUTOTEST=1` 자동 테스트로 `0:01 → 0:04 → 0:05` 정상 증가·정지 후 `0:00` 확인, 로그에서 `ulaw-16k` 오탐 전환 없음(`tick wall=5 … fileSize=79432`), `finished … audio=8.15s` 후 `transferFile didFinish error=nil`.
+- 원전 확인(WWDC21 "What's new in watchOS 8"): Always-On에서 **활성 세션이 있는 앱은 초당 1회, 없는 앱은 분당 1회**까지 갱신된다. 즉 감광 중에도 갱신 예산 자체는 있는데 **내 run loop `Timer`가 그 예산을 못 쓰는 것**이다. 애플 권고는 "손목을 내린 상태에서 UI를 갱신하려면 `TimelineView`" — `Text(timerInterval:)`이 타이머 표시에 대한 그 권고의 기성품이다. 감광 상태 자체는 `@Environment(\.isLuminanceReduced)`로 읽어 민감 정보를 가릴 수 있다(WristNote는 해당 없음).
 
 ### 2026-09-02 — `Text(String)`은 로컬라이즈를 **안 한다** ★★ (Fadeo)
 
@@ -276,3 +290,9 @@ TabView(selection: $tab) {
   - 위 블러 작업은 결국 **잘못된 해석**이었다 — 디자이너가 "블러가 없다"고 해서 피그마 `get_design_context`로 노드를 열어 보니 하단 페이드·헤더 스크림 둘 다 `backdrop-blur 4px` + 그라데이션이었다. 그라데이션을 흐린 게 아니라 뒤 행을 흐리는 효과. `CALayer.backgroundFilters`로 다시 구현하고 화면 캡처로 하단 행이 실제로 흐려지는 것을 확인. 이펙트 스펙은 스크린샷 육안이 아니라 노드의 effect 속성으로 확인해야 한다.
   - 카테고리 목록 스크롤바가 `.scrollIndicators(.hidden)`에도 계속 보였다. `.never`로 바꾸니 사라짐. 기존 `HiddenScrollIndicatorsConfigurator`(NSScrollView 탐색 후 스크롤러 숨김)를 붙여도 변화 없었다.
 - 근거: `taptap-ios` 커밋 `0fba04a`(블러), `9c2b140`(배경 블러), `e5bf988`(스크롤바), `6a2ae97`(스크림 원복), `88ef2ff`(팝업 폭), `3032087`(호버 색), `908a3cc`(버튼 히트) / `DesignSystem/Resources/Assets.xcassets/Color/Background/bgDimHover.colorset/Contents.json`
+
+## 참고 자료
+
+- [Text `init(timerInterval:pauseTime:countsDown:showsHours:)` — Apple Developer Documentation](https://developer.apple.com/documentation/swiftui/text/init(timerinterval:pauseTime:countsDown:showsHours:)) — 시스템이 갱신하는 타이머 텍스트 이니셜라이저 (2026-09-05 확인)
+- [What's new in watchOS 8 — WWDC21](https://developer.apple.com/videos/play/wwdc2021/10002/) — Always-On 갱신 예산(활성 세션 초당 1회 / 그 외 분당 1회), `isLuminanceReduced`, `TimelineView` 스케줄 (2026-09-05 확인)
+- [Designing your app for the Always On state — Apple Developer Documentation](https://developer.apple.com/documentation/watchkit/designing_your_app_for_the_always_on_state) — 감광 상태 설계 지침 (2026-09-05 확인, 밑줄 없는 `-` 경로는 404)
