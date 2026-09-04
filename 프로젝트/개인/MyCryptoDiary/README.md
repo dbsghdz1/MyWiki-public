@@ -87,7 +87,7 @@ related_wiki:
 | D2 Neon + Drizzle 스키마 | 8/18 착수 · 8/26~28 | **완료 + 리뷰 반영** — Neon에 6테이블·FK 5개·복합 PK·enum·UNIQUE 반영, 5명 seed 최초·재실행 및 Studio 읽기 확인. 브랜치 `feat/db-schema`, 커밋 `1cfe07c`·`8eadff3`·`f7ccda4`, PR [#5](https://github.com/dbsghdz1/MyCryptoDiary/pull/5). 리뷰 반영은 PR [#6](https://github.com/dbsghdz1/MyCryptoDiary/pull/6)(드라이버 교체·`shared/db` 분리·seed 정합성·AGENTS.md). 상세 [[프로젝트/개인/MyCryptoDiary/Neon Drizzle 스키마 2026-08-28|D2 작업 기록]] |
 | D3 Clerk 인증 | 8/28~29 | **완료** — Clerk 앱·키, proxy·Provider, 로그인·회원가입, 헤더 상태, Clerk ID 기반 계좌 lazy create, 홈 외 UI 보호. 브랜치 `feat/clerk-auth`, 커밋 `338e062`·`3001f51`·`7e22168`·`ffcb94c`·`6f47e54`, PR [#7](https://github.com/dbsghdz1/MyCryptoDiary/pull/7). 서비스 표시명 `CoinPilot` 확정(`7100212`). 상세 [[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|D3 작업 기록]] |
 
-| D4 거래 엔진 ① 매수 | 8/30~ | **진행 중 (6/8 블록)** — 반올림 규칙·입력 방식·수수료 함수·`price` bigint화·주문금액 계산·소수 문자열 변환 완료. 남은 것은 매수 Server Action과 폼 UI. 상세 [[프로젝트/개인/MyCryptoDiary/거래 엔진 D4 2026-09-02|D4 작업 기록]] |
+| D4 거래 엔진 ① 매수 | 8/30~ | **완료** — 서버 가격 재조회(신뢰 경계)·잔고 검증·트랜잭션(현금↓·보유↑·주문기록)·입력 검증·매수 폼. 12블록, 커밋 9개. 회고 [[프로젝트/개인/MyCryptoDiary/D4 회고 2026-09-04|D4 회고]] 상세 [[프로젝트/개인/MyCryptoDiary/거래 엔진 D4 2026-09-02|D4 작업 기록]] |
 
 > D5~D12 행은 계획 확정 후 추가 (계획 루틴이 이 표에서 일간 슬롯을 뽑는다)
 
@@ -121,5 +121,5 @@ related_wiki:
 - 보존 원본: [[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes|MyCryptoDiary Day 1–4 학습 노트]] — Day 1–4 구현 목록과 개념 정리
 - 다음 학습 예고(노트 기준): 현물/선물 segmented control, 코인 목록 컴포넌트, 실시간 가격 상태 업데이트, Currency Detail 동적 페이지
 - **학습 계획**: [[프로젝트/개인/MyCryptoDiary/학습 계획 2026-08-28|학습 계획 (2026-08-28 전면 개정)]] — 야생학습 9요소 진단(병목 = 연습·습관·에너지), 블록 루프, D3~D12 일정. **세션 시작 시 이 문서를 먼저 읽는다**
-- 작업 기록: [[프로젝트/개인/MyCryptoDiary/실시간 데이터 UI 계획 2026-08-14|실시간 데이터 UI 계획]] · [[프로젝트/개인/MyCryptoDiary/보상형 광고 조사 2026-08-15|보상형 광고 조사]] · [[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|모의투자 전환 D1]] · [[프로젝트/개인/MyCryptoDiary/Neon Drizzle 스키마 2026-08-28|Neon·Drizzle 스키마 D2]] · [[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|Clerk 인증 D3]]
+- 작업 기록: [[프로젝트/개인/MyCryptoDiary/실시간 데이터 UI 계획 2026-08-14|실시간 데이터 UI 계획]] · [[프로젝트/개인/MyCryptoDiary/보상형 광고 조사 2026-08-15|보상형 광고 조사]] · [[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|모의투자 전환 D1]] · [[프로젝트/개인/MyCryptoDiary/Neon Drizzle 스키마 2026-08-28|Neon·Drizzle 스키마 D2]] · [[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|Clerk 인증 D3]] · [[프로젝트/개인/MyCryptoDiary/거래 엔진 D4 2026-09-02|거래 엔진 D4]] · [[프로젝트/개인/MyCryptoDiary/D4 회고 2026-09-04|D4 회고]]
 - 학습 위키: [[_wiki/React TypeScript 제품 개발|React·TypeScript로 제품 만들기]]
