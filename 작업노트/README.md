@@ -5,7 +5,7 @@ summary: "다음 작업의 AI를 위한 재현 가능한 작업 경험 허브"
 status: active
 aliases: [AI 노트, 작업 경험, worknotes]
 created: 2026-08-28
-updated: 2026-09-04
+updated: 2026-09-05
 ---
 
 # 작업노트

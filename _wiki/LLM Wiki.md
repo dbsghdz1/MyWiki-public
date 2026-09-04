@@ -7,7 +7,7 @@ aliases:
   - LLM-managed Wiki
   - Compounding Knowledge Base
 created: 2026-07-14
-updated: 2026-09-04
+updated: 2026-09-05
 slack_channel: llm-wiki
 sources:
   - "[[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약]]"
@@ -98,6 +98,9 @@ Inbox → Sources에 원본 보존
 | 5 | 매 커밋 구조 lint와 30일 의미 lint를 분리 | 싼 검사는 항상, 출처·충돌 같은 판단은 주기적으로 수행 |
 
 현재 카드는 `단계·현재·다음 판정·지금 할 일·하지 않을 일`만 가진다. 기존 프로젝트를 일괄 재작성하지 않고 다음 Sync나 상태 변경 때 붙인다. 새 수익 제품은 [[프로젝트/개인/README|개인 프로젝트 허브]]의 20·5·2 규칙을 통과하기 전 `idea`에 머물고, 유통 경로를 먼저 설명할 수 있어야 개발로 넘어간다.
+
+> [!note] 2026-09-05 검토 — 구조 lint의 결함 3개를 고쳤다
+> 개편 이튿날 리뷰에서 재현한 결함: ① 표 안의 `\|` 이스케이프 별칭 링크(볼트 관례 42곳)를 "새 wikilink 대상을 찾을 수 없다"로 오탐 ② 본문만 고친 프로젝트 README 커밋이 "index 미스테이징"으로 막힘 — index가 안 바뀌면 stage할 수 없어 `updated:`를 올려야만 통과했다 ③ log가 200KB를 넘으면 잘라내야 하는데 append-only 검사가 삭제를 막는 교착(당시 84KB, 하루 약 10KB 증가). 수정: 이스케이프 정규화, index는 생성 결과가 HEAD와 다를 때만 요구, 아카이브 이동은 지운 항목이 같은 커밋에 staged된 `_wiki/log-YYYY-MM.md`에 그대로 있을 때 통과. 훅은 검사 전에 `build-index.py`를 실행해 index를 자동 stage하므로 다른 기기·루틴이 만든 드리프트도 흡수한다. **훅은 클론마다 `git config core.hooksPath .githooks`로 켜야 한다.** 회귀 테스트 3묶음 추가. 상세: [[작업노트/도구/MyWiki 구조 lint와 pre-commit 훅|MyWiki 구조 lint와 pre-commit 훅]].
 
 ## 대화 증류 진입점 — /wiki 스킬 (2026-08-08 기준)
 
