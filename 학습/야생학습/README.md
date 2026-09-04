@@ -28,17 +28,17 @@ updated: 2026-09-05
 
 **규칙**: 세션당 새 개념 **≤3** · 홍이 전부 타이핑 · 에이전트는 로드맵 + 찾는 법(공식 문서 절·`node_modules/<pkg>/dist` 타입·grep)만, 빈칸 금지 · **예측 → 실행 → 기록** · 검증 명령을 시작 전에 정한다 · 끝에 한 줄 설명. 작업 폴더 `(로컬 경로)`(버리는 코드, git 불필요). 막히면 메모만 하고 세션 끝에 정리. 막히는 세션은 둘로 쪼갠다. 슬롯은 **소마 작업 시작 전 아침 30~45분, 화~토**(계획 우선순위 표). 측정: 주당 실행 횟수 · 예측 적중/누락 · 에너지 1~10.
 
-| # | 세션 | 새 개념 | 예측 질문 | 검증 |
-|---|---|---|---|---|
-| 1 | Vite+React+TS 빈 앱에서 같은 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 | queryKey · staleTime · 캐시 | "탭 A→B→A 왕복 시 요청은 몇 번?" | DevTools Network 요청 수 |
-| 2 | `refetchInterval` 폴링 + `staleTime` 조절 | refetchInterval · isFetching vs isLoading | "staleTime 10초면 재마운트 때 요청이 가나?" | Network + 화면 상태 |
-| 3 | Fastify + `renderToPipeableStream` 20줄 서버 + `hydrateRoot` 클라 | 서버 엔트리/클라 엔트리 · 하이드레이션 | "JS 끄고도 글자가 보이나?" | `curl` 응답 HTML에 텍스트, 브라우저 JS 비활성 |
-| 4 | 느린 컴포넌트를 `Suspense`로 감싸 셸 먼저 보내기 | Suspense 경계 · 스트리밍 청크 | "셸이 몇 ms에 도착하나?" | `curl --no-buffer` 청크 순서 |
-| 5 | 하이드레이션 불일치 일부러 내기(`Date.now()` 렌더) | 서버/클라 출력 동일성 | "경고가 뜨나, 화면은 어느 쪽 값?" | 콘솔 경고 재현 → 수정 |
-| 6 | 서버 `prefetchQuery` → `dehydrate` → 클라 `HydrationBoundary` | 서버 상태 직렬화 | "클라에서 같은 쿼리 요청이 다시 가나?" | Network 요청 0건 |
-| 7 | 1초 폴링 목록에서 React Profiler로 렌더 수 세기, `memo` 전/후 | Profiler · memo · 리렌더 범위 | "행 10개 중 값 바뀐 1개만 렌더되나?" | Profiler 커밋 수 before/after |
-| 8 | (선택) vanilla-extract 30분 — Tailwind와 무엇이 다른가 | 빌드 타임 CSS · 타입 안전 스타일 | "런타임에 CSS가 생성되나?" | 빌드 산출물 |
-| 9 | (선택) iOS WKWebView 껍데기에 3번 페이지 띄우기 | 웹뷰 ↔ 웹 경계 | "Referer·localStorage가 웹과 같은가?" | 시뮬레이터 |
+| #   | 세션                                                                     | 새 개념                                      | 예측 질문                           | 검증                               |
+| --- | ---------------------------------------------------------------------- | ----------------------------------------- | ------------------------------- | -------------------------------- |
+| 1   | Vite+React+TS 빈 앱에서 같은 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 | queryKey · staleTime · 캐시                 | "탭 A→B→A 왕복 시 요청은 몇 번?"         | DevTools Network 요청 수            |
+| 2   | `refetchInterval` 폴링 + `staleTime` 조절                                  | refetchInterval · isFetching vs isLoading | "staleTime 10초면 재마운트 때 요청이 가나?" | Network + 화면 상태                  |
+| 3   | Fastify + `renderToPipeableStream` 20줄 서버 + `hydrateRoot` 클라           | 서버 엔트리/클라 엔트리 · 하이드레이션                    | "JS 끄고도 글자가 보이나?"               | `curl` 응답 HTML에 텍스트, 브라우저 JS 비활성 |
+| 4   | 느린 컴포넌트를 `Suspense`로 감싸 셸 먼저 보내기                                       | Suspense 경계 · 스트리밍 청크                     | "셸이 몇 ms에 도착하나?"                | `curl --no-buffer` 청크 순서         |
+| 5   | 하이드레이션 불일치 일부러 내기(`Date.now()` 렌더)                                     | 서버/클라 출력 동일성                              | "경고가 뜨나, 화면은 어느 쪽 값?"           | 콘솔 경고 재현 → 수정                    |
+| 6   | 서버 `prefetchQuery` → `dehydrate` → 클라 `HydrationBoundary`              | 서버 상태 직렬화                                 | "클라에서 같은 쿼리 요청이 다시 가나?"         | Network 요청 0건                    |
+| 7   | 1초 폴링 목록에서 React Profiler로 렌더 수 세기, `memo` 전/후                         | Profiler · memo · 리렌더 범위                  | "행 10개 중 값 바뀐 1개만 렌더되나?"        | Profiler 커밋 수 before/after       |
+| 8   | (선택) vanilla-extract 30분 — Tailwind와 무엇이 다른가                           | 빌드 타임 CSS · 타입 안전 스타일                     | "런타임에 CSS가 생성되나?"               | 빌드 산출물                           |
+| 9   | (선택) iOS WKWebView 껍데기에 3번 페이지 띄우기                                     | 웹뷰 ↔ 웹 경계                                 | "Referer·localStorage가 웹과 같은가?" | 시뮬레이터                            |
 
 - [ ] 1 — useEffect fetch vs TanStack useQuery
 - [ ] 2 — refetchInterval 폴링과 staleTime
