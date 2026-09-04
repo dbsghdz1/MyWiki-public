@@ -51,4 +51,6 @@ projects:
   - **발바닥 아이콘은 발가락 비율이 전부다.** 큰 원 3개(r=0.15s)로 그리면 미키마우스로 읽힌다. 납작한 패드(0.72×0.52s) + 작은 발가락 4개(r=0.115s)를 호 모양으로 놓아야 발바닥이 된다. og.png의 실제 아이콘을 보고 고쳤다.
   - **도장(회전 텍스트)은 임시 RGBA에 그려 `rotate(expand=True)` 후 `alpha_composite`.** 영수증 카드 위에 얹을 때 금액 줄을 덮지 않도록 카드 높이를 늘려(480) 빈 띠에 넣는 편이 "도장이 숫자를 가리는" 것보다 낫다.
   - **ffmpeg 슬라이드쇼는 `xfade` 체인으로 한 줄.** `-loop 1 -t 4` 입력 3개에 `[0][1]xfade=transition=fade:duration=0.5:offset=3.5[v1];[v1][2]xfade=…:offset=7[v2]` — 두 번째 offset은 앞 구간 합(4+4)에서 전환 길이·앞 전환 겹침을 뺀 값(7). 결과 12초·1080×1920·yuv420p, 애드 매니저 업로드 규격에 맞다.
-- 근거: `(로컬 경로)`(같은 폴더에 산출물 14개), 세션 스크래치패드 `ads/`.
+  - **Pexels 영상은 API 키 없이 받아진다.** `curl -L -A "Mozilla/5.0 …" -o <id>.mp4 https://www.pexels.com/download/video/<id>/` 로 원본 해상도(2160×3840 등) mp4가 온다. 검색은 `https://www.pexels.com/search/videos/<쿼리>/?orientation=portrait` 페이지를 WebFetch로 읽으면 id 목록이 나온다. 라이선스는 상업 광고 사용 가능·표기 불필요. 고르기는 `ffmpeg -ss 3 -frames:v 1`로 썸네일을 뽑아 `xstack`으로 한 장에 모아 본다.
+  - **영상 위 오버레이는 투명 PNG + `overlay=0:0:format=auto`.** 4K 원본은 `scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1,setpts=PTS-STARTPTS`로 맞춘 뒤 얹고, 클립 간 `xfade`는 fps·크기·SAR이 같아야 한다. 오버레이의 잉크색 글자는 어두운 영상에서 죽으므로 브랜드 칩·도메인 뒤에 크림 알약(alpha 225~235)을 깐다.
+- 근거: `(로컬 경로)`(같은 폴더에 산출물), `stock_원본/출처.txt`(Pexels id·구간·합성 명령), 세션 스크래치패드 `ads/`.
