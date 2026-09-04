@@ -1,5 +1,7 @@
 ---
 type: hub
+title: "아카이빙"
+summary: "비활성 학습 노트를 보존하는 아카이브 허브"
 status: active
 created: 2026-08-30
 updated: 2026-08-30

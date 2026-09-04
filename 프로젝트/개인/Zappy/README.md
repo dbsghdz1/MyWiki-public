@@ -1,5 +1,7 @@
 ---
 type: project
+title: "Zappy"
+summary: "배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점"
 status: active
 aliases:
   - Zappy

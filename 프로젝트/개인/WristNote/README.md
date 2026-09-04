@@ -1,5 +1,7 @@
 ---
 type: project
+title: "WristNote"
+summary: "Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점"
 status: shipped
 aliases:
   - WristNote

@@ -1,5 +1,7 @@
 ---
 type: project
+title: "Fadeo"
+summary: "기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점"
 status: active
 aliases:
   - 즉석카메라

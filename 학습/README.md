@@ -1,5 +1,7 @@
 ---
 type: hub
+title: "학습"
+summary: "학습 활동 전체를 공부·야생학습·아카이빙으로 연결하는 허브"
 status: active
 aliases: [학습 노트, learning]
 created: 2026-08-30

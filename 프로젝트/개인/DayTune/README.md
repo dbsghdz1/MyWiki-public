@@ -1,5 +1,7 @@
 ---
 type: project
+title: "DayTune"
+summary: "수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점"
 status: paused
 aliases:
   - 데이튠

@@ -1,5 +1,7 @@
 ---
 type: project
+title: "한국사 정복"
+summary: "한국사능력검정시험 학습 앱의 작업 진입점"
 status: active
 aliases:
   - 한능검

@@ -1,11 +1,13 @@
 ---
 type: hub
+title: "개인 프로젝트"
+summary: "개인 프로젝트의 상태와 진입점을 묶는 허브"
 status: active
 aliases:
   - 개인프로젝트
   - Personal Projects
 created: 2026-07-22
-updated: 2026-08-29
+updated: 2026-09-04
 related_wiki: []
 ---
 
@@ -33,6 +35,9 @@ related_wiki: []
 
 ## 새 프로젝트 추가 규칙
 
-- `프로젝트/개인/<이름>/README.md`를 AGENTS.md의 프로젝트 frontmatter로 생성한다.
-- 이 목록과 [[_wiki/index|Wiki Index]]에 등록한다.
+- `프로젝트/개인/<이름>/README.md`를 프로젝트 frontmatter로 만들고 안정적인 `title`·`summary`를 넣는다.
+- 새 수익 제품은 `status: idea`, `repos: []`, `## 현재 카드`의 `단계: 문제 검증`에서 시작한다. 실제 불만 20건·문제 인터뷰 5명·돈·시간·데이터를 건 행동 2건을 확인하기 전에는 코드·UI·브랜딩을 만들지 않는다.
+- 20·5·2 + 첫 사용자 10명 획득 경로 + 최대 3개 채널 + 계속·중단 기준을 먼저 적고, 7일 MVP → 14일 유통 실험 순서로 간다. 기존 프로젝트에는 소급하지 않고 새 피벗부터 적용한다.
+- 이 목록에는 직접 등록한다. [[_wiki/index|Wiki Index]]는 원본 볼트의 생성기가 frontmatter에서 자동 등록한다.
 - 코드 저장소가 있으면 README의 `repos`와 `코드 저장소` 섹션에 연결한다.
+- 기존 프로젝트는 다음 Sync나 상태·판정 변경 때 5줄 `## 현재 카드`를 추가한다. 일괄 이관하지 않는다.
