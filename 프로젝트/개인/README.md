@@ -7,7 +7,7 @@ aliases:
   - 개인프로젝트
   - Personal Projects
 created: 2026-07-22
-updated: 2026-09-04
+updated: 2026-09-05
 related_wiki: []
 ---
 
@@ -31,7 +31,7 @@ related_wiki: []
 | [[프로젝트/개인/WristNote/README|WristNote]] | 애플워치 회의 녹음→아이폰 온디바이스 전사·요약 앱 — **2026-08-31 착수 → 09-03 App Store 1.0 출시(리젝 0회, 약 2.5일)**. 차별점 "무제한·구독 없음·서버 없음"(경쟁은 서버 STT라 분 제한·구독이 구조적). 1.1 = 주제 칩·페이지 + 옵시디언 마크다운 내보내기(주제 위키링크) + 컴플리케이션. 30분+ 백그라운드 녹음 실측은 아직 | shipped |
 | [[프로젝트/개인/math-sprint/README|math-sprint]] | Apps in Toss용 60초 암산 스프린트 게임 — React·Granite 기반, build·`.ait` 통과 상태로 멈춤. **2026-08-18 잠시 중지**(중단 아님, 슬롯 배분 결정) — 지원 마감 11-14 이후 재개 검토 | paused |
 | [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] | 인스타그램 카드뉴스 생성·발행 자동화 도구 (Python) — Oracle systemd timer 08:00·23:00 자율 발행(08-14~) | active |
-| [[프로젝트/개인/MyCryptoDiary/README|CoinPilot (MyCryptoDiary)]] | 가상 1,000만원 모의투자 거래소 + 매매일기 + 유저 랭킹 — D3 Clerk 인증·계좌 lazy create·보호 라우트 완료(PR #7), 다음 D4 매수 거래 엔진 | active |
+| [[프로젝트/개인/MyCryptoDiary/README|CoinPilot (MyCryptoDiary)]] | 가상 1,000만원 모의투자 거래소 + 매매일기 + 유저 랭킹 — D4 매수 엔진까지 완료(PR #5~#7). **2026-09-05 잠시 중지**(수준 대비 난이도 — 풀스택 범위, [[프로젝트/개인/MyCryptoDiary/D4 회고 2026-09-04|D4 회고]]). 재개 조건은 README 현재 카드 | paused |
 
 ## 새 프로젝트 추가 규칙
 
