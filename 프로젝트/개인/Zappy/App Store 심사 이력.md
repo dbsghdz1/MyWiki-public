@@ -4,7 +4,7 @@ status: active
 aliases:
   - Zappy 심사
 created: 2026-07-25
-updated: 2026-09-01
+updated: 2026-09-04
 related_wiki: []
 ---
 
@@ -52,6 +52,7 @@ related_wiki: []
 | 2026-08-28 | **1.11.0 승인·출시 확인**(READY_FOR_SALE, `asc state`). 단 **에어팟 행은 출시 후 실기기 검증에서 실패** — macOS 26.5.1은 에어팟을 IORegistry에 아예 안 올린다(키 0개·노드 0개, 같은 시각 `system_profiler`는 잔량 표시 = bluetoothd만 안다). 08-26 미검증 리스크가 실제로 확인된 것. What's New 5개 언어가 에어팟 지원을 광고 중이나 설명문·프로모션 텍스트에는 언급 없음. 크래시 없음(행이 안 뜰 뿐). 정정 기록: [[작업노트/Apple/블루투스 기기 배터리 읽기]] 08-28 항목 |
 | 2026-08-28 | **1.12.0 (build 22) 제출**, WAITING_FOR_REVIEW (`asc state`로 build VALID·5로케일 스크린샷 확인). 내용: **풍선 테마**(Zappy+ 10번째 모션 — 잔량=부푼 크기, 충전=발펌프 4프레임) + **AirPods 표시 제거**(macOS 26 반증분, What's New에 제거 사유 고지) + 설명문 낡은 광고 2건 정정(1.2.0에 없어진 충전 숨쉬기, 1.11.0에 제거된 완충 연출) + 랜딩 18종 동기화. `fastlane mac release` 한 번에 통과. 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-28\|개발 기록 08-28]] |
 | 2026-09-01 | **1.12.0 승인·출시 확인**(READY_FOR_SALE, `asc state`) → 같은 날 **1.13.0 (build 23) 제출**, WAITING_FOR_REVIEW. 내용: 리텐션 P0+P1 — 체험형 온보딩 2장(완료는 시작 버튼에서만·메뉴 '사용 안내…')·알림 권한 지연(켠 순간/첫 발송)·메뉴 재정리·위젯 힌트·리포트 진행·NEW 배지·풍선 펌프 8프레임 + **스토어 스크린샷 5로케일×5장을 코드로 재생성**(`docs/store-screenshots`, en/ja/es/zh는 1.0 시절 3장이었음). `release` 레인(`overwrite_screenshots: true`)이 **es-ES에 1_shot.png를 2번 올려 6장** → 심사 취소(`asc cancel-review`, 약 30초 뒤 DEVELOPER_REJECTED) → `asc dedupe-screenshots`(removed 1) → 새 `resubmit` 레인(바이너리·메타·스크린샷 skip, 제출만)으로 재제출까지 3분. 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-01\|개발 기록 09-01]] |
+| 2026-09-04 | **1.13.0 승인·출시 확인**(READY_FOR_SALE, `asc state` — 위키는 09-01 WAITING으로 멈춰 있었음) → 같은 날 **1.14.0 (build 24) 제출**, WAITING_FOR_REVIEW(build 24 VALID, 5로케일 × 5장 — `asc screenshots`로 중복 없음 확인, 로그의 'Successfully uploaded all screenshots' 2회는 이번엔 실제 중복 아님). 내용: 기존 테마 4종 다듬기 — **사과** 배터리를 쓰는 만큼 계속 갉아먹는 연속형(자국 8개·옴뇸뇸·잎 시듦) + 충전 고치·완충 나비(사과엔 충전 씬이 없었음) / **날씨** 구름이 해를 가리는 연속형·얼굴은 해에만·충전 번개 실제 번쩍임 / **선인장** 팔 살랑·벌 궤도·봉오리·물방울 / **해파리** 추진 리듬·눈만·공기방울. What's New 5개 언어, 설명문 날씨 한 줄, 랜딩 카드 4장. `fastlane mac release` 한 번에 통과(precheck 오류는 평소처럼 무관). 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-04\|개발 기록 09-04]] |
 
 ## 2.1 정보 요청 (2026-07-25)
 
