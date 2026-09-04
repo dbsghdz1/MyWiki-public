@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-09-02
-updated: 2026-09-04
+updated: 2026-09-05
 related_wiki: []
 ---
 
@@ -12,7 +12,14 @@ ASC appId `6807479115`, 번들 `com.hong.wristnote` (+ `.watchkitapp`). 파이�
 
 ## 타임라인
 
-### 1.1.0 (build 2) — 2026-09-04 00:37 제출 → 스크린샷 정리 후 재제출, WAITING_FOR_REVIEW
+### 1.1.1 (build 3) — 2026-09-05 03:15 제출 → **스크린샷 정리 대기 중** (홍 실행 필요)
+
+- 내용: 워치 녹음 타이머 표시 수정(`Text(timerInterval:)`, 커밋 `7e557ec`) + 컴플리케이션 URL 스킴 등록(`CFBundleURLTypes: wristnote`, 커밋 `5d43e5b`). 워치 스크린샷 2장 재촬영 — 타이머 표기가 `00:00`/`00:04`에서 `0:00`/`0:07`로 바뀌어 기존 스크린샷이 실제 화면과 달라졌다.
+- `fastlane ios release` 성공(03:15:31 `Successfully submitted the app for review!`), build 3 VALID·연결됨, WAITING_FOR_REVIEW.
+- **deliver 이중 업로드가 세 번째로 재발** — 로케일당 6 → 12장. 로그에 `Successfully uploaded all screenshots`가 2번(03:12:10) + 그 직전 `Failed to upload all screenshots... Tries remaining: 4`(03:11:55). **재시도가 이중 업로드의 방아쇠로 보인다** — 실패한 시도가 실제로는 일부 올린 뒤 재시도가 전체를 다시 올리는 것으로 추정(미검증).
+- 정리는 **홍이 직접 실행해야 한다** — 자동 모드 분류기가 `asc cancel-review`(외부 상태 변경)를 차단했다. `scripts/fix-screenshots-resubmit.sh` 한 방으로 cancel → dedupe → `resubmit` lane까지 돈다.
+
+### 1.1.0 (build 2) — 2026-09-04 제출 → **2026-09-05 승인·출시 (READY_FOR_SALE)**
 
 - 주제 그래프·칩·옵시디언 마크다운 내보내기·노션 전송·워치 컴플리케이션. 스크린샷을 6장으로 개편(목록·**주제 그래프**·상세(칩)·설정 + 워치 2장), 릴리즈 노트 "회의가 쌓이면 지도가 됩니다".
 - **기본 언어를 ko → en-US로 변경**(`asc set-primary`) — 홍 지시 "그 외 언어권 사용자는 영어로". 한국 사용자는 ko 로케일 그대로.
@@ -38,6 +45,7 @@ ASC appId `6807479115`, 번들 `com.hong.wristnote` (+ `.watchkitapp`). 파이�
 
 ## 다음 버전에서 할 것
 
+- **deliver 이중 업로드의 진짜 원인 규명** — 세 번 연속 재발했고 `overwrite_screenshots: true`로도 안 막힌다. 1.1.1 로그에서 처음으로 **실패→재시도**가 선행한 것이 잡혔다. 다음 제출 때 `--verbose`로 재시도 전후 업로드 수를 세어 확인할 것. 확인되면 `deliver_all`에서 스크린샷을 빼고 별도 lane으로 분리하는 쪽이 낫다.
 - 실기기 장시간(30분+) 백그라운드 녹음 실측 — 1.0은 이 검증 없이 제출됐다.
 - 워치 녹음 포맷: 현재 실기기에서 µ-law 16kHz(16KB/s)로 동작. AAC는 `AVAudioRecorder`에서 무출력. `AVAudioEngine` + 소프트웨어 AAC로 용량 1/4 줄이기 검토.
 - 콜드 스타트 반응 지연(권한 요청 + 오디오 세션 활성화가 첫 탭에 겹침).

@@ -58,8 +58,11 @@ related_wiki: []
 
 17. **경과 시간이 건너뛴다** — 홍 보고: "시간초가 갑자기 올라가 7초 이렇게". 1초 `Timer` tick으로 `elapsed`를 갱신하던 표시를 `Text(timerInterval: startedAt...Date.distantFuture, countsDown: false)`로 교체. 손목 내림·Always-On 감광 중엔 tick이 멈춰 화면을 다시 볼 때 밀린 초가 한 번에 반영되던 것. `@Published var elapsed`도 제거(매초 `objectWillChange`가 나가면 뷰가 어차피 초당 재렌더). 곁가지로 코덱 사다리 성장 판정의 `wall == 2` / `wall == 5` 등호를 부등호 + 기준 +3초로 바꿨다 — tick이 밀리면 판정이 아예 안 돌던 구멍. 커밋 `7e557ec`, 워치 시뮬레이터 자동 테스트로 확인. **1.1.0 build 2(심사 중)에는 안 들어갔다 — 다음 빌드에 실린다.** → [[작업노트/Apple/SwiftUI|작업노트]]
 
+18. **1.1.1 (build 3) 제출** — 홍 "심사 끝났어 심사올려"(1.1.0 READY_FOR_SALE 확인). 버전 1.1.0(2) → 1.1.1(3), 타이머 수정 + 컴플리케이션 URL 스킴 등록(`CFBundleURLTypes: wristnote` — 미등록이라 `simctl openurl`이 LSApplicationWorkspaceErrorDomain 115로 실패했다; WidgetKit 직배달 경로는 별개라 컴플리케이션이 실제로 깨졌는지는 미확정), 워치 스크린샷 2장 재촬영(타이머 표기 변경 반영), 릴리즈 노트 ko·en. `fastlane ios release` 성공 → WAITING_FOR_REVIEW. **스크린샷 이중 업로드 3회 연속 재발 — 정리는 홍이 `scripts/fix-screenshots-resubmit.sh` 실행.** 커밋 `5d43e5b`. → [[프로젝트/개인/WristNote/App Store 심사 이력|심사 이력]]
+
 ## 다음 (홍이 할 것)
 
+- **`scripts/fix-screenshots-resubmit.sh` 실행** — 1.1.1 스크린샷 이중 업로드 정리 + 재제출 (자동 모드가 `asc cancel-review`를 차단)
 - **실기기에서 1.1.0 확인**: ① 컴플리케이션 추가(시계 화면 편집) → 탭 → 바로 녹음 ② 설정 → 마크다운 폴더에 옵시디언 볼트 지정 → 회의 후 볼트에 파일·그래프 연결 확인 ③ 노션 토큰 연결 → 보내기 ④ **30분+ 백그라운드 녹음(아직 미검증)**
 - 확인되면 "제출해" 한마디 — `fastlane ios release`로 1.1.0 (build 2) 올린다 (스크린샷에 주제 그래프 추가 예정).
 - GitHub 레포 생성 여부 결정.
