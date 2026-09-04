@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-21
-updated: 2026-08-27
+updated: 2026-09-05
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -148,3 +148,12 @@ cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화�
 - 맥락: 보험찾개냥에서 PR 리뷰 감시 Monitor 스크립트가 기동 즉시 exit 1.
 - 배운 것: Bash 도구·Monitor의 스크립트는 **zsh로 실행된다**(사용자 셸 프로필 기준). bash 전용 간접 참조 `${!var}`는 zsh에서 `bad substitution`으로 즉사한다 — 변수 간접 참조 대신 평평한 변수·명시적 분기로 쓴다. `[ -n ]`·`[ -gt ]` 같은 POSIX 표현은 안전.
 - 근거: 에러 원문 `(eval):12: bad substitution`, 간접 참조 제거 후 정상 기동 (2026-09-01 세션)
+
+### 2026-09-05 — 사람만 부르는 스킬(`disable-model-invocation: true`)은 모델의 스킬 목록에 안 보인다 — `/teach`가 그 예
+
+- 맥락: [[학습/README|학습]] 허브에 "학습선생님" 스킬을 만들려고 Matt Pocock 저장소(aihero.dev/skills)를 조사.
+- 배운 것:
+  - 설치된 `mattpocock-skills` 1.2.3(`(로컬 경로)`)에 **`/teach`가 이미 들어 있다** (`skills/productivity/teach/SKILL.md` + `MISSION-FORMAT.md`·`LEARNING-RECORD-FORMAT.md`·`RESOURCES-FORMAT.md`). 세션 시작 스킬 목록에는 `grilling`·`tdd`·`wizard` 등만 보이고 `teach`·`grill-me`·`handoff`가 없어서 "없다"고 오판할 뻔했다. 원인은 frontmatter `disable-model-invocation: true` — **사람이 `/이름`으로 칠 때만 열리고 모델 목록에서는 빠진다.** 스킬 존재 여부는 목록이 아니라 플러그인 `plugin.json`의 `skills` 배열이나 캐시 디렉터리로 확인해야 한다.
+  - 같은 플러그인이 두 마켓플레이스(`claude-plugins-official` 1.2.3, `mattpocock` 1.2.0, 같은 SHA `2ab9580`)에 이중 설치돼 있다. 저장소 README는 "installing both leaves you with every skill twice"라고 경고한다 — 정리 대상.
+  - 홍의 학습선생님은 `/teach`를 MyWiki `학습/`에 맞게 개조한 **`(로컬 경로)`**(2026-09-05 초안). 미션=주제 노트 `## 학습 계획`의 `**미션:**` 줄, 학습 기록=`## 기록`, 실험=`학습/야생학습/`. 새 폴더는 만들지 않았다.
+- 근거: `(로컬 경로)`, 저장소 `.agents/invocation.md`("User-invoked — reachable only by the human typing its name"), `skills/productivity/writing-great-skills/SKILL.md`.
