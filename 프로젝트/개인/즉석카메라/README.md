@@ -7,7 +7,7 @@ aliases:
   - 즉석카메라
   - 현상 카메라
 created: 2026-08-25
-updated: 2026-09-05
+updated: 2026-09-06
 repos:
   - "~/Desktop/개인 앱/InstantCam (코드명, 로컬 git)"
 related_wiki:
@@ -124,8 +124,8 @@ related_wiki:
 
 - [[작업노트/Apple/CoreImage 색 파이프라인|CoreImage 색 파이프라인]] — 색조 이동은 ±10% 안쪽, 블랙 리프트는 bias가 아니라 톤커브, **색은 UI 맥락 없이 판정하면 안 된다**, `CIImage`는 EXIF 방향을 무시한다, 표시 크기로 먼저 디코드. **폴라로이드다움은 색이 아니라 결함이다**(할레이션·입자·번짐·얼룩), `CIAdditionCompositing`은 알파도 더한다, `CIRandomGenerator`는 알파까지 난수다
 - [[작업노트/Apple/시뮬레이터로 UI 검증하기|시뮬레이터로 UI 검증하기]] — `simctl`에 탭이 없고 권한 다이얼로그는 `erase`만 듣는다. 답은 **앱 안의 DEBUG 데모 모드**
-- [[작업노트/Apple/SwiftUI|SwiftUI]] — **`Text(String)`은 로컬라이즈를 안 한다**(헬퍼 인자를 `LocalizedStringKey`로), 화면 밖 요소는 여백 대신 `.clipped()`, 시간 경과는 `@Published`를 안 울린다(`.task(id:)`로 다음 시각에 한 번), 고정 랜덤에 `hashValue` 금지, **"처음인가"를 `@AppStorage`로 직접 판정 금지**, 겹침 방지는 상수가 아니라 `PreferenceKey`
-- [[작업노트/Apple/카메라 캡처와 실시간 필터|카메라 캡처와 실시간 필터]] — 촬영음은 관할에 따라 공식 API로도 못 끈다(억지로 켜면 죽는다), **진짜 무음은 사진 출력을 안 쓰는 것**, `AVCaptureVideoPreviewLayer`에는 필터를 못 건다
+- [[작업노트/Apple/SwiftUI|SwiftUI]] — **`Text(String)`은 로컬라이즈를 안 한다**(헬퍼 인자를 `LocalizedStringKey`로), 화면 밖 요소는 여백 대신 `.clipped()`, 시간 경과는 `@Published`를 안 울린다(`.task(id:)`로 다음 시각에 한 번), 고정 랜덤에 `hashValue` 금지, **"처음인가"를 `@AppStorage`로 직접 판정 금지**, 겹침 방지는 상수가 아니라 `PreferenceKey`. **가운데 칸이 곧 선택인 가로 다이얼은 `.contentMargins`가 만든다** — 그리고 스크롤 선택은 setter의 부수 효과를 debounce하게 만든다
+- [[작업노트/Apple/카메라 캡처와 실시간 필터|카메라 캡처와 실시간 필터]] — 촬영음은 관할에 따라 공식 API로도 못 끈다(억지로 켜면 죽는다), **진짜 무음은 사진 출력을 안 쓰는 것**, `AVCaptureVideoPreviewLayer`에는 필터를 못 건다. **확대는 기기 배율 하나가 프리뷰와 촬영에 함께 걸린다** — 대신 범위를 벗어난 `videoZoomFactor`는 못 잡는 예외고 `activeFormat` 대입이 배율을 1로 되돌린다
 - [[작업노트/AppStore/실물을 흉내 내는 앱의 상표 위험|실물을 흉내 내는 앱의 상표 위험]] — 흰 테두리는 **classic border logo**라는 등록 상표이고 계류 중. 실질 위험은 소송이 아니라 **신고 한 건으로 내려가는 것**
 - [[작업노트/Apple/메인 스레드를 막는 것들|메인 스레드를 막는 것들]] — 실기기 검증 세 라운드의 산물. 블록을 없애면 우연에 기대던 코드가 깨진다. **네 번째 라운드는 계측으로 끝났고 범인은 메인이 아니었다** — `startRunning()` 200ms, 그리고 "멈춘 것 같다"의 절반은 블록이 아니라 침묵
 - [[작업노트/AppStore/앱 이름과 검색 노출|앱 이름과 검색 노출]] — **짧은 조어 브랜드명은 흔한 단어에 먹힌다.** `Fadeo`는 `Video`에 묻혀 자기 이름 검색 200위 밖. 키워드는 단어 뜻이 아니라 **그 검색어가 속한 시장**을 보고 넣는다

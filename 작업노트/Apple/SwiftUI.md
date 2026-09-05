@@ -4,10 +4,11 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-09-05
+updated: 2026-09-06
 projects:
   - "탭탭"
   - "[[프로젝트/개인/WristNote/README|WristNote]]"
+  - "[[프로젝트/개인/즉석카메라/README|Fadeo(즉석카메라)]]"
 ---
 
 # SwiftUI
@@ -28,9 +29,23 @@ projects:
 - **호버 색과 같은 색을 기본 배경으로 깔아 두면 그 항목은 영원히 호버 상태로 보인다.** 위험 액션에 `bgDimDanger`를 상시 배경으로 주고 호버 색도 같은 토큰으로 주면 호버가 아무 변화도 못 만든다. 기본은 `.clear`, 강조는 전경색(텍스트·아이콘)으로 준다.
 - **경과 시간 표시를 내 `Timer` tick으로 갱신하면 워치에서 건너뛰며 올라간다.** 손목을 내리거나 Always-On 감광 상태에선 tick이 멈추고, 화면을 다시 보는 순간 밀린 값이 한 번에 반영돼 `0:03 → 0:07`처럼 보인다. 시스템이 직접 다시 그리는 **`Text(timerInterval:countsDown:)`** 을 쓴다 — 앱이 tick하지 않아도 갱신되고, 감광 중엔 시스템이 알아서 분 단위로 낮춘다. 같은 계열: 시간이 흐르는 것만으로는 `@Published`가 울리지 않는다, 애니메이션은 트랜잭션 대신 시계(`TimelineView(.animation)`)로.
 - **매초 바뀌는 값을 `@Published`로 두면 뷰가 초당 한 번 다시 그려진다.** 타이머 텍스트를 시스템에 넘겨도 같은 객체의 다른 `@Published`가 매초 `objectWillChange`를 쏘면 이득이 사라진다. 뷰가 안 읽는 진행값은 `private var`로 내리고, 뷰에 필요한 것(시작 시각)만 노출한다.
+- **가운데 칸이 곧 선택인 가로 다이얼은 `.contentMargins`가 만든다.** `ScrollView(.horizontal)` + `.scrollTargetLayout()` + `.scrollTargetBehavior(.viewAligned)` + `.scrollPosition(id:anchor:.center)`까지 붙여도, **양옆 여백이 없으면 첫 칸과 마지막 칸은 영원히 가운데에 못 선다** — 스크롤 끝에서 멈추기 때문이다. `.contentMargins(.horizontal, (컨테이너폭 - 칸폭)/2, for: .scrollContent)`를 주면 끝 칸도 가운데까지 오고, **덤으로 내용이 화면 폭에 딱 맞는 줄도 스크롤이 된다**(여백만큼 항상 넘치므로). 폭은 `GeometryReader`로 받는다.
+- **다이얼의 `@State` 초기값은 `init`에서 넣는다.** `.onAppear`에서 `centered = 선택.id`로 채우면 첫 배치가 이미 맨 왼쪽에서 끝난 뒤라, **펼치는 것만으로 첫 항목이 선택된다.** `_centered = State(initialValue:)`로 시작부터 맞춰 둔다.
+- **탭과 스크롤이 같은 선택을 두 번 알린다.** 탭이 스크롤 위치까지 옮기므로 `onChange(of: 위치)`가 뒤따라 또 발화한다. 마지막으로 알린 id를 들고 있다가 같은 값이면 삼킨다. 반대 방향(밖에서 선택이 바뀜)도 같은 자리에서 처리한다.
+- **선택을 스크롤로 하게 만들면 setter가 초당 수십 번 불린다.** 탭 시절엔 한 번이던 부수 효과(앱 그룹 스냅샷 쓰기·`WidgetCenter.reloadAllTimelines()`·라이브 액티비티 갱신)가 한 번 튕길 때마다 여섯 번 돈다 — 그것도 스크롤이 도는 메인 스레드에서. **화면에 보이는 값은 즉시, 바깥 세계에 나가는 것은 debounce**(취소 가능한 `Task` + 0.4초)로 가른다.
 - **알파만 있는 어두운 오버레이 토큰은 다크 모드에서 사라진다.** `#272146 @7%` 같은 호버 색은 흰 배경에선 회색, 검은 배경에선 검정 위 검정이라 안 보인다. 색 토큰에 다크 appearance 변형이 있는지(`Contents.json`의 `appearances`) 확인하고, 없으면 밝기 변형이 있는 중립색(n20 등)을 쓴다.
 
 ## 기록
+
+### 2026-09-06 — 필름 고르기를 가로 다이얼로: 여백이 없으면 끝 칸이 가운데에 못 선다 (Fadeo)
+
+- 맥락: 홍의 요청 — *"필터 선택할 때 옆으로 스크롤해서 넘어가게"*. Fadeo 1.3의 필름 선택줄은 48pt 칸 여섯 개가 `HStack`으로 화면 폭에 **딱 맞아** 있었다(6×48 + 5×6 = 318pt). 다 보이지만 필름을 한 종 더 넣을 자리가 없고, 손가락은 작은 칸을 정확히 찍어야 했다.
+- 배운 것: 위 「핵심 정리」의 다이얼 네 항목. 특히
+  - **`.contentMargins` 하나가 두 문제를 동시에 푼다** — 끝 칸의 가운데 정렬과, "내용이 폭에 맞아서 아예 스크롤이 안 되는" 문제. 여백 = `(컨테이너폭 - 칸폭)/2`.
+  - **`.onAppear` 초기화는 늦다.** `_centered = State(initialValue: selected.id)`가 아니면 펼치는 순간 클래식으로 바뀐다. 시뮬레이터에서 `FADEO_DEMO_TONE=mono`로 펼쳐 흑백이 가운데 서는 것을 확인하는 게 이 함정의 회귀 테스트다.
+  - **스크롤 선택은 "선택"의 빈도를 바꾼다.** `PhotoStore.selectTone`이 `publish()`(앱 그룹 쓰기 + 위젯 타임라인 리로드 + 라이브 액티비티)를 물고 있었는데, 탭일 때는 한 번이던 것이 튕김 한 번에 여섯 번이 된다. `tone` 갱신은 그대로 두고 `publish()`만 0.4초 debounce했다.
+  - 접히는 시각도 갈라야 한다 — 탭은 0.45초(확실히 고른 것), 스크롤은 1.6초(아직 지나가는 중일 수 있어서, 접히면 다이얼이 손 밑에서 사라진다).
+- 근거: `(로컬 경로)` 작업 트리(1.3 준비 중, 미커밋). `Sources/UI/TonePicker.swift`(다이얼), `Sources/UI/CameraScreen.swift`(`pick(_:byTap:)`), `Sources/Model/PhotoStore.swift`(`tonePublish` debounce). iPhone 17 Pro 시뮬레이터 데모 모드로 `FADEO_DEMO_PICKER=1` + `FADEO_DEMO_TONE=mono|classic` 두 장을 찍어 가운데 정렬과 좌측 여백을 확인.
 
 ### 2026-09-05 — 워치 녹음 타이머가 "0:03 → 0:07"로 건너뛴다 → `Text(timerInterval:)` (WristNote)
 
