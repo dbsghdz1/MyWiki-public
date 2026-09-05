@@ -22,33 +22,35 @@ updated: 2026-09-05
 - 세션에서 나온 개념 정리가 다시 읽을 가치가 있으면 [[학습/공부/README|공부]] 주제 파일로 승격하고, 여기엔 과정이 남는다.
 - 새 파일을 만들면 아래 목록에 등재한다.
 
-## 예정 세션 — 프론트 사다리 (2026-09-05)
+## 예정 세션 — 프론트 사다리 (2026-09-05 신설 → 같은 날 [[프로젝트/개인/약국맵/README|약국맵]]으로 대상 확정)
 
-**계기**: 당근 FE 인턴 공고 스택(React·TS·**TanStack Query·Vite·Fastify·`react-dom/server` Streaming SSR**)과 [[프로젝트/개인/MyCryptoDiary/D4 회고 2026-09-04|MyCryptoDiary D4 회고]](한 일차에 새 개념 10개 → 3x). 새 제품 7일 MVP에 들어갈 때 이 개념들이 "처음 보는 것"이 아니게 만든다. 배경은 취업 운영 2026-09-05 (2차).
+**계기**: 당근 FE 인턴 공고 스택(React·TS·**TanStack Query·Vite·Fastify·`react-dom/server` Streaming SSR`**)과 [[프로젝트/개인/MyCryptoDiary/D4 회고 2026-09-04|MyCryptoDiary D4 회고]](한 일차에 새 개념 10개 → 3x).
 
-**규칙**: 세션당 새 개념 **≤3** · 홍이 전부 타이핑 · 에이전트는 로드맵 + 찾는 법(공식 문서 절·`node_modules/<pkg>/dist` 타입·grep)만, 빈칸 금지 · **예측 → 실행 → 기록** · 검증 명령을 시작 전에 정한다 · 끝에 한 줄 설명. 작업 폴더 `(로컬 경로)`(버리는 코드, git 불필요). 막히면 메모만 하고 세션 끝에 정리. 막히는 세션은 둘로 쪼갠다. 슬롯은 **소마 작업 시작 전 아침 30~45분, 화~토**(계획 우선순위 표). 측정: 주당 실행 횟수 · 예측 적중/누락 · 에너지 1~10.
+> [!important] 2026-09-05 — 연습 대상을 **약국맵**으로 확정했다 (홍 결정)
+> 처음에는 버리는 코드로 스택만 익힐 계획이었다. 홍이 *"이력서에 해결하고 싶은 문제를 정의한 프로젝트를 만들고 싶다"*고 해서 **세션의 소재를 실제 프로젝트로 바꿨다.** 사다리를 한 칸 오르면 그게 [[프로젝트/개인/약국맵/README|약국맵]]의 커밋 하나가 된다. 버리는 코드가 아니므로 작업 폴더는 프로젝트 저장소다.
+> **규칙은 그대로다** — 세션당 새 개념 ≤3, 홍이 전부 타이핑, 에이전트는 로드맵과 찾는 법만(빈칸 금지), 예측 → 실행 → 기록, 검증 명령을 시작 전에 정한다, 끝에 한 줄 설명. 슬롯은 **소마 작업 시작 전 아침 30~45분, 화~토**(계획 우선순위 표). 막히는 세션은 둘로 쪼갠다. 측정: 주당 실행 횟수 · 예측 적중/누락 · 에너지 1~10.
 
-| #   | 세션                                                                     | 새 개념                                      | 예측 질문                           | 검증                               |
-| --- | ---------------------------------------------------------------------- | ----------------------------------------- | ------------------------------- | -------------------------------- |
-| 1   | Vite+React+TS 빈 앱에서 같은 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 | queryKey · staleTime · 캐시                 | "탭 A→B→A 왕복 시 요청은 몇 번?"         | DevTools Network 요청 수            |
-| 2   | `refetchInterval` 폴링 + `staleTime` 조절                                  | refetchInterval · isFetching vs isLoading | "staleTime 10초면 재마운트 때 요청이 가나?" | Network + 화면 상태                  |
-| 3   | Fastify + `renderToPipeableStream` 20줄 서버 + `hydrateRoot` 클라           | 서버 엔트리/클라 엔트리 · 하이드레이션                    | "JS 끄고도 글자가 보이나?"               | `curl` 응답 HTML에 텍스트, 브라우저 JS 비활성 |
-| 4   | 느린 컴포넌트를 `Suspense`로 감싸 셸 먼저 보내기                                       | Suspense 경계 · 스트리밍 청크                     | "셸이 몇 ms에 도착하나?"                | `curl --no-buffer` 청크 순서         |
-| 5   | 하이드레이션 불일치 일부러 내기(`Date.now()` 렌더)                                     | 서버/클라 출력 동일성                              | "경고가 뜨나, 화면은 어느 쪽 값?"           | 콘솔 경고 재현 → 수정                    |
-| 6   | 서버 `prefetchQuery` → `dehydrate` → 클라 `HydrationBoundary`              | 서버 상태 직렬화                                 | "클라에서 같은 쿼리 요청이 다시 가나?"         | Network 요청 0건                    |
-| 7   | 1초 폴링 목록에서 React Profiler로 렌더 수 세기, `memo` 전/후                         | Profiler · memo · 리렌더 범위                  | "행 10개 중 값 바뀐 1개만 렌더되나?"        | Profiler 커밋 수 before/after       |
-| 8   | (선택) vanilla-extract 30분 — Tailwind와 무엇이 다른가                           | 빌드 타임 CSS · 타입 안전 스타일                     | "런타임에 CSS가 생성되나?"               | 빌드 산출물                           |
-| 9   | (선택) iOS WKWebView 껍데기에 3번 페이지 띄우기                                     | 웹뷰 ↔ 웹 경계                                 | "Referer·localStorage가 웹과 같은가?" | 시뮬레이터                            |
+| # | 세션 | 새 개념 | 예측 질문 | 검증 |
+|---|---|---|---|---|
+| 1 | Vite+React+TS로 약국 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 불러온다 | queryKey · staleTime · 캐시 | "탭을 떠났다 돌아오면 요청은 몇 번?" | DevTools Network 요청 수 |
+| 2 | 「지금 열림」 필터 + `refetchInterval` 폴링 | refetchInterval · isFetching vs isLoading | "staleTime 10초면 재마운트 때 요청이 가나?" | Network + 화면 상태 |
+| 3 | Fastify로 공공 API 프록시 + `renderToPipeableStream` SSR + `hydrateRoot` | 서버/클라 엔트리 · 프록시 · 하이드레이션 | "JS 끄고도 약국 목록이 보이나?" | `curl` 응답 HTML에 약국명, 브라우저 JS 비활성 |
+| 4 | 지도를 클라이언트 전용으로 붙인다 — 서버에서 왜 터지는지 먼저 본다 | `window` 없는 환경 · 클라 전용 경계 | "지도를 서버에서 그리면 무슨 에러?" | 에러 원문 재현 후 수정 |
+| 5 | 「지금 열림」 판정의 하이드레이션 불일치를 재현하고 고친다 | 서버/클라 시각 차 · 출력 동일성 | "서버는 열림, 클라는 닫힘으로 그리나?" | 콘솔 경고 재현 → 시각을 서버에서 내려 해결 |
+| 6 | 서버 `prefetchQuery` → `dehydrate` → 클라 `HydrationBoundary` | 서버 상태 직렬화 | "클라에서 같은 쿼리가 다시 가나?" | Network 요청 0건 |
+| 7 | 마커 수백 개에서 React Profiler로 렌더 수 세기, `memo` 전/후 | Profiler · memo · 리렌더 범위 | "상태 바뀐 마커만 렌더되나?" | Profiler 커밋 수 before/after |
+| 8 | 「확인됨」 제보 버튼 — 낙관적 업데이트와 롤백 | optimistic update · 캐시 무효화 | "실패하면 배지가 되돌아오나?" | 서버 500 강제 후 확인 |
+| 9 | (선택) vanilla-extract로 스타일 이전 | 빌드 타임 CSS · 타입 안전 스타일 | "런타임에 CSS가 생성되나?" | 빌드 산출물 |
 
-- [ ] 1 — useEffect fetch vs TanStack useQuery
-- [ ] 2 — refetchInterval 폴링과 staleTime
-- [ ] 3 — Fastify + renderToPipeableStream + hydrateRoot 최소 SSR
-- [ ] 4 — Suspense 스트리밍: 셸 먼저
-- [ ] 5 — 하이드레이션 불일치 재현
-- [ ] 6 — TanStack Query SSR prefetch → dehydrate → HydrationBoundary
-- [ ] 7 — Profiler로 리렌더 세기, memo 전/후
-- [ ] 8 — (선택) vanilla-extract 맛보기
-- [ ] 9 — (선택) WKWebView 껍데기
+- [ ] 1 — 약국 목록: useEffect fetch vs TanStack useQuery
+- [ ] 2 — 「지금 열림」 필터와 폴링
+- [ ] 3 — Fastify 프록시 + 최소 SSR
+- [ ] 4 — 지도를 클라이언트 전용으로 (서버에서 터지는 것 확인 후)
+- [ ] 5 — 「지금 열림」 하이드레이션 불일치 재현·수정
+- [ ] 6 — 서버 prefetch → dehydrate → HydrationBoundary
+- [ ] 7 — 마커 리렌더 측정, memo 전/후
+- [ ] 8 — 제보 버튼 낙관적 업데이트
+- [ ] 9 — (선택) vanilla-extract
 
 일간 루틴은 이 체크리스트의 **첫 미체크 항목**을 `- [ ] 야생학습(아침 30~45분): <세션 제목>`으로 넣는다. 세션이 끝나면 체크하고 `학습/야생학습/<주제> YYYY-MM-DD.md`에 기록해 아래 목록에 등재한다. 개념이 남으면 [[학습/공부/README|공부]] `JS/` 주제 파일로 승격(실제로 나온 것만, 참고 자료는 URL 확인 후).
 
