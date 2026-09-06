@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-04
-updated: 2026-09-04
+updated: 2026-09-06
 projects:
   - "보험찾개냥"
 ---
@@ -19,6 +19,9 @@ projects:
 - **`node.query()` 셀렉터 값에 `/`가 들어가면 파서 에러**(`Invalid selector: unexpected character '/'`). `icon/chevron-right`처럼 슬래시 이름이 흔한 아이콘 컴포넌트는 `page.findAllWithCriteria({ types: ['INSTANCE'] })`로 인스턴스를 찾아 `mainComponent.id`를 쓴다.
 - `get_metadata`는 프레임이 있는 페이지를 **자동으로 못 찾는다** — 페이지 목록(`nodeId` 없이)이 첫 페이지만 돌려주는 경우가 있었다. `use_figma`로 `figma.root.children`을 읽고 `getNodeByIdAsync(id)`의 부모를 따라 올라가면 확실하다.
 - 오버레이(시트·다이얼로그) 화면은 **기존 오버레이 화면의 `LOCAL/Scrim`·시트 프레임을 `clone()`해 새 프레임에 `appendChild`**하는 게 가장 싸다 — 토큰 바인딩(scrim 변수·radius·fill)이 따라온다. auto-layout 부모에 넣은 뒤 `layoutPositioning = 'ABSOLUTE'` + `constraints`로 앵커.
+
+- **컴포넌트 상태(hover/disabled)의 실제 색은 `get_variable_defs`로 안 나온다.** 그 도구는 프레임이 쓰는 토큰 목록만 주고 "어느 변형에 어느 토큰"인지는 빠진다. `get_screenshot`으로 PNG를 받아 각 스와치를 픽셀 샘플링하면 변형별 값이 바로 갈린다(탭탭 Btn 컴포넌트셋 실측: primary `#6251FB→#5345D5`, gray `n30→n40`, white `n10→n30`, 채워진 danger는 변화 없음). 스와치 좌표는 `get_metadata`의 심볼 x/y/width/height에서 계산하되 **프레임 원점을 빼야** 이미지 좌표가 된다.
+- `get_screenshot`은 이미지 대신 **짧은 수명의 URL**을 준다 — `curl -L -o`로 받아 두고 로컬에서 샘플링하는 편이 컨텍스트도 아끼고 재확인도 쉽다.
 
 ## 기록
 
