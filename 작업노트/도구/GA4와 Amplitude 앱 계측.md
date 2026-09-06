@@ -35,6 +35,8 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 
 - 시뮬레이터에서 UserDefaults 플래그를 바꿔 온보딩 이후 화면부터 확인하려면 앱을 먼저 종료하고 `xcrun simctl spawn <udid> defaults write <bundleID> <key> -bool true`. 앱 컨테이너의 plist를 PlistBuddy로 직접 고치는 방식은 cfprefsd 캐시 때문에 안 먹었다.
 
+- **확장·위젯처럼 수명이 짧은 프로세스에는 SDK를 두지 않는다.** 사파리 확장 프로세스는 몇 백 밀리초만 살아 있어 Amplitude의 30초 flush 타이머가 한 번도 안 돈다 — SDK를 붙여도 이벤트는 그대로 버려진다. **앱 그룹 `UserDefaults`에 쌓고 앱이 켜지거나 포그라운드로 올라올 때 대신 보내는 것**이 안전하다(탭탭: `ExtensionAnalyticsQueue` 최대 200건 → `NbsApp.deliverPendingExtensionEvents`). 이때 확장에서 일어난 실제 시각을 `occurred_at`으로 같이 실어야 나중에 순서가 복원된다.
+- **확장 콘텐츠 스크립트에 브라우저 분석 SDK를 넣으면 남의 사이트를 수집하게 된다.** 콘텐츠 스크립트는 사용자가 방문하는 **모든 페이지**에서 도는데, 거기에 자동 수집이나 세션 리플레이가 붙으면 그 페이지 내용·URL이 우리 프로젝트로 넘어온다(개인정보·앱 심사 양쪽 문제). JS에서는 이벤트 이름과 색·길이 같은 값만 `browser.runtime.sendMessage` → `sendNativeMessage`로 네이티브에 넘기고, 전송은 네이티브 SDK가 한다.
 - **시뮬레이터 검증 빌드를 `CODE_SIGNING_ALLOWED=NO`로 만들면 앱이 시작하자마자 죽는다.** entitlement가 안 붙어 App Group 컨테이너 조회가 `nil`이 되고, 탭탭의 `Core/AppGroupContainer.swift`는 거기서 `fatalError`를 던진다(2초 만에 종료). **그 크래시 때문에 Amplitude의 30초 flush 타이머가 한 번도 못 돌아 "이벤트가 안 올라간다"로 보인다.** 크래시 리포트(`(로컬 경로)`)의 triggered thread는 메인 런루프만 보여줘 원인이 안 나오고, **`xcrun simctl spawn booted log stream --predicate 'process == "TapTap"'`의 마지막 줄**에 `Fatal error: Failed to find App Group container`가 있다. 검증 빌드는 `CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO`로 만든다(서명은 하되 프로파일은 요구하지 않음).
 - **Amplitude-Swift의 전송은 로그만으로 판정하지 않는다.** `logLevel: .debug`면 subsystem `Amplitude`로 `Log: Start flushing N events`가 찍히지만(기본 `flushIntervalMillis=30_000`, `flushQueueSize=30`), 성공 응답은 별도 줄로 안 나온다. **판정은 앱 컨테이너의 `Library/Application Support/amplitude/<키>-$default_instance.events.index/` 디렉터리가 비었는지로 한다** — `PersistentStorageResponseHandler`가 200에서 `storage.remove(eventBlock:)`으로 파일을 지우고, 실패하면 남겨 재시도한다(400·413 같은 영구 실패에서도 지우므로 최종 확인은 Amplitude 대시보드).
 - **원격 설정 캐시가 키 유효성의 방증이다.** `Library/Preferences/com.amplitude.remoteconfig.cache.$default_instance.plist`에 sessionReplay 샘플링 등 서버 응답이 들어 있으면 **그 API 키로 Amplitude 서버와 통신이 됐다는 뜻**이다 — 네트워크·키 문제를 이벤트 전송과 분리해서 볼 수 있다.
@@ -50,6 +52,12 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 **어트리뷰션 툴(AppsFlyer/Airbridge)은 별개다.** 웹은 UTM으로 광고→유입이 이어지지만 앱은 앱스토어를 거치며 연결이 끊긴다. 유료 광고를 집행하기 전에 붙여야 한다.
 
 ## 기록
+
+### 2026-09-07 — 추적 범위 확대: 미삽입 이벤트 전부 + 사파리 확장(JS) (탭탭)
+
+- 맥락: 전송 확인 직후 홍의 "앱 내에서 추적할 수 있는 모든 것들을 추적하고 싶어 JS 포함". `Docs/analytics-events.md`에 ⬜(미삽입)로 남아 있던 항목들이 그대로 할 일 목록이었다.
+- 배운 것: 위 「핵심 정리」 확장 관련 두 항목. 그리고 **정의만 만들어 두고 발화 지점을 안 심으면 문서의 ⬜가 그대로 남는다** — 이번에 `link_delete`·`link_move_category`·`memo_save`·`onboarding_step_view`·`category_favorite_toggle`·`link_filter_change`·`setting_row_tap`을 실제 성공 액션에 붙여 8개 ⬜를 지웠다.
+- 근거: 커밋 `f56fb6c`(모듈·계측), `146fa56`(확장 브리지), 브랜치 `feat/analytics-ga4-amplitude` push. iOS·macOS 빌드 통과, 시뮬레이터 스모크 테스트에서 `분석 프로바이더 시작: Console, Amplitude` → `screen_view` 정상. AnalyticsKit은 `.shared()`에 걸려 있어 피처마다 `Project.swift`를 고칠 필요가 없었다(확장은 `.core()`만 써서 SDK가 안 딸려간다).
 
 ### 2026-09-07 — 실제 전송 검증: "안 올라간다"의 범인은 내 빌드 플래그였다 (탭탭)
 
