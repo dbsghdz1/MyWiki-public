@@ -28,6 +28,9 @@ projects:
 - **"호버가 안 된다"는 신고는 이벤트가 아니라 대비를 먼저 의심한다.** 실제로 `.onHover`는 멀쩡히 발화하는데 색 차이가 눈에 안 잡히는 경우가 많다. 토큰 값을 직접 열어 배경과의 차이를 계산해 보면 바로 갈린다 — `n20`은 라이트에서 `#F6F6F6`이라 `n0`(흰색) 위에서 **9/255**, 다크에서도 10/255 차이다. 팝업·버튼처럼 `n0` 면 위에 얹히는 호버는 `n40`(라이트 Δ31, 다크 Δ20)을 쓴다. DS의 `MacArrowButton`이 이미 `n0 → n40`이다.
 - **호버 색과 같은 색을 기본 배경으로 깔아 두면 그 항목은 영원히 호버 상태로 보인다.** 위험 액션에 `bgDimDanger`를 상시 배경으로 주고 호버 색도 같은 토큰으로 주면 호버가 아무 변화도 못 만든다. 기본은 `.clear`, 강조는 전경색(텍스트·아이콘)으로 준다.
 - **경과 시간 표시를 내 `Timer` tick으로 갱신하면 워치에서 건너뛰며 올라간다.** 손목을 내리거나 Always-On 감광 상태에선 tick이 멈추고, 화면을 다시 보는 순간 밀린 값이 한 번에 반영돼 `0:03 → 0:07`처럼 보인다. 시스템이 직접 다시 그리는 **`Text(timerInterval:countsDown:)`** 을 쓴다 — 앱이 tick하지 않아도 갱신되고, 감광 중엔 시스템이 알아서 분 단위로 낮춘다. 같은 계열: 시간이 흐르는 것만으로는 `@Published`가 울리지 않는다, 애니메이션은 트랜잭션 대신 시계(`TimelineView(.animation)`)로.
+- **`.windowStyle(.hiddenTitleBar)` 앱의 상단 여백은 전체 화면에서 사라진다.** 창 모드에서는 SwiftUI가 타이틀바 높이(28pt)만큼 상단 안전영역을 주는데, 전체 화면(+`autoHideToolbar`)에서는 그게 0이 되어 **창 모드 기준으로 짠 상단바가 화면 맨 위에 붙는다.** 화면 안에서 `padding(.top, 42)` 같은 상수로 신경 쓴 사이드바는 멀쩡해 보이고 상수를 안 준 화면만 깨져서 "그 화면만 이상하다"로 보고된다. 보정은 `NSWindow.didEnterFullScreenNotification`·`didExitFullScreenNotification`을 관찰해(`NSViewRepresentable`로 `view.window`를 잡는다) 전체 화면일 때만 그 높이를 `padding(.top)`으로 되돌린다 — 배경(`Color.n0`)보다 **안쪽에** 넣어야 채워진 여백이 생긴다.
+- **색 토큰이 라이트·다크 중 한쪽에서만 다를 수 있다.** 탭탭 DS의 `bl1`·`bl2`는 라이트에서 둘 다 `#EFEEFF`이고 다크에서만 갈린다 — "한 단계 위 토큰"으로 호버 색을 잡으면 라이트에서 아무 변화가 없다. 토큰 이름의 순서를 믿지 말고 `Contents.json`의 두 appearance 값을 직접 열어 본다. 대안은 알파를 얹는 것(`bl6.opacity(0.22)`)인데, 이건 두 모드 모두에서 같은 방향으로 움직인다.
+- **호버 상태는 `@State`를 가진 `ViewModifier`로 뽑는다.** `func sortButton(...) -> some View`처럼 함수가 만들어 주는 뷰에는 `@State`를 못 달아서 호버를 못 붙이는데, 모디파이어가 상태를 들고 있으면 호출부는 `.macHoverBackground(cornerRadius:normal:hovered:)` 한 줄이면 된다. `.background`→`.clipShape`→`.contentShape`→`.onHover`를 한 곳에 묶어 두면 히트 영역 누락도 같이 막힌다.
 - **매초 바뀌는 값을 `@Published`로 두면 뷰가 초당 한 번 다시 그려진다.** 타이머 텍스트를 시스템에 넘겨도 같은 객체의 다른 `@Published`가 매초 `objectWillChange`를 쏘면 이득이 사라진다. 뷰가 안 읽는 진행값은 `private var`로 내리고, 뷰에 필요한 것(시작 시각)만 노출한다.
 - **가운데 칸이 곧 선택인 가로 다이얼은 `.contentMargins`가 만든다.** `ScrollView(.horizontal)` + `.scrollTargetLayout()` + `.scrollTargetBehavior(.viewAligned)` + `.scrollPosition(id:anchor:.center)`까지 붙여도, **양옆 여백이 없으면 첫 칸과 마지막 칸은 영원히 가운데에 못 선다** — 스크롤 끝에서 멈추기 때문이다. `.contentMargins(.horizontal, (컨테이너폭 - 칸폭)/2, for: .scrollContent)`를 주면 끝 칸도 가운데까지 오고, **덤으로 내용이 화면 폭에 딱 맞는 줄도 스크롤이 된다**(여백만큼 항상 넘치므로). 폭은 `GeometryReader`로 받는다.
 - **다이얼의 `@State` 초기값은 `init`에서 넣는다.** `.onAppear`에서 `centered = 선택.id`로 채우면 첫 배치가 이미 맨 왼쪽에서 끝난 뒤라, **펼치는 것만으로 첫 항목이 선택된다.** `_centered = State(initialValue:)`로 시작부터 맞춰 둔다.
@@ -36,6 +39,15 @@ projects:
 - **알파만 있는 어두운 오버레이 토큰은 다크 모드에서 사라진다.** `#272146 @7%` 같은 호버 색은 흰 배경에선 회색, 검은 배경에선 검정 위 검정이라 안 보인다. 색 토큰에 다크 appearance 변형이 있는지(`Contents.json`의 `appearances`) 확인하고, 없으면 밝기 변형이 있는 중립색(n20 등)을 쓴다.
 
 ## 기록
+
+### 2026-09-06 — 전체 화면에서 상단바가 위로 붙는다 + 버튼 호버 일괄 적용 (탭탭 macOS)
+
+- 맥락: 탭탭 macOS 디자인 QA 8건과 "버튼 전체적으로 호버 넣어줘"(피그마 `C6 디자인 4차 HI-FI` Btn 컴포넌트셋 `12850:13868`). 링크 추가하기 화면이 **전체 화면일 때만** 상단 여백이 없다는 보고에서 시작했다.
+- 배운 것: 위 「핵심 정리」 세 항목.
+  - 전체 화면 상단 여백은 **앱이 준 게 아니라 타이틀바 안전영역이었다.** 창 모드 캡처에서 상단바 divider가 89pt, 계산상(패딩만) 60pt라 29pt 차이 = 타이틀바 높이. 보정 후 전체 화면에서도 divider가 89pt로 일치했다.
+  - 피그마의 상태 스펙은 **변수 목록이 아니라 렌더 픽셀로 확인**하는 게 빠르다. `get_variable_defs`는 프레임의 토큰 목록만 주고 어느 상태에 무엇이 붙는지는 안 알려 준다 — `get_screenshot` PNG를 받아 각 스와치를 샘플링하면 `#6251FB→#5345D5`(primary), `n30→n40`(gray), `n10→n30`(white), 그리고 **채워진 danger는 호버에서 색이 안 바뀐다**까지 한 번에 갈린다.
+  - 호버 판정은 눈이 아니라 픽셀로: 새 카테고리 버튼 위에 커서를 올린 캡처에서 `#D8D5F9`가 나와 `bl6@22%` 계산값과 맞았고, 카드 수정 버튼 테두리는 좌측 가장자리에서 `#C4C4C8`(=`n50`)이 잡혔다. ([[작업노트/도구/macOS 앱 QA 자동화|QA 하네스]])
+- 근거: 미커밋 작업 트리(`(로컬 경로)`, develop). `DesignSystem/Sources/macOS/Modifier/MacHoverBackground.swift`·`MacFullScreenTopPadding.swift`(신규), 호출부 20여 곳(`MacAlertDialog`·`MacSearchBarButton`·`LinkActionToast`·`LinkEditToolbar`·`LinkListSortControl`·`SearchDeleteButton`·`AddCategoryPopover`·`SettingRowButton` 등). Debug 빌드 통과 후 실제 앱을 띄워 캡처로 확인.
 
 ### 2026-09-06 — 필름 고르기를 가로 다이얼로: 여백이 없으면 끝 칸이 가운데에 못 선다 (Fadeo)
 
