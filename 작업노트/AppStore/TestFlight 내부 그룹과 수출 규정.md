@@ -25,7 +25,19 @@ projects:
 - **업로드 전 알파 채널을 없앤다.** 피그마에서 뽑은 PNG는 RGBA로 나오는데 App Store 이미지에 알파가 있으면 거부된다 — 흰 배경에 합성해 RGB로 저장한다.
 - **deliver 대신 spaceship로 직접 올리면 이중 업로드를 피한다.** `loc.create_app_screenshot_set(attributes: { screenshotDisplayType: ... })` → `set.upload_screenshot(path:, wait_for_processing: true)`를 순서대로 부르면 그 순서가 그대로 진열 순서가 되고, 올린 뒤 `app_screenshots`의 `assetDeliveryState`가 `COMPLETE`인지로 검증한다(deliver의 중복 업로드 함정은 [[작업노트/도구/fastlane 배포 알림|배포 자동화]] 계열 기록 참고).
 
+- **제출을 막는 항목은 에러 한 번에 다 나온다.** `reviewSubmission.submit_for_review`가 거부되면 사유가 줄바꿈으로 나열된다(실측: `contentRightsDeclaration` 누락 + App Privacy 미게시 + `is not in valid state` 세 줄). **한 줄씩 고치지 말고 전부 읽고 한 번에 채운 뒤 재시도**한다.
+- **`contentRightsDeclaration`은 버전이 아니라 앱 속성이다** — `App#update(attributes: { contentRightsDeclaration: "DOES_NOT_USE_THIRD_PARTY_CONTENT" })`. 새 앱 레코드에는 비어 있고, 이것 하나 때문에 제출이 통째로 막힌다. 값 확인은 새로 `App.find` 하거나 `/v1/apps/<id>`를 직접 읽는다(기존 객체는 캐시라 `nil`로 보인다).
+- **App Privacy(데이터 수집)는 이제 공개 API에 없다.** `apps/<id>/dataUsages`·`/v1/appDataUsages`·`appDataUsagePublishStates` 모두 404(`The relationship 'dataUsages' does not exist`)다. spaceship의 `get_app_data_usages`도 같은 404를 낸다 — **ASC 웹에서만** 채울 수 있다고 보고 계획을 짠다.
+- **제출 흐름은 reviewSubmissions다.** `app.get_ready_review_submission(platform:, includes: "items")` → 없으면 `create_review_submission(platform:)` → `add_app_store_version_to_review_items(app_store_version_id:)` → `submit_for_review`. 제출되고 나면 `get_ready_review_submission`이 `nil`을 주므로, **성공 판정은 반환값이 아니라 버전 상태(`WAITING_FOR_REVIEW`)로** 한다.
+- **버전 문자열과 빌드는 제출 전에 맞춘다.** `version.update(attributes: { versionString: "1.1.0" })` + `version.select_build(build_id:)`. TestFlight 빌드가 1.1.0인데 스토어 레코드가 1.0인 상태로 두면 제출 단계에서 걸린다.
+
 ## 기록
+
+### 2026-09-06 — macOS 첫 제출: 진짜 막고 있던 건 `contentRightsDeclaration`이었다 (탭탭)
+
+- 맥락: 홍 "출시해줘". 점검 문서에서 제출을 막는다고 본 세 가지(빌드 미연결·리뷰 정보·웹 전용 항목) 중 앞의 둘을 채우고 제출을 시도했다.
+- 배운 것: 위 「핵심 정리」 다섯 항목. 특히 **점검 단계에서 "웹에서만 되는 App Privacy 때문"이라고 본 것이 실제로는 `contentRightsDeclaration` 하나였다** — 앱 속성 한 줄을 채우자 App Privacy 경고까지 사라지고 제출이 통과했다(iOS 레코드 상속 여부는 미검증).
+- 근거: 첫 시도 에러 3줄 → `App#update(contentRightsDeclaration:)` → 재시도 통과. `asc state 6795730513` = `1.1.0 | WAITING_FOR_REVIEW | build 6 (VALID) | ko 4장`, reviewSubmission `4d37df45-d9f5-44a9-9b54-4938e4a14c22` submitted `2026-09-06T14:44:02Z`.
 
 ### 2026-09-06 — macOS 앱스토어 스크린샷 4장 업로드 (탭탭)
 
