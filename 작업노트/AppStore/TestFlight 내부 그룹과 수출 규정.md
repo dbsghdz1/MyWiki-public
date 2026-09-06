@@ -21,7 +21,17 @@ projects:
 - **이미 올라간 빌드의 답변은 못 고친다.** 값이 한 번 정해지면 `PATCH /v1/builds/{id}`가 `You cannot update when the value is already set. - /data/attributes/usesNonExemptEncryption`로 거부한다.
 - 빌드가 실제로 테스트 가능한지는 `buildBetaDetails`의 `internalBuildState`로 본다 — `IN_BETA_TESTING`이면 내부 테스터에게 이미 나가 있다(`externalBuildState`는 `READY_FOR_BETA_SUBMISSION`으로 따로 논다). spaceship의 `build.ready_for_internal_testing?`는 이 상태에서 `false`를 돌려주므로 판단 근거로 쓰지 않는다.
 
+- **macOS 스크린샷은 세트가 하나다** — `AppScreenshotSet::DisplayType`에 `APP_DESKTOP` 하나뿐이고 크기는 2880×1800(또는 2560×1600 등 허용 크기). iOS처럼 기기별 세트를 고를 일이 없다.
+- **업로드 전 알파 채널을 없앤다.** 피그마에서 뽑은 PNG는 RGBA로 나오는데 App Store 이미지에 알파가 있으면 거부된다 — 흰 배경에 합성해 RGB로 저장한다.
+- **deliver 대신 spaceship로 직접 올리면 이중 업로드를 피한다.** `loc.create_app_screenshot_set(attributes: { screenshotDisplayType: ... })` → `set.upload_screenshot(path:, wait_for_processing: true)`를 순서대로 부르면 그 순서가 그대로 진열 순서가 되고, 올린 뒤 `app_screenshots`의 `assetDeliveryState`가 `COMPLETE`인지로 검증한다(deliver의 중복 업로드 함정은 [[작업노트/도구/fastlane 배포 알림|배포 자동화]] 계열 기록 참고).
+
 ## 기록
+
+### 2026-09-06 — macOS 앱스토어 스크린샷 4장 업로드 (탭탭)
+
+- 맥락: 디자이너가 피그마(`C6 디자인 4차 HI-FI` → `macOS 프로모션 이미지 최종 2880*1800`, 노드 `15125:44633`)에 만들어 둔 1~4번 프레임을 macOS 앱(6795730513)의 ko 로케일에 순서대로 올렸다. 그 전까지 `ko: 0 screenshots`라 제출이 막혀 있었다.
+- 배운 것: 위 「핵심 정리」 뒤쪽 세 항목. Figma MCP `get_screenshot`에 `maxDimension: 2880`을 주면 프레임 원본 크기 그대로 PNG를 준다(URL은 수명이 짧아 바로 `curl -L -o`).
+- 근거: 업로드 후 `asc state 6795730513` → `ko: 4 screenshots`, 세트 id `c5413881-…`, 4장 모두 `assetDeliveryState=COMPLETE`. 버전 레코드는 여전히 `1.0`이고 빌드 미연결이라 제출 전 정합성 작업이 남았다.
 
 ### 2026-09-06 — "알고리즘 해당 없음·테스터 그룹까지 자동으로" 요청 (탭탭)
 
