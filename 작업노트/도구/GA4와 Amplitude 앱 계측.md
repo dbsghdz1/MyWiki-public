@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-05
+updated: 2026-09-07
 projects:
   - "탭탭"
 ---
@@ -35,6 +35,10 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 
 - 시뮬레이터에서 UserDefaults 플래그를 바꿔 온보딩 이후 화면부터 확인하려면 앱을 먼저 종료하고 `xcrun simctl spawn <udid> defaults write <bundleID> <key> -bool true`. 앱 컨테이너의 plist를 PlistBuddy로 직접 고치는 방식은 cfprefsd 캐시 때문에 안 먹었다.
 
+- **시뮬레이터 검증 빌드를 `CODE_SIGNING_ALLOWED=NO`로 만들면 앱이 시작하자마자 죽는다.** entitlement가 안 붙어 App Group 컨테이너 조회가 `nil`이 되고, 탭탭의 `Core/AppGroupContainer.swift`는 거기서 `fatalError`를 던진다(2초 만에 종료). **그 크래시 때문에 Amplitude의 30초 flush 타이머가 한 번도 못 돌아 "이벤트가 안 올라간다"로 보인다.** 크래시 리포트(`(로컬 경로)`)의 triggered thread는 메인 런루프만 보여줘 원인이 안 나오고, **`xcrun simctl spawn booted log stream --predicate 'process == "TapTap"'`의 마지막 줄**에 `Fatal error: Failed to find App Group container`가 있다. 검증 빌드는 `CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO`로 만든다(서명은 하되 프로파일은 요구하지 않음).
+- **Amplitude-Swift의 전송은 로그만으로 판정하지 않는다.** `logLevel: .debug`면 subsystem `Amplitude`로 `Log: Start flushing N events`가 찍히지만(기본 `flushIntervalMillis=30_000`, `flushQueueSize=30`), 성공 응답은 별도 줄로 안 나온다. **판정은 앱 컨테이너의 `Library/Application Support/amplitude/<키>-$default_instance.events.index/` 디렉터리가 비었는지로 한다** — `PersistentStorageResponseHandler`가 200에서 `storage.remove(eventBlock:)`으로 파일을 지우고, 실패하면 남겨 재시도한다(400·413 같은 영구 실패에서도 지우므로 최종 확인은 Amplitude 대시보드).
+- **원격 설정 캐시가 키 유효성의 방증이다.** `Library/Preferences/com.amplitude.remoteconfig.cache.$default_instance.plist`에 sessionReplay 샘플링 등 서버 응답이 들어 있으면 **그 API 키로 Amplitude 서버와 통신이 됐다는 뜻**이다 — 네트워크·키 문제를 이벤트 전송과 분리해서 볼 수 있다.
+
 ## 이벤트 설계 (멘토링에서 온 규칙)
 
 원칙 출처는 전수열 멘토링.
@@ -46,6 +50,14 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 **어트리뷰션 툴(AppsFlyer/Airbridge)은 별개다.** 웹은 UTM으로 광고→유입이 이어지지만 앱은 앱스토어를 거치며 연결이 끊긴다. 유료 광고를 집행하기 전에 붙여야 한다.
 
 ## 기록
+
+### 2026-09-07 — 실제 전송 검증: "안 올라간다"의 범인은 내 빌드 플래그였다 (탭탭)
+
+- 맥락: `AMPLITUDE_API_KEY`를 `Project.xcconfig`에 넣은 뒤 홍의 "amplitude 개발하자" → 실제 전송 확인. iPhone 17 Pro 시뮬레이터에 Debug 빌드를 올려 이벤트를 쐈다.
+- 배운 것: 위 「핵심 정리」 뒤쪽 세 항목.
+  - 처음 세 번의 시도에서 `screen_view`까지는 콘솔에 찍히는데 flush 로그가 한 번도 안 나왔다. 이유는 **앱이 2초 만에 죽고 있었기 때문** — `CODE_SIGNING_ALLOWED=NO` 빌드라 App Group entitlement가 없었고 `AppGroupContainer`가 `fatalError`. 서명을 켜서 다시 올리자 `Start flushing 6 events`가 30초 뒤에 정상으로 찍혔다.
+  - 전송 성공은 큐 디렉터리가 비는 것으로 확인했다(2회 연속 `find … -type f | wc -l` = 0).
+- 근거: 미커밋 작업 트리. 로그 `[TapTap:AnalyticsKit] 분석 프로바이더 시작: Console, Amplitude` → `📊 screen_view { screen_name=home }` → `[Amplitude:Logging] Log: Start flushing 4 events` → 큐 0개. Firebase는 `GoogleService-Info.plist`가 없어 설계대로 조용히 빠졌다.
 
 ### 2026-09-05 — 탭탭 iOS에 AnalyticsKit 모듈 신설
 
