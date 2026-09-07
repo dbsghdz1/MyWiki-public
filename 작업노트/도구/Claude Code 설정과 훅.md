@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-21
-updated: 2026-09-05
+updated: 2026-09-08
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -157,3 +157,24 @@ cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화�
   - 같은 플러그인이 두 마켓플레이스(`claude-plugins-official` 1.2.3, `mattpocock` 1.2.0, 같은 SHA `2ab9580`)에 이중 설치돼 있다. 저장소 README는 "installing both leaves you with every skill twice"라고 경고한다 — 정리 대상.
   - 홍의 학습선생님은 `/teach`를 MyWiki `학습/`에 맞게 개조한 **`(로컬 경로)`**(2026-09-05 초안). 미션=주제 노트 `## 학습 계획`의 `**미션:**` 줄, 학습 기록=`## 기록`, 실험=`학습/야생학습/`. 새 폴더는 만들지 않았다.
 - 근거: `(로컬 경로)`, 저장소 `.agents/invocation.md`("User-invoked — reachable only by the human typing its name"), `skills/productivity/writing-great-skills/SKILL.md`.
+
+### 2026-09-08 — 스킬 라우팅은 **기본값과 다른 것만** 적는다. 스킬 설명을 CLAUDE.md에 옮겨 적으면 no-op다
+
+- 맥락: 홍이 *"mattpocock의 스킬들을 항상 쓰려고, 적절한 걸루"*라고 해서 전역 `(로컬 경로)`에 라우팅 규칙을 넣었다. 편집 자체를 `mattpocock-skills:writing-for-agents`로 진행.
+- 배운 것:
+  - **스킬 설명은 이미 모델 컨텍스트에 있다.** *"버그엔 `diagnosing-bugs`, 테스트엔 `tdd`"* 같은 줄은 스킬 description의 복제이고 **행동을 안 바꾸는 no-op**다 — 토큰만 먹는다. `writing-for-agents`의 판정 기준이 "기본값 대비 행동이 바뀌는가"이며, 이건 독자 기준이 아니라 **모델 기준**이다.
+  - 실제로 기본값이 어긋나는 지점만 남겼다: ① **산출물 경로 충돌** — `research`·`domain-modeling`은 결과를 *작업 레포에* 남기게 되어 있는데 홍의 지식은 MyWiki로 모인다 ② 홍의 `github-pr`·`hong-pr-review`·`wiki`가 `mattpocock-skills:code-review`보다 앞선다 ③ `/teacher`는 모델이 못 부르니 **제안**한다 ④ `grilling`은 기본값이 "사용자 요청 시"인데 홍의 위키는 가정이 깨진 기록이 반복돼 **에이전트가 타이밍을 잡는 게** 맞다.
+  - **`disable-model-invocation: true`를 「고칠 버그」로 보면 안 된다.** `/teacher`에 이게 걸려 있어 모델이 자동 발동할 수 없는데, 홍의 기존 규칙이 *"작업 중 막히면 그 자리에서 파지 않는다"*(공부 README)이므로 **자동 발동은 그 규칙을 깬다.** 플래그를 유지하고 「제안 → 사람이 타이핑」으로 간다.
+- 근거: `(로컬 경로)` `## 스킬 라우팅 (2026-09-08)` 절, `(로컬 경로)`
+
+### 2026-09-08 — mattpocock-skills 이중 설치를 정리했다 (09-05 「정리 대상」 후속). 35개 중 **모델이 부를 수 있는 건 15개뿐**
+
+- 맥락: 위 09-05 항목이 이중 설치를 "정리 대상"으로 남겨 뒀던 것을 이번에 처리.
+- 배운 것:
+  - **`claude plugin uninstall <plugin>@<marketplace>`**를 쓴다. 캐시 디렉터리만 `rm`하면 `(로컬 경로)`에 유령 항목이 남는다. CLI가 레지스트리와 `settings.json`의 `enabledPlugins` 줄까지 함께 정리한다.
+  - **지우기 전에 스킬 집합을 diff한다.** `@mattpocock` 1.2.0이 파일 수는 더 많았지만(41 vs 35) 고유 항목은 전부 `deprecated/`·`in-progress/`·`personal/`이었고, `writing-great-skills`는 1.2.3의 **`writing-for-agents`로 대체**된 것이었다. 반대로 `writing-for-agents`·`wait-what`은 **1.2.3에만** 있다 → 버전이 낮은 쪽이 아니라 **활성·최신인 `@claude-plugins-official` 1.2.3을 남기는 게 맞다.**
+  - `settings.json`에 이미 `"mattpocock-skills@mattpocock": false`가 있어 **충돌은 없던 상태**였다. 이중 설치가 곧 이중 노출은 아니다 — `enabledPlugins`를 먼저 본다.
+  - **35개 중 모델이 자동 호출할 수 있는 건 15개고 20개는 사람이 `/`로 쳐야 한다.** 그리고 덩치 큰 워크플로(`implement`·`to-spec`·`to-tickets`·`triage`·`wayfinder`)가 전부 후자이며, `setup-matt-pocock-skills`가 *"set up its **issue tracker** … Run once before first use"*라고 못박아 **이슈 트래커 없이는 안 돈다.** 혼자 하는 프로젝트에선 사실상 못 쓴다.
+  - 뭘 쓸지 모를 때를 위한 라우터 스킬이 있다 — **`/mattpocock-skills:ask-matt`**.
+  - 남긴 것: 마켓플레이스 등록(`settings.json`의 `mattpocock` → `mattpocock/skills`)은 **플러그인이 아니라 저장소 등록**이라 지우지 않았다. 지우면 맷 본인 저장소에서 최신판을 받는 경로가 막힌다. 캐시 23M은 재설치용으로 uninstall이 남긴 것.
+- 근거: `claude plugin uninstall mattpocock-skills@mattpocock` → `✔ Successfully uninstalled plugin`. 검증은 `installed_plugins.json`에 `@claude-plugins-official 1.2.3` 하나만 남은 것과 `settings.json`에서 `@mattpocock` 줄이 사라진 것.
