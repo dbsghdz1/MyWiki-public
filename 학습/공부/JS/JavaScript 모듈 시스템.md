@@ -4,10 +4,11 @@ area: JS
 audience: me
 status: active
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-08
 aliases: [ES Modules, export/import, 모듈 재수출]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "[[프로젝트/개인/약국맵/README|약국맵]]"
 ---
 
 # JavaScript 모듈 시스템
@@ -23,6 +24,19 @@ projects:
 - **접근제어자가 없다.** export = 그 파일 밖 누구나(Swift `public`), export 없음 = 그 파일 안에서만(Swift `fileprivate`). "index.ts에는 보이고 다른 파일엔 안 보이게"는 언어 차원에 없다. index.ts도 그냥 옆에 있는 파일이라, 원본이 export 하지 않은 건 index.ts에게도 안 보인다. (`class`의 `private`은 TS가 검사하지만 그건 클래스 멤버 얘기.)
 
 ## 기록
+
+### 2026-09-08 — `import.meta.env`는 조회가 아니라 빌드 타임 치환이다
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 1 — fetch와 useState 2026-09-08|사다리 세션 1]]에서 서비스키를 코드로 꺼내다가, `process.env`를 썼는데 안 됐다
+- 배운 것:
+  - **`process`는 Node.js 런타임의 전역이라 브라우저엔 없다** — `process is not defined`. 브라우저 번들러인 Vite는 **`import.meta.env`**를 쓴다
+  - `import.meta`는 ES 모듈 표준이 정한 **모듈 자기 정보 자리**다. 번들러가 거기에 `env`를 얹는 것이지, JS가 환경변수를 읽는 기능이 있는 게 아니다
+  - **런타임 조회가 아니라 빌드 타임 문자열 치환이다.** `import.meta.env.VITE_X`가 있던 자리에 값이 **글자 그대로 박힌 채로** 번들이 나간다 → **비밀값은 번들에 그대로 실린다.** 약국맵이 사다리 3번에서 Fastify 프록시를 붙이는 이유가 이것(CORS가 아니라 키 노출)
+  - Vite가 `VITE_` 접두사만 넣어주는 것도 같은 이유 — 접두사 없는 건 서버 비밀로 보고 브라우저에 안 흘린다
+  - **도구마다 이름이 다르다**: Vite `import.meta.env.VITE_*` / Next.js `process.env.NEXT_PUBLIC_*` / CRA `process.env.REACT_APP_*`. 검색하면 `process.env` 예제가 훨씬 많이 나와서 헷갈린다. **공통점은 셋 다 빌드 타임 치환**이라는 것
+  - `.env` 파일은 **개발 서버가 시작할 때만 읽는다** — 값이 `undefined`면 서버를 껐다 켠다
+- 근거: `pharmacy-map` 커밋 `3c81de8`. `.gitignore`가 `*.local`만 덮고 있어서 `.env`로 만들면 커밋에 딸려 올라간다(실제로 그렇게 만들었다가 `.env.local`로 옮기고 `.env`·`.env.*`를 무시 목록에 추가)
+
 
 ### 2026-08-16 — FSD public API를 만들며
 
