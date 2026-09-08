@@ -4,12 +4,38 @@ title: "야생학습"
 summary: "실제 작업을 계기로 손으로 배우는 세션의 허브"
 status: active
 created: 2026-08-30
-updated: 2026-09-05
+updated: 2026-09-08
 ---
 
 # 야생학습
 
 **실제 작업이 던진 문제를 계기로, 커리큘럼 없이 손으로 부딪혀 배우는 기록이다.** 학교학습이 커리큘럼 순서대로 배운다면, 야생학습은 **문제가 학습 순서를 정한다** — 필요한 것을 필요한 순간에, 예측하고 실행해서 배운다.
+
+## 몰입이 목표다 (2026-09-08 홍 지시)
+
+**야생학습의 성공 판정은 「진도」가 아니라 「몰입했는가」다.** 그리고 몰입은 의지로 만드는 게 아니라 **난이도와 능력의 비율**에서 나온다 — 그래서 세션을 어떻게 설계하느냐가 곧 몰입 여부를 정한다.
+
+원전이 드는 조건은 둘이다 (Nakamura & Csikszentmihalyi 2002, p.90).
+
+> - *"Perceived challenges … that **stretch (neither overmatching nor underutilizing) existing skills**"* — 능력을 늘리되, **압도하지도 놀리지도 않는** 난이도
+> - *"**Clear proximal goals and immediate feedback** about the progress that is being made"* — 가까운 목표와 즉각적인 피드백
+
+벗어났을 때의 신호도 명확하다.
+
+> *"if challenges begin to exceed skills, one first becomes vigilant and then **anxious**; if skills begin to exceed challenges, one first relaxes and then becomes **bored**."*
+
+**그래서 불안과 지루함은 실패가 아니라 계기판이다.** 둘 중 하나가 느껴지면 난이도가 어긋난 것이고, 그 자리에서 조절해 다시 들어간다.
+
+| 신호 | 뜻 | 그 자리에서 하는 일 |
+|---|---|---|
+| **불안 · 막힘** | 난이도 > 능력 | 세션을 둘로 쪼갠다. 새 개념을 3 → 1로 줄인다. 언어 자체가 문제면 JS 워밍업으로 보낸다 |
+| **지루함 · 심심함** | 능력 > 난이도 | **다음 칸으로 건너뛴다.** 사다리는 소화해야 할 순서가 아니라 난이도 사다리다 |
+| 몰입 | 균형 | 그대로 간다. 시간 상한만 지킨다 |
+
+**기존 규칙이 이미 절반은 이걸 하고 있었다** — 세션당 새 개념 ≤3은 난이도 상한이고, **검증 명령을 시작 전에 정하는 것**이 곧 `immediate feedback`이며, 예측 → 실행이 `clear proximal goal`이다. 막히면 쪼개는 규칙은 **불안 쪽 탈출구**고, 에너지 1~10 측정은 주관 상태 계기판이다.
+**비어 있던 것은 지루함 쪽 하나였다.** 지금까지 "너무 쉬우면 어떻게 한다"가 없었다 — 위 표의 「건너뛴다」가 이번에 추가된 규칙이다.
+
+세션 기록에도 남긴다: 결론 한 줄 옆에 **몰입 여부와 어느 쪽으로 어긋났는지**를 한 줄 적는다. 이게 다음 세션의 난이도를 정하는 근거가 된다.
 
 ## 언제 하나
 
@@ -57,3 +83,9 @@ updated: 2026-09-05
 ## 기록 목록
 
 (아직 없음 — 첫 야생학습 세션에서 시작)
+
+## 참고 자료
+
+- [Nakamura, J. & Csikszentmihalyi, M. (2002). The Concept of Flow. *Handbook of Positive Psychology*, 89–105.](https://nuovoeutile.it/wp-content/uploads/2015/12/2002-Flow.pdf) — 몰입의 조건과 불안·지루함 신호의 1차 출처. 위 인용문은 p.90에서 직접 확인 (2026-09-08 확인)
+- [Mihaly Csikszentmihalyi — *Flow, the secret to happiness* (TED, 2004)](https://www.ted.com/talks/mihaly_csikszentmihalyi_flow_the_secret_to_happiness) — 저자 본인의 개괄 강연 (2026-09-08 확인)
+- 홍이 제시한 출처: 네이버 블로그 `my-library/223510769216` — **자동 조회가 차단돼 본문·도표를 확인하지 못했다.** 위 내용은 전부 1차 자료에서 가져왔으므로, 블로그 도표와 어긋나는 점이 있으면 홍이 알려주면 정정한다
