@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-07
+updated: 2026-09-08
 projects:
   - "탭탭"
 ---
@@ -24,6 +24,11 @@ projects:
 - **자유 입력(검색어·제목)은 파라미터로 보내지 않는다.** 개인정보이기도 하고 GA4 파라미터 값은 100자에서 잘려서 "긴 검색어"와 "잘린 검색어"가 같은 값으로 뭉개진다. 길이 구간만 보낸다. 개수도 원값 대신 구간 — 유저 프로퍼티는 카디널리티가 낮아야 그룹핑이 된다(GA4 유저 프로퍼티는 계정당 25개 한도).
 - **`Bool`은 툴마다 다르게 보낸다.** GA4는 `NSString`/`NSNumber`만 받고 리포트에서 0/1보다 `"true"`/`"false"`가 읽기 쉽다. Amplitude는 JSON이라 boolean 그대로.
 - **계측은 뷰가 아니라 리듀서의 성공 액션에 심는다.** 버튼 탭에 심으면 이후 단계에서 실패한 것까지 전환으로 세어진다(탭탭에서 `link_save`를 저장 버튼에 심었다면 메타데이터 추출 실패가 저장으로 잡혔을 것). TCA에서는 `@Dependency(\.analytics)`로 받고, `.run` 클로저 안에서 쓸 땐 `.run { [analytics] send in }`으로 캡처한다.
+- **"성공 액션"으로는 부족하다 — `case` 진입부가 아니라 성공한 `do`/`try` 다음 줄이어야 한다.** `case` 첫 줄의 `analytics.track(...)`은 그 아래 `guard ... else { return .none }`도, `.run`의 `catch`도 지나지 않는다. 탭탭에서 실제로 `memo_save`가 빈 메모(early return)에도 찍혔고, `link_move_category`는 `moveLinks`가 throw해도 찍혔다(`await send(.moveDone)`이 `do/catch` **밖**에 있었다). 고치는 방법은 track을 `.run { [analytics] _ in try …; analytics.track(…) }`처럼 throwing 호출 **뒤로** 옮기는 것뿐이다.
+- **track이 붙은 액션을 아무도 `send`하지 않으면 지표는 에러 없이 그냥 0이다.** 탭탭 `DeleteLinkFeature`는 `case .deleteDone`에 `analytics.track(ConversionEvent.linkDeleted)`가 멀쩡히 있었는데 성공 경로가 `.delegate(.route(.back))`으로 바로 빠져서 `.deleteDone`을 보내는 곳이 하나도 없었다 — 컴파일도 되고 삭제도 되는데 전환만 통째로 안 찍힌다. **"이벤트를 다 심었나"는 정의 대비 발화 지점으로 세면 놓친다. 발화 지점이 실제로 `send`되는지까지 봐야 한다.**
+- **한 시트가 여러 대상을 처리하면 이벤트도 대상별로 갈라야 한다.** 탭탭 `HighlightEditFeature`는 `State.Context`가 `.comment`/`.highlight` 둘인데 삭제 확인에서 항상 `highlightDeleted`를 보냈다 — 메모 삭제 수는 0, 하이라이트 삭제 수는 부풀었다. **실제 삭제를 하는 쪽(부모 `SummaryFeature`)으로 track을 옮기면** 컨텍스트 분기와 저장 성공 확인이 한 자리에서 해결된다.
+- **실패를 "0건 결과"로 내려보내면 대시보드에서 영원히 못 가른다.** 탭탭 검색은 catch에서 `.searchResponse(response: [], totalCount: 0)`을 보냈고, `search_submit`의 `has_result`는 `resultCount > 0`이라 SwiftData 에러와 정상 무결과가 같은 값으로 찍혔다. **실패는 `totalCount: nil`처럼 "값 없음"으로 보내고 그 분기에서는 track하지 않는다.**
+- **화면 상태(`state.articles.count`)로 유저 프로퍼티를 세지 않는다.** 그 배열이 항상 최신이라는 보장이 없다 — 탭탭은 `safariInfo == false`면 `onAppear`에서 `fetchLinks()`를 안 타서 링크가 여러 개인데도 `saved_link_count`가 1로 갈 수 있었다. 저장 성공 뒤 `fetchLinksCount(predicate: nil)`로 저장소에서 다시 센다.
 - **TCA `testValue`는 `unimplemented`가 아니라 no-op으로 둔다.** 계측은 부수효과라 관례대로 `unimplemented`를 넣으면 계측을 심을 때마다 상관없는 기존 테스트가 깨진다.
 - **화면이 아닌 리듀서에 `screen_view`를 심으면 두 번 찍힌다.** 탭탭에서 `CategoryListFeature`는 독립 화면이 아니라 홈 안의 섹션이라 홈 진입 한 번에 `screen_view home`과 `screen_view my_category`가 같이 나왔다. 실제 화면은 `MyCategoryCollectionFeature`였다 — **리듀서 이름만 보고 화면이라고 단정하지 말고 `State`가 어디에 안겨 있는지 확인한다.**
 - **키가 없어도 검증할 수 있다.** 콘솔 프로바이더를 하나 더 붙여 `os.Logger`로 찍고 시뮬레이터에서 확인한다. GA4 DebugView는 반영이 늦어서 "심는 시점이 맞는가"를 보기엔 로컬 로그가 훨씬 빠르다.
@@ -38,6 +43,9 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 - **`git add -A <디렉터리>`는 빌드 산출물을 통째로 삼킨다.** 로컬 검증용으로 `-derivedDataPath ./dd`를 쓰면 그 폴더가 레포 안에 생기는데, `.gitignore`에 없으면 `git add -A TapTap`이 **11,948개 파일을 커밋에 넣는다**(탭탭 실측 — PR을 열고 나서야 "12,069 files changed"로 발견했다). 파일 목록을 보지 않고 `-A`를 쓰지 않는다. 이미 들어갔으면 **마지막 정상 커밋으로 `git reset --soft` → 경로를 골라 다시 커밋**이 가장 깔끔하다(`filter-branch`는 인덱스에 그 산출물의 변경이 남아 있으면 "Cannot rewrite branches: You have unstaged changes"로 시작조차 안 된다). 그 다음 `.gitignore`에 넣는다.
 - **퍼널 이벤트는 버튼 탭이 아니라 화면 진입에서 찍는다.** 온보딩 단계 이벤트를 "다음" 버튼 탭에 심으면 **그 단계를 통과한 사람만** 세어져서 이탈률이 구조적으로 안 보인다(탭탭 실측: 1~7단계 중 5개가 탭 시점에 붙어 있었다). 리듀서에 `onAppear` 액션이 없으면 액션을 만들고 뷰에 `.onAppear { store.send(.onAppear) }`를 붙여서라도 진입에 심는다. 반대로 **건너뛰기는 탭에 심는 게 맞다** — 그건 행동이지 노출이 아니다.
 - **확장·위젯처럼 수명이 짧은 프로세스에는 SDK를 두지 않는다.** 사파리 확장 프로세스는 몇 백 밀리초만 살아 있어 Amplitude의 30초 flush 타이머가 한 번도 안 돈다 — SDK를 붙여도 이벤트는 그대로 버려진다. **앱 그룹 `UserDefaults`에 쌓고 앱이 켜지거나 포그라운드로 올라올 때 대신 보내는 것**이 안전하다(탭탭: `ExtensionAnalyticsQueue` 최대 200건 → `NbsApp.deliverPendingExtensionEvents`). 이때 확장에서 일어난 실제 시각을 `occurred_at`으로 같이 실어야 나중에 순서가 복원된다.
+- **앱 그룹 큐를 거치면 값의 타입이 문자열로 뭉개진다.** JS가 `String(count)`로 넘기고 `NSExtensionContext` → `[String: String]` → `UserDefaults`를 지나는 동안 boolean·숫자가 전부 문자열이 된다. Amplitude는 JSON boolean을 그대로 받는데 `"true"` 문자열이 가면 대시보드에서 앱 이벤트와 확장 이벤트의 같은 파라미터가 다른 타입으로 갈린다. **전송 직전(탭탭 `ExtensionEvent.typedValue(forKey:rawValue:)`)에 키별로 원래 타입으로 되돌린다.**
+- **큐를 언제 비웠는지도 파라미터로 남기려면 호출자에게서 받아야 한다.** 탭탭은 `delivered_by`를 `"app_launch"` 상수로 박아둬서 `didFinishLaunching`과 `scenePhase == .active` 두 경로가 구분되지 않았다. `deliverPendingExtensionEvents(trigger:)`처럼 계기를 인자로 받는다.
+- **앱 그룹 `UserDefaults`의 read-modify-write는 프로세스 간 원자적이지 않다.** `append`(read → set)와 `drain`(read → removeObject) 사이에 트랜잭션이 없어서, `drain`이 읽은 뒤 확장이 append하면 `removeObject`가 그것까지 지운다. `NSLock`이나 직렬 큐는 프로세스 안에서만 유효해서 소용없다 — 제대로 고치려면 앱 그룹 공용 파일 락(`NSFileCoordinator`)이나 SQLite다. 탭탭은 앱이 포그라운드인 동안 사파리 확장이 도는 창이 좁아 알려진 한계로 남겨뒀다.
 - **확장 콘텐츠 스크립트에 브라우저 분석 SDK를 넣으면 남의 사이트를 수집하게 된다.** 콘텐츠 스크립트는 사용자가 방문하는 **모든 페이지**에서 도는데, 거기에 자동 수집이나 세션 리플레이가 붙으면 그 페이지 내용·URL이 우리 프로젝트로 넘어온다(개인정보·앱 심사 양쪽 문제). JS에서는 이벤트 이름과 색·길이 같은 값만 `browser.runtime.sendMessage` → `sendNativeMessage`로 네이티브에 넘기고, 전송은 네이티브 SDK가 한다.
 - **시뮬레이터 검증 빌드를 `CODE_SIGNING_ALLOWED=NO`로 만들면 앱이 시작하자마자 죽는다.** entitlement가 안 붙어 App Group 컨테이너 조회가 `nil`이 되고, 탭탭의 `Core/AppGroupContainer.swift`는 거기서 `fatalError`를 던진다(2초 만에 종료). **그 크래시 때문에 Amplitude의 30초 flush 타이머가 한 번도 못 돌아 "이벤트가 안 올라간다"로 보인다.** 크래시 리포트(`(로컬 경로)`)의 triggered thread는 메인 런루프만 보여줘 원인이 안 나오고, **`xcrun simctl spawn booted log stream --predicate 'process == "TapTap"'`의 마지막 줄**에 `Fatal error: Failed to find App Group container`가 있다. 검증 빌드는 `CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO`로 만든다(서명은 하되 프로파일은 요구하지 않음).
 - **Amplitude-Swift의 전송은 로그만으로 판정하지 않는다.** `logLevel: .debug`면 subsystem `Amplitude`로 `Log: Start flushing N events`가 찍히지만(기본 `flushIntervalMillis=30_000`, `flushQueueSize=30`), 성공 응답은 별도 줄로 안 나온다. **판정은 앱 컨테이너의 `Library/Application Support/amplitude/<키>-$default_instance.events.index/` 디렉터리가 비었는지로 한다** — `PersistentStorageResponseHandler`가 200에서 `storage.remove(eventBlock:)`으로 파일을 지우고, 실패하면 남겨 재시도한다(400·413 같은 영구 실패에서도 지우므로 최종 확인은 Amplitude 대시보드).
@@ -54,6 +62,18 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 **어트리뷰션 툴(AppsFlyer/Airbridge)은 별개다.** 웹은 UTM으로 광고→유입이 이어지지만 앱은 앱스토어를 거치며 연결이 끊긴다. 유료 광고를 집행하기 전에 붙여야 한다.
 
 ## 기록
+
+### 2026-09-08 — 코드리뷰 12건이 전부 "지표가 거짓말한다"였다 (탭탭 PR #148)
+
+- 맥락: 탭탭 계측 PR #148에 CodeRabbit 인라인 12건. 사람 리뷰어는 없었다. 브랜치 `a319c463` 코드에 전부 대조했더니 **12건 모두 실재**했고, 지적이 하나로 묶였다 — 이벤트가 "사용자가 눌렀다"에 붙어 있어 저장 실패·early return·미삭제가 전부 전환으로 세어진다. **계측을 심는 PR에서 나오는 리뷰는 대개 로직 버그가 아니라 "이 숫자를 믿어도 되나"다.**
+- 배운 것: 위 「핵심 정리」에 새로 넣은 항목들. 가장 값진 것 순서로 —
+  ① `case .deleteDone`에 track이 있는데 **그 액션을 send하는 곳이 없어** `link_delete`가 통째로 0이었다. 전날 "정의된 이벤트 중 미발화 0"까지 감사 스크립트로 확인했는데도 못 잡았다 — 스크립트가 *정의 대비 발화 지점*만 셌지 *그 지점이 도달 가능한지*는 안 봤다.
+  ② `case` 첫 줄의 track은 `guard`도 `catch`도 안 지난다. `.run { [analytics] _ in try …; analytics.track(…) }`로 옮기는 게 유일한 해법.
+  ③ 한 시트가 `.comment`/`.highlight` 둘을 처리하는데 이벤트가 하나여서 메모 삭제가 하이라이트 삭제로 집계됐다. `ConversionEvent.memoDeleted`(`memo_delete`)를 새로 정의하고 track을 실제 삭제를 하는 부모로 옮겼다.
+  ④ 검색 실패를 `totalCount: 0`으로 내려보내 SwiftData 에러와 정상 무결과가 `has_result=false`로 같이 찍혔다.
+- 남긴 것: `ExtensionAnalyticsQueue`의 프로세스 간 원자성(위 핵심 정리). 저장소를 갈아야 해서 PR 범위 밖으로 두고 커밋 메시지에 명시했다.
+- 함께: `Docs/analytics-events.md`를 삭제했다(홍 지시). 이벤트 원천이 코드인데 표가 따로 있으면 이번처럼 이벤트를 고칠 때마다 두 곳을 맞춰야 하고 어긋난 문서가 더 헷갈린다. **대신 「이벤트 설계」의 "정의의 원천을 한 곳에"가 말하는 단위 테스트(이름·파라미터 키 고정)가 그만큼 더 중요해졌다.**
+- 근거: 커밋 `da98e3e7`(수정 11건)·`648372d5`(문서 삭제), 브랜치 `feat/analytics-amplitude` push. iOS(`TapTap`, iPhone 17 Pro 시뮬레이터)·macOS(`TapTapMac`) 빌드 통과, `AnalyticsKit` 스킴 테스트 통과.
 
 ### 2026-09-07 — 추적 범위 확대: 미삽입 이벤트 전부 + 사파리 확장(JS) (탭탭)
 
