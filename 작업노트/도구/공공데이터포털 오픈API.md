@@ -26,6 +26,28 @@ projects:
 
 ## 기록
 
+### 2026-09-08 (2) — 이중 인코딩 403과 「모르는 파라미터는 조용히 무시」 — 브라우저에서 처음 붙이며
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 1 — fetch와 useState 2026-09-08|사다리 세션 1]]. 발급받은 서비스키로 첫 실호출
+- **같은 키인데 `curl`은 200, 브라우저는 403 `SERVICE_KEY_IS_NOT_REGISTERED_ERROR`가 났다.** 원인은 키가 아니라 **URL 안의 인코딩 안 된 한글**(`Q0=서울특별시`)이다 — macOS `open`/브라우저가 URL 전체를 인코딩하면서 키 안의 `%`까지 `%25`로 바꿔버린다(이중 인코딩). 한글을 미리 퍼센트 인코딩해두면 그대로 열린다
+- 키 모양 4가지를 대조했다. **`%`를 한 번 더 인코딩한 경우에만 403이 재현된다** — 나머지 셋은 전부 200이라, **Encoding 키/Decoding 키 중 뭘 넣느냐는 사실 문제가 아니었다**
+
+```bash
+set -a; source .env.local; set +a
+B="https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire?numOfRows=1&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC"
+
+curl -s "$B&serviceKey=$VITE_DATA_GO_KR_KEY"   # Encoding 키 그대로 → 200 NORMAL SERVICE
+# 한 번 푼 키를 raw로 / 다시 인코딩해서 → 둘 다 200
+DBL=$(python3 -c "import urllib.parse,os;print(urllib.parse.quote(os.environ['VITE_DATA_GO_KR_KEY'],safe=''))")
+curl -s "$B&serviceKey=$DBL"                    # % → %25 이중 인코딩 → 403 SERVICE_KEY_IS_NOT_REGISTERED_ERROR
+```
+
+- **모르는 파라미터는 조용히 무시된다.** `numOfRows`를 `numbersOfRows`로 오타냈는데 **에러 없이 기본 개수로 정상 응답**이 왔다. 400도 경고도 없다 — 파라미터 오타는 **응답 개수를 세어야** 잡힌다
+- **브라우저에서 직접 호출이 실제로 된다** — `localhost:5173`(Vite dev) → `apis.data.go.kr`, HTTP 200, 응답 헤더 `access-control-allow-origin: http://localhost:5173`, **`OPTIONS` 프리플라이트 없음**(헤더 없는 맨 `GET`이라 단순 요청). 09-08 오전의 `curl` 실측이 실제 브라우저에서도 그대로 확인됐다
+- **`.env` 함정**: Vite 템플릿 `.gitignore`는 `*.local`만 덮는다. `.env`라는 이름으로 만들면 **키가 커밋에 딸려 올라간다.** `.env.local`을 쓰거나 `.env`·`.env.*`를 무시 목록에 추가할 것
+- 영향: 사다리 1·2는 프록시 없이 확정. Fastify는 3번에서 **키 노출 + 캐싱** 때문에 붙인다
+
+
 ### 2026-09-08 — 약국맵 착수 전 「전국 약국 정보 조회 서비스」를 키 없이 검증했다
 
 - 맥락: [[프로젝트/개인/약국맵/README|약국맵]] 착수. 09-05 문서가 *"공공 API 다수가 브라우저에서 직접 호출되지 않는다(CORS·키 노출). 프록시가 없으면 동작하지 않는다"*고 Fastify 도입 근거를 적어 뒀는데, **CORS 쪽을 실측하니 틀렸다.**
