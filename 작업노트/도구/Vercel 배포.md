@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-19
-updated: 2026-08-19
+updated: 2026-09-10
 projects:
   - "[[프로젝트/개인/Zappy/README|Zappy]]"
 ---
@@ -22,6 +22,14 @@ Git 연동 배포는 **레포 루트를 프로젝트 루트로 가정**한다 �
 - 프로젝트 설정 변경은 대시보드 없이도 REST로 가능: `PATCH https://api.vercel.com/v9/projects/<id>?teamId=<org>` body `{"rootDirectory":"landing"}` (토큰은 `(로컬 경로)`). 이후 `vercel redeploy <deployment-url>`로 같은 커밋을 새 설정으로 재빌드.
 
 ## 기록
+
+### 2026-09-10 — 배포 폴더를 `rm -rf` 하면 프로젝트 연결이 끊겨 새 프로젝트로 올라간다
+- 맥락: 빌드 스크립트가 매번 출력 폴더를 새로 만들도록 `rm -rf deploy && python3 build.py --files` 로 돌렸다
+- 배운 것:
+  - **`.vercel/` 디렉터리가 출력 폴더 안에 있어서 같이 지워졌고**, 다음 `vercel deploy --prod --yes` 가 폴더명을 그대로 써서 **`deploy` 라는 이름의 새 프로젝트를 만들었다.** 기존 도메인은 갱신되지 않는데 배포는 성공하므로 조용히 어긋난다
+  - 복구: `vercel link --yes --project <기존이름>` 후 재배포. 잘못 생긴 프로젝트는 `vercel project rm <이름>` — **이 명령은 `--yes` 를 받지 않고 대화형으로 확인을 묻는다** (`Error: unknown or unexpected option: --yes`). `echo "y" | vercel project rm <이름>` 로 넘긴다
+  - 예방: 출력 폴더를 통째로 지우지 말고 `.vercel` 만 남기거나, 빌드 산출물만 지운다
+- 근거: 배포 URL이 `deploy-<hash>-<team>.vercel.app` 으로 나온 것으로 발견
 
 ### 2026-08-19 — Git 연동 후 Root Directory 미설정으로 랜딩·웹훅 4일간 404
 - 맥락: [[프로젝트/개인/Zappy/README|Zappy]] — "구매 슬랙 알림이 안 온다"를 추적하다가 `zappy-landing.vercel.app`이 `/`까지 404인 것을 발견
