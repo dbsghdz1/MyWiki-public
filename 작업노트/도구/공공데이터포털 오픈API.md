@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-08
-updated: 2026-09-08
+updated: 2026-09-09
 projects:
   - "[[프로젝트/개인/약국맵/README|약국맵]]"
 ---
@@ -25,6 +25,39 @@ projects:
 - **FullData 내려받기 오퍼레이션이 있으면 설계가 바뀐다.** 전량을 받아 캐싱하면 일 호출 한도(개발계정 1,000회/일)가 무의미해진다. 자주 안 바뀌는 마스터 데이터는 매 요청 호출하지 않는다.
 
 ## 기록
+
+### 2026-09-09 — Fastify 프록시로 옮겼다. **키가 `undefined`여도 응답 메시지는 「등록되지 않은 서비스키」로 똑같다**
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 3-A — Fastify 프록시 2026-09-09|사다리 3-A]]. 브라우저 직접 호출 → Fastify 프록시 경유로 전환
+- **`serviceKey=undefined`가 전송되면 응답은 `SERVICE_KEY_IS_NOT_REGISTERED_ERROR`다** — 09-08의 이중 인코딩 403과 **글자 그대로 같은 메시지**다. 즉 이 메시지는 「키가 틀렸다」가 아니라 **「내가 보낸 문자열을 못 알아보겠다」**는 뜻이고, 원인은 셋 중 하나다: ① 키가 안 읽힘(`.env` 누락·`--env-file` 누락) ② 이중 인코딩 ③ 진짜 미등록. **①을 1초에 배제하는 법**: `console.log("KEY 길이:", KEY?.length)` → 이 API 키는 96자
+- **`numOfRows` 오타를 코드에서 뒤늦게 잡았다.** 09-08에 *"모르는 파라미터는 조용히 무시된다"*고 여기 적어놓고도 `numbersOfRows`가 코드에 남아 있었다. **파라미터 오타는 응답 개수를 세야 잡힌다**:
+
+```bash
+curl -s localhost:3000/api/pharmacies | grep -o '"dutyName"' | wc -l   # numOfRows=3 → 3
+```
+
+- **프록시 구성** (재현 가능한 최소형):
+
+```js
+// server/main.js — 라우트는 전부 listen 위에
+const KEY = process.env.DATA_GO_KR_KEY;
+app.get("/api/pharmacies", async () => {
+  const url = `https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire`
+    + `?serviceKey=${KEY}&numOfRows=3&Q0=${encodeURIComponent("서울특별시")}&Q1=${encodeURIComponent("관악구")}&_type=json`;
+  const res = await fetch(url);
+  return await res.json();
+});
+await app.listen({ port: 3000 });
+```
+
+```bash
+node --env-file=.env.local server/main.js    # Node 20.6+ 내장, dotenv 불필요
+```
+
+- **`_type=json`이 이 오퍼레이션에서 동작한다** — `getParmacyListInfoInqire`는 `_type=json`을 주면 JSON으로 답한다(기본은 XML). 응답 모양은 `response.body.items.item[]`, 약국명은 `dutyName`, 고유 ID는 `hpid`
+  - **주의**: `numOfRows=1`이면 `item`이 배열이 아니라 객체로 오는 계열의 API다. 개수를 1로 줄여 테스트할 때 `.map`이 터질 수 있다
+- **키는 이미 인코딩된 형태**(끝이 `%3D`)로 발급된다. 서버 코드에서도 `encodeURIComponent`를 씌우면 안 된다 → [[학습/공부/CS/URL과 퍼센트 인코딩|URL과 퍼센트 인코딩]]
+- 영향: 번들에서 `serviceKey=` 검색 결과 **1 → 0**. 브라우저는 이제 `/api/pharmacies`만 안다. 개발 중 전달은 Vite `server.proxy`가 하고, **배포에서는 Fastify가 직접 해야 한다**(사다리 3-B)
 
 ### 2026-09-08 (2) — 이중 인코딩 403과 「모르는 파라미터는 조용히 무시」 — 브라우저에서 처음 붙이며
 

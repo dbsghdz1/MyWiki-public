@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-09-04
+updated: 2026-09-09
 aliases: [JS 문법, 객체 리터럴, 구조 분해, destructuring]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
@@ -166,6 +166,15 @@ data.filter(x => x.a).map(x => x.b).reduce((s, x) => s + x.c, 0)
 | `this`·프로토타입 | React 함수형 컴포넌트만 쓰면 거의 안 만난다. **지금은 건너뛴다** |
 
 ## 기록
+
+### 2026-09-09 — `SyntaxError`는 원인보다 뒤에서 터진다
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 3-A — Fastify 프록시 2026-09-09|사다리 3-A]]. `async () = {`처럼 화살표의 `>`를 빠뜨렸다
+- 배운 것:
+  - 에러는 **6번 줄(`return { ok: true };`)**을 가리켰지만 범인은 **5번 줄**이었다. 파서가 `() = {`를 "대입인가 보다" 하고 넘어갔다가 `return`을 만나서야 멈춘 것
+  - **`SyntaxError`가 뜨면 가리킨 줄과 그 위 한두 줄을 같이 본다.** 런타임 에러(`TypeError` 등)는 반대로 가리킨 자리가 대체로 범인이다
+  - 에러가 잡히는 층이 다르다: **읽다가**(`SyntaxError` — 실행조차 안 됨) / **실행 중**(`ERR_ASSERTION` 같은 값 위반) / **원격 서버가**(잘못된 값을 보냈을 때). 어느 층에서 났는지가 어디를 봐야 하는지를 정한다
+- 근거: `pharmacy-map` `9cad2bd` 작업 중 재현
 
 ### 2026-09-04 — 소수 문자열을 정수로 (MyCryptoDiary D4 블록 5a)
 
