@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-09
+updated: 2026-09-10
 projects:
   - "탭탭"
 ---
@@ -17,6 +17,10 @@ projects:
 
 - **앱용 GA4 = Firebase Analytics.** 독립 GA4 iOS SDK는 없다. 남는 선택지는 Measurement Protocol로 HTTP POST를 직접 쏘는 것인데, `first_open`·`session_start`·`user_engagement` 같은 자동 이벤트와 리텐션 리포트가 통째로 안 잡혀서 "교차검증용 두 번째 툴"이라는 목적에 못 미친다.
 - **`FirebaseApp.configure()`는 `GoogleService-Info.plist`가 없으면 실패가 아니라 앱을 죽인다**(fatalError). 키를 아직 안 받은 상태에서도 앱이 돌아야 하면 `FirebaseOptions.defaultOptions()`가 `nil`인지 먼저 보고 건너뛴다. `FirebaseApp.app() != nil`이 초기화 여부 판정.
+- **계측을 넣은 것과 사용자가 추적되는 것은 다른 사건이다.** 탭탭은 계측 PR을 2026-09-09에 머지했는데 스토어 1.2.1은 **그 전날(09-08)에 업로드**된 빌드라, 「계측 다 넣었다」고 기록해둔 동안 실제 사용자는 **한 명도 추적되지 않고 있었다**. 판정은 코드가 아니라 **출시된 빌드에 그 커밋이 들어 있는가**로 한다 — `git branch -r --contains <계측커밋>`이 `main`/출시 태그를 포함하는지 본다.
+- **계측을 추가하는 릴리즈는 App Store Connect의 「앱 개인정보」 선언을 같이 고쳐야 한다.** Amplitude·Firebase Analytics는 **사용 데이터(제품 상호작용)**와 **식별자(기기 ID — Amplitude device ID · Firebase app instance ID)**를 수집한다. 「데이터를 수집하지 않음」으로 둔 채 올리면 **사실과 다른 신고**가 된다. 반면 **추적(Tracking)은 「아니오」**가 맞다 — 광고 네트워크에 연결하거나 데이터 브로커에 넘기지 않으면 ATT 대상이 아니다(어트리뷰션 툴을 붙이는 순간 달라진다). 이건 법적 선언이라 에이전트가 대신 채우지 않는다.
+- **프로바이더 하나만 빼려면 그 키/설정 파일을 번들에서 빼면 된다.** `AnalyticsConfiguration.fromMainBundle()`이 `bundle.path(forResource:"GoogleService-Info", ofType:"plist")`로 판정하므로, plist를 `Resources/`에서 치우면 GA4가 조용히 빠지고 나머지는 그대로 돈다(실측: `분석 프로바이더 시작: Console, Amplitude`). **«키가 없으면 프로바이더가 조용히 빠지게» 설계한 것이 릴리즈 범위를 자르는 스위치로도 쓰인다.**
+- **Debug 번들 ID 불일치는 Release에서 사라진다.** plist는 스토어 번들 ID(`com.Nbs.dev.ADA.app`)로 발급받는데 Debug는 `com.Nbs.dev.app`이라 `I-COR000008` 경고가 뜬다. **Release 빌드는 번들 ID가 일치하므로 경고가 없다** — 즉 이 경고는 개발 빌드 전용 문제이고, 진짜 쟁점은 「개발 트래픽이 운영 속성에 섞이는가」다.
 - **Firebase를 정적 링크로 붙이면 앱 타깃에 `-ObjC`가 필요하다. 없으면 GA4가 «켜진 것처럼 보이면서» 업로드가 0건이다.** `AnalyticsKit`이 `.staticFramework`라 GoogleUtilities의 ObjC 카테고리(`GULNSData+zlib`)가 최종 링크에 안 실렸고, 그 결과 `-[APMDatabase insertBundle:isRealtime:error:]`가 `+[NSData gul_dataByGzippingData:error:]: unrecognized selector sent to class`로 죽었다. **ObjC 카테고리는 링크 시점에 미해결 심볼을 만들지 않아서, 정적 라이브러리에서 그 오브젝트 파일 자체가 안 끌려온다** — `-ObjC`가 그 라이브러리의 ObjC 오브젝트를 전부 싣게 하는 플래그다. 증상이 지독한 이유는 **초기화도 되고(`분석 프로바이더 시작: Console, GA4, Amplitude`) 이벤트도 찍히는데(`screen_view (_vs)` debug 마킹) 큐잉 직전에만 죽어서** 로그를 대충 보면 정상으로 읽히는 것이다. 판정은 두 가지로 한다 — 로그에 `I-ACS030000 Exception on worker queue`가 있는가, 그리고 **`nm -a <앱>.debug.dylib | grep GULNSData`가 비어 있는가**. 고친 뒤에는 `Bundle added to the upload queue` → `Uploading data. Host: app-analytics-services.com` → `Successful upload ... Code: 204`가 이어서 나온다.
 - **`GoogleService-Info.plist`를 gitignore하면 CI 빌드에는 GA4가 빠진다.** 로컬에서만 되고 TestFlight/스토어 빌드에는 안 들어간다 — CI에 시크릿으로 복원하는 스텝을 같이 넣지 않으면 조용히 계측 없는 빌드가 나간다.
 - **Firebase의 화면 자동수집을 꺼야 한다.** Info.plist `FirebaseAutomaticScreenReportingEnabled = false`. 켜두면 UIViewController 기준이라 SwiftUI 앱은 전부 `UIHostingController`로 뭉개진다. Amplitude도 같은 이유로 `autocapture`에서 `.screenViews`를 빼고 `[.sessions, .appLifecycles]`만 켠다.
@@ -63,6 +67,16 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 **어트리뷰션 툴(AppsFlyer/Airbridge)은 별개다.** 웹은 UTM으로 광고→유입이 이어지지만 앱은 앱스토어를 거치며 연결이 끊긴다. 유료 광고를 집행하기 전에 붙여야 한다.
 
 ## 기록
+
+### 2026-09-10 — Amplitude만 담아 1.2.2 업로드: 「계측 머지」와 「사용자 추적」 사이의 구멍 (탭탭)
+
+- 맥락: 탭탭에서 홍 «amplitude 들어간거 업데이트하자 유저 추적하게». 확인해보니 **스토어의 1.2.1에는 계측이 아예 없었다** — 계측 PR #148은 09-09 머지, 1.2.1 업로드는 09-08이었다. 범위는 홍의 지시로 **#149까지 + Amplitude만**(GA4 수정 PR #150 제외).
+- 배운 것: 위 「핵심 정리」에 넣은 네 항목. 특히 —
+  - **GA4를 빼는 방법이 코드 수정이 아니라 plist 제거였다.** `-ObjC` 없이 GA4가 들어가면 이벤트를 하나도 못 올리는 채로 출시되므로, plist를 레포 밖(`(로컬 경로)`)으로 옮겨 프로바이더를 뺐다. 빌드해서 `분석 프로바이더 시작: Console, Amplitude`로 실측 확인.
+  - **탭탭 `appstore` 레인은 업로드까지만 한다**(`submit_for_review: false`). 그리고 `latest_testflight_build_number(version:) + 1`을 계산해 **xcconfig의 `MARKETING_VERSION`·`CURRENT_PROJECT_VERSION`을 직접 써넣는다** — 버전 올림 커밋이 필요 없고, `*.xcconfig`가 gitignore라 그 변경은 git에 남지도 않는다.
+  - **업로드 직후에는 빌드가 버전 레코드에 안 붙는다.** Apple 처리에 수 분 걸리고, 그동안 `asc state`는 «build: ❌ not attached»만 보여준다. **처리 중인지 판단하려면 `asc builds`**(연결 여부와 무관하게 업로드된 빌드를 보여준다)를 보고, 나타나면 `asc attach-build <versionId> <buildId>`로 붙인다.
+- 결과: **1.2.2 (2) 업로드 → 빌드 `4cbe7ba3` 연결 완료, `PREPARE_FOR_SUBMISSION`**. 릴리즈 노트는 1.2.1 내용이 남아 있어 «내부를 정비했어요»로 교체(사용자에게 보이는 변화가 없는 릴리즈다). **심사 제출은 앱 개인정보 선언 확인 전까지 하지 않았다.**
+- 근거: develop `c5e9226d`(#149 + #148), 버전 레코드 `c80a4eda-a795-4730-a309-27d042fdccae`, 빌드 `4cbe7ba3-471f-43b9-8646-1eb5980d90b5`. `env -u RUBYOPT fastlane ios appstore version:1.2.2 skip_screenshots:true`([[작업노트/도구/fastlane 로컬 실행 환경|RUBYOPT 누출]] 회피). 시뮬레이터 프로바이더 실측 `Console, Amplitude`.
 
 ### 2026-09-09 — GA4를 실제로 켜다: 링커 플래그 하나가 업로드를 통째로 막고 있었다 (탭탭)
 
