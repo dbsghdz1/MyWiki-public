@@ -80,6 +80,7 @@ import type { UpbitTicker } from './types';
   - 해결은 **경계에 한 줄**: `const pharmacies: Pharmacy[] = query.data?.response?.body?.items?.item ?? []`. 이 줄 아래부터 자동완성이 살아나고 `p.dutyNmae` 같은 오타를 `tsc`가 잡는다
   - **이건 검사가 아니라 약속이다.** TypeScript는 실행 중에 응답을 확인하지 않으므로 API가 다른 걸 보내도 안 막아준다 — 진짜 검사는 zod 같은 런타임 검증이 필요하다. 이 파일의 *"외부 데이터는 손으로 검증"*과 같은 얘기
   - `?.`와 `?? []`가 **로딩 중(응답 전 `data`가 `undefined`)에 화면이 안 터지게** 하는 최소 장치
+- **(같은 날 추가) Node의 타입 지우기는 `.ts`만 되고 `.tsx`는 거부된다.** Node 24 실측: `node x.ts` → 실행됨, `node x.tsx` → `ERR_UNKNOWN_FILE_EXTENSION`. **지우기(erasure)와 변환(transform)의 차이**다 — `: number`는 지우면 유효한 JS지만 `<li>약국</li>`은 지우면 아무것도 안 남아 `h("li", null, "약국")`으로 **바꿔야** 한다. 그리고 지우기는 **검사가 아니다**(틀린 타입도 실행된다) — 검사는 여전히 `tsc`의 일
 - 근거: `pharmacy-map` `9cad2bd`, `src/App.tsx`
 
 ### 2026-08-18 — 업비트 client를 쓰다가
