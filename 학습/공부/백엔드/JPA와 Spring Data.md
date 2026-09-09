@@ -4,7 +4,7 @@ area: 백엔드
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-09-02
+updated: 2026-09-09
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -18,6 +18,7 @@ DB 행을 객체로 바꾸는 층에서 생기는 문제들. **매핑 실패의 
 - **매핑 단계 예외는 행 단위로 격리되지 않는다.** 잘못된 행 하나가 같은 쿼리로 읽힌 멀쩡한 행까지 통째로 죽인다. 그래서 "잘못된 데이터가 들어올 수 있는가"보다 **"들어오면 몇 개가 죽는가"**를 먼저 본다.
 - **벌크 UPDATE(`@Modifying` + JPQL)는 엔티티를 지나가지 않는다.** DB로 바로 나가는 SQL이라 `@PreUpdate` 같은 생명주기 콜백도, 영속성 컨텍스트도 안 태운다 — 그래서 ① `updated_at` 같은 자동 채움 컬럼을 쿼리 안에 손으로 써야 하고 ② 같은 트랜잭션에서 앞서 읽어 둔 엔티티가 **낡은 값을 든 채 남는다**(`clearAutomatically = true`가 그걸 비운다).
 - **그럼에도 벌크 UPDATE를 쓰는 이유는 "읽고 판단하고 쓰기" 사이에 잠금이 없기 때문이다.** 조건을 `WHERE`에 실으면 DB가 판정하고 **영향 행 수**가 승패를 알려준다 — 동시 요청 둘이 똑같이 "유효하다"를 읽는 창이 사라진다.
+- **벌크 DELETE(`@Modifying` + JPQL)와 파생 삭제(`deleteAllByUserId`)는 나가는 시점이 다르다.** 벌크는 부른 자리에서 즉시 SQL이 나가고, 파생은 엔티티를 읽어 `em.remove`한 뒤 **flush 때** 나간다 — **지우는 순서가 의미를 갖는 경우(FK 역순 파기)에는 벌크만 순서를 보장한다.**
 - **Spring의 `DataAccessException` 계층은 완전하지 않다.** 번역하지 못한 벤더 오류는 `UncategorizedSQLException`으로 올라온다. 예외 타입으로 분기하거나 단언할 때 이걸 전제해야 한다.
 
 ## 기록
@@ -53,3 +54,13 @@ DB 행을 객체로 바꾸는 층에서 생기는 문제들. **매핑 실패의 
 
 - [Spring Data JPA Reference — Query Methods](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html) — *"As the `EntityManager` might contain outdated entities after the execution of the modifying query, we do not automatically clear it … you can set the `@Modifying` annotation's `clearAutomatically` attribute to `true`."* (2026-09-02 확인)
 - [Spring Framework Reference — DAO Support](https://docs.spring.io/spring-framework/reference/data-access/dao.html) — "Spring provides a convenient translation from technology-specific exceptions, such as SQLException to its own exception class hierarchy, which has DataAccessException as the root exception" (2026-08-18 확인)
+
+### 2026-09-09 — 지우는 순서가 의미를 가지면 파생 삭제로는 못 지킨다
+
+- 맥락: 보험찾개냥 SSH-446 회원 탈퇴. `users` 행까지 지우기로 하면서 12개 테이블을 FK 역순으로 한 트랜잭션에 지워야 했다.
+- 배운 것:
+  - **파생 삭제(`deleteAllByUserId`)는 «지금 지운다»가 아니다.** 엔티티를 SELECT해 `em.remove`로 표시만 하고 실제 DELETE는 flush 시점에 나간다 — 그때 순서는 Hibernate의 액션 큐가 정하지 내가 부른 순서가 아니다. `@Modifying` + JPQL `DELETE`는 **부른 자리에서 그 SQL이 나가서**, `claim_status_histories → claim_snapshots → claims → treatment_items → receipts → treatment_records → …` 같은 순서를 코드 순서로 그대로 지킬 수 있다.
+  - **`clearAutomatically = true`가 삭제에서도 필요하다.** 벌크 DELETE는 영속성 컨텍스트를 지나지 않아서, 같은 트랜잭션에서 앞서 읽어 둔 엔티티가 **이미 없는 행을 든 채** 남는다.
+  - **`JdbcTemplate`과 JPA는 같은 트랜잭션에 든다** — 같은 `DataSource`·같은 트랜잭션 매니저를 쓰기 때문이다. 엔티티가 아직 없는 테이블(`claims` 계열, 스키마만 V14로 깔린 상태)을 네이티브 DELETE로 지우면서 JPA 파기와 한 트랜잭션으로 묶었고, 통합 테스트에서 실제로 함께 롤백·커밋된다.
+  - **리포지터리에 `fun deleteById(id: Long): Int`를 선언할 수 없다.** `CrudRepository.deleteById`와 시그니처가 겹쳐 `'deleteById' hides member of supertype 'CrudRepository' and needs an 'override' modifier`로 컴파일이 막힌다. 영향 행 수(= 있었는지 없었는지)를 받으려면 **다른 이름**으로 벌크 DELETE를 선언한다.
+- 근거: `Server/src/main/kotlin/com/boheomgaenyang/user/persistence/JpaAccountWithdrawal.kt` · `auth/persistence/UserRepository.kt` · `claim/persistence/JdbcClaimErasure.kt` · `AccountWithdrawalIntegrationTest` (PR #118, 커밋 `efecf2b`·`7769e13`)
