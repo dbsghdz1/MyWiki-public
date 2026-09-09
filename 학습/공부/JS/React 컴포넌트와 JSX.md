@@ -119,6 +119,15 @@ useEffect(() => {
 
 ## 기록
 
+### 2026-09-09 — `createRoot` vs `hydrateRoot`, 그리고 JSX 없이 `createElement` 직접 쓰기
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 3-B·3-C — SSR과 하이드레이션 2026-09-09|사다리 3-B·3-C]]
+- **`createRoot`는 «이 자리는 내가 처음부터 그린다»**라서 서버가 보낸 HTML을 버린다. **`hydrateRoot`는 이미 그려진 DOM을 그대로 두고 이벤트·상태만 붙인다** — 「수분 공급」이라는 이름 그대로 마른 뼈대를 적시는 것
+  - 관찰 가능한 차이: 데이터가 HTML에 이미 있는데도 `createRoot`면 `/api/pharmacies`를 **또** 부른다(Network 1줄) → `hydrateRoot`면 0줄
+  - 이어받으려면 **클라이언트의 첫 렌더 결과가 서버 HTML과 같아야** 한다. 그래서 서버가 데이터를 `window.__PHARMACIES__`로 같이 심는다 — `<li>1번약국</li>`은 **글자**지 데이터가 아니라서 되꺼낼 수 없다
+- **JSX 없이 쓰면 이렇게 생겼다**: `<li key={p.hpid}>{p.dutyName}</li>` = `h("li", { key: p.hpid }, p.dutyName)`. 서버 파일이 `.js`라 JSX를 못 써서 컴파일 결과를 손으로 썼다 — 09-08의 *"JSX는 함수 호출로 컴파일된다"*가 실물로 나온 자리
+- 근거: `pharmacy-map` `9270889`, `src/main.tsx`·`server/main.js`
+
 ### 2026-09-09 — cleanup 자리에 fetch를 넣어 「개발에서만 되는 버그」를 만들었다 (사다리 2)
 
 - 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 2 — useEffect와 useQuery 2026-09-09|사다리 세션 2]]. 버튼 없이 자동 요청으로 바꾸며
