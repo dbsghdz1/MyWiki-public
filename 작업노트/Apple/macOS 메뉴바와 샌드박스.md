@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-16
-updated: 2026-08-19
+updated: 2026-09-09
 projects:
   - "[[프로젝트/개인/BarStack/README|BarStack]]"
   - "[[프로젝트/개인/Zappy/README|Zappy]]"
@@ -27,6 +27,10 @@ App Sandbox 안에서 다른 앱의 메뉴바 아이템을 "알아내는" 유일
 - **샌드박스 여부를 실기로 검증하는 최소 절차**: 테스트 바이너리를 `.app` 껍데기(Info.plist 포함)에 넣고 `codesign --force --sign - --entitlements sb.entitlements`로 **애드혹 서명**하면 샌드박스가 실제로 켜진다. 팀 서명 없이도 되므로 "이 API가 MAS에서 되나?"를 5분 안에 답할 수 있다. 단 팀 ID 접두 App Group 같은 항목은 애드혹으로 검증되지 않으니 빼고 최소 entitlement만 넣는다.
 - **TCC 프롬프트가 아니라 시스템 설정 + 재실행.** 화면 기록·손쉬운 사용 모두 시스템 프롬프트는 앱당 한 번만 뜨고, 그 뒤엔 설정 패널을 직접 열어줘야 한다(`x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture` / `?Privacy_Accessibility`).
 - **TCC의 "책임 프로세스" 함정.** 터미널에서 직접 실행한 바이너리는 터미널의 권한을 물려받아 `AXIsProcessTrusted`가 true로 나온다. 앱 자체의 권한을 재려면 `open`(LaunchServices)으로 띄워야 한다.
+
+- **행을 `minY`로만 묶으면 디스플레이 두 대의 메뉴바가 한 행으로 합쳐진다.** `CGWindowListCopyWindowInfo`의 bounds는 주 디스플레이 기준 전역 좌표라, **두 디스플레이의 윗변이 맞춰져 있으면 진짜 행과 복제 행의 `minY`가 똑같이 0**이다. 그러면 `rows[Int(bounds.minY.rounded())]`가 둘을 한 행으로 만들고, 복제 행 전체가 우리 아이템 왼쪽에 놓인 것으로 읽혀 목록이 그대로 두 배가 된다. 세로 오프셋이 13pt만 있어도 안 겹치므로 **평소엔 멀쩡하다가 디스플레이 정렬을 맞추는 순간 재현된다.**
+- 병합된 띠에서 우리 행만 잘라내는 규칙: **중심점이 우리 디스플레이(`BarStack.main`이 있는 그 디스플레이) 안에 있거나, 화면 밖으로 밀려났으면 우리 ‹ 핸들에 붙어 있는 것만.** 두 번째 조건이 핵심이다 — 접힘 상태에서는 진짜 행도 복제 행도 스페이서(10,000pt)에 밀려 전부 음수 x에 있어서 "디스플레이 안"만으로는 못 가른다. 각자의 스페이서가 서로 다른 자리로 밀어내므로 **핸들에서 왼쪽으로 인접(gap ≤ 24pt)한 것만 따라가면** 우리 것만 남는다.
+- 재현·검증은 `CGConfigureDisplayOrigin`으로 보조 디스플레이를 옮겨서 한다(세션 즉시 반영, 되돌리기도 한 줄). 복제 행이 **왼쪽**에 오게 놓아야 재현된다 — 오른쪽이면 x가 한계선보다 커서 어차피 걸러진다.
 
 ## 기록
 

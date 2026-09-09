@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-09-06
+updated: 2026-09-09
 projects:
   - "탭탭"
   - "[[프로젝트/개인/WristNote/README|WristNote]]"
@@ -39,6 +39,10 @@ projects:
 - **탭과 스크롤이 같은 선택을 두 번 알린다.** 탭이 스크롤 위치까지 옮기므로 `onChange(of: 위치)`가 뒤따라 또 발화한다. 마지막으로 알린 id를 들고 있다가 같은 값이면 삼킨다. 반대 방향(밖에서 선택이 바뀜)도 같은 자리에서 처리한다.
 - **선택을 스크롤로 하게 만들면 setter가 초당 수십 번 불린다.** 탭 시절엔 한 번이던 부수 효과(앱 그룹 스냅샷 쓰기·`WidgetCenter.reloadAllTimelines()`·라이브 액티비티 갱신)가 한 번 튕길 때마다 여섯 번 돈다 — 그것도 스크롤이 도는 메인 스레드에서. **화면에 보이는 값은 즉시, 바깥 세계에 나가는 것은 debounce**(취소 가능한 `Task` + 0.4초)로 가른다.
 - **알파만 있는 어두운 오버레이 토큰은 다크 모드에서 사라진다.** `#272146 @7%` 같은 호버 색은 흰 배경에선 회색, 검은 배경에선 검정 위 검정이라 안 보인다. 색 토큰에 다크 appearance 변형이 있는지(`Contents.json`의 `appearances`) 확인하고, 없으면 밝기 변형이 있는 중립색(n20 등)을 쓴다.
+
+- **`.scrollPosition(id:)`의 초기값은 `GeometryReader` 안에서 안 먹는다.** 첫 레이아웃 패스에서 `geo.size.width`가 0이라 그 폭으로 계산한 `contentMargins`도 0이고, 스크롤은 그 상태로 0(맨 왼쪽)에 선다. 폭이 정해진 뒤 여백이 붙어도 **위치는 그대로 0**이라, 가운데 세우려던 항목이 화면 끝에 남는다.
+- 고치려면 폭이 정해진 뒤 한 번 다시 맞춰야 하는데, **같은 값을 다시 넣는 것으로는 움직이지 않는다**(변화가 없으니까). `nil`을 거쳐 다음 런루프에 원래 값을 넣는다: `.onChange(of: geo.size.width, initial: true) { … centered = nil; DispatchQueue.main.async { centered = id } }`.
+- 이 증상은 **선택이 첫 칸일 때 안 보인다.** 기본값으로 테스트하면 통과하고, 다른 칸을 고른 채 다시 열어야 드러난다.
 
 ## 기록
 

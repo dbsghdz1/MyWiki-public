@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-08
+updated: 2026-09-09
 projects:
   - "탭탭"
 ---
@@ -17,6 +17,7 @@ projects:
 
 - **앱용 GA4 = Firebase Analytics.** 독립 GA4 iOS SDK는 없다. 남는 선택지는 Measurement Protocol로 HTTP POST를 직접 쏘는 것인데, `first_open`·`session_start`·`user_engagement` 같은 자동 이벤트와 리텐션 리포트가 통째로 안 잡혀서 "교차검증용 두 번째 툴"이라는 목적에 못 미친다.
 - **`FirebaseApp.configure()`는 `GoogleService-Info.plist`가 없으면 실패가 아니라 앱을 죽인다**(fatalError). 키를 아직 안 받은 상태에서도 앱이 돌아야 하면 `FirebaseOptions.defaultOptions()`가 `nil`인지 먼저 보고 건너뛴다. `FirebaseApp.app() != nil`이 초기화 여부 판정.
+- **Firebase를 정적 링크로 붙이면 앱 타깃에 `-ObjC`가 필요하다. 없으면 GA4가 «켜진 것처럼 보이면서» 업로드가 0건이다.** `AnalyticsKit`이 `.staticFramework`라 GoogleUtilities의 ObjC 카테고리(`GULNSData+zlib`)가 최종 링크에 안 실렸고, 그 결과 `-[APMDatabase insertBundle:isRealtime:error:]`가 `+[NSData gul_dataByGzippingData:error:]: unrecognized selector sent to class`로 죽었다. **ObjC 카테고리는 링크 시점에 미해결 심볼을 만들지 않아서, 정적 라이브러리에서 그 오브젝트 파일 자체가 안 끌려온다** — `-ObjC`가 그 라이브러리의 ObjC 오브젝트를 전부 싣게 하는 플래그다. 증상이 지독한 이유는 **초기화도 되고(`분석 프로바이더 시작: Console, GA4, Amplitude`) 이벤트도 찍히는데(`screen_view (_vs)` debug 마킹) 큐잉 직전에만 죽어서** 로그를 대충 보면 정상으로 읽히는 것이다. 판정은 두 가지로 한다 — 로그에 `I-ACS030000 Exception on worker queue`가 있는가, 그리고 **`nm -a <앱>.debug.dylib | grep GULNSData`가 비어 있는가**. 고친 뒤에는 `Bundle added to the upload queue` → `Uploading data. Host: app-analytics-services.com` → `Successful upload ... Code: 204`가 이어서 나온다.
 - **`GoogleService-Info.plist`를 gitignore하면 CI 빌드에는 GA4가 빠진다.** 로컬에서만 되고 TestFlight/스토어 빌드에는 안 들어간다 — CI에 시크릿으로 복원하는 스텝을 같이 넣지 않으면 조용히 계측 없는 빌드가 나간다.
 - **Firebase의 화면 자동수집을 꺼야 한다.** Info.plist `FirebaseAutomaticScreenReportingEnabled = false`. 켜두면 UIViewController 기준이라 SwiftUI 앱은 전부 `UIHostingController`로 뭉개진다. Amplitude도 같은 이유로 `autocapture`에서 `.screenViews`를 빼고 `[.sessions, .appLifecycles]`만 켠다.
 - **키는 Info.plist를 통해 xcconfig에서 주입한다.** `"AMPLITUDE_API_KEY": "$(AMPLITUDE_API_KEY)"` → 빌드 세팅이 비면 Info.plist에 **빈 문자열**이 남는다(키가 없어지는 게 아니다). 그래서 읽는 쪽에서 `trimmingCharacters` 후 `isEmpty`를 "키 없음"으로 처리해야 한다.
@@ -62,6 +63,17 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 **어트리뷰션 툴(AppsFlyer/Airbridge)은 별개다.** 웹은 UTM으로 광고→유입이 이어지지만 앱은 앱스토어를 거치며 연결이 끊긴다. 유료 광고를 집행하기 전에 붙여야 한다.
 
 ## 기록
+
+### 2026-09-09 — GA4를 실제로 켜다: 링커 플래그 하나가 업로드를 통째로 막고 있었다 (탭탭)
+
+- 맥락: 탭탭에 GA4를 붙이는 마지막 단계. 코드는 9/5에 이미 다 배선돼 있었고(`hasFirebaseConfigFile`이 true면 프로바이더가 붙는 구조) **남은 건 `GoogleService-Info.plist`뿐**이었다.
+- 배운 것:
+  - **`-ObjC` 누락**(위 「핵심 정리」). 이번 작업에서 제일 값진 발견이다. plist만 넣으면 끝인 줄 알았는데, 넣고 로그를 끝까지 읽지 않았으면 **계측 0건인 채로 출시됐다.** 「프로바이더 시작」 로그와 「이벤트 찍힘」 로그가 둘 다 정상이라 중간에서 멈추면 성공으로 보인다.
+  - **업로드 204는 «데이터가 쌓였다»의 근거가 못 된다.** GA4 속성이 연결 안 된 프로젝트도 `app-analytics-services.com`이 204를 준다. 최종 판정은 **GA4 DebugView**뿐이고, `-FIRDebugEnabled -FIRAnalyticsDebugEnabled`를 launch argument로 주면 실시간으로 뜬다.
+  - **`firebase-tools`로 콘솔 작업 대부분을 대신할 수 있다.** `firebase apps:create IOS "<이름>" --bundle-id <ID>` → `firebase apps:sdkconfig IOS <appId> --out <경로>`로 plist가 바로 떨어진다. 단 **`firebase projects:create`는 계정에 Firebase 프로젝트가 하나도 없으면 실패한다** — GCP 프로젝트는 만들어지는데 `addFirebase`가 403 `PERMISSION_DENIED`이고, 원인은 그 프로젝트의 `firebase.googleapis.com`이 `DISABLED`인 것이다(serviceusage로 확인). **첫 프로젝트는 콘솔에서 만들어야 하고**, 그때 「Google 애널리틱스 사용 설정」을 반드시 켠다.
+  - **Debug와 Release의 번들 ID가 다르면 plist는 한쪽만 맞는다.** 탭탭은 Debug `com.Nbs.dev.app` / Release `com.Nbs.dev.ADA.app`이라, 스토어용으로 받은 plist를 쓰면 개발 빌드에서 `I-COR000008` 경고가 뜬다. **경고일 뿐 Firebase는 그대로 동작해서 개발 트래픽이 운영 GA4로 들어간다** — 막으려면 DEBUG에서 프로바이더를 빼야 한다(미결).
+  - **이름 통일은 프로바이더가 아니라 `AnalyticsEvent` 한 곳에서 보장된다.** 두 프로바이더가 `event.name`을 그대로 쓰므로 갈릴 구조가 없다. 갈리는 건 값의 표현뿐(`.bool` → GA4 `"true"` 문자열 / Amplitude native boolean, 의도적). **다만 각 SDK의 자동 이벤트는 이름이 다르다** — GA4 `first_open`·`session_start`·`user_engagement` vs Amplitude `[Amplitude] Session Start`. 두 툴을 맞대볼 때는 **우리가 심은 전환 이벤트로만** 비교하고 세션·활성 지표는 비교하지 않는다.
+- 근거: PR [#150](https://github.com/TapTapTeam/taptap-ios/pull/150) 커밋 `1373d8ea`(`Target+Templates.swift`에 `OTHER_LDFLAGS = $(inherited) -ObjC`). 실측 — 수정 전 예외 3건·업로드 로그 0건·`GULNSData+zlib.o` 미링크 → 수정 후 예외 0건·`Successful upload 204`·`.o` 링크됨. GA4 DebugView에 `screen_view` 3 · `first_open` · `session_start` · `user_engagement` + 유저 속성 `has_onboarded=true` 수신 확인. Firebase 프로젝트 `taptap-57734`, iOS 앱 `com.Nbs.dev.ADA.app`, 레포 시크릿 `GOOGLE_SERVICE_INFO_PLIST` 등록. iOS·macOS 빌드와 `AnalyticsKit` 테스트 12건 통과.
 
 ### 2026-09-08 — 코드리뷰 12건이 전부 "지표가 거짓말한다"였다 (탭탭 PR #148)
 
