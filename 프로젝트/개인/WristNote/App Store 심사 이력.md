@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-09-02
-updated: 2026-09-05
+updated: 2026-09-09
 related_wiki: []
 ---
 
@@ -49,3 +49,20 @@ ASC appId `6807479115`, 번들 `com.hong.wristnote` (+ `.watchkitapp`). 파이�
 - 실기기 장시간(30분+) 백그라운드 녹음 실측 — 1.0은 이 검증 없이 제출됐다.
 - 워치 녹음 포맷: 현재 실기기에서 µ-law 16kHz(16KB/s)로 동작. AAC는 `AVAudioRecorder`에서 무출력. `AVAudioEngine` + 소프트웨어 AAC로 용량 1/4 줄이기 검토.
 - 콜드 스타트 반응 지연(권한 요청 + 오디오 세션 활성화가 첫 탭에 겹침).
+
+## 1.1.2 (4) — 2026-09-09 제출 · **이중 업로드의 원인을 잡았다**
+
+1.1.1이 **스크린샷이 두 벌씩 올라간 채로 승인·출시**됐다(ko·en-US 각 iPhone 8장·워치 4장). 그 사이 심사 취소 창이 닫혀서 `scripts/fix-screenshots-resubmit.sh`(취소 전제)는 쓸 수 없었고, **라이브 버전의 스크린샷은 지울 수 없다** — `DELETE /v1/appScreenshots/{id}` → 409 *"Can't Delete Screenshot After Submit for review"*. 새 버전만이 유일한 수단이었다.
+
+**원인**: 위에서 "다음 버전에서 규명"으로 남겨둔 것이 이번 로그에 그대로 찍혔다 —
+
+```
+./fastlane/screenshots/ko/watch-02-recording.png is missing on App Store Connect.
+Failed to upload all screenshots... Tries remaining: 4
+```
+
+deliver가 업로드 직후 검증에서 **방금 올린 파일을 못 읽고** 세트 전체를 다시 올린다. `overwrite_screenshots`는 첫 시도 전에만 지우므로 재시도분이 그대로 쌓인다. 재시도가 4번 남으므로 최악에는 5벌이다.
+
+**조치**: `deliver_all`을 셋으로 쪼갰다 — 업로드(제출 안 함) → `asc dedupe-screenshots` → 제출. 이번 제출에서 **12장을 지우고** 로케일당 6장(iPhone 4 + 워치 2)으로 맞춰 나갔다. 커밋 `86be123`·`9bfe0c4`. 같은 단계를 Fadeo에도 넣었다.
+
+앱 코드는 1.1.1과 같다.

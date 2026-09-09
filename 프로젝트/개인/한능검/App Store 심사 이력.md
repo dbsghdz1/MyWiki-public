@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-28
-updated: 2026-09-04
+updated: 2026-09-09
 ---
 
 # App Store 심사 이력 — 한능검 정복
@@ -123,3 +123,18 @@ deliver가 또 스크린샷을 **두 번 올려 10장**이 됐다(플레이북 �
 ### 도구 개선
 
 `asc`에 명령 넷을 추가했다 — `builds` · `attach-build` · `screenshots` · `dedupe-screenshots`. 3번 지뢰(이중 업로드)를 API로 잡으려면 목록·삭제가 필요한데 기존 도구엔 없었다.
+
+## 2.3.0 (12) — 2026-09-09 제출 · **유료 → 무료 + 잠금해제 IAP**
+
+홍 결정으로 09-17 트립와이어를 앞당겨 실행했다. 무료/유료 경계와 근거는 [[프로젝트/개인/한능검/README|README]]의 「가격」 절에 있다.
+
+- IAP `com.hong.hangeom.full`(비소모성 ₩6,600, ASC id `6810125328`)을 API로 만들었다. **`MISSING_METADATA`에서 안 움직이던 마지막 조각은 지역(`inAppPurchaseAvailabilities`)이었다** — 상세는 [[작업노트/AppStore/인앱 구매 등록 API|인앱 구매 등록 API]].
+- 심사 스크린샷은 Maestro가 찍은 잠금해제 시트(`maestro/unlock.yaml`).
+- **fastlane으로는 버전만 제출된다.** IAP를 같이 넣으려고 심사 제출을 직접 만들었다: `reviewSubmissions` → `reviewSubmissionItems` 둘(`appStoreVersion` + **`inAppPurchaseVersion`**) → `submitted: true`. 이때 fastlane이 대신 해주던 **수출 규정**(`builds.usesNonExemptEncryption=false`)을 직접 넣어야 한다.
+- **출시 방식을 `MANUAL`로 바꿨다.** 승인 즉시 출시되면 앱이 아직 유료인 채로 잠금 버전이 나가고, 그때 산 사람은 **앱 값을 내고도 IAP를 또 사야 한다**(빌드 12는 기존 구매자 판정에서 빠진다). 가격 무료 전환과 출시를 같은 자리에서 해야 한다.
+
+### 승인 뒤 할 일 (순서 중요)
+
+1. 앱 가격을 무료로 변경 — 기준 지역 USA가 0원이라 유럽 42개 지역이 무료로 팔리던 불일치도 이때 함께 사라진다.
+2. 2.3.0 출시(수동).
+3. TestFlight로 구매·복원 1회 검증 — **샌드박스에서는 `AppTransaction.originalAppVersion`이 항상 "1.0"이라 전원이 기존 구매자로 잡혀 구매 흐름 자체가 안 보인다.**
