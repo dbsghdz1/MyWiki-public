@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-16
-updated: 2026-09-08
+updated: 2026-09-09
 aliases: [ES Modules, export/import, 모듈 재수출]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
@@ -24,6 +24,17 @@ projects:
 - **접근제어자가 없다.** export = 그 파일 밖 누구나(Swift `public`), export 없음 = 그 파일 안에서만(Swift `fileprivate`). "index.ts에는 보이고 다른 파일엔 안 보이게"는 언어 차원에 없다. index.ts도 그냥 옆에 있는 파일이라, 원본이 export 하지 않은 건 index.ts에게도 안 보인다. (`class`의 `private`은 TS가 검사하지만 그건 클래스 멤버 얘기.)
 
 ## 기록
+
+### 2026-09-09 — 「번들에 실린다」를 실제로 측정하고, `process.env`로 옮겼다
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 3-A — Fastify 프록시 2026-09-09|사다리 3-A]]. 09-08에 *"빌드 타임 치환이라 키가 실린다"*고 적어만 뒀던 것을 이번엔 **눈으로 확인하고** 없앴다
+- 배운 것:
+  - **측정 명령**: `npm run build && grep -o 'serviceKey=.\{0,12\}' dist/assets/*.js` → `serviceKey=x7MTtJX86eeW`. 개발자 도구에서 보이는 건 "개발 서버라 원본이 보이는 것"일 수도 있으므로, **판정은 빌드 산출물로 해야 한다**
+  - **`VITE_` 접두사는 값의 성격이 아니라 「공개해도 된다」는 스위치다.** 같은 값이라도 `VITE_DATA_GO_KR_KEY`는 번들에 실리고 `DATA_GO_KR_KEY`는 Vite가 쳐다보지도 않는다
+  - **`process.env`가 안전한 이유는 두 겹**이다 — ① 치환이 아니라 **실행 중에 읽는다** ② 더 중요한 것: 그 코드(`server/main.js`)는 **애초에 브라우저로 전송되지 않는다.** "번들에 안 실린다"가 아니라 **코드가 사는 세계가 다르다**
+  - **Node 20.6+는 `.env`를 직접 읽는다** — `node --env-file=.env.local server/main.js`. dotenv 패키지가 필요 없다. 이 옵션을 빠뜨리면 값이 `undefined`가 되고, 원격 API는 그걸 *"등록되지 않은 서비스키"*로 답한다(**에러 메시지는 내가 보낸 값에 대한 판정이지 내 파일 상태를 모른다**)
+  - 진단 한 줄: `console.log("KEY 길이:", KEY?.length)` — 비밀을 안 흘리면서 "값이 들어왔나"만 본다
+- 근거: `pharmacy-map` `9cad2bd`. 프록시 후 같은 `grep` → **0**
 
 ### 2026-09-08 — `import.meta.env`는 조회가 아니라 빌드 타임 치환이다
 

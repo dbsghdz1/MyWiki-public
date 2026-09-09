@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-08-18
+updated: 2026-09-09
 aliases: [타입 소거, type erasure, 컴파일 타임 런타임]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
@@ -71,6 +71,16 @@ import type { UpbitTicker } from './types';
 타입만 가져올 때 쓴다. "컴파일 때만 필요하다"고 명시하는 것이라 **빌드 결과에서 이 import 줄 자체가 지워진다**. 값(함수·상수)을 가져올 땐 그냥 `import`.
 
 ## 기록
+
+### 2026-09-09 — 외부 응답이 들어오는 「경계」에서 타입을 선언한다
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 3-A — Fastify 프록시 2026-09-09|사다리 3-A]]. 약국 목록을 `.map`으로 그리다가 빌드가 막혔다
+- 배운 것:
+  - `error TS7006: Parameter 'p' implicitly has an 'any' type` — **`r.json()`의 반환은 `any`**라서 그 값을 타고 내려온 배열의 `.map((p) => …)`도 `p`가 뭔지 모른다. `any`에는 정보가 없어서 문맥 타입을 못 준다
+  - 해결은 **경계에 한 줄**: `const pharmacies: Pharmacy[] = query.data?.response?.body?.items?.item ?? []`. 이 줄 아래부터 자동완성이 살아나고 `p.dutyNmae` 같은 오타를 `tsc`가 잡는다
+  - **이건 검사가 아니라 약속이다.** TypeScript는 실행 중에 응답을 확인하지 않으므로 API가 다른 걸 보내도 안 막아준다 — 진짜 검사는 zod 같은 런타임 검증이 필요하다. 이 파일의 *"외부 데이터는 손으로 검증"*과 같은 얘기
+  - `?.`와 `?? []`가 **로딩 중(응답 전 `data`가 `undefined`)에 화면이 안 터지게** 하는 최소 장치
+- 근거: `pharmacy-map` `9cad2bd`, `src/App.tsx`
 
 ### 2026-08-18 — 업비트 client를 쓰다가
 
