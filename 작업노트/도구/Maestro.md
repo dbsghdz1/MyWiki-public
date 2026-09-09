@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-27
-updated: 2026-09-02
+updated: 2026-09-09
 projects:
   - "보험찾개냥"
 ---
@@ -51,3 +51,12 @@ projects:
 - 해법: `maestro --device <UDID 또는 emulator-5554> test flow.yaml`. **`--device`는 `test` 앞에 온다**
 - 함께 겪은 것: `takeScreenshot: /tmp/…`는 `it resolves outside this run's takeScreenshot output folder`로 거절된다 — 절대경로를 못 쓴다. 그냥 `xcrun simctl io <udid> screenshot` / `adb exec-out screencap -p >` 로 찍는 게 빠르다
 
+### 2026-09-09 — 접근성 트리가 빈 화면은 좌표 탭인데, 좌표를 틀리면 **다른 앱**이 눌린다
+
+- 맥락: 보험찾개냥 SSH-457(PR #119) Mock 실기동. 07a까지 가려면 온보딩(펫 등록 → 보험 등록)을 통과해야 했다
+- 배운 것:
+  - **화면마다 다르다.** 온보딩 1단계(펫)는 `tapOn: "강아지"`·`"다음"`이 그대로 먹었는데, **보험 등록 화면은 `maestro hierarchy`가 통째로 비어 있었다**(`accessibilityText`가 루트 말고 전부 빈 문자열) — 08-27에 기록한 「iOS 접근성 트리 공백」과 같은 계열이다. 텍스트 셀렉터가 하나도 안 잡힌다
+  - **좌표 탭은 백분율이 화면 pt 기준이다.** 스크린샷은 `1206×2622`px(@3x = `402×874`pt)이고, `sips -Z 700`으로 줄여 눈으로 잰 y는 **`y/700×874`로 환산**해야 맞는다. 눈대중으로 4%를 틀렸더니(47% vs 43%) 필드 사이 빈 곳을 눌러 **아무 일도 안 일어났고**, 실패가 조용해서 원인을 찾는 데 시간이 들었다
+  - **가장 비싼 실수는 조용한 실패가 아니라 오탭이다.** 탭이 안 먹은 줄 알고 다음 좌표를 이어 눌렀더니 앱이 백그라운드로 간 사이 **카메라 앱과 다른 프로젝트 앱(즉석카메라)이 열렸다.** 시뮬레이터는 앱 경계를 안 지켜 준다 — **한 스텝마다 스크린샷으로 현재 화면을 확인하고 다음 좌표를 정한다**
+  - 대안이 있으면 그쪽이 싸다 — 이 건은 **라우터에 화면을 실물로 걸어 도는 위젯 테스트**(`claimant_info_screen_test.dart`)로 배선을 고정했고, 시뮬레이터는 «눈으로 보는 것»에만 남겼다
+- 근거: PR #119 · `docs/spec/SSH-457/tasks.md` 「Mock 실기동」 항목의 중단 기록
