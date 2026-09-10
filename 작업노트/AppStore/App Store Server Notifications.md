@@ -4,7 +4,7 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-08-19
-updated: 2026-08-19
+updated: 2026-09-11
 projects:
   - "[[프로젝트/개인/Zappy/README|Zappy]]"
 ---
@@ -22,6 +22,8 @@ Apple이 구매·환불 이벤트를 내 서버로 밀어주는 V2 웹훅. **내
 - **인증**: App Store Server API JWT는 `kid`(키 ID)·`iss`(issuer)·`aud: appstoreconnect-v1`·`bid`(번들 ID)·`iat/exp`를 ES256으로 서명. **App Store Connect API 팀 키(fastlane용 AuthKey.p8)로도 호출됐다** — 별도 In-App Purchase 키가 필수는 아니었음(적어도 notifications 계열은).
 - 페이로드 검증은 서버가 직접: `x5c` 체인(리프→중간→Apple Root CA G3) 확인 + ES256 서명 검증. 검증 실패는 400(위조 가능성, 재시도 유도 안 함).
 - 구매자 이메일은 오지 않는다 — 상품·금액(milliunits)·스토어프런트·시각·환경만.
+
+- **앱이 둘 이상이면 알림 URL 하나에 여러 앱이 들어온다.** 앱 구분은 payload의 **`data.bundleId`**다. `notificationType`만 보고 문구를 쓰면(예: `ONE_TIME_CHARGE` → "Zappy+ 구매") 두 번째 앱이 팔릴 때마다 첫 번째 앱이 팔렸다고 보고한다. 등록 안 된 번들이 오면 버리지 말고 눈에 띄게 적어야 한다 — 새 앱에 IAP를 붙이고 등록을 잊는 게 가장 흔하다.
 
 ## 기록
 
