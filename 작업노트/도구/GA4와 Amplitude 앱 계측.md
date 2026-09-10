@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-10
+updated: 2026-09-11
 projects:
   - "탭탭"
 ---
@@ -17,6 +17,16 @@ projects:
 
 - **앱용 GA4 = Firebase Analytics.** 독립 GA4 iOS SDK는 없다. 남는 선택지는 Measurement Protocol로 HTTP POST를 직접 쏘는 것인데, `first_open`·`session_start`·`user_engagement` 같은 자동 이벤트와 리텐션 리포트가 통째로 안 잡혀서 "교차검증용 두 번째 툴"이라는 목적에 못 미친다.
 - **`FirebaseApp.configure()`는 `GoogleService-Info.plist`가 없으면 실패가 아니라 앱을 죽인다**(fatalError). 키를 아직 안 받은 상태에서도 앱이 돌아야 하면 `FirebaseOptions.defaultOptions()`가 `nil`인지 먼저 보고 건너뛴다. `FirebaseApp.app() != nil`이 초기화 여부 판정.
+- **Mixpanel은 `identify()`를 한 번도 부르지 않으면 유저 속성이 영원히 전송되지 않는다.** 이벤트는 정상인데 people만 안 나간다. 원인은 `People.addPeopleRecordToQueueWithAction`이 `distinctId`가 nil일 때 레코드를 **미식별 플래그로 저장**하고, `loadEntitiesInBatch(type: .people)`이 **`flag: false`인 행만 읽어가서** flush 대상에서 통째로 빠지는 것이다(저장된 행에 `$device_id`는 있고 `$distinct_id`가 없다). **로그인이 없는 앱은 `setUserID`가 불릴 일이 없으므로 이 상태가 영구적이다.** 해법은 SDK가 이미 만들어 둔 익명 distinct_id(`$device:<UUID>`)로 스스로 `identify`하는 것 — `identify`가 `identifyPeople`로 **기존에 쌓인 미식별 행의 플래그까지 뒤집는다**. GA4·Amplitude는 익명 ID로도 유저 속성이 정상이라 이 함정이 없다.
+- **Mixpanel의 로그는 `os_log`가 아니라 `print`라 `log stream`에 안 잡힌다.** Amplitude(`subsystem: Amplitude`)·Firebase(`com.google.firebase`)와 달리 콘솔로는 아무것도 안 보여서 «안 붙었나»로 오해하기 쉽다. **검증은 앱 컨테이너의 SQLite 큐로 한다** — `Library/<token>_MPDB.sqlite`에 `..._events` · `..._people` · `..._groups` 세 테이블이 있고, 전송에 성공하면 해당 행이 사라진다(Amplitude가 이벤트 파일을 지우는 것과 같은 패턴).
+
+```bash
+CONT=$(xcrun simctl get_app_container <udid> <bundleID> data)
+sqlite3 "$CONT/Library/<token>_MPDB.sqlite" "select count(*) from mixpanel_<token>_events;"
+```
+
+- **큐가 «0행»인 것은 «보내고 비웠다»와 «애초에 안 쌓였다» 둘 다다.** 가르려면 **앱 실행 직후 flush 전(기본 `flushInterval` 60초)**에 들여다봐서 0 → N → 0을 눈으로 봐야 한다. 처음 본 0행을 성공으로 읽으면 아무것도 검증하지 않은 것이 된다.
+- **`simctl install`로 덮어써도 데이터 컨테이너 경로가 바뀔 수 있다.** 미리 잡아둔 `$CONT`가 무효가 되면 `sqlite3`가 에러 없이 **빈 문자열**을 뱉어서 «큐가 계속 0»으로 보인다 — 폴링 루프 안에서 매번 `get_app_container`로 다시 잡는다.
 - **계측을 넣은 것과 사용자가 추적되는 것은 다른 사건이다.** 탭탭은 계측 PR을 2026-09-09에 머지했는데 스토어 1.2.1은 **그 전날(09-08)에 업로드**된 빌드라, 「계측 다 넣었다」고 기록해둔 동안 실제 사용자는 **한 명도 추적되지 않고 있었다**. 판정은 코드가 아니라 **출시된 빌드에 그 커밋이 들어 있는가**로 한다 — `git branch -r --contains <계측커밋>`이 `main`/출시 태그를 포함하는지 본다.
 - **계측을 추가하는 릴리즈는 App Store Connect의 「앱 개인정보」 선언을 같이 고쳐야 한다.** Amplitude·Firebase Analytics는 **사용 데이터(제품 상호작용)**와 **식별자(기기 ID — Amplitude device ID · Firebase app instance ID)**를 수집한다. 「데이터를 수집하지 않음」으로 둔 채 올리면 **사실과 다른 신고**가 된다. 반면 **추적(Tracking)은 「아니오」**가 맞다 — 광고 네트워크에 연결하거나 데이터 브로커에 넘기지 않으면 ATT 대상이 아니다(어트리뷰션 툴을 붙이는 순간 달라진다). 이건 법적 선언이라 에이전트가 대신 채우지 않는다.
 - **프로바이더 하나만 빼려면 그 키/설정 파일을 번들에서 빼면 된다.** `AnalyticsConfiguration.fromMainBundle()`이 `bundle.path(forResource:"GoogleService-Info", ofType:"plist")`로 판정하므로, plist를 `Resources/`에서 치우면 GA4가 조용히 빠지고 나머지는 그대로 돈다(실측: `분석 프로바이더 시작: Console, Amplitude`). **«키가 없으면 프로바이더가 조용히 빠지게» 설계한 것이 릴리즈 범위를 자르는 스위치로도 쓰인다.**
@@ -67,6 +77,17 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 **어트리뷰션 툴(AppsFlyer/Airbridge)은 별개다.** 웹은 UTM으로 광고→유입이 이어지지만 앱은 앱스토어를 거치며 연결이 끊긴다. 유료 광고를 집행하기 전에 붙여야 한다.
 
 ## 기록
+
+### 2026-09-11 — Mixpanel을 세 번째 툴로 붙이며: 이름은 안 갈리고, 유저 속성은 갈렸다 (탭탭)
+
+- 맥락: 탭탭에서 PR #150(GA4 `-ObjC`) 머지 후 홍 «mixpanel 넣자». 기존 팬아웃 구조(`AnalyticsService` → 프로바이더 N개)에 그대로 얹었다. PR [#151](https://github.com/TapTapTeam/taptap-ios/pull/151).
+- 배운 것: 위 「핵심 정리」의 Mixpanel 항목들. 값진 순서로 —
+  ① **유저 속성이 Mixpanel에만 안 나가고 있었다.** `people` 큐 5행이 100초가 지나도 그대로여서 파고들었더니 identify 미호출이 원인이었다. **이벤트는 멀쩡히 나가는데 people만 빠지는 형태라, 이벤트만 확인했으면 못 잡았다.**
+  ② **Mixpanel 검증은 로그가 아니라 SQLite 큐로 한다.** `print` 로깅이라 `log stream`에 안 잡힌다.
+  ③ **이름은 갈릴 구조가 아니다.** 세 프로바이더가 `event.name`을 공유하므로 오타로 이름이 둘로 갈리는 일이 없다 — 갈리는 것은 **값 표현**(GA4만 bool을 문자열로)과 **각 SDK의 자동 이벤트**(GA4 `first_open`·`session_start` / Amplitude `[Amplitude] Session Start` / Mixpanel `$ae_session`)뿐이다. **툴 간 비교는 우리가 심은 전환 이벤트로만 한다.**
+  ④ **SDK API는 추측하지 말고 `Tuist/.build/checkouts/`의 소스를 읽는다.** `Mixpanel.initialize(token:trackAutomaticEvents:)`·`track(event:properties:)`·`people.set(properties:)`·`identify(distinctId:)`·`reset()` 시그니처를 전부 거기서 확인하고 썼다. 이번 버그의 원인도 같은 소스에서 나왔다.
+- 설계 결정: `trackAutomaticEvents: true`(Amplitude의 `[.sessions, .appLifecycles]`와 같은 자리 — 화면 뷰는 안 들어간다) · `setUserID(nil)`은 `identify`가 nil을 못 받으므로 `reset()` · `mixpanelValue`는 `AnalyticsValue.swift`가 아니라 프로바이더에 뒀다(다른 둘은 `Any`라 SDK를 몰라도 되는데 Mixpanel만 `MixpanelType`을 요구한다).
+- 근거: 커밋 `d3ed55eb`(추가)·`f9e42595`(identify 수정). 실측 — 수정 전 people 5행 100초 잔류·행에 `$distinct_id` 없음 → 수정 후 events 1행·people 2행이 40초에 둘 다 0. 프로바이더 로그 `분석 프로바이더 시작: Console, GA4, Amplitude, Mixpanel`. 같은 `screen_view`가 GA4(`204`)·Amplitude(큐 비움)·Mixpanel(큐 비움) 셋에 모두 도착. iOS·macOS 빌드와 테스트 13건 통과. 홍이 Mixpanel 대시보드에서 수신 확인.
 
 ### 2026-09-10 — Amplitude만 담아 1.2.2 업로드: 「계측 머지」와 「사용자 추적」 사이의 구멍 (탭탭)
 
