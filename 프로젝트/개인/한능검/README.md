@@ -292,3 +292,17 @@ related_wiki:
 - [[작업노트/도구/공공 문화유산 이미지 조달|공공 문화유산 이미지 조달]] — 시험지 사진 대신 같은 유물의 공공 사진. 표준영정 불가
 - [[작업노트/도구/LLM 콘텐츠 생산 파이프라인|LLM 콘텐츠 생산 파이프라인]] — 원문 한정 + 검증기(복제·정합) + 표본 검수. **재료를 자르면 에이전트가 정답을 의심한다** — 답지가 진실
 - [[작업노트/도구/Maestro|Maestro]] — WKWebView 앱은 텍스트 셀렉터로 완주된다. 정규식 전체 일치(라벨 병합엔 `.*`, React 보간은 조각 잡기) · **탭 COMPLETED인데 무반응이면 오버레이가 삼킨 것** — 실제 UX 버그의 신호다
+
+## 판매 알림 (2026-09-11 — IAP로 전환하며 재배선)
+
+무료+IAP가 되면서 **기존 판매 알림이 구조적으로 0건만 보고하게 됐다.** 원인·해법은 [[작업노트/AppStore/유료 앱 판매 알림|유료 앱 판매 알림]]·[[작업노트/AppStore/App Store Server Notifications|ASSN]]에 남겼다.
+
+- 일일 크론(`landing/api/hangeom-sales.js`)이 `IA*` 행을 세도록 고쳤다. 문구도 「판매」 → 「잠금해제」
+- 웹훅(`landing/api/appstore-webhook.js`)이 `data.bundleId`로 앱을 갈라 «한능검 정복 — 해설·요약 노트 잠금해제 구매»로 적는다. 이전엔 무조건 «Zappy+ 구매»였다
+- 회귀 테스트 12개(`landing/test/`), 커밋 `809fb08`(레포 `dbsghdz1/Zappy`, 푸시됨)
+
+> [!warning] 남은 두 단계는 홍이 해야 한다 (2026-09-11 기준 미완)
+> ① **Vercel 프로덕션 배포** — `cd "~/Desktop/개인 앱/CuteBattery/landing" && vercel deploy --prod`. 이 프로젝트는 git 연동이 아니라 CLI 배포다(푸시로는 안 나간다).
+> ② **ASC에 한능검 알림 URL 등록** — App Store Connect > 한능검 정복 > App Information > App Store Server Notifications의 **프로덕션 URL**에 Zappy와 **같은 URL**(토큰 쿼리 포함)을 넣는다. Zappy 쪽 화면에서 복사하면 토큰을 따로 꺼낼 필요가 없다.
+> **①을 먼저 하고 ②를 한다** — 순서가 바뀌면 그 사이의 한능검 구매가 «Zappy+ 구매»로 보고된다.
+> 등록 뒤 ASC의 「테스트 알림 보내기」로 Slack에 «한능검 정복 — Apple 테스트 알림 수신»이 오는지 확인하면 종단 검증이 끝난다.
