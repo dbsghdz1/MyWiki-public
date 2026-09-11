@@ -30,6 +30,19 @@ projects:
 
 금지되는 말은 Apple 제품·서비스명 전반이다 (`Mac`, `iPhone`, `iPad`, `Apple`, `Watch`, `AirPods`, `Safari`…). **`for Mac`·`Mac용`처럼 호환성을 알리는 표현조차 이름 안에서는 안 된다** — 그건 설명(description)에서 한다.
 
+### macOS에서는 `CFBundleDisplayName` 하나로 끝나지 않는다 ★
+
+두 키가 **서로 다른 화면**을 담당한다.
+
+| 키 | 어디에 보이나 |
+|---|---|
+| `CFBundleDisplayName` | Finder·Dock·Launchpad |
+| `CFBundleName` | **메뉴바 앱 메뉴(애플 로고 옆)·정보 패널** |
+
+심사자는 앱을 **실행해서** 본다. `CFBundleDisplayName`만 고치면 Finder는 `탭탭`인데 **실행 중 메뉴바는 여전히 `TapTapMac`**이라 같은 사유가 그대로 남는다. `CFBundleName`의 기본값이 `$(PRODUCT_NAME)`이므로 **둘 다 덮어야 한다**. (`CFBundleName`은 15자 이내 권고라 한글 짧은 이름은 문제없다.)
+
+`CFBundleExecutable`은 `TapTapMac`으로 남아도 된다 — 번들 안의 실행 파일 이름이고, 위 둘이 있으면 표시 체인이 여기까지 내려오지 않는다. 바꾸려면 `PRODUCT_NAME`을 건드려야 해서 프로비저닝까지 번진다.
+
 ## 구조적 함정 — 플랫폼별로 갈려서 한쪽만 샌다 ★
 
 탭탭에서 실제로 일어난 모양이다. Tuist 프로젝트에서 릴리스 설정은 `INFOPLIST_KEY_CFBundleDisplayName = "탭탭"`을 잘 넣고 있었는데:
@@ -69,3 +82,8 @@ done
 제출 전 점검 문서(출시 준비)가 예측한 1순위는 **2.3.7(앱 이름에 설명이 붙음 — `탭탭-글 읽기 부터 스크랩까지`)** 이었는데 **그건 지적되지 않았고**, 아무도 보지 않던 **번들 표시 이름**이 걸렸다. 근거: 제출된 아카이브(`(로컬 경로)`)에서 `CFBundleDisplayName` 부재·`CFBundleName = TapTapMac` 확인, 같은 아카이브의 확장(`탭탭`)과 iOS 아카이브(`탭탭`)와 대조.
 
 **교훈: 리젝 예측은 스토어 등재값만 훑어서는 반쪽이다.** 기기에 설치되는 쪽(표시 이름·아이콘·번들)도 같은 목록에 올려야 한다.
+
+### 2026-09-11 — 고치고 재빌드, 두 번째 키를 한 번 놓쳤다
+`CFBundleDisplayName` 매핑을 넣고 릴리스값을 `탭탭`으로 되돌려 **build 7**을 올렸는데, 아카이브를 검증하니 `DisplayName=[탭탭] Name=[TapTapMac]`이었다 — **`CFBundleName`을 안 봤다.** Finder만 확인했으면 통과로 읽었을 자리다. `CFBundleName`도 같은 변수로 매핑해 **build 8**(`DisplayName=[탭탭] Name=[탭탭]`)을 다시 올렸다.
+
+**교훈: 표시 이름은 키 하나가 아니라 «사용자에게 보이는 모든 이름 키»의 집합으로 검증한다.** 아카이브 안의 모든 Info.plist를 돌며 두 키를 같이 출력하는 점검을 절차로 둔다(위 스니펫).
