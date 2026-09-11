@@ -120,10 +120,12 @@ ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Laun
 
 ### 3. X · 스레드 (한국어)
 
+> [!note] 2026-09-12 X `@DevHongX`에 게시 — [x.com/DevHongX/status/2098488027442225279](https://x.com/DevHongX/status/2098488027442225279). 테마 수를 14→18로 고친 뒤 올렸다(GIF 없이 텍스트+링크).
+
 > 맥북 배터리가 줄면 눈사람이 녹아요 ☃️
 >
 > 숫자 대신 표정으로 배터리를 알려주는 메뉴바 앱, Zappy를 만들었습니다.
-> 테마 14종 중 8종 무료 · 구독 없음
+> 테마 18종 중 8종 무료 · 구독 없음
 >
 > (눈사람 GIF 첨부)
 > https://apps.apple.com/kr/app/zappy/id6794384033
@@ -132,7 +134,7 @@ ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Laun
 
 > Your MacBook battery, but it's a snowman that melts as it drains ☃️
 >
-> I made Zappy — a menu bar app that shows battery as a living character instead of a number. 14 characters, 8 free, no subscription.
+> I made Zappy — a menu bar app that shows battery as a living character instead of a number. 18 characters, 8 free, no subscription.
 >
 > (snowman GIF)
 > https://apps.apple.com/kr/app/zappy/id6794384033
