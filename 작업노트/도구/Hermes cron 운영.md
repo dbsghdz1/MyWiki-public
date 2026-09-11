@@ -27,6 +27,8 @@ projects:
   - 에러 루프는 서버 게이트웨이 단독 문제(닫힌 aiohttp 세션 재사용)로 보이고, 재시작이 해결 후보다.
   - 게이트웨이를 한 호스트에만 두라는 결론은 **이벤트가 두 곳으로 갈리는 문제** 때문에 여전히 유효하다.
   - 교훈: 에러 수가 늘어난 시기와 설정이 겹친다고 원인으로 적지 말고, 한쪽을 끄고 분 단위로 다시 센다.
+  - **해결 확인 (03:40)**: 서버 `systemctl --user restart hermes-gateway.service` 뒤 `Session is closed`가 분당 90건 → 0건이 됐다. **Socket Mode가 `RuntimeError: Session is closed` 재시도 루프에 빠지면 스스로 빠져나오지 못한다 — 재시작이 해법이다.**
+  - 확인 명령: `journalctl --user --since "<시각>" | grep -c "Session is closed"`
 - **Slack 앱 토큰 하나로 게이트웨이를 두 호스트(Mac launchd `ai.hermes.gateway`와 Oracle systemd user)에서 띄우면 연결이 서로 끊고 붙는다** (2026-09-12 실측, 인과는 로그 기반 추정 — 위 정정 참고).
   - 서버 journal `ERROR slack_bolt.AsyncApp: Failed to connect (error: Session is closed); Retrying...`가 하루 17k(09-01) → 43k(09-11)로 늘었다.
   - Mac 쪽은 `[Slack] Socket Mode unhealthy (transport disconnected); reconnecting`가 반복되고 `gateway.error.log`가 201MB다.
@@ -35,6 +37,7 @@ projects:
 - **모델을 지정하지 않은 cron은 기본 모델의 폴백 체인을 탄다.**
   - 서버 기본 `gemini-3.6-flash`가 `marking google-ai-studio exhausted (status=429)`이면 `Fallback activated: gemini-3.6-flash → gpt-5.6-sol (openai-codex)`로 넘어가 조용히 codex 쿼터를 쓴다.
   - 08-29에 인스타 잡을 `gpt-oss:20b`로 핀했는데, 09-12 `hermes cron list`에서는 모델 미지정이었다. **핀은 설정 변경 과정에서 사라질 수 있으니 목록으로 확인한다.**
+  - 2026-09-12 홍 결정: 인스타 잡은 핀하지 않고 이 폴백 체인을 그대로 쓴다. codex 한도를 대화와 공유하는 위험은 감수하고, 429가 재발하면 다시 본다.
 - **발행 유닛과 미리보기 유닛이 따로면, 발행이 멈춰도 Slack은 정상처럼 보인다.**
   - `instacardnews-publish.timer`는 09-05~07 `HTTP Error 400: Bad Request`(`resolve_ig_user_id`) 뒤 09-07 23:23에 disabled됐고, 그대로 5일간 꺼져 있었다.
   - 그동안 `instacardnews-morning-preview.timer`는 매일 "08:00 발행 예정"을 보냈다.
