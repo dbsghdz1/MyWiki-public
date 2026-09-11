@@ -6,7 +6,7 @@ status: active
 aliases:
   - InstaCardNews
 created: 2026-07-22
-updated: 2026-09-05
+updated: 2026-09-12
 slack_channel: instagram
 repos:
   - "github.com/dbsghdz1/InstaCardNews"
@@ -52,3 +52,7 @@ related_wiki: []
 - [[프로젝트/개인/인스타카드뉴스/LLM 판단 기준 2026-08-01|LLM 판단 기준 2026-08-01]] — 에이전트 판단 근거 문서 지도, 렌더링 실측 규칙, 이미지 정책 변천(보도사진 라이선스), API 차단 사건과 대응, 발행 이력 2차(5건), 운영 정책 변경(08-09 승인 폐지·08-14 서버 자동 발행)
 - [[프로젝트/개인/인스타카드뉴스/발행·지표 일지|발행·지표 일지]] — 에이전트가 자동 수집하는 계정 스냅샷·발행물 지표(append-only, 08-09~)
 - [[프로젝트/개인/인스타카드뉴스/Slack 피드백 기록|Slack 피드백 기록]] — `#instagram` 미리보기 피드백과 반영 결과 누적(08-14~)
+
+## 배운 것
+
+- [[작업노트/도구/Instagram 콘텐츠 발행 API|Instagram 콘텐츠 발행 API]] — `graph.instagram.com` 3단계 컨테이너 발행은 **`image_url`(공개 HTTPS)만 받아** 렌더한 PNG를 imgbb에 먼저 올린다. 한도(24시간 100건)와 별개로 "API access blocked"가 뜨니 `--interval`로 텀을 둔다
