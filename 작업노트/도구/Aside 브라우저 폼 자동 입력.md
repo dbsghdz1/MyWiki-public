@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-11
-updated: 2026-09-11
+updated: 2026-09-12
 projects:
   - "HSW"
 ---
@@ -42,6 +42,18 @@ AI가 조종할 수 있는 브라우저. **사용자가 이미 로그인해둔 �
 - `aside memory search` — 사용자 개인 맥락 조회(이번엔 미사용)
 
 ## 기록
+
+### 2026-09-12 — X 작성창 드라이런 (게시 안 함)
+
+- **맥락**: 홍보 오토파일럿을 API 대신 화면 조작으로 가기로 하고 X `@DevHongX`로 첫 드라이런을 했다.
+- **된 것**:
+  - X 홈 인라인 작성창 `[data-testid="tweetTextarea_0"]`을 클릭한 뒤, 줄마다 `page.keyboard.insertText(line)`, 줄 사이는 `page.keyboard.press("Shift+Enter")`로 넣었다. Draft.js 편집기에 한글·이모지·URL이 그대로 들어간다.
+  - 게시 버튼은 `[data-testid="tweetButtonInline"]`(`aria-disabled`로 활성 여부 확인). **누르지 않았다.**
+- **밟은 지뢰**:
+  - **Draft.js 편집기의 `innerText`는 빈 줄을 `\n\n\n`으로 보여준다** — 실제 내용은 멀쩡하다. 검증은 `[data-block="true"]` 블록 개수와 블록별 텍스트로 한다.
+  - **REPL 전역 `pwd`는 함수가 아니라 문자열이다** — `pwd()`는 `TypeError: pwd is not a function`. `artifacts/` 저장 위치는 `(로컬 경로)`다.
+  - `listBrowserTabs()` 결과를 셸에서 `grep -v "^\["`로 거르면 JSON 배열(`[`로 시작)이 통째로 사라진다 → 출력 앞에 `TABS ` 같은 표식을 붙이고 표식으로 grep한다.
+  - URL 필터 `/x\.com/`은 `netflix.com`에도 걸린다 → `new URL(url).hostname === "x.com"`으로 비교한다.
 
 ### 2026-09-11 — 크몽 gig 813766 재제출 폼 입력 (크몽 진입)
 
