@@ -15,6 +15,7 @@ status: active
 |---|---|---|---|
 | [[프로젝트/개인/README|개인 프로젝트]] | 개인 프로젝트의 상태와 진입점을 묶는 허브 | active | 2026-09-05 |
 | [[프로젝트/개인/BarStack/README|BarStack]] | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-09 |
+| [[프로젝트/개인/BookMini/README|BookMini]] | MacBook을 맥미니처럼 상시 가동 호스트로 쓰게 하는 내부 도구 — 잠자기 방지·살아있음 감시·로그인 세션 점검 | active | 2026-09-12 |
 | [[프로젝트/개인/MyCryptoDiary/README|CoinPilot (MyCryptoDiary)]] | 가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점 | paused | 2026-09-05 |
 | [[프로젝트/개인/DayTune/README|DayTune]] | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-09-05 |
 | [[프로젝트/개인/즉석카메라/README|Fadeo]] | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-12 |
