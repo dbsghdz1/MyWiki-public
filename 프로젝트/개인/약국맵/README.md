@@ -7,7 +7,7 @@ aliases:
   - 문연약국
   - 약국 지도
 created: 2026-09-05
-updated: 2026-09-09
+updated: 2026-09-12
 repos: []
 related_wiki:
   - "[[_wiki/React TypeScript 제품 개발]]"
@@ -245,5 +245,7 @@ launch_approved: 2026-09-05
 - [[학습/공부/백엔드/서버와 프록시|서버와 프록시]] — 프록시를 두면 요청이 **두 홉**이 되고 키가 브라우저를 **아예 지나가지 않는다**. Network 탭은 「브라우저가 보낸 것」만 본다. 라우트는 `listen`(개점) 전에 전부
 - [[학습/공부/JS/TypeScript 타입 시스템|TypeScript 타입 시스템]] — `r.json()`은 `any`다. **외부 응답이 들어오는 경계에서** 타입을 선언하고, 그건 검사가 아니라 약속
 - [[학습/공부/JS/서버 상태와 TanStack Query|서버 상태와 TanStack Query]] — `useEffect` 2줄 vs `useQuery` 1줄(중복 제거), 그리고 **`staleTime`이 재요청 빈도를 정한다**. 영업 상태는 변하는 데이터라 «복귀 시 재요청»이 기본값인 게 이 제품에 맞다. **`dehydrate`**는 서버 캐시를 JSON으로 말려 HTML에 싣고 `HydrationBoundary`가 브라우저 캐시에 붓는 것 — `window.__PHARMACIES__`를 대체한다(사다리 6)
+- [[학습/공부/JS/JavaScript 기초 문법|JavaScript 기초 문법]] — `SyntaxError`는 원인보다 뒤에서 터진다. `async () = {`에서 `>`를 빠뜨리면 파서는 다음 줄 `return`에서야 멈춘다 — **가리킨 줄과 그 위 한두 줄을 같이 본다** (사다리 3-A)
+- [[학습/공부/JS/렌더링 방식과 SEO|렌더링 방식과 SEO]] — SEO는 배포 플랫폼이 아니라 **크롤러가 받는 첫 HTML**이 정한다. Vite SPA는 `curl | grep -c "약국"` → 0이었고, 네이버·카톡 미리보기 봇은 JS를 거의 안 돌린다 (사다리 3-B·3-C)
 - [[학습/야생학습/약국맵 사다리 3-B·3-C — SSR과 하이드레이션 2026-09-09|사다리 세션 3-B·3-C]] — SSR과 하이드레이션, 「웹이 iOS보다 어려운 이유」 정리
 - [[학습/야생학습/약국맵 사다리 1 — fetch와 useState 2026-09-08|사다리 세션 1]] · [[학습/야생학습/약국맵 사다리 2 — useEffect와 useQuery 2026-09-09|세션 2·2-B]] · [[학습/야생학습/약국맵 사다리 3-A — Fastify 프록시 2026-09-09|세션 3-A]] — 예측·측정 기록과 인출 퀴즈 결과

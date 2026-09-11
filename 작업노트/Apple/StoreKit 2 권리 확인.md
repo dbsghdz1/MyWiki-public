@@ -4,9 +4,10 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-21
-updated: 2026-09-09
+updated: 2026-09-12
 projects:
   - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "[[프로젝트/개인/한능검/README|한능검]]"
 ---
 
 # StoreKit 2 권리 확인 — `currentEntitlements`의 빈 결과는 "미구매"가 아니다

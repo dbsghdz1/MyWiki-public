@@ -17,13 +17,13 @@ status: active
 | [[프로젝트/개인/BarStack/README|BarStack]] | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-09 |
 | [[프로젝트/개인/MyCryptoDiary/README|CoinPilot (MyCryptoDiary)]] | 가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점 | paused | 2026-09-05 |
 | [[프로젝트/개인/DayTune/README|DayTune]] | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-09-05 |
-| [[프로젝트/개인/즉석카메라/README|Fadeo]] | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-09 |
+| [[프로젝트/개인/즉석카메라/README|Fadeo]] | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-12 |
 | [[프로젝트/개인/math-sprint/README|math-sprint]] | 60초 암산 스프린트 게임의 작업 진입점 | paused | 2026-09-05 |
 | [[프로젝트/개인/Subly/README|Subly]] | macOS 실시간 자막·번역 앱 실험의 작업 진입점 | paused | 2026-09-05 |
-| [[프로젝트/개인/WristNote/README|WristNote]] | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-09-09 |
-| [[프로젝트/개인/Zappy/README|Zappy]] | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-09-11 |
-| [[프로젝트/개인/약국맵/README|약국맵]] | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | active | 2026-09-09 |
-| [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] | 인스타그램 카드뉴스 생성·발행 자동화의 작업 진입점 | active | 2026-09-05 |
+| [[프로젝트/개인/WristNote/README|WristNote]] | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-09-12 |
+| [[프로젝트/개인/Zappy/README|Zappy]] | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-09-12 |
+| [[프로젝트/개인/약국맵/README|약국맵]] | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | active | 2026-09-12 |
+| [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] | 인스타그램 카드뉴스 생성·발행 자동화의 작업 진입점 | active | 2026-09-12 |
 | [[프로젝트/개인/한능검/README|한국사 정복]] | 한국사능력검정시험 학습 앱의 작업 진입점 | active | 2026-09-11 |
 
 ## 영역 허브

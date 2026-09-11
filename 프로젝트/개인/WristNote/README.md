@@ -7,7 +7,7 @@ aliases:
   - WristNote
   - 워치 회의 녹음
 created: 2026-08-31
-updated: 2026-09-09
+updated: 2026-09-12
 repos:
   - "~/Desktop/개인 앱/WristNote — GitHub 미생성"
 related_wiki: []
@@ -20,8 +20,10 @@ related_wiki: []
 - **현재**: 1.0(09-03)·1.1.0(09-05)·1.1.1(09-05) 출시, 리젝 0회 · **1.1.3(build 5) 2026-09-09 제출 WAITING_FOR_REVIEW** — 홍 제보 「주제가 안 나온다」의 원인을 재현·수정 + 워치 녹음 인터럽션 처리 + 스크린샷 중복 정리. 1.1.2(스크린샷만)는 심사 대기 중 취소해 여기 합쳤다 — [[프로젝트/개인/WristNote/App Store 심사 이력|심사 이력]]
 - **다음 판정**: 1.1.0 심사 결과 + 워치 화면 꺼짐·손목 내림 상태 30~60분 백그라운드 녹음 지속 실측(1.0은 이 검증 없이 제출)
 - **지금 할 일**: 실제 회의 1건으로 30분+ 백그라운드 녹음·배터리를 검증한다 (스크린샷 중복은 1.1.2로 해소 — 아래)
-- **미검증**: 인터럽션 중단 처리·30초 정체 감시는 실기기에서 아직 안 겪어봤다(코드 경로만 넣었다). 컴플리케이션 탭 → 녹음 시작. 1.1.1에서 `CFBundleURLTypes`를 등록했지만 워치 시뮬레이터는 `simctl openurl`로 서드파티 스킴을 못 열어(LSApplicationWorkspaceErrorDomain 115) 실기기 확인이 필요하다
 - **하지 않을 일**: 1.2 후보(청크 요약 실측·AAC 녹음 용량·콜드 스타트·한국어 전사 정량) 착수, GitHub 공개(홍 승인 전)
+
+> [!warning] 미검증
+> 인터럽션 중단 처리·30초 정체 감시는 실기기에서 아직 안 겪어봤다(코드 경로만 넣었다). 컴플리케이션 탭 → 녹음 시작. 1.1.1에서 `CFBundleURLTypes`를 등록했지만 워치 시뮬레이터는 `simctl openurl`로 서드파티 스킴을 못 열어(LSApplicationWorkspaceErrorDomain 115) 실기기 확인이 필요하다
 
 **손목에서 녹음 시작 → 워치가 회의를 녹음 → 아이폰으로 자동 전송 → 온디바이스 전사 → AI 요약이 내 앱에 도착.** 2026-08-31 홍 발의, 같은 날 착수 지시("기록하고 개발해"). **2026-09-03 App Store 1.0 출시(READY_FOR_SALE, 리젝 0회)** ([[프로젝트/개인/WristNote/App Store 심사 이력|심사 이력]]). 착수(08-31)부터 출시까지 약 2.5일.
 
@@ -88,6 +90,7 @@ related_wiki: []
 - [[작업노트/Apple/WatchConnectivity와 워치 녹음|WatchConnectivity와 워치 녹음]] — 시뮬레이터는 `transferFile`을 배달하지 않는다(워치 성공 콜백은 옴)
 - [[작업노트/도구/Tuist|Tuist]] — 루트 판정·빈 Config.swift 함정, watchOS 임베드
 - [[작업노트/Apple/SwiftUI|SwiftUI]] — 워치 경과 시간을 1초 `Timer`로 갱신하면 손목 내림·감광 중 멈췄다 점프한다. `Text(timerInterval:)`로 시스템에 맡긴다
+- [[작업노트/AppStore/스토어 스크린샷 중복 업로드|스토어 스크린샷 중복 업로드]] — deliver 재시도가 스크린샷을 로케일당 두 벌 올린다(`overwrite_screenshots`로도 못 막음). **제출 뒤엔 `409 STATE_ERROR`로 못 지우니** 업로드 → `asc dedupe-screenshots` → 제출로 나눈다 (1.1.1 세 번째 재발, 09-09)
 
 ## 작업 기록
 

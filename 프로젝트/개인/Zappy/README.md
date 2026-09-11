@@ -8,7 +8,7 @@ aliases:
   - CuteBattery
   - 귀여운 배터리
 created: 2026-07-23
-updated: 2026-09-11
+updated: 2026-09-12
 slack_channel: zappy
 repos:
   - "github.com/dbsghdz1/Zappy"
@@ -89,6 +89,7 @@ macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다
 - [[작업노트/Apple/블루투스 기기 배터리 읽기|블루투스 기기 배터리 읽기]] — 1.9.0 주변기기 배터리가 사용자 맥에서 아무것도 못 잡은 건 버그가 아니라 **탐지 경로가 절반만 커버**된 것. 클래식 BT HID는 IORegistry `BatteryPercent`지만 **BLE는 그 키가 아예 없고** GATT 0x180F를 CoreBluetooth로 읽어야 한다. 권한 팝업 시점은 `CBCentralManager` 생성 시점으로 통제 (1.9.1, `969d623`). **AirPods는 macOS 26에서 길이 없다** — 08-26에 IORegistry 좌·우·케이스 키 경로로 구현했으나(`1de8b75`) 08-28 실기기 검증에서 반증: macOS 26.5.1은 에어팟을 IORegistry에 아예 안 올린다(잔량은 bluetoothd만 안다). Watch도 어느 경로에도 없다
 - [[작업노트/Apple/AppKit 오프스크린 렌더와 argument domain|AppKit 오프스크린 렌더와 argument domain]] — 창 없는 뷰는 시스템 외관을 물려받아 다크 Mac에선 라벨이 흰색으로 그려진다(`view.appearance` 고정). `-AppleLanguages`·`-onboarded NO`·`-newThemes` 같은 argument domain으로 실제 설정을 안 건드리고 상태를 강제한다 — 한글 배열은 따옴표 필수 (1.13 스크린샷 생성기). **테스트 앱을 `-theme`로 띄우면 메뉴에서 테마를 골라도 안 바뀐다**(인자가 저장 설정을 덮음). `lockFocus`는 Retina에서 2x로 구워지니 1x가 필요하면 `NSBitmapImageRep`에 직접 (1.14)
 - [[작업노트/Apple/macOS 템플릿 아이콘 그리기|macOS 템플릿 아이콘 그리기]] — 템플릿 아이콘은 **알파만 남고 색은 버려진다**. '위에 얹힌 것'을 표현할 방법은 knockout 틈뿐이고, 컬러의 하이라이트·결은 대개 실루엣을 조각내므로 빼야 한다 (1.10.0 나무의 가지 위 눈)
+- [[작업노트/AppStore/유료 앱 판매 알림|유료 앱 판매 알림]] — App Store Server Notifications는 IAP 전용이라 Zappy+는 웹훅으로 즉시 오지만 유료 다운로드는 안 온다. 한능검 판매 요약 크론(`landing/api/hangeom-sales.js`)이 같은 `zappy-landing` Vercel 프로젝트에 동거한다
 
 ## 다른 프로젝트와의 경계
 
