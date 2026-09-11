@@ -22,7 +22,12 @@ projects:
 
 - **Hermes 스크립트는 위키 경로를 하드코딩한다 — 볼트 폴더를 옮기면 같은 턴에 고쳐야 한다** (2026-09-04 실측). `daily_context.py`(35행 `relative = Path("계획") / "일간" / ...`)와 `weekly_retro_briefing.py`(58행 `weekly_rel`)가 일간·주간 파일 경로를 직접 조립한다. 09-02 계획 폴더를 `계획/일간/YYYY/MM/`로 재편했을 때 이걸 안 고쳐서 07:20 감시가 사흘 연속 "오늘 일간 파일이 원격에도 아직 없어요" 오경보를 냈다 — 파일은 매일 07:06에 정상 생성돼 있었다. 감시 장치의 오경보는 진짜 장애와 문구가 같아서 저장소(`git log -- 계획/일간`)를 먼저 봐야 구분된다.
 
-- **Slack 앱 토큰 하나로 게이트웨이를 두 호스트(Mac launchd `ai.hermes.gateway`와 Oracle systemd user)에서 띄우면 연결이 서로 끊고 붙는다** (2026-09-12 실측, 인과는 로그 기반 추정).
+- **⚠️ 정정 (2026-09-12 03:37)**: 아래 "두 호스트 동시 접속 → 재연결 폭주" 인과는 **틀렸다.**
+  - Mac 게이트웨이를 03:34에 멈춘 뒤에도 서버 `Session is closed`가 분당 90건 그대로였다.
+  - 에러 루프는 서버 게이트웨이 단독 문제(닫힌 aiohttp 세션 재사용)로 보이고, 재시작이 해결 후보다.
+  - 게이트웨이를 한 호스트에만 두라는 결론은 **이벤트가 두 곳으로 갈리는 문제** 때문에 여전히 유효하다.
+  - 교훈: 에러 수가 늘어난 시기와 설정이 겹친다고 원인으로 적지 말고, 한쪽을 끄고 분 단위로 다시 센다.
+- **Slack 앱 토큰 하나로 게이트웨이를 두 호스트(Mac launchd `ai.hermes.gateway`와 Oracle systemd user)에서 띄우면 연결이 서로 끊고 붙는다** (2026-09-12 실측, 인과는 로그 기반 추정 — 위 정정 참고).
   - 서버 journal `ERROR slack_bolt.AsyncApp: Failed to connect (error: Session is closed); Retrying...`가 하루 17k(09-01) → 43k(09-11)로 늘었다.
   - Mac 쪽은 `[Slack] Socket Mode unhealthy (transport disconnected); reconnecting`가 반복되고 `gateway.error.log`가 201MB다.
   - 한쪽에 보낸 명령을 다른 쪽이 받아 자기 호스트 경로로 처리하는 일도 생긴다.
