@@ -43,6 +43,7 @@ projects:
   - 수정: 출력을 먼저 변수에 담고(`out="$(pmset -g batt)"`) here-string으로 파싱한다.
 - **구현체**: 이 문서의 구성을 스크립트로 묶은 것이 [[프로젝트/개인/BookMini/README|BookMini]] v0다 — `caffeinate -i -s` launchd(sudo 없이 AC 잠자기 방지), 5분 하트비트 → Oracle 감시 → Slack.
 - **2026-09-12 홍 설정 반영**: 충전 한도 80%(CLI로 값은 못 읽고 94% `not charging`으로 간접 확인), macOS 자동 업데이트 끔(`defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates` → `0`). App Store 앱 자동 업데이트(`com.apple.commerce AutoUpdate=1`)는 재부팅을 일으키지 않아 그대로 둔다.
+- **2026-09-12 원격 로그인 켬(홍)** — 확인: `nc -z -G 3 127.0.0.1 22` 성공(`launchctl print system/com.openssh.sshd`는 온디맨드라 로드 여부로 판단하지 않는다). 밖에서 닿으려면 Tailscale 같은 사설망이 아직 없다.
 - **원격 복구 경로를 먼저 만든다.**
   - 원격 로그인(SSH)과 화면 공유를 켠다(시스템 설정 > 일반 > 공유).
   - 휴대폰에서 닿으려면 Tailscale 같은 사설망을 둔다.
