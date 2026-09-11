@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-29
-updated: 2026-09-04
+updated: 2026-09-12
 projects:
   - "Hermes Cloud 배포"
 ---
@@ -22,7 +22,32 @@ projects:
 
 - **Hermes 스크립트는 위키 경로를 하드코딩한다 — 볼트 폴더를 옮기면 같은 턴에 고쳐야 한다** (2026-09-04 실측). `daily_context.py`(35행 `relative = Path("계획") / "일간" / ...`)와 `weekly_retro_briefing.py`(58행 `weekly_rel`)가 일간·주간 파일 경로를 직접 조립한다. 09-02 계획 폴더를 `계획/일간/YYYY/MM/`로 재편했을 때 이걸 안 고쳐서 07:20 감시가 사흘 연속 "오늘 일간 파일이 원격에도 아직 없어요" 오경보를 냈다 — 파일은 매일 07:06에 정상 생성돼 있었다. 감시 장치의 오경보는 진짜 장애와 문구가 같아서 저장소(`git log -- 계획/일간`)를 먼저 봐야 구분된다.
 
+- **Slack 앱 토큰 하나로 게이트웨이를 두 호스트(Mac launchd `ai.hermes.gateway`와 Oracle systemd user)에서 띄우면 연결이 서로 끊고 붙는다** (2026-09-12 실측, 인과는 로그 기반 추정).
+  - 서버 journal `ERROR slack_bolt.AsyncApp: Failed to connect (error: Session is closed); Retrying...`가 하루 17k(09-01) → 43k(09-11)로 늘었다.
+  - Mac 쪽은 `[Slack] Socket Mode unhealthy (transport disconnected); reconnecting`가 반복되고 `gateway.error.log`가 201MB다.
+  - 한쪽에 보낸 명령을 다른 쪽이 받아 자기 호스트 경로로 처리하는 일도 생긴다.
+  - **게이트웨이는 한 호스트에만 둔다.** `launchctl print gui/$(id -u)/ai.hermes.gateway`에서 `state = running`이면 Mac 쪽이 살아 있는 것이다.
+- **모델을 지정하지 않은 cron은 기본 모델의 폴백 체인을 탄다.**
+  - 서버 기본 `gemini-3.6-flash`가 `marking google-ai-studio exhausted (status=429)`이면 `Fallback activated: gemini-3.6-flash → gpt-5.6-sol (openai-codex)`로 넘어가 조용히 codex 쿼터를 쓴다.
+  - 08-29에 인스타 잡을 `gpt-oss:20b`로 핀했는데, 09-12 `hermes cron list`에서는 모델 미지정이었다. **핀은 설정 변경 과정에서 사라질 수 있으니 목록으로 확인한다.**
+- **발행 유닛과 미리보기 유닛이 따로면, 발행이 멈춰도 Slack은 정상처럼 보인다.**
+  - `instacardnews-publish.timer`는 09-05~07 `HTTP Error 400: Bad Request`(`resolve_ig_user_id`) 뒤 09-07 23:23에 disabled됐고, 그대로 5일간 꺼져 있었다.
+  - 그동안 `instacardnews-morning-preview.timer`는 매일 "08:00 발행 예정"을 보냈다.
+  - 확인법: `systemctl --user list-timers --all`에 publish 행이 없으면 꺼진 것이다. 감시 스크립트는 미리보기가 아니라 **발행 결과**를 봐야 한다.
+- **같은 시각에 도는 두 준비 작업은 서로 덮어쓴다.** 22:15 cron 에이전트와 systemd `insta_card_news_prepare.timer`가 같은 `output/<날짜>/` 폴더를 쓴다. 09-11에는 systemd가 승인한 `baseball-744858afb6`과 실제 미리보기 `baseball-51402e517c`가 달랐다.
+
 ## 기록
+
+### 2026-09-12 — 오토파일럿 설계 전 실측: 게이트웨이 이중 실행·발행 타이머 정지·폴백 체인
+
+- **맥락**: 홍이 앱 홍보·인스타 운영을 맥 없이 맡기고 싶다고 요청했다. 인프라 실측(읽기 전용)을 거쳐 오토파일럿 설계안을 썼다.
+- **배운 것**: 위 핵심 정리의 2026-09-12 항목 4개. 위키 기록과 실제가 다른 곳이 5곳이었다 — Mac 게이트웨이 실행 중, Zappy 초안 cron active, 인스타 cron 모델 미지정, 서버 기본 모델 gemini, 인스타 발행 정지.
+- **근거**:
+  - 서버 `systemctl --user list-unit-files`: `instacardnews-publish.timer disabled`
+  - `journalctl --user -u instacardnews-publish.service`: `Sep 07 23:00:04 … status=1/FAILURE`
+  - Mac `launchctl print gui/501/ai.hermes.gateway`: `state = running`
+  - 서버 `hermes cron list`
+  - **수정은 하지 않았다** — 명령은 인프라 실측 문서에 있고 홍이 실행한다.
 
 ### 2026-08-29 — 죽은 cron 4개 정리: no-agent 전환 + 모델 다운핀
 - 맥락: Hermes Cloud 배포 — Oracle Hermes cron 5개 중 4개가 08-23부터 Ollama 429로 전멸(아침 브리핑만 no-agent라 생존). 최소 호출(`hermes -z "OK" -m gpt-oss:120b`)도 429인 것을 실측 확인.
