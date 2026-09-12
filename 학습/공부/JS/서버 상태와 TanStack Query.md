@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-09-08
-updated: 2026-09-12
+updated: 2026-09-13
 projects:
   - "[[프로젝트/개인/약국맵/README|약국맵]]"
 ---
@@ -96,6 +96,17 @@ JSX의 `onClick={fn()}`과 **완전히 같은 실수**다. 라이브러리가 "�
 - 배운 것: 위 「`dehydrate`」 절. 핵심은 **캐시는 메모리라 못 건너가고 글자만 건너간다** — 그래서 말렸다가 붓는다
 - 정정: [[학습/야생학습/약국맵 사다리 3-B·3-C — SSR과 하이드레이션 2026-09-09|3-C 기록]]의 *"HTML·JSON 두 벌 중복을 없애는 게 사다리 6"*은 **반만 맞다.** 두 벌로 가는 건 그대로고, 없어지는 건 **손으로 만든 전역과 그 전역을 읽는 별도 코드**다
 - 근거: 설치된 `@tanstack/query-core` 5.102.8 `src/hydration.ts` — `defaultShouldDehydrateQuery`가 `status === 'success'`, `hydrate`가 `state.dataUpdatedAt > query.state.dataUpdatedAt`일 때만 덮어씀. 작업 파일 `server/main.js` · `src/main.tsx`(미커밋)
+
+### 2026-09-13 — `staleTime`과 `dehydrate`를 인출했다 (teacher 세션 간격 복습)
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]]. [[학습/공부/JS/뮤테이션과 낙관적 업데이트|낙관적 업데이트]] 수업을 열기 전 지난 세션 것 1문제 인출
+- **증명된 것**: *"`src/main.tsx:68`의 `staleTime: 60000`을 지우면 `/api/pharmacies`가 몇 줄 뜨나"*에 **1줄, 그리고 이유까지** 스스로 답했다 — *"받아온 지 1분 이내라 최신으로 치는데, 0이면 한 번 더 부른다"*. 어제 배운 **`dehydrate`가 데이터와 함께 「받은 시각」을 보낸다**가 남아 있어서 나온 답이다
+- **측정은 아직 안 했다** — 예측만 적고 멈췄다. `npm run build && node server/main.js` 후 Network 탭에서 세는 것이 다음 세션 첫 조각
+- 근거: `src/main.tsx:68`, `server/main.js:37`(`prefetchQuery`)·`:43`(`dehydrate`)
+
+## 막힌 것
+
+- SSR에서 서버가 프록시로 API를 이미 불렀는데 브라우저는 왜 또 부르나? (2026-09-13에 물었고 설명은 들었다 — 홉이 ①브라우저→Fastify ②Fastify→공공데이터포털 **둘**이고 프록시는 ①의 목적지만 바꾼다, `dehydrate`가 ②의 결과를 건네줘야 ①이 사라진다. 다만 **내 말로 되말하지는 않았다** — 다음 세션에 다시 묻는다)
 
 ## 참고 자료
 
