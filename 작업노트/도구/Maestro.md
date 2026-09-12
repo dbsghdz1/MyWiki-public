@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-27
-updated: 2026-09-09
+updated: 2026-09-12
 projects:
   - "보험찾개냥"
 ---
@@ -60,3 +60,13 @@ projects:
   - **가장 비싼 실수는 조용한 실패가 아니라 오탭이다.** 탭이 안 먹은 줄 알고 다음 좌표를 이어 눌렀더니 앱이 백그라운드로 간 사이 **카메라 앱과 다른 프로젝트 앱(즉석카메라)이 열렸다.** 시뮬레이터는 앱 경계를 안 지켜 준다 — **한 스텝마다 스크린샷으로 현재 화면을 확인하고 다음 좌표를 정한다**
   - 대안이 있으면 그쪽이 싸다 — 이 건은 **라우터에 화면을 실물로 걸어 도는 위젯 테스트**(`claimant_info_screen_test.dart`)로 배선을 고정했고, 시뮬레이터는 «눈으로 보는 것»에만 남겼다
 - 근거: PR #119 · `docs/spec/SSH-457/tasks.md` 「Mock 실기동」 항목의 중단 기록
+
+### 2026-09-12 — 보험찾개냥 09 결과 입력(SSH-434) iOS 주행 완주 — 정규식 셀렉터·좌표·키패드
+- 맥락: 보험찾개냥 SSH-434(PR #134) `main_mock` 실기동 + 스크린샷 10장. 온보딩 통과는 Mock `isOnboarded`를 **임시로 true**로 바꿔 건너뛰었다(찍고 되돌림 — 02b 접근성 공백을 피하는 가장 싼 길).
+- 배운 것:
+  1. **`Semantics`로 묶인 카드는 라벨이 합쳐진다** — `AppSelectableCard`(제목+설명, `inMutuallyExclusiveGroup`)는 `tapOn: "지급 완료"`가 FAILED, **`tapOn: ".*지급 완료.*"`(정규식)** 로 잡힌다. 텍스트 셀렉터는 전체 일치라서다(8/30 WKWebView 기록과 같은 규칙이 Flutter Semantics에도 적용).
+  2. **홈 청구 카드(`AppClaimCard`) 텍스트는 트리에 없다** — `tapOn: "행복동물병원"` FAILED. 좌표 탭(`point: "50%,48%"`)으로. 반면 `AppButton` 라벨·`AppTopBar` 뒤로가기(`Semantics(label: '뒤로가기')`)·`AppSectionTitle`·다이얼로그 「확인」은 잡힌다 → `scrollUntilVisible: element: "결과 알려주기"`도 된다.
+  3. **숫자 키패드에서 `hideKeyboard`는 FAILED다**(완료 키가 없다). `AppDismissKeyboard` 덕에 빈 곳 탭으로 내리는데, **키보드 영역을 피해야 한다** — 62%는 키보드를 눌렀고(아무 일 없음) 46%가 맞았다. 스크린샷(1206×2622)에서 키보드 상단 ≈ 50%.
+  4. `flutter run`을 백그라운드로 띄우면 「Lost connection to device」로 호스트가 떨어져도 **앱은 시뮬레이터에 살아 있다**(8/29 기록과 같음) — Maestro `launchApp`으로 다시 띄우면 된다. `timeout` 명령은 macOS에 없다.
+- 근거: `docs/spec/SSH-434/tasks.md` 실기동 표, 플로우 파일은 세션 스크래치(`maestro/f*.yaml`) — 레포에는 안 남겼다.
+
