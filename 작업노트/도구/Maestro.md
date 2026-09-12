@@ -69,4 +69,3 @@ projects:
   3. **숫자 키패드에서 `hideKeyboard`는 FAILED다**(완료 키가 없다). `AppDismissKeyboard` 덕에 빈 곳 탭으로 내리는데, **키보드 영역을 피해야 한다** — 62%는 키보드를 눌렀고(아무 일 없음) 46%가 맞았다. 스크린샷(1206×2622)에서 키보드 상단 ≈ 50%.
   4. `flutter run`을 백그라운드로 띄우면 「Lost connection to device」로 호스트가 떨어져도 **앱은 시뮬레이터에 살아 있다**(8/29 기록과 같음) — Maestro `launchApp`으로 다시 띄우면 된다. `timeout` 명령은 macOS에 없다.
 - 근거: `docs/spec/SSH-434/tasks.md` 실기동 표, 플로우 파일은 세션 스크래치(`maestro/f*.yaml`) — 레포에는 안 남겼다.
-
