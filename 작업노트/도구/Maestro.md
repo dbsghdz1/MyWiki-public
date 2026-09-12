@@ -70,3 +70,4 @@ projects:
   4. `flutter run`을 백그라운드로 띄우면 「Lost connection to device」로 호스트가 떨어져도 **앱은 시뮬레이터에 살아 있다**(8/29 기록과 같음) — Maestro `launchApp`으로 다시 띄우면 된다. `timeout` 명령은 macOS에 없다.
 - 근거: `docs/spec/SSH-434/tasks.md` 실기동 표, 플로우 파일은 세션 스크래치(`maestro/f*.yaml`) — 레포에는 안 남겼다.
 - 추가(같은 날): **Android 에뮬레이터(`emulator-5554`)에서도 같은 플로우가 그대로 돈다** — `건너뛰기`·`카카오 로그인`·`뒤로가기`·정규식 카드 셀렉터·`scrollUntilVisible` 전부 동일, 홈 카드 좌표(50%,48%)도 같았다(1080×2400). 캡처는 `adb exec-out screencap -p >`. SDK는 `(로컬 경로)`(표준 경로 아님).
+- 추가(9/12 저녁): **iOS에서 `launchApp` 없는 플로우가 끝나면 앱이 백그라운드로 가 있을 수 있다**(스크린샷이 스프링보드) — `xcrun simctl launch <udid> <bundleId>`로 앞으로 올리면 상태 그대로 돌아온다(재시작 아님). 제목만 있는 `AppSelectableCard`는 정규식·정확 텍스트 둘 다 앱이 백그라운드면 FAILED — 먼저 앞으로 올릴 것.
