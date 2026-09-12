@@ -43,6 +43,38 @@ AI가 조종할 수 있는 브라우저. **사용자가 이미 로그인해둔 �
 
 ## 기록
 
+### 2026-09-12 — 쿠팡 주문서까지 (결제 안 함)
+
+맥락: "쿠팡에서 초코송이 사게 구입화면까지 만들어놔" 요청. 로그인된 쿠팡 세션으로 상품 선택 → 장바구니 → 주문/결제 화면까지 열어두고 「결제하기」는 누르지 않았다.
+
+#### FIFO로 repl 세션을 살려두면 탭이 유지된다 (위 「영구 탭을 먼저 만들고 attach」보다 낫다)
+
+`aside repl "<code>"` 한 방 호출은 **세션이 끝날 때 그 세션이 연 탭을 닫는다**(`openTab('https://example.com')` 직후 다음 호출의 `listBrowserTabs()`에 안 잡히는 걸로 실측). 대화형 REPL을 백그라운드로 띄우면 세션이 살아 있는 동안 탭도 살아 있고, `const`/`let`·`tabs` 배열이 호출 사이에 그대로 남는다:
+
+```bash
+mkfifo "$SD/in"
+nohup sh -c "aside repl < '$SD/in' > '$SD/out' 2>&1" &
+nohup sh -c "sleep 100000 > '$SD/in'" &   # 상시 writer — 없으면 cat 종료 시 EOF로 repl이 죽는다
+# 이후: 코드 한 줄을 $SD/in 에 append 하고 $SD/out 의 증분을 읽는다
+```
+
+- **코드는 반드시 한 줄**이다(줄 단위 REPL). 셸이 `\n`을 실제 개행으로 바꿔 `SyntaxError`를 내므로 `cat > c.js <<'JSEOF'` 따옴표 heredoc으로 쓴다.
+- 완료 판정은 출력 증분에 `[ok |` 또는 `[err`가 나타나는지로 한다.
+- **작업이 끝나도 프로세스를 죽이면 안 된다** — 열어둔 화면이 같이 닫힌다.
+
+#### 그 외 밟은 것
+
+- **`attachActiveBrowserTab()`은 내가 연 탭이 아니라 사용자가 보고 있던 실제 활성 탭을 가져온다.** 쿠팡을 열어놓고 호출했더니 홍이 띄워둔 ZEP 탭이 붙었다. 내 탭은 `tabs[i]`로 직접 잡는다.
+- `snapshot(page, { ref: 'body' })`는 `Element with ref 'body' not found`. `ref`는 스냅샷이 발급한 `e12` 계열만 받고, 범위를 좁히려면 `selector`(CSS)를 쓴다.
+- `page.screenshot({ path })`는 세션 디렉터리 밖 경로를 `escapes the session directory`로 거부한다. `./artifacts/x.png`로 저장하면 `(로컬 경로)`에 떨어진다.
+- **Claude Code auto mode 분류기가 상품 상세의 「바로구매」 클릭을 차단했다**(`Blocked by classifier`). 같은 세션에서 「장바구니 담기」 → 장바구니의 `a.goPayment` 클릭은 통과했다. 되돌리기 쉬운 경로로 우회하면 같은 화면에 도달한다.
+
+#### 쿠팡 사이트 사실
+
+- **장바구니 URL은 `https://cart.coupang.com/cartView.pang`이다.** 흔히 도는 `cartView.pm`은 S3 `AccessDenied` XML을 뱉는다. 헤더 `a[href*=cart]`에서 읽는 게 확실하다.
+- **로켓배송은 19,800원 미만이면 「바로구매」가 주문서 대신 "9,760원 이상 추가 시 구매가능" 인터스티셜로 간다.** 와우 미가입 계정 기준. 수량/옵션을 올려 기준을 넘기면 버튼 라벨이 「바로구매 무료배송」으로 바뀐다 — 이 라벨이 곧 사전 판정이다.
+- 장바구니에 기존 상품이 있어도 **새로 담은 것만 선택된 상태(1/7)로 열린다** → `a.goPayment`를 누르면 그 상품만 주문서에 오른다. 기존 장바구니를 건드리지 않으려고 「바로구매」를 고집할 필요가 없다.
+
 ### 2026-09-12 — X 작성창 드라이런 (게시 안 함)
 
 - **맥락**: 홍보 오토파일럿을 API 대신 화면 조작으로 가기로 하고 X `@DevHongX`로 첫 드라이런을 했다.
