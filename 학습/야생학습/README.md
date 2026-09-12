@@ -94,6 +94,20 @@ updated: 2026-09-09
 - [x] 8 — 제보 버튼 낙관적 업데이트 (2026-09-13, **Codex 세션**). `cancelQueries` → 스냅샷 → `setQueryData` → `onError` 롤백 → `onSettled` invalidate가 `src/App.tsx:22-72`에 전부 있다. 개념 노트는 [[학습/공부/JS/뮤테이션과 낙관적 업데이트]]
 - [ ] 9 — (선택) vanilla-extract
 
+### 다음 목록 — roadmap.sh/frontend 「Internet」 섹션 (2026-09-13 신설, 홍이 "처음부터" 결정)
+
+로드맵 노드는 읽는 것이지만 **손으로 하는 칸으로 바꿔서** 한다. 소재는 계속 [[프로젝트/개인/약국맵/README|약국맵]]이다.
+HTML·CSS·JavaScript·Version Control·Package Managers 섹션은 **건너뛴다** — 공부 노트에 이미 있고 약국맵에서 매일 쓴다.
+
+- [ ] 10 — **What is HTTP?** 약국맵의 두 홉을 눈으로 본다. `curl -v localhost:3000/api/pharmacies`와 서버가 `apis.data.go.kr`로 보내는 요청을 헤더까지 각각. 완료 기준: [[학습/공부/JS/서버 상태와 TanStack Query|서버 상태]] `## 막힌 것`의 「프록시로 이미 불렀는데 왜 또?」에 스스로 답한다
+- [ ] 11 — **DNS and how it works** `dig apis.data.go.kr`를 단계별로. `localhost`는 왜 DNS를 안 타나. 완료 기준: 응답에서 TTL과 권한 서버를 짚는다
+- [ ] 12 — **Domain Name · hosting** 약국맵을 **실제로 배포**하고 도메인을 붙인다. 완료 기준: 남의 기기에서 열린다. **제품 조건이기도 하다** — 배포가 없으면 README의 「연휴 제보 1건」 판정을 못 돌린다
+- [ ] 13 — **Browsers and how they work** 렌더링 파이프라인 위에 이미 만든 SSR·하이드레이션을 얹어 설명. 완료 기준: 코드 안 보고 3분
+- [ ] 14 — **How does the internet work** 주소창에 치고 약국 목록이 뜨기까지 전 구간 종합. 완료 기준: 면접 모드 3~5문항
+
+> [!note] CS 네트워크 강의와 **병행**한다 (2026-09-13 홍의 결정)
+> 이 목록이 [[학습/공부/CS/네트워크|네트워크]] 강의 진도를 대체하지 않는다. 강의는 강의대로 간다.
+
 > [!important] 2026-09-13 — **핵심 프론트 사다리 종료.** 남은 것은 2-C(`refetchInterval` 폴링)와 선택 항목 9뿐이다.
 > 5·6·7·8은 **Codex 세션에서 진행돼 이 볼트에 세션 기록이 없다.** 예측 vs 실제도 남지 않았다 — 코드와 커밋 `f4de709`가 유일한 근거다. 다른 도구로 작업하면 위키가 뒤처진다는 것이 이 네 칸에서 실제로 드러났다(에이전트가 위키를 믿고 「5칸 남았다」고 잘못 판단).
 > **다음 목록은 roadmap.sh/frontend의 빈칸 노드에서 뽑는다** — 프로젝트 목록(Beginner 20·Intermediate 9·Advanced 1)은 검토 결과 **능력 > 난이도**라 제외했다. Intermediate 대표인 Weather Web App이 약국맵의 부분집합이다.
