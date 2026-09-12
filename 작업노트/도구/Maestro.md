@@ -71,3 +71,12 @@ projects:
 - 근거: `docs/spec/SSH-434/tasks.md` 실기동 표, 플로우 파일은 세션 스크래치(`maestro/f*.yaml`) — 레포에는 안 남겼다.
 - 추가(같은 날): **Android 에뮬레이터(`emulator-5554`)에서도 같은 플로우가 그대로 돈다** — `건너뛰기`·`카카오 로그인`·`뒤로가기`·정규식 카드 셀렉터·`scrollUntilVisible` 전부 동일, 홈 카드 좌표(50%,48%)도 같았다(1080×2400). 캡처는 `adb exec-out screencap -p >`. SDK는 `(로컬 경로)`(표준 경로 아님).
 - 추가(9/12 저녁): **iOS에서 `launchApp` 없는 플로우가 끝나면 앱이 백그라운드로 가 있을 수 있다**(스크린샷이 스프링보드) — `xcrun simctl launch <udid> <bundleId>`로 앞으로 올리면 상태 그대로 돌아온다(재시작 아님). 제목만 있는 `AppSelectableCard`는 정규식·정확 텍스트 둘 다 앱이 백그라운드면 FAILED — 먼저 앞으로 올릴 것.
+
+### 2026-09-13 — 사진 선택기(PHPicker·Android Photo Picker)를 지나 업로드 순간을 찍기 (보험찾개냥 SSH-557)
+
+- **`takeScreenshot`은 절대 경로를 거부한다** — `Invalid path "/tmp/x.png" ... resolves outside this run's takeScreenshot output folder`. 이름만 주면 `(로컬 경로)`에 남는다. 실패한 스텝의 자동 캡처는 같은 폴더의 `screenshots/step-NNN-*.png`
+- `extendedWait`라는 커맨드는 없다(`Invalid Command`). 고정 대기는 `waitForAnimationToEnd: {timeout: N}`
+- **iOS PHPicker**: 「앨범에서 선택」 뒤 시뮬레이터 기본 사진 그리드가 뜬다. 첫 장은 `tapOn: point: "17%,25%"`(3열 그리드 첫 칸). 탭 직후 바로 돌아오고 앱은 그대로 포그라운드
+- **Android Photo Picker**: 에뮬레이터에 사진이 없으면 빈 그리드다 — `adb push x.jpg /sdcard/Pictures/` + `am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Pictures/x.jpg`로 심으면 뜬다. 접근성 배너("will only have access to the photos you select") 아래 그리드 첫 칸이 대략 (180,1400)px(1080×2400). Maestro 없이 `adb shell input tap`으로도 된다
+- **1~2초짜리 전이 상태(업로드 중 스피너)는 Maestro 스텝 사이로 못 잡는다** — 스텝 지연이 상태보다 길다. 대신 **탭을 백그라운드로 던지고 셸 루프로 0.25초마다 스크린샷**해 md5로 바뀐 프레임만 남긴다: iOS `xcrun simctl io <udid> screenshot`, Android `adb exec-out screencap -p`. Android는 3번째 프레임에 잡혔고, iOS는 PHPicker 닫힘 애니메이션(~1s)이 Mock 지연(1.2s)을 거의 다 먹어 못 잡았다 — 잡으려면 Mock 지연을 3초쯤으로 늘려 빌드해야 한다
+- Semantics로 합쳐진 카드(`AppSummaryCard`)는 `tapOn: "보호자 정보를 등록해 주세요"`가 FAILED — 여전히 좌표 탭(`50%,32%`)이다(9/12와 같은 함정)
