@@ -17,7 +17,7 @@ projects:
 
 ## 계기
 
-[[프로젝트/개인/약국맵/README|약국맵]] 착수. [[학습/야생학습/README|사다리]] 1번 *"약국 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 불러온다"*. 시작 시점의 코드는 Vite 템플릿 0줄 상태.
+[[프로젝트/개인/약국맵/README|약국맵]] 착수. [[프로젝트/개인/약국맵/학습 로드맵|사다리]] 1번 *"약국 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 불러온다"*. 시작 시점의 코드는 Vite 템플릿 0줄 상태.
 
 ## 해본 것
 

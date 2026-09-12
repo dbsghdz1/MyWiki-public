@@ -62,7 +62,7 @@ MDN이 명시한다 — *"if the server responds with an error like 404, then `f
 
 ### 2026-09-08 — 콘솔에서 fetch를 처음 쳐봤다 (야생학습 사다리 세션 1)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 1 — fetch와 useState 2026-09-08|사다리 세션 1]]. React 붙이기 전에 콘솔에서 `fetch`만 격리해서 확인
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/사다리 1 — fetch와 useState 2026-09-08|사다리 세션 1]]. React 붙이기 전에 콘솔에서 `fetch`만 격리해서 확인
 - 배운 것:
   - 예측은 "XML 글자가 찍힌다"였는데 **`Promise {<pending>}`이 찍혔다.** 예측 누락 — 그리고 이게 이 개념의 전부였다
   - `PromiseResult`에 `Response`가 들어 있고 `bodyUsed: false`인 것을 눈으로 봄 → **응답 ≠ 본문**

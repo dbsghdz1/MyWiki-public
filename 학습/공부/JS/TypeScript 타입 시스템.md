@@ -74,7 +74,7 @@ import type { UpbitTicker } from './types';
 
 ### 2026-09-09 — 외부 응답이 들어오는 「경계」에서 타입을 선언한다
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 3-A — Fastify 프록시 2026-09-09|사다리 3-A]]. 약국 목록을 `.map`으로 그리다가 빌드가 막혔다
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/사다리 3-A — Fastify 프록시 2026-09-09|사다리 3-A]]. 약국 목록을 `.map`으로 그리다가 빌드가 막혔다
 - 배운 것:
   - `error TS7006: Parameter 'p' implicitly has an 'any' type` — **`r.json()`의 반환은 `any`**라서 그 값을 타고 내려온 배열의 `.map((p) => …)`도 `p`가 뭔지 모른다. `any`에는 정보가 없어서 문맥 타입을 못 준다
   - 해결은 **경계에 한 줄**: `const pharmacies: Pharmacy[] = query.data?.response?.body?.items?.item ?? []`. 이 줄 아래부터 자동완성이 살아나고 `p.dutyNmae` 같은 오타를 `tsc`가 잡는다

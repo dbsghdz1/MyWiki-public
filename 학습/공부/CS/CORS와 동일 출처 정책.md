@@ -59,7 +59,7 @@ projects:
 
 ### 2026-09-08 — localhost에서 공공 API를 직접 불렀는데 되더라 (야생학습 사다리 세션 1)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[학습/야생학습/약국맵 사다리 1 — fetch와 useState 2026-09-08|사다리 세션 1]]. `localhost:5173` → `apis.data.go.kr` 직접 호출
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/사다리 1 — fetch와 useState 2026-09-08|사다리 세션 1]]. `localhost:5173` → `apis.data.go.kr` 직접 호출
 - 예측: **"남의 서버라 막힌다"** → **틀렸다.** 200으로 왔고 화면에 XML이 떴다
 - 실제로 본 것:
   - 응답 헤더 `access-control-allow-origin: http://localhost:5173` — **우리 Origin이 그대로 반사돼 있다**
