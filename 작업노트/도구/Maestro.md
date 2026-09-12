@@ -80,3 +80,9 @@ projects:
 - **Android Photo Picker**: 에뮬레이터에 사진이 없으면 빈 그리드다 — `adb push x.jpg /sdcard/Pictures/` + `am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Pictures/x.jpg`로 심으면 뜬다. 접근성 배너("will only have access to the photos you select") 아래 그리드 첫 칸이 대략 (180,1400)px(1080×2400). Maestro 없이 `adb shell input tap`으로도 된다
 - **1~2초짜리 전이 상태(업로드 중 스피너)는 Maestro 스텝 사이로 못 잡는다** — 스텝 지연이 상태보다 길다. 대신 **탭을 백그라운드로 던지고 셸 루프로 0.25초마다 스크린샷**해 md5로 바뀐 프레임만 남긴다: iOS `xcrun simctl io <udid> screenshot`, Android `adb exec-out screencap -p`. Android는 3번째 프레임에 잡혔고, iOS는 PHPicker 닫힘 애니메이션(~1s)이 Mock 지연(1.2s)을 거의 다 먹어 못 잡았다 — 잡으려면 Mock 지연을 3초쯤으로 늘려 빌드해야 한다
 - Semantics로 합쳐진 카드(`AppSummaryCard`)는 `tapOn: "보호자 정보를 등록해 주세요"`가 FAILED — 여전히 좌표 탭(`50%,32%`)이다(9/12와 같은 함정)
+
+### 2026-09-13 (2) — 합성 신분증으로 온디바이스 OCR 검증 (보험찾개냥 SSH-558)
+
+- 실물 없이 ML Kit 경로를 끝까지 돌리려면 **PIL로 합성 카드**(AppleGothic 54px, `숫자6-숫자7 형태의 가짜 번호`, 1290×810 JPEG)를 만들어 iOS `xcrun simctl addmedia <udid> x.jpg` / Android `adb push` + `MEDIA_SCANNER_SCAN_FILE`. 방금 넣은 사진이 그리드 첫 칸이다(Android 좌표 (180,1400))
+- Mock 브랜치를 갈아탈 때 `isOnboarded`가 되돌아가 02a로 떨어진다 — 임시 `true` 다시
+- 에뮬레이터가 세션 중에 꺼져 있을 수 있다(`adb: no devices`) — `emulator -avd pixel_ssh`로 다시 띄우고 `sys.boot_completed`를 기다린다
