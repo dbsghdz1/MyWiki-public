@@ -88,11 +88,15 @@ updated: 2026-09-09
 - [x] **3-B** — 서버가 약국 목록을 HTML로 그린다 → [[학습/야생학습/약국맵 사다리 3-B·3-C — SSR과 하이드레이션 2026-09-09|기록]] (2026-09-09). `curl` 응답의 «약국» **0 → 3개**. 스트리밍(`renderToPipeableStream`)은 안 썼고 `renderToString`으로 했다
 - [x] **3-C** — `hydrateRoot`로 서버 HTML을 이어받는다 (2026-09-09). Network `/api/pharmacies` **1줄 → 0줄**
 - [x] 4 — 지도를 클라이언트 전용으로 (서버에서 터지는 것 확인 후) → [[학습/야생학습/약국맵 사다리 4 — 클라이언트 전용 지도 2026-09-10|기록]] (2026-09-10)
-- [ ] 5 — 「지금 열림」 하이드레이션 불일치 재현·수정
-- [ ] 6 — 서버 prefetch → dehydrate → HydrationBoundary
-- [ ] 7 — 마커 리렌더 측정, memo 전/후
-- [ ] 8 — 제보 버튼 낙관적 업데이트
+- [x] 5 — 「지금 열림」 하이드레이션 불일치 재현·수정 (2026-09-13, **Codex 세션** — 세션 기록 파일 없음). 서버가 `window.__NOW__`로 기준 시각을 내려 양쪽 판정을 통일. 근거: 커밋 `f4de709`, `server/main.js`·`src/main.tsx:144`
+- [x] 6 — 서버 prefetch → dehydrate → HydrationBoundary (2026-09-13, **Codex 세션**). 근거: 커밋 `f4de709`, `src/main.tsx:156,161`
+- [x] 7 — 마커 리렌더, `memo` (2026-09-13, **Codex 세션**). `memo(PharmacyMarker)` `src/main.tsx:35`. **전/후 측정 수치는 남지 않았다**
+- [x] 8 — 제보 버튼 낙관적 업데이트 (2026-09-13, **Codex 세션**). `cancelQueries` → 스냅샷 → `setQueryData` → `onError` 롤백 → `onSettled` invalidate가 `src/App.tsx:22-72`에 전부 있다. 개념 노트는 [[학습/공부/JS/뮤테이션과 낙관적 업데이트]]
 - [ ] 9 — (선택) vanilla-extract
+
+> [!important] 2026-09-13 — **핵심 프론트 사다리 종료.** 남은 것은 2-C(`refetchInterval` 폴링)와 선택 항목 9뿐이다.
+> 5·6·7·8은 **Codex 세션에서 진행돼 이 볼트에 세션 기록이 없다.** 예측 vs 실제도 남지 않았다 — 코드와 커밋 `f4de709`가 유일한 근거다. 다른 도구로 작업하면 위키가 뒤처진다는 것이 이 네 칸에서 실제로 드러났다(에이전트가 위키를 믿고 「5칸 남았다」고 잘못 판단).
+> **다음 목록은 roadmap.sh/frontend의 빈칸 노드에서 뽑는다** — 프로젝트 목록(Beginner 20·Intermediate 9·Advanced 1)은 검토 결과 **능력 > 난이도**라 제외했다. Intermediate 대표인 Weather Web App이 약국맵의 부분집합이다.
 
 일간 루틴은 이 체크리스트의 **첫 미체크 항목**을 `- [ ] 야생학습(아침 30~45분): <세션 제목>`으로 넣는다. 세션이 끝나면 체크하고 `학습/야생학습/<주제> YYYY-MM-DD.md`에 기록해 아래 목록에 등재한다. 개념이 남으면 [[학습/공부/README|공부]] `JS/` 주제 파일로 승격(실제로 나온 것만, 참고 자료는 URL 확인 후).
 
