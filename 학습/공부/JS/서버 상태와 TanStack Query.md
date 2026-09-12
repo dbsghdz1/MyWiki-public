@@ -81,6 +81,50 @@ JSX의 `onClick={fn()}`과 **완전히 같은 실수**다. 라이브러리가 "�
 - **서버 `QueryClient`는 요청마다 새로 만든다.** 파일 맨 위에 하나 두면 다른 사용자의 데이터가 섞인다
 - **`JSON.stringify`를 `<script>`에 그대로 넣으면 XSS 구멍이다.** 데이터에 `</script>`가 있으면 태그를 탈출한다 → `<` 문자를 유니코드 이스케이프로 바꾸거나(지금 `server/main.js`의 `.replace(/</g, …)`) `devalue`·`serialize-javascript`를 쓴다
 
+### 낙관적 업데이트 — 성공을 가정하고 먼저 그린다
+
+`mutate()`는 요청 → 응답 → `invalidateQueries` → refetch로 왕복이 두 번이라, 그동안 화면은 아무 일도 안 일어난 것처럼 보인다. **낙관적 업데이트는 성공을 가정하고 UI를 먼저 바꾼 뒤 실패하면 되돌린다.** '낙관'의 대가가 **롤백 책임**이다. 방법이 둘이고, 갈리는 축은 **캐시를 건드리느냐**다.
+
+**방법 A — `variables`로 UI에서만.** 캐시는 그대로 두고 렌더링할 때 임시 항목을 하나 더 그린다.
+
+```tsx
+{todoQuery.data.map(t => <li key={t.id}>{t.text}</li>)}
+{isPending && <li style={{ opacity: 0.5 }}>{variables}</li>}
+```
+
+`variables`는 `mutate(x)`에 넘긴 그 `x`다. **롤백 코드가 아예 필요 없다** — 되돌릴 상태를 만든 적이 없으니까. `isPending`이 꺼지면 임시 항목은 그냥 사라진다. 실패해도 `variables`는 남아 있어서 재시도 버튼(`mutate(variables)`)을 그릴 수 있다. 단점은 **그 컴포넌트에서만 보인다**는 것.
+
+**방법 B — `onMutate`로 캐시를 직접 고친다.** 네 부분이 각각 이유가 있다.
+
+```tsx
+onMutate: async (newTodo, context) => {
+  await context.client.cancelQueries({ queryKey: ['todos'] })      // ①
+  const previousTodos = context.client.getQueryData(['todos'])      // ②
+  context.client.setQueryData(['todos'], old => [...old, newTodo])
+  return { previousTodos }                                          // ③
+},
+onError: (err, newTodo, onMutateResult, context) =>
+  context.client.setQueryData(['todos'], onMutateResult.previousTodos),
+onSettled: (data, error, variables, onMutateResult, context) =>
+  context.client.invalidateQueries({ queryKey: ['todos'] }),        // ④
+```
+
+- **① `cancelQueries`가 없으면 깜빡인다.** 내가 `setQueryData`로 고치기 **직전에 이미 날아간 refetch**가 있으면, 그 응답이 내 수정 **뒤에** 도착해 옛날 서버 데이터로 덮어쓴다. 방금 추가한 항목이 사라졌다 다시 나타난다. 취소가 끝난 뒤에 써야 하므로 `await`
+- **②③ 롤백 스냅샷은 클로저가 아니라 반환값으로 넘긴다.** `onMutate`의 반환값이 `onError`/`onSettled`의 세 번째 인자로 전달된다. **mutation은 동시에 여러 개 뜰 수 있어서** 각자 자기 스냅샷을 자기 실행에 묶어야 한다 — 컴포넌트 변수에 담으면 두 번째가 첫 번째 것을 덮어쓴다
+- **④ 결국 서버를 진실로 삼는다.** 낙관적으로 그린 값은 추측이다(서버가 붙이는 `id`·`createdAt`·정렬 순서를 내가 모른다). `return`으로 프로미스를 **돌려줘야** refetch가 끝날 때까지 mutation이 `pending`으로 남아 "완료됐다 다시 로딩" 깜빡임이 없다
+- **동시 mutation에서는 ④가 오히려 깨진다.** 첫 mutation의 invalidate가 아직 진행 중인 두 번째의 낙관적 값을 옛 데이터로 덮는다. TkDodo는 `if (queryClient.isMutating() === 1) invalidateQueries(...)`로 **다른 mutation이 없을 때만** invalidate하라고 한다(`onSettled` 실행 중에는 자기 자신이 세어지므로 `1`)
+
+**콜백 인자 순서가 v5 중간에 바뀌었다.** 예전엔 `onMutate`의 반환값 이름이 `context`였는데, 지금은 **`onMutateResult`**이고 `context`는 **마지막 인자**(`{ client, meta, mutationKey }`)다. 그래서 `useQueryClient()` 없이 `context.client`로 쓴다. 인터넷 예제가 `onError: (err, vars, context) => context.previousTodos` 꼴이면 옛 시그니처다.
+
+```
+onMutate  (variables, context)
+onSuccess (data, variables, onMutateResult, context)
+onError   (error, variables, onMutateResult, context)
+onSettled (data, error, variables, onMutateResult, context)
+```
+
+**언제 어느 쪽** — 낙관적 결과를 **한 군데서만** 보여주면 되면 A(코드가 적고 롤백이 없다), **여러 화면이 같이 반응해야** 하면 B. 공식 문서 결론도 같다.
+
 ## 기록
 
 ### 2026-09-09 — useEffect 버전과 나란히 놓고 요청 수를 셌다 (야생학습 사다리 2-B)
@@ -97,6 +141,12 @@ JSX의 `onClick={fn()}`과 **완전히 같은 실수**다. 라이브러리가 "�
 - 정정: [[학습/야생학습/약국맵 사다리 3-B·3-C — SSR과 하이드레이션 2026-09-09|3-C 기록]]의 *"HTML·JSON 두 벌 중복을 없애는 게 사다리 6"*은 **반만 맞다.** 두 벌로 가는 건 그대로고, 없어지는 건 **손으로 만든 전역과 그 전역을 읽는 별도 코드**다
 - 근거: 설치된 `@tanstack/query-core` 5.102.8 `src/hydration.ts` — `defaultShouldDehydrateQuery`가 `status === 'success'`, `hydrate`가 `state.dataUpdatedAt > query.state.dataUpdatedAt`일 때만 덮어씀. 작업 파일 `server/main.js` · `src/main.tsx`(미커밋)
 
+### 2026-09-12 — 낙관적 업데이트 문서를 읽고 개념을 물었다
+
+- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] 작업 중 Optimistic Updates 문서를 붙여넣고 *"개념 설명해줘"*. **지금 약국맵은 조회만 해서 `useMutation`이 한 군데도 없다** — 적용 대상이 아직 없는 상태에서 개념만 먼저 잡았다
+- 배운 것: 위 「낙관적 업데이트」 절. 핵심 두 가지 — **캐시를 안 건드리면 롤백도 필요 없다**(방법 A), **`cancelQueries`는 이미 날아간 refetch가 내 수정을 덮는 경쟁을 막는 것**이지 예의상 붙이는 게 아니다
+- 근거: 설치된 `@tanstack/react-query` 5.102.8의 `query-core/build/modern/hydration-Bjs0MSgg.d.ts` `MutationOptions` — `onError`/`onSettled`의 세 번째 인자가 `onMutateResult`, 네 번째가 `MutationFunctionContext = { client, meta, mutationKey }`로 확인됨. 즐겨찾기·메모 같은 쓰기 기능을 붙이는 순간 쓸 자리가 생긴다
+
 ## 참고 자료
 
 - [TanStack Query — Important Defaults](https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults) — 기본값의 정본. *"by default consider cached data as stale"*, *"inactive queries are garbage collected after 5 minutes"* (2026-09-08 확인)
@@ -104,3 +154,5 @@ JSX의 `onClick={fn()}`과 **완전히 같은 실수**다. 라이브러리가 "�
 - [TkDodo — Practical React Query](https://tkdodo.eu/blog/practical-react-query) — 메인테이너 본인 글. *"server state … your app does not own it"*, `staleTime` 기본 0 (2026-09-08 확인)
 - [TanStack Query — Server Rendering & Hydration](https://tanstack.com/query/latest/docs/framework/react/guides/ssr) — `prefetch` → `dehydrate` → `HydrationBoundary` 흐름의 정본. *"set some default staleTime above 0 to avoid refetching immediately on the client"*, 요청마다 새 `QueryClient`, `JSON.stringify`의 XSS 경고 (2026-09-12 확인)
 - [TanStack Query — Advanced Server Rendering](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr) — 같은 흐름을 Server Components에서. *"HydrationBoundary is a Client Component, so hydration will happen there"* (2026-09-12 확인)
+- [TanStack Query — Optimistic Updates](https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates) — 두 방법의 정본. *"This is the simpler variant, as it doesn't interact with the cache directly"*, *"Cancel any outgoing refetches (so they don't overwrite our optimistic update)"*, 한 군데면 `variables`·여러 곳이면 캐시 (2026-09-12 확인)
+- [TkDodo — Concurrent Optimistic Updates in React Query](https://tkdodo.eu/blog/concurrent-optimistic-updates-in-react-query) — 동시 mutation에서 첫 invalidate가 두 번째의 낙관적 값을 덮는 문제와 `isMutating() === 1` 해법 (2026-09-12 확인)
