@@ -42,7 +42,7 @@ Maven·Gradle 표준 레이아웃이라 Java·Kotlin 프로젝트면 어디서�
 
 **파일에 적을까, 환경변수로 뺄까** — 기준은 *"이 레포를 지금 공개해도 되나"*(12-Factor). 모델명·타임아웃·공개 issuer URL은 파일에, 키·DB 비밀번호·버킷 이름은 `${...}`로 빼서 배포 환경이 주입한다.
 
-> **면접 30초** — "`resources`는 컴파일되지 않는 파일이 클래스패스로 복사되는 자리이고, `application.yaml`은 Spring Boot가 부팅 때 자동으로 읽는 설정입니다. 공통값은 여기, 환경별 차이는 `application-{profile}.yaml`로 덮고, 비밀은 `${ENV}` 자리표시자로 환경변수에서 받습니다. 우선순위는 명령줄 > 환경변수 > 프로필 파일 > 기본 파일이고, 코드는 `@ConfigurationProperties`로 묶어 받습니다."
+> **30초 설명** — "`resources`는 컴파일되지 않는 파일이 클래스패스로 복사되는 자리이고, `application.yaml`은 Spring Boot가 부팅 때 자동으로 읽는 설정입니다. 공통값은 여기, 환경별 차이는 `application-{profile}.yaml`로 덮고, 비밀은 `${ENV}` 자리표시자로 환경변수에서 받습니다. 우선순위는 명령줄 > 환경변수 > 프로필 파일 > 기본 파일이고, 코드는 `@ConfigurationProperties`로 묶어 받습니다."
 
 ## 기록
 
