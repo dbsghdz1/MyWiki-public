@@ -155,7 +155,7 @@ cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화�
 - 배운 것:
   - 설치된 `mattpocock-skills` 1.2.3(`(로컬 경로)`)에 **`/teach`가 이미 들어 있다** (`skills/productivity/teach/SKILL.md` + `MISSION-FORMAT.md`·`LEARNING-RECORD-FORMAT.md`·`RESOURCES-FORMAT.md`). 세션 시작 스킬 목록에는 `grilling`·`tdd`·`wizard` 등만 보이고 `teach`·`grill-me`·`handoff`가 없어서 "없다"고 오판할 뻔했다. 원인은 frontmatter `disable-model-invocation: true` — **사람이 `/이름`으로 칠 때만 열리고 모델 목록에서는 빠진다.** 스킬 존재 여부는 목록이 아니라 플러그인 `plugin.json`의 `skills` 배열이나 캐시 디렉터리로 확인해야 한다.
   - 같은 플러그인이 두 마켓플레이스(`claude-plugins-official` 1.2.3, `mattpocock` 1.2.0, 같은 SHA `2ab9580`)에 이중 설치돼 있다. 저장소 README는 "installing both leaves you with every skill twice"라고 경고한다 — 정리 대상.
-  - 홍의 학습선생님은 `/teach`를 MyWiki `학습/`에 맞게 개조한 **`(로컬 경로)`**(2026-09-05 초안). 미션=주제 노트 `## 학습 계획`의 `**미션:**` 줄, 학습 기록=`## 기록`, 실험=`학습/야생학습/`. 새 폴더는 만들지 않았다.
+  - 홍의 학습선생님은 `/teach`를 MyWiki `학습/`에 맞게 개조한 **`(로컬 경로)`**(2026-09-05 초안). 미션=주제 노트 `## 학습 계획`의 `**미션:**` 줄, 학습 기록=`## 기록`, 실험 기록=해당 프로젝트 폴더. 새 폴더는 만들지 않았다.
 - 근거: `(로컬 경로)`, 저장소 `.agents/invocation.md`("User-invoked — reachable only by the human typing its name"), `skills/productivity/writing-great-skills/SKILL.md`.
 
 ### 2026-09-08 — 스킬 라우팅은 **기본값과 다른 것만** 적는다. 스킬 설명을 CLAUDE.md에 옮겨 적으면 no-op다
