@@ -51,3 +51,13 @@ projects:
 - 맥락: 탭탭 macOS 1.1.0 build 5를 TestFlight에 올린 뒤, 홍이 매번 손으로 하던 두 가지(수출 규정 답변·테스팅 그룹 설정)를 다음 업로드부터 자동으로 해 달라고 요청.
 - 배운 것: 위 「핵심 정리」 전부. 조회 결과 macOS 앱(6795730513)의 그룹은 `TapTap`(internal) 하나, iOS 앱(6754357960)은 `UT1`(internal)·`TOT`(external, public link)였다. 즉 **맥은 자동화할 그룹 작업 자체가 없고**, 남는 것은 plist 한 줄이었다.
 - 근거: spaceship 스크립트로 `add_beta_groups_to_build` 시도 → 위 에러. build 5는 이미 `usesNonExemptEncryption=false`·`internalBuildState=IN_BETA_TESTING`. 조치는 `Projects/TapTapMac/Project.swift`·`Projects/App/Project.swift`에 `ITSAppUsesNonExemptEncryption: false` 추가(미커밋 작업 트리).
+
+### 2026-09-15 — 「리딤 코드 입력」 화면·다른 사본이 열리는 「열기」·재제출 409 (탭탭 macOS)
+
+- 맥락: 탭탭 macOS 5.2.5 수정 build 8을 재제출하던 중 팀원 맥에서 TestFlight 실행 즉시 크래시 신고. 홍 맥에서도 "안 열린다"고 해 원인을 좁혔다.
+- 배운 것:
+  - **맥 TestFlight가 리딤 코드를 요구하면 로그인 Apple ID가 그 앱의 테스터가 아니다.** iOS·macOS 앱은 테스터 그룹이 따로다 — 홍 맥에 로그인된 Apple ID는 iOS 그룹 `UT1`에만 있고, 맥 그룹 `TapTap`에는 홍의 **다른** Apple ID(ASC 계정용, `INVITED`)만 있었다. 확인은 `GET /v1/betaTesters?filter[email]=…` → `/betaGroups`·`/apps`.
+  - **TestFlight 「열기」는 번들 ID·빌드 번호가 같은 다른 등록 사본을 열 수 있다.** fastlane `build_app`이 레포에 남긴 `TapTapMac.app`(Apple Distribution 서명 — `spctl --assess` = `rejected`)과 ad-hoc 재서명 사본이 LaunchServices에 등록돼 있었고, 설치본이 없는데도 「열기」가 뜨고 누르면 그 사본이 실행됐다. 크래시 리포트 `procPath`가 설치 경로(`/Applications/…`)인지부터 본다. 정리는 `lsregister -u <path>`, 조회는 `lsregister -dump | awk '/^path:/{p=$0} /<bundle id>/{print p}'`.
+  - **테스터별 실행·크래시 수는 `GET /v1/betaTesters/{id}/metrics/betaTesterUsages?filter[apps]=<appId>&period=P30D`** — `sessionCount`·`crashCount`. 설치됐는데 세션 0이면 앱 코드 전에 실행이 막힌 쪽을 의심한다(1~2일 지연).
+  - **리젝 뒤 새 빌드를 연결하고 기존 reviewSubmission(`UNRESOLVED_ISSUES`)에 `PATCH submitted:true`를 보내면 409 `STATE_ERROR` "Version is not ready to be submitted yet, please try again later."** 가 1분 간격 7회 동일하게 났다. 연결(`attach-build` 204) 직후 버전은 `REJECTED` → `PREPARE_FOR_SUBMISSION`. 기다려서 풀리는 문제가 아니었고 원인은 미규명(크래시 신고로 중단).
+- 근거: `asc state 6795730513` · 크래시 리포트 `TapTapMac-2026-09-15-1313*.ips`의 `procPath`·`responsibleProc` · `betaTesterUsages` 5명 조회 결과 · 심사 이력 09-15 행.

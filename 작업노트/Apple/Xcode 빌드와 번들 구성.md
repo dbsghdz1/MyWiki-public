@@ -75,3 +75,9 @@ infoPlist: .extendingDefault(with: [
   - **치환됐는지는 빌드 산출물에서 확인한다.** `PlistBuddy -c "Print :CFBundleURLTypes:0:CFBundleURLSchemes:0" Runner.app/Info.plist`. 안 되면 `kakao` 다섯 글자만 남는데, **그 상태로도 앱은 멀쩡히 뜨고 로그인만 안 돌아온다** — 그래서 눈으로 확인할 값이 필요하다.
   - 템플릿(`Kakao.xcconfig.example`)은 커밋한다. 이름만 남기고 값은 비운다.
 - 근거: 보험찾개냥 PR #63 (`Client/ios/Runner/Info.plist`, `Client/ios/Flutter/*.xcconfig`, `Client/.gitignore`). 시뮬레이터 빌드 산출물에서 `kakao`+32자 hex 로 치환된 것을 확인.
+
+### 2026-09-15 — ad-hoc 재서명으로 크래시를 재현하면 권한을 뺀 탓에 죽는다 (탭탭 macOS)
+
+- 맥락: 탭탭 팀원 맥에서 build 8이 즉시 크래시. Distribution 서명 아카이브는 로컬 실행이 안 돼 `codesign --force --deep -s - --entitlements <sandbox+network만>`로 재서명해 띄웠다.
+- 배운 것: **App Group·iCloud entitlement를 뺀 재서명본은 샌드박스가 그룹 컨테이너 접근을 막아 `Core/AppGroupContainer.swift:29: Fatal error: Failed to initialize ModelContainer`(SQLite 23, `Sandbox access to file-read-data denied`)로 반드시 죽는다** — 원래 크래시와 무관한 거짓 재현이다. **이전 빌드(build 6)를 같은 방식으로 돌리는 대조군**을 두면 같은 자리에서 죽어 바로 가려진다. 게다가 한 번 실행한 재서명본은 LaunchServices에 등록돼 TestFlight 「열기」를 가로챈다(→ [[작업노트/AppStore/TestFlight 내부 그룹과 수출 규정|TestFlight 기록]]) — 끝나면 지우고 `lsregister -u`.
+- 근거: 재현 로그 두 벌(build 8·6 모두 `EXC_BREAKPOINT` · 프레임 `AppGroupContainer.shared` ← `MacApp.body.getter (TapTapMac.swift:49)`), build 6→8 `Info.plist` diff는 이름 2개·빌드 번호뿐.
