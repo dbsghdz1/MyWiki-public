@@ -86,3 +86,15 @@ projects:
 - 실물 없이 ML Kit 경로를 끝까지 돌리려면 **PIL로 합성 카드**(AppleGothic 54px, `숫자6-숫자7 형태의 가짜 번호`, 1290×810 JPEG)를 만들어 iOS `xcrun simctl addmedia <udid> x.jpg` / Android `adb push` + `MEDIA_SCANNER_SCAN_FILE`. 방금 넣은 사진이 그리드 첫 칸이다(Android 좌표 (180,1400))
 - Mock 브랜치를 갈아탈 때 `isOnboarded`가 되돌아가 02a로 떨어진다 — 임시 `true` 다시
 - 에뮬레이터가 세션 중에 꺼져 있을 수 있다(`adb: no devices`) — `emulator -avd pixel_ssh`로 다시 띄우고 `sys.boot_completed`를 기다린다
+
+### 2026-09-16 — Mock 플레이버로 마이페이지까지 몰고 가 스크린샷 찍기 (보험찾개냥)
+
+- 맥락: 보험찾개냥 SSH-568 PR에 붙일 마이페이지 스크린샷이 필요했다. iOS는 못 찍어서(아래) 안드로이드 에뮬레이터 `pixel_ssh`로 갔다.
+- 배운 것:
+  - **Maestro 2.9.0은 `tapOn: {text:, index:}`를 안 받는다** — 흐름이 에러 없이 **도움말을 출력하고 끝난다**(실패로도 안 보인다). 같은 문구가 여러 개면 좌표 탭으로 간다.
+  - **흐름은 파일로만 받는다.** `maestro test -`(stdin)는 `Flow path does not exist: -`.
+  - **같은 패키지가 다른 디버그 키로 깔려 있으면 설치가 막힌다** — `INSTALL_FAILED_UPDATE_INCOMPATIBLE: signatures do not match`. `adb uninstall <pkg>` 후 재설치(앱 데이터는 날아간다).
+  - **`monkey -c LAUNCHER`로 안 뜨면 `am start -n <pkg>/.MainActivity`로 직접 띄운다** — monkey는 조용히 런처에 남기고 끝났다.
+  - **Mock 로그인은 빈 계정이라 마이페이지까지 5단계다**: 온보딩 `건너뛰기` → `카카오 로그인` → 반려동물 등록(이름은 힌트가 접근성 트리에 없어 좌표 탭 + `inputText`, 종류는 글자 탭) → 보험 등록(드롭다운 2개는 좌표, 항목은 글자) → 홈 우상단 프로필 아이콘(좌표 `91%,8%`). 딥링크는 카카오 OAuth 스킴뿐이라 지름길이 없다.
+  - **다크 모드는 `adb shell cmd uimode night yes|no`** — 앱 재시작 없이 바뀐다.
+- 근거: PR #145 스크린샷 2장(`docs/spec/SSH-568/app-mypage-android-*.png`), 흐름 파일은 세션 스크래치패드.
