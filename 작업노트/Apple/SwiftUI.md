@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-09-09
+updated: 2026-09-16
 projects:
   - "탭탭"
   - "[[프로젝트/개인/WristNote/README|WristNote]]"
@@ -44,7 +44,22 @@ projects:
 - 고치려면 폭이 정해진 뒤 한 번 다시 맞춰야 하는데, **같은 값을 다시 넣는 것으로는 움직이지 않는다**(변화가 없으니까). `nil`을 거쳐 다음 런루프에 원래 값을 넣는다: `.onChange(of: geo.size.width, initial: true) { … centered = nil; DispatchQueue.main.async { centered = id } }`.
 - 이 증상은 **선택이 첫 칸일 때 안 보인다.** 기본값으로 테스트하면 통과하고, 다른 칸을 고른 채 다시 열어야 드러난다.
 
+- **force-directed 그래프를 화면 크기 상자에 가두면 노드가 늘수록 한 덩어리가 된다.** 레이아웃은 월드 좌표에서 클램프 없이 돌리고(중심 인력으로 섬만 붙잡는다), 화면 맞춤은 그리는 쪽의 `scale`·`offset`으로 한다. 자주 나온 노드는 모두와 엮여 가운데로 몰리므로 힘 계산 뒤 **반지름 기반 겹침 풀기**를 따로 돌린다.
+- **Canvas 라벨은 "우선순위 순 + 이미 그린 사각형과 겹치면 건너뛰기"로 솎는다.** `context.resolve(Text)` → `measure(in:)`으로 크기를 재고, 후보 수를 `12 × (현재 줌 ÷ 맞춤 줌)²`로 두면 확대할수록 라벨이 차례로 드러난다(옵시디언 그래프 뷰의 text fade 흉내).
+
 ## 기록
+
+### 2026-09-16 — 주제가 쌓이면 그래프가 덩어리가 된다 → 옵시디언풍 그래프 (WristNote)
+
+- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 홍 요청 — *"내용이 많아지면 주제들이 너무 많이 쌓여서 ui가 이상해 … 옵시디언느낌"*. 1.1.0 주제 탭은 `List` 첫 행에 320pt `TopicGraphView` + 아래 주제 목록.
+- 재현: 시뮬레이터 앱 컨테이너의 `Library/Application Support/WristNote/meetings.json`에 합성 회의 40건(주제 70개)을 써 넣고 `WRISTNOTE_TAB=topics`로 실행 → 파란 원 70개와 라벨이 가운데 한 덩어리. **재설치하면 데이터 컨테이너 UUID가 바뀐다** — 경로는 매번 `xcrun simctl get_app_container booted com.hong.wristnote data`로 다시 얻는다.
+- 원인 세 겹:
+  1. Fruchterman–Reingold를 320pt 상자 안에서 돌리고 `x = min(max(x, 40), width - 40)`으로 클램프 — 반발력이 설 자리가 없다.
+  2. 인력에 엣지 가중치를 선형으로 곱했다(`× min(weight, 4)`) — 한 회의의 주제 5~7개가 클릭이 되어 한 점으로 붙는다.
+  3. 모든 노드의 라벨을 그렸다.
+- 바꾼 것: 그래프가 탭 전체를 쓰고 `그래프 | 목록` 세그먼트(목록은 `.searchable`). 레이아웃은 월드 좌표·해바라기 나선 초기 배치·중심 인력 0.4·가중치 `1 + 0.5·log(w)`·반지름 `2 + 2√count`·겹침 풀기 60회, `Task.detached`에서 계산. 그리기는 회색 노드·옅은 엣지·겹침 없는 라벨, `MagnifyGesture`+`DragGesture` 동시 제스처, 탭하면 이웃만 강조하고 하단 카드 「회의 보기」. 엣지는 두 `Path`로 모아 한 번씩 stroke. 동시 등장 계산은 주제쌍 교집합(주제 수²) 대신 회의별 주제쌍 누적으로.
+- 중간에 밟은 것: 첫 개선판도 회의 150건·주제 97개에선 가운데 허브들이 포개졌다(모든 주제와 엮인 노드가 중심으로 몰림) → 겹침 풀기 추가로 해소. 가장자리 노드 라벨이 화면 밖으로 잘림 → 라벨 x를 `[4, width − w − 4]`로 클램프.
+- 근거: `(로컬 경로)` 미커밋 작업 트리 `WristNote/Sources/TopicGraph.swift`·`TopicsView.swift`. 검증 훅 `WRISTNOTE_TOPIC=<주제명>`(선택 상태로 시작)·`WRISTNOTE_TOPICS_MODE=list`. iPhone 17 Pro 시뮬레이터에서 합성 40건/150건(라이트·다크)·`WRISTNOTE_DEMO=1`(주제 8개) 캡처로 확인. 핀치 줌 라벨 드러남은 simctl로 제스처를 못 줘서 미확인.
 
 ### 2026-09-06 — 전체 화면에서 상단바가 위로 붙는다 + 버튼 호버 일괄 적용 (탭탭 macOS)
 
