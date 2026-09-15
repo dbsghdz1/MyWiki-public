@@ -90,6 +90,7 @@ related_wiki: []
 - [[작업노트/Apple/WatchConnectivity와 워치 녹음|WatchConnectivity와 워치 녹음]] — 시뮬레이터는 `transferFile`을 배달하지 않는다(워치 성공 콜백은 옴)
 - [[작업노트/도구/Tuist|Tuist]] — 루트 판정·빈 Config.swift 함정, watchOS 임베드
 - [[작업노트/Apple/SwiftUI|SwiftUI]] — 워치 경과 시간을 1초 `Timer`로 갱신하면 손목 내림·감광 중 멈췄다 점프한다. `Text(timerInterval:)`로 시스템에 맡긴다
+- [[작업노트/Apple/SwiftUI|SwiftUI]] — force-directed 그래프를 화면 상자에 가두면 주제가 늘수록 덩어리가 된다. 월드 좌표에서 펼치고 줌·이동으로 맞추고, 라벨은 우선순위 순으로 겹치면 건너뛴다 (2026-09-16 주제 탭 옵시디언풍 개편, 미커밋)
 - [[작업노트/AppStore/스토어 스크린샷 중복 업로드|스토어 스크린샷 중복 업로드]] — deliver 재시도가 스크린샷을 로케일당 두 벌 올린다(`overwrite_screenshots`로도 못 막음). **제출 뒤엔 `409 STATE_ERROR`로 못 지우니** 업로드 → `asc dedupe-screenshots` → 제출로 나눈다 (1.1.1 세 번째 재발, 09-09)
 
 ## 작업 기록
