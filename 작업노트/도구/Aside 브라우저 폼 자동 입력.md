@@ -4,9 +4,10 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-11
-updated: 2026-09-12
+updated: 2026-09-16
 projects:
   - "HSW"
+  - "[[프로젝트/개인/약국맵/README|약국맵]]"
 ---
 
 # Aside 브라우저 폼 자동 입력
@@ -152,3 +153,13 @@ DOM에 노드를 직접 꽂지 않은 이유: 에디터가 내부 상태를 따�
 #### 하지 않은 것
 
 「제출하기」는 누르지 않았다. 외부로 나가는 되돌리기 어려운 행위는 사용자 확인 몫이다. 「임시 저장하기」까지가 안전선.
+
+### 2026-09-16 — `aside repl`로 웹 페이지를 캡처하며 (약국맵)
+
+카카오맵 실물 스크린샷이 필요해서 `aside repl`을 캡처 도구로 썼다. **입력·클릭이 아니라 캡처에 쓸 때 밟는 지뢰가 따로 있다.**
+
+- **`aside repl` 호출마다 세션이 새로 뜬다.** `pwd`가 매번 `(로컬 경로)`으로 달라지고, **이전 호출에서 `openTab`한 탭은 다음 호출에서 `listBrowserTabs()`에 안 보인다.** 그래서 **탭 열기 → 조작 → 스크린샷을 한 번의 호출 안에서 끝내야 한다.** 나눠 쓰면 `attachActiveBrowserTab()`이 **엉뚱한 탭**(사용자가 보던 화면)을 잡는다 — 실제로 한 번 잡았다.
+- **파일 경로는 세션 디렉터리를 벗어날 수 없다.** 절대 경로를 주면 `Error: Path "…" escapes the session directory`. `'./x.png'`로 저장하고 `pwd`를 받아 셸에서 `cp`로 꺼낸다.
+- **없는 API가 여럿이다** — `page.setViewportSize()`는 `TypeError: not a function`, `page.screenshot({clip})`와 요소 `.screenshot()`은 `Error: Invalid parameters`. `page.$()`는 deprecated(`locator().first()` 권고). **결국 전체 화면을 찍고 셸에서 PIL로 자르는 게 가장 확실하다.**
+- **사이트 UI를 CSS로 숨겨 「깨끗한 캡처」를 만드는 건 생각보다 비싸다.** 카카오맵에서 `#view.mapContainer`의 형제·자식을 `display:none`으로 지워가다 **타일 캔버스까지 같이 죽어 완전 백지**가 나왔다. 몇 번 왕복한 끝에 **크롬이 프레임 밖으로 나가게 잘라내는 쪽**으로 돌아섰다 — 숨기기는 두세 번 시도하고 안 되면 자르기로 넘어간다.
+- 근거: 실패 로그 `not a function`(setViewportSize) · `Invalid parameters`(clip·element screenshot) · `escapes the session directory` · 백지로 나온 `k2-1512.png`. Aside CLI 1.26.906.1630
