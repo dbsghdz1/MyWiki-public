@@ -9,11 +9,11 @@ updated: 2026-09-16
 
 # Jira MCP
 
-Atlassian Rovo MCP로 Jira를 읽고 쓴다. 소마 **보험찾개냥**(프로젝트 키 `SSH`, `somassh.atlassian.net`)에서 티켓 생성·상태 전환·스프린트 이동에 쓴다. 여기 남기는 건 도구 설명이 아니라 **실제로 거부당한 것들**이다 — 도구 목록만 보면 다 될 것 같지만 Jira 쪽 규칙이 먼저 막는다.
+Atlassian Rovo MCP로 Jira를 읽고 쓴다. 소마 **보험찾개냥**(프로젝트 키 `SSH`)에서 티켓 생성·상태 전환·스프린트 이동에 쓴다. 여기 남기는 건 도구 설명이 아니라 **실제로 거부당한 것들**이다 — 도구 목록만 보면 다 될 것 같지만 Jira 쪽 규칙이 먼저 막는다.
 
 ## 고정값 (보험찾개냥)
 
-- `cloudId`: `9ee9a9f1-00c3-4cbd-ba6a-9ce3e6a23c34`
+- `cloudId`: 여기 적지 않는다(공개 영역이다) — `getAccessibleAtlassianResources`로 세션마다 조회한다
 - 스프린트 필드: **`customfield_10020`** — `editJiraIssue`의 `fields`에 스프린트 **id(정수)**를 넣는다. 이름 문자열은 안 통한다
 - 스프린트 id는 JQL로 확인한다: `project = SSH AND sprint = 269`. 이름·번호(스프린트 13)와 내부 id(269)는 다르다
 - 「완료」 전환 id: **41**. 전환 id는 프로젝트·이슈 타입마다 다를 수 있으니 `getTransitionsForJiraIssue`로 먼저 확인하고 쓴다
