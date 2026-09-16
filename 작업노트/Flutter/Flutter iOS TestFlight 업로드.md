@@ -4,7 +4,7 @@ area: Flutter
 audience: ai
 status: active
 created: 2026-09-15
-updated: 2026-09-15
+updated: 2026-09-16
 projects:
   - "보험찾개냥"
 ---
@@ -25,6 +25,14 @@ fastlane 없이 **ASC API 키 하나로** Flutter 앱을 남의 팀 계정에 �
 - **내부 테스터는 API로 한 번에 넣는다.** `POST /v1/betaGroups`(`isInternalGroup:true`, `hasAccessToAllBuilds:true`, app 관계) → `POST /v1/betaTesters`(email + betaGroups 관계). 대상은 **그 앱을 볼 수 있는 ASC 사용자**여야 한다 — `GET /v1/users/{id}/visibleApps`로 먼저 확인(`allAppsVisible:false`인 사용자도 앱이 배정돼 있으면 된다).
 
 ## 기록
+
+### 2026-09-16 — build 4 업로드, 그리고 "빌드 번호는 기록이 아니라 서버에 묻는다" (보험찾개냥 SSH-539)
+
+- 맥락: 자주 묻는 질문·고객센터 화면(PR #148)을 홍이 테플에서 보려 해서 `feat/SSH-539`(`9fef0ff`, 머지 전) 그대로 올렸다. 전날 만들어 둔 `soma-asc/`(키·ExportOptions·`archive_upload.sh`)를 그대로 재사용했다.
+- **실패 한 번**: 아래 09-15 기록이 「build 2까지」라 build 3으로 올렸더니 export에서 거부됐다 — `The bundle version must be higher than the previously uploaded version: '3'`. 기록에 없는 build 3이 ASC에 이미 있었다. **내 기록은 ASC의 상태가 아니다** — 번호는 올리기 전에 서버에 묻거나, 실패 메시지가 알려주는 값(+1)으로 바로 다시 올린다. 아카이브는 31초라 재시도가 싸다.
+- 재빌드(build 4) → `** ARCHIVE SUCCEEDED **` → `Progress 100%: Upload succeeded` / `** EXPORT SUCCEEDED **`(17:12:54).
+- **빌드 조회 수단이 없다**: 스킬의 `asc` CLI는 `apps | state | cancel-review | app-infos | add-locale | set-privacy | set-primary`뿐이고 `state <appId>`는 **App Store 버전**(PREPARE_FOR_SUBMISSION)을 보여줄 뿐 TestFlight 빌드가 아니다. 이 맥에는 `jwt`·`cryptography` 파이썬 모듈이 없어 ASC API를 바로 부르기도 어렵다 — 처리 상태는 사람이 TestFlight에서 보거나, 필요해지면 `asc`에 builds 명령을 붙여야 한다.
+
 
 ### 2026-09-15 — 보험찾개냥 iOS 첫 TestFlight 업로드 (팀원 개인 팀 계정)
 
