@@ -127,7 +127,7 @@ data.filter(x => x.a).map(x => x.b).reduce((s, x) => s + x.c, 0)
 
 ### 2026-09-04 — 소수 문자열을 정수로 (MyCryptoDiary D4 블록 5a)
 
-맥락: `"0.001"` → `100000n` 변환 함수(`shared/lib/toScaleBigInt.ts`). `parseFloat`을 쓰면 안 되는 이유는 [[학습/공부/CS/컴퓨터의 수 표현|수 표현]] 참조.
+맥락: `"0.001"` → `100000n` 변환 함수(`shared/lib/toScaleBigInt.ts`). `parseFloat`을 쓰면 안 되는 이유는 [[학습/공부/CS/컴퓨터구조/컴퓨터의 수 표현|수 표현]] 참조.
 
 `for` + `flag` + `count`로 30줄을 쓴 뒤 `split`·`padEnd`로 **6줄**로 줄였다. 그 과정에서 얻은 것:
 
@@ -152,4 +152,4 @@ data.filter(x => x.a).map(x => x.b).reduce((s, x) => s + x.c, 0)
 
 - [MDN — Working with objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects) — 객체 리터럴, 점/대괄호 접근, 속성 추가·삭제, 참조 타입 (2026-08-18 확인)
 - [MDN — Destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) — 이름 바꾸기·기본값·중첩·rest·함수 파라미터 분해 (2026-08-18 확인)
-- [MDN — JavaScript 모듈 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) — [[학습/공부/JS/JavaScript 모듈 시스템|모듈 시스템]] 쪽과 이어짐 (2026-08-16 확인)
+- [MDN — JavaScript 모듈 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) — [[학습/공부/JS/언어/JavaScript 모듈 시스템|모듈 시스템]] 쪽과 이어짐 (2026-08-16 확인)

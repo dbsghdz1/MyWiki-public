@@ -101,8 +101,8 @@ queryFn: fetch(apiUrl).then(...)       // 09-09
 
 ## 배운 것
 
-- [[학습/공부/JS/서버 상태와 TanStack Query|서버 상태와 TanStack Query]] — 요청 수 3행 비교표, 중복 제거, `staleTime`이 막는 것과 못 막는 것
-- [[학습/공부/JS/React 컴포넌트와 JSX|React 컴포넌트와 JSX]] — `useEffect`의 cleanup 자리, StrictMode 이중 실행, 의존성 배열 3가지
+- [[학습/공부/JS/React/서버 상태와 TanStack Query|서버 상태와 TanStack Query]] — 요청 수 3행 비교표, 중복 제거, `staleTime`이 막는 것과 못 막는 것
+- [[학습/공부/JS/React/React 컴포넌트와 JSX|React 컴포넌트와 JSX]] — `useEffect`의 cleanup 자리, StrictMode 이중 실행, 의존성 배열 3가지
 
 ## 근거
 

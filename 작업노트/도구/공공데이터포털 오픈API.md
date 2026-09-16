@@ -56,7 +56,7 @@ node --env-file=.env.local server/main.js    # Node 20.6+ 내장, dotenv 불필�
 
 - **`_type=json`이 이 오퍼레이션에서 동작한다** — `getParmacyListInfoInqire`는 `_type=json`을 주면 JSON으로 답한다(기본은 XML). 응답 모양은 `response.body.items.item[]`, 약국명은 `dutyName`, 고유 ID는 `hpid`
   - **주의**: `numOfRows=1`이면 `item`이 배열이 아니라 객체로 오는 계열의 API다. 개수를 1로 줄여 테스트할 때 `.map`이 터질 수 있다
-- **키는 이미 인코딩된 형태**(끝이 `%3D`)로 발급된다. 서버 코드에서도 `encodeURIComponent`를 씌우면 안 된다 → [[학습/공부/CS/URL과 퍼센트 인코딩|URL과 퍼센트 인코딩]]
+- **키는 이미 인코딩된 형태**(끝이 `%3D`)로 발급된다. 서버 코드에서도 `encodeURIComponent`를 씌우면 안 된다 → [[학습/공부/CS/네트워크/URL과 퍼센트 인코딩|URL과 퍼센트 인코딩]]
 - 영향: 번들에서 `serviceKey=` 검색 결과 **1 → 0**. 브라우저는 이제 `/api/pharmacies`만 안다. 개발 중 전달은 Vite `server.proxy`가 하고, **배포에서는 Fastify가 직접 해야 한다**(실습 3-B)
 
 ### 2026-09-08 (2) — 이중 인코딩 403과 「모르는 파라미터는 조용히 무시」 — 브라우저에서 처음 붙이며
