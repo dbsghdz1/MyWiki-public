@@ -61,3 +61,13 @@ projects:
   - **테스터별 실행·크래시 수는 `GET /v1/betaTesters/{id}/metrics/betaTesterUsages?filter[apps]=<appId>&period=P30D`** — `sessionCount`·`crashCount`. 설치됐는데 세션 0이면 앱 코드 전에 실행이 막힌 쪽을 의심한다(1~2일 지연).
   - **리젝 뒤 새 빌드를 연결하고 기존 reviewSubmission(`UNRESOLVED_ISSUES`)에 `PATCH submitted:true`를 보내면 409 `STATE_ERROR` "Version is not ready to be submitted yet, please try again later."** 가 1분 간격 7회 동일하게 났다. 연결(`attach-build` 204) 직후 버전은 `REJECTED` → `PREPARE_FOR_SUBMISSION`. 기다려서 풀리는 문제가 아니었고 원인은 미규명(크래시 신고로 중단).
 - 근거: `asc state 6795730513` · 크래시 리포트 `TapTapMac-2026-09-15-1313*.ips`의 `procPath`·`responsibleProc` · `betaTesterUsages` 5명 조회 결과 · 심사 이력 09-15 행.
+
+### 2026-09-16 — 리젝 뒤 재제출 409의 정체: 옛 reviewSubmission은 되살릴 수 없다 (탭탭 macOS)
+
+- 맥락: 탭탭 macOS 1.1.0 5.2.5 리젝 재제출. 홍 "재제출좀해줘 제발". 09-15에 7회 막혔던 409를 다시 밟았다.
+- 배운 것:
+  - **리젝(`UNRESOLVED_ISSUES`)된 reviewSubmission은 API로 어떤 조작도 안 된다.** `PATCH submitted:true` → 409 `STATE_ERROR` "Version is not ready to be submitted yet, please try again later."(메시지가 메타데이터 문제처럼 읽히지만 아니다) · 항목 `DELETE /v1/reviewSubmissionItems/{id}` → 409 "Item was already submitted" · 항목 `POST` → 409 "reviewSubmission state does not allow adding more items."
+  - **되살리는 게 아니라 버린다.** ① 옛 제출에 `PATCH {"canceled":true}` → 200 `CANCELING`, 수초 뒤 `COMPLETE`(버전은 `PREPARE_FOR_SUBMISSION` 유지, `DEVELOPER_REJECTED`로 안 갔다) ② `POST /v1/reviewSubmissions`(platform·app) → 201 `READY_FOR_REVIEW` — **옛 제출이 살아 있어도 생성은 된다** ③ `POST /v1/reviewSubmissionItems`(reviewSubmission + appStoreVersion) — 옛 제출을 취소하기 전엔 409 `STATE_ERROR.ITEM_PART_OF_ANOTHER_SUBMISSION`, 취소 뒤 201 ④ 새 제출에 `PATCH submitted:true` → 200 `WAITING_FOR_REVIEW`. 전부 합쳐 3분.
+  - 항목 없이 ④를 보내면 409 `ENTITY_ERROR.RELATIONSHIP.REQUIRED` "must have an approved appStoreVersions … or an appStoreVersions must be included" — 순서를 지키면 안 본다.
+  - 부수: 스킬 `asc`는 키 경로를 `ASC_KEY_PATH`로 읽는데 탭탭 `.env`는 fastlane 관례인 `ASC_KEY_FILEPATH`라 "Cannot read key file"이 났다. `asc.swift`가 둘 다 읽도록 고쳤다.
+- 근거: 새 제출 `7cf753e8-5a4f-4d2b-a6a9-b7f1ecdf9a2d`(submittedDate 2026-09-16T08:43:44Z) · 옛 제출 `4d37df45-…` `COMPLETE` · `asc state 6795730513` = WAITING_FOR_REVIEW · 심사 이력 09-16 행.
