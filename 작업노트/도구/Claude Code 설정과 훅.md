@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-21
-updated: 2026-09-08
+updated: 2026-09-16
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -178,3 +178,22 @@ cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화�
   - 뭘 쓸지 모를 때를 위한 라우터 스킬이 있다 — **`/mattpocock-skills:ask-matt`**.
   - 남긴 것: 마켓플레이스 등록(`settings.json`의 `mattpocock` → `mattpocock/skills`)은 **플러그인이 아니라 저장소 등록**이라 지우지 않았다. 지우면 맷 본인 저장소에서 최신판을 받는 경로가 막힌다. 캐시 23M은 재설치용으로 uninstall이 남긴 것.
 - 근거: `claude plugin uninstall mattpocock-skills@mattpocock` → `✔ Successfully uninstalled plugin`. 검증은 `installed_plugins.json`에 `@claude-plugins-official 1.2.3` 하나만 남은 것과 `settings.json`에서 `@mattpocock` 줄이 사라진 것.
+
+### 2026-09-16 — auto 모드는 외부 저장소 `git clone`을 "Untrusted Code Integration"으로 차단한다
+
+gstack 설치에서 `git clone https://github.com/garrytan/gstack.git (로컬 경로)`을 Bash로 실행하려다 거부당했다:
+
+```
+Permission for this action was denied by the Claude Code auto mode classifier.
+Reason: [Untrusted Code Integration].
+```
+
+권한 규칙(`settings.json`)이 아니라 **auto 모드 분류기**의 판단이고, 명령을 쪼개거나 바꿔서 우회할 성질이 아니다. 대응은 **홍이 프롬프트에 `!` 프리픽스로 직접 실행**하는 것 — 그러면 출력이 대화에 그대로 들어와서 이어서 작업할 수 있다. 이번에도 clone·setup 전부 홍이 `!`로 돌렸고, 나는 clone된 스크립트를 읽어서 뭘 하는지 먼저 보고한 뒤 플래그를 정했다.
+
+**이 조합이 실무적으로 가장 낫다**: 내가 명령을 짜고 → 홍이 `!`로 실행 → 내가 결과와 받은 파일을 읽고 다음 수를 정한다. 차단을 만났을 때 다른 방법을 찾는 게 아니라, 실행 주체만 홍으로 넘긴다.
+
+### 2026-09-16 — 서드파티 스킬 설치기가 전역 `settings.json`에 훅을 심을 수 있다
+
+gstack `./setup`이 묻지 않고 `Stop` 훅(`gstack-timeline-stop`)을 `(로컬 경로)`에 등록했다. 원본은 `settings.json.bak.<타임스탬프>`로 백업하고, 자기 항목엔 `"_gstack_source"` 필드를 박아 나중에 식별·제거할 수 있게 해뒀다. 상세와 제거 명령은 [[작업노트/도구/gstack|gstack]].
+
+일반화: **남의 설치 스크립트를 돌린 뒤에는 `(로컬 경로)`의 `hooks`를 확인한다.** 훅은 조용히 매 세션 돌고, 나중에 원인 불명의 지연·출력으로 나타난다. 이 노트 2026-08-21 「새로 만든 `settings.json`은 그 세션에서 안 먹는다」와 같은 계열의 함정이다 — 설정이 *언제* 읽히는지를 모르면 누가 심었는지도 모른다.
