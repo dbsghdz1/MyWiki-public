@@ -70,7 +70,7 @@ export async function GET(request: Request) {
 
 ### 2026-08-29 (2) — `app/api`는 HTTP, `src/**/api`는 내부 통신 코드
 
-맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] 구조를 읽다가 같은 `api` 이름이 두 위치에 있어 차이를 확인했다. 구조 전체 정리는 [[학습/공부/JS/Feature-Sliced Design|Feature-Sliced Design]]의 「루트 app과 src의 경계」에 연결했다.
+맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] 구조를 읽다가 같은 `api` 이름이 두 위치에 있어 차이를 확인했다. 구조 전체 정리는 [[학습/공부/JS/React/Feature-Sliced Design|Feature-Sliced Design]]의 「루트 app과 src의 경계」에 연결했다.
 
 - `app/api/upbit/ticker/route.ts`는 브라우저·curl이 `/api/upbit/ticker`로 부르는 HTTP 출입구다. 요청 파라미터·상태 코드·JSON 변환을 책임진다.
 - `src/entities/coin/api/getCoins.ts`와 `src/entities/account/api/getOrCreateAccount.ts`는 import해서 쓰는 내부 함수다. 각각 업비트, Clerk·Neon이라는 앱 바깥 데이터와 통신한다는 이유로 FSD의 `api` 세그먼트에 있다.
