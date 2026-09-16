@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-12
+updated: 2026-09-16
 projects: []
 ---
 
@@ -39,6 +39,16 @@ MyWiki 볼트에서 커밋이 막혔을 때 보는 문서. 2026-09-04 개편([[_
 - 우회가 필요하면 `git commit --no-verify` — 단 그 커밋은 index 드리프트를 남길 수 있으니 다음 정상 커밋의 훅이 흡수하게 둔다.
 
 ## 기록
+
+### 2026-09-16 — 학습/공부 대량 재편(git mv 22 + 파일 분할)에서 밟은 것 셋
+
+- 맥락: 홍 지시로 `학습/공부/CS`·`JS`를 세부 폴더로 나누고 네트워크.md(311줄) 등 큰 파일을 개요/`학습 계획.md`/주제 노트로 쪼갰다. 볼트 전체 `학습/공부/…` 위키링크 86파일을 perl로 일괄 치환. 커밋 `wiki: 공부 폴더 재편 2026-09-16`.
+- 배운 것:
+  - **일괄 치환이 `_wiki/log*.md`에 닿았다.** `grep -rl … . | grep -v "^./_wiki/log"`로 뺐다고 믿었는데 `git status`에 log 3개가 M으로 떴다(log-2026-08 58줄). log는 append-only라 lint가 과거 항목 수정을 막는다 — **`git checkout -- _wiki/log*.md`로 되돌리고, 치환 뒤에는 반드시 `git status`로 닿은 파일을 확인한다.** 옛 경로 링크가 log에 남는 것은 히스토리로 받아들인다(비공개, 08-30 재편 때도 같음).
+  - **`git diff --cached --name-status` 출력을 `while read`로 돌리면 한글 경로가 `"\352\263…"`로 인용돼 그 뒤 `git show ":$f"`·`git reset -- "$f"`가 전부 빈손으로 끝난다.** 증상: `diff -q <(빈 출력) <(빈 출력)`이 같다고 나와 "ok", `git diff --cached --quiet -- "$f"`가 0을 돌려줘 **staged 파일 전부가 no-op으로 unstage됐다.** 해법은 `GIT_CONFIG_PARAMETERS="'core.quotepath=false'"`(또는 `git -c core.quotepath=false`, `-z`) — 이 볼트는 경로가 전부 한글이라 스크립트마다 필요하다.
+  - **`git add -A <디렉터리>`는 동시 세션의 미커밋 변경을 함께 stage한다** — 약국맵 README 현재 카드, 신규 `설계 — 09-19 색인 판정` 파일, 작업노트 README `updated:`가 내 index에 섞였다. 분리 방법: 파일마다 `git show HEAD:<f> | <내 변환 스크립트>`를 만들어 staged 내용과 `diff -q`, 다르면 `git hash-object -w --stdin` → `git update-index --cacheinfo 100644,<blob>,<f>`로 **index만 HEAD+내 변경으로 교체**한다(작업 트리는 그대로 둔다). 신규 파일은 `git reset -- <f>`.
+  - awk 잡기술 하나: `awk -v pat='^### proxy\(미들웨어\)'`처럼 `-v`로 넘긴 문자열은 이스케이프가 한 번 풀려 `\(`가 `(`(그룹)이 된다 — 제목에 괄호가 있으면 `.`로 대신 매칭한다(`proxy.미들웨어.`). 이걸로 절 4개가 조용히 빠졌고, **원본의 `###` 제목 전부가 새 파일 어딘가에 있는지 grep으로 대조**해서 잡았다.
+- 근거: 이 세션의 `git status`·`git diff --cached --name-status` 출력, 커밋 `wiki: 공부 폴더 재편 2026-09-16`
 
 ### 2026-09-12 — 동시 세션의 미커밋 변경을 피해 부분 커밋, log 4줄 규칙에 한 번 막힘
 
