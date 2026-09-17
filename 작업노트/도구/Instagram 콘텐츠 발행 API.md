@@ -56,6 +56,17 @@ projects:
   - **제너레이터가 같은 PIL 이미지를 매번 `yield`하면 호출부의 `alpha_composite`가 프레임마다 누적된다** — 자리표시 배경에서 카드 그림자가 검은 테두리로 굳어 보였다. `yield ph.copy()`로 해결(`render_reel.py` `bg_frames`)
 - 근거: 실제 실행 — 666KB `ref.mp4`(15.02초, 1080×1920)·`ref.info.json` 수신, 콘택트시트로 구조 확인(캐릭터 한 장면 고정 + 상단 대화 카드 4장 + 숫자 엔딩 3.6초)
 
+### 2026-09-17 — Kling 5초 클립 두 개를 목소리 그대로 이어 릴스로 합성
+
+- 맥락: 보험찾개냥 `(로컬 경로)` — 홍이 Kling 3.0 무료(5초 상한)로 뽑은 `clips/01.mp4`·`clips/02.mp4`를 이어 12.3초 `reel.mp4`로
+- 배운 것:
+  - **영상 AI 프롬프트에 「엔딩 화면·버튼 문구」를 넣으면 깨진 한글이 화면에 박힌다** — 01은 4.2초부터 「영수중 사 한연…」 카드가 덮여 대사 3이 잘렸다. 글자는 프롬프트에서 금지하고(「글자·자막·로고·엔딩 화면 금지」) 자막·엔딩은 `render_reel.py`가 얹는다. 02는 그렇게 해서 깨끗했다
+  - **끊을 지점은 받아쓰기 타임스탬프로 정한다**: `uv run --with faster-whisper python3 -c "WhisperModel('small',compute_type='int8').transcribe(wav,language='ko',word_timestamps=True)"` — 설치 없이 돈다. 고유명사는 틀리지만(「펫보험」→「폐포음」) 대사 경계 시각(1.95 / 3.58초)은 쓸 만했다. 대사 2가 끝나는 3.54초에서 자르고 **그 프레임을 다음 클립의 Image-to-Video 시작 이미지로** 주면 다른 계정에서 뽑아도 캐릭터·구도가 이어진다
+  - 새 계정은 앞 클립을 모른다 — 프롬프트에 캐릭터 생김새와 **목소리 묘사**(높은 아이 목소리·반말 / 차분한 청년·존댓말)를 다시 적어야 한다
+  - 가로(16:9) 클립을 세로 릴스에 넣기: 같은 영상을 `scale=-2:1920,crop,boxblur=40:2,drawbox=c=0xFFF6EA@0.62:t=fill`로 깔고 위에 `scale=1210:-2,crop=1080:680`(1.12배 줌)을 `overlay=0:760`. 두 클립은 해상도(1280×720 / 1920×1080)·샘플레이트가 달라 `scale`·`aresample=48000`·`loudnorm`으로 맞춘 뒤 `concat`
+  - 무료 Kling 워터마크는 클립마다 위치가 다르다(01 우하단, 02 하단 중앙) — 가리지 않고 그대로 뒀다
+- 근거: 실제 렌더 368프레임·12.27초·오디오 트랙 포함, 프레임 시트로 카드 4장이 대사 시각과 맞는 것 확인
+
 ## 참고 자료
 
 - [Instagram Platform — Content Publishing](https://developers.facebook.com/docs/instagram-platform/content-publishing) — 컨테이너 3단계·`content_publishing_limit`·미디어 사양 원전 (2026-09-09 확인)
