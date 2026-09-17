@@ -7,7 +7,7 @@ aliases:
   - WristNote
   - 워치 회의 녹음
 created: 2026-08-31
-updated: 2026-09-12
+updated: 2026-09-18
 repos:
   - "~/Desktop/개인 앱/WristNote — GitHub 미생성"
 related_wiki: []
@@ -98,5 +98,6 @@ related_wiki: []
 
 ## 작업 기록
 
+- [[프로젝트/개인/WristNote/WristNote 실사용 전사 점검 2026-09-12|WristNote 실사용 전사 점검 2026-09-12]] — 핵심 요약이 비어 나옴, 주제 태그가 끊어진 위키링크로 출력, 회의 종료 뒤에도 녹음 지속, 반복 스크립트 기준 온전한 문장 약 절반(단어·숫자 탈락)
 - [[프로젝트/개인/WristNote/WristNote 개발 기록 2026-08-31|WristNote 개발 기록 2026-08-31]] — 착수, v1 골격, 실기기 M0, 1.0 제출까지
 - [[프로젝트/개인/WristNote/App Store 심사 이력|App Store 심사 이력]] — 1.0 (build 1) 2026-09-02 제출
