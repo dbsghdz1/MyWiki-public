@@ -46,6 +46,16 @@ projects:
   - **무작위 DM 발송(SSH-521)은 API로 못 한다.** Instagram Messaging API는 *사용자가 먼저 말을 건* 대화에만 응답할 수 있고(24시간 표준 메시징 창), 비요청 DM은 정책상 막혀 있다 — 문안 4절은 손으로 보내는 작업이다
 - 근거: [Instagram Platform 개요](https://developers.facebook.com/docs/instagram-platform) 기능 목록 WebFetch 확인(2026-09-09), `문안_프로필_DM.md:35`(하이라이트 절)·`:127`(무작위 DM)
 
+### 2026-09-17 — 참고 릴스를 로그인 없이 받아 프레임으로 분석하기
+
+- 맥락: 보험찾개냥 홍이 라이프캐치 릴스 `instagram.com/reel/DdSpF5SALXj`(2026-09-15 게시)를 주며 「이렇게 만들고 싶다」고 함. 결과물 `(로컬 경로)`
+- 배운 것:
+  - **공개 릴스는 `uvx yt-dlp -o "ref.%(ext)s" --write-info-json <릴스 URL>`로 로그인·설치 없이 받아진다**(`yt-dlp`가 PATH에 없어도 `uvx`가 임시 실행). `ref.info.json`에 캡션 전문(`description`)·`like_count`·`comment_count`·`upload_date`가 들어온다. `duration`·`view_count`는 `None`으로 온다 — 길이는 `ffprobe`로 본다
+  - **영상 내용은 콘택트시트 한 장으로 읽는다**: `ffmpeg -i ref.mp4 -vf "fps=1,scale=270:-1,tile=6x4" -frames:v 1 sheet.jpg` — 1초 간격 프레임을 한 이미지로 묶으면 컷 구성·자막 교체 시점이 한 번에 보인다
+  - `aside exec`는 이날 `OpenAI API error (402): "Insufficient credits"`로 세션 생성 직후 죽었다 — Aside 에이전트 크레딧이 없으면 브라우저 위임 경로가 통째로 막힌다. 읽기 전용 분석이면 위 yt-dlp 경로가 더 싸다
+  - **제너레이터가 같은 PIL 이미지를 매번 `yield`하면 호출부의 `alpha_composite`가 프레임마다 누적된다** — 자리표시 배경에서 카드 그림자가 검은 테두리로 굳어 보였다. `yield ph.copy()`로 해결(`render_reel.py` `bg_frames`)
+- 근거: 실제 실행 — 666KB `ref.mp4`(15.02초, 1080×1920)·`ref.info.json` 수신, 콘택트시트로 구조 확인(캐릭터 한 장면 고정 + 상단 대화 카드 4장 + 숫자 엔딩 3.6초)
+
 ## 참고 자료
 
 - [Instagram Platform — Content Publishing](https://developers.facebook.com/docs/instagram-platform/content-publishing) — 컨테이너 3단계·`content_publishing_limit`·미디어 사양 원전 (2026-09-09 확인)
