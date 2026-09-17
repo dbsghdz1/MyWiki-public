@@ -25,6 +25,16 @@ projects:
 
 ## 기록
 
+### 2026-09-17 — 루틴 샌드박스는 임의 외부 호스트에 못 나간다 · 생성 시 커넥터가 전부 붙는다
+
+- 맥락: 외부 공개 JSON API를 읽어 위키에 노트를 쓰는 루틴을 새로 만들고 즉시 실행(`RemoteTrigger run`)으로 검증했다.
+- 알아낸 것:
+  - **`curl`이 exit 56으로 죽는다.** 로그 원문: `[agent-proxy] … <호스트>:443 — connect_rejected (the egress proxy denied the CONNECT (organization policy) or could not reach the destination)`. GitHub(저장소 push)는 되지만 임의 호스트는 안 된다. **루틴이 외부 데이터를 읽어야 하면, 밖에 있는 머신(Hermes 서버)이 받아서 저장소에 커밋해 두고 루틴은 저장소 파일만 읽게 한다.**
+  - **`create` 본문에 `mcp_connections`를 안 넣으면 계정의 커넥터가 전부 붙는다**(Slack·Gmail·Notion·Drive·Atlassian·Docs 등 7개). 저장소만 만지는 루틴은 생성 직후 `update {"clear_mcp_connections": true}`로 뗀다 — 외부 쓰기 능력은 규칙이 아니라 도구에서 뺀다([[작업노트/도구/Hermes cron 운영|Hermes cron 운영]] 09-15 교훈과 같다).
+  - 검증 순서: `run` → 응답의 `session_id` → `get_run_log`. 실패 원인이 도구 결과에 그대로 찍힌다.
+- 서버 쪽 짝: 서버 클론에서 커밋할 때는 브리핑 스크립트와 같은 `(로컬 경로)`을 `fcntl.flock`으로 잡고 `pull --ff-only` → 파일명으로 `add`·`commit -- <paths>` → `push origin HEAD:main`. 서버에는 pre-commit 훅이 없다(훅은 클론에 안 따라온다).
+
+
 ### 2026-08-30 — 일간 2026-08-29 미생성: 루틴의 "이력 단절" 오판으로 self-abort
 - 맥락: 계획 — 루틴 "MyWiki 일간 계획 생성"(`trig_014hB2B75srhp5a8HGpmz5qt`)이 08-28 22:02 UTC(08-29 07:02 KST)에 돌았고 상태는 SUCCEEDED인데 `계획/일간/2026/08/일간 2026-08-29.md`가 로컬·원격 어디에도 없었다.
 - 배운 것:
