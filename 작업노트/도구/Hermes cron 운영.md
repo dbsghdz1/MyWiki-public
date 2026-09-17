@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-29
-updated: 2026-09-13
+updated: 2026-09-17
 projects:
   - "Hermes Cloud 배포"
 ---
@@ -48,6 +48,17 @@ projects:
 - **같은 시각에 도는 두 준비 작업은 서로 덮어쓴다.** 22:15 cron 에이전트와 systemd `insta_card_news_prepare.timer`가 같은 `output/<날짜>/` 폴더를 쓴다. 09-11에는 systemd가 승인한 `baseball-744858afb6`과 실제 미리보기 `baseball-51402e517c`가 달랐다.
 
 ## 기록
+
+### 2026-09-17 — 채용 공고 감시 cron 신설: no-agent + 무출력 = 무알림
+
+- 맥락: 취업 운영 「공고 감시 자동화」. 홍 "새로운 공고가 나오면 나한테 알림도 주고".
+- 한 것: `(로컬 경로)`(표준 라이브러리만, 같은 폴더 `seen.json`으로 중복 제거) + `(로컬 경로)` → 잡 `0f68d3eaed6f`. `#career` 채널 ID `C0BLWDJG9SM`은 Mac `(로컬 경로)` channel_prompts에서 찾았다.
+- 알아낸 것:
+  - `hermes cron create --help` 원문: *"--no-agent … Empty stdout = silent. Classic watchdog pattern"* — **새 것이 없을 때 아무것도 print하지 않으면 Slack이 조용하다.** 감시 잡은 「없음」 메시지를 만들지 않는다.
+  - `.py`를 `--script`에 바로 줄 수 있다(*".sh/.bash files run via bash, everything else via Python"*) — 기존 잡처럼 `.sh` 래퍼를 둘 필요가 없다.
+  - 비대화형 ssh에서는 `hermes`가 PATH에 없다(`bash: hermes: command not found`) — `(로컬 경로)` 절대 경로로 부른다.
+  - 당근 채용은 Greenhouse 공개 API다: `https://boards-api.greenhouse.io/v1/boards/daangn/jobs`(목록) · `/jobs/<id>`(`content`에 JD HTML, `html.unescape` 필요). 인증 없음.
+- 원본: 로컬 `(로컬 경로)` → `scp -i (로컬 경로)`로 배포(홍이 실행).
 
 ### 2026-09-15 — 브리핑이 캘린더를 버리고 있었다: 스크립트는 읽는데 포맷터가 안 쓴다
 
