@@ -49,6 +49,18 @@ projects:
 
 ## 기록
 
+### 2026-09-17 — 맥 launchd는 (로컬 경로) 볼트를 못 읽는다 (TCC) · 볼트 pre-commit은 줄 끝 공백을 거부한다
+
+- 맥락: 서버 IP가 막힌 외부 사이트 하나를 맥 launchd(`(로컬 경로)`, `StartCalendarInterval`)로 대신 수집해 위키에 push하게 만들었다.
+- 알아낸 것:
+  - **launchd가 띄운 `/usr/bin/python3`는 `(로컬 경로)` 아래 스크립트를 못 연다**: `can't open file '…/Desktop/…': [Errno 1] Operation not permitted`. 터미널에서는 되므로 헷갈린다 — TCC 권한은 터미널 앱에 붙어 있고 launchd 프로세스에는 없다.
+  - **iCloud 볼트(`(로컬 경로)`)도 같다**: `git -C <볼트>`가 `fatal: Unable to read current working directory: Operation not permitted`.
+  - 해법은 전체 디스크 접근 권한을 주는 게 아니라 **보호되지 않는 경로로 옮기는 것**: 스크립트는 `(로컬 경로)`, 위키는 `git clone --depth 1`로 `(로컬 경로)`에 따로 두고 거기서 커밋·push(서버의 `(로컬 경로)`와 같은 구조).
+  - 검증법: `launchctl bootstrap gui/$(id -u) <plist>` → `launchctl kickstart gui/$(id -u)/<label>` → `launchctl print … | grep "last exit code"` + `StandardOutPath` 로그. **터미널에서 직접 돌려 보는 것은 검증이 아니다.**
+  - **볼트의 pre-commit(`.githooks/pre-commit` 16행 `git diff --cached --check`)은 줄 끝 공백이 있으면 커밋을 거부한다.** 외부에서 긁어 온 텍스트를 커밋하는 스크립트는 줄마다 `rstrip()` 해서 쓴다. 서버 클론에는 훅이 없어 통과하지만 같은 파일을 맥에서 커밋하면 막힌다.
+  - 외부 사이트가 **데이터센터 IP를 CloudFront 403으로 막는 경우**(홈페이지까지 403, 헤더 무관)는 서버에서 풀 방법이 없다 — 가정용 IP인 맥에서 받아 저장소로 넘긴다.
+
+
 ### 2026-09-17 — no-agent 감시 잡 신설: 무출력 = 무알림
 
 - 맥락: 외부 JSON API를 하루 2번 읽어 새 항목만 Slack으로 알리는 감시 잡을 하나 추가했다(no-agent, 표준 라이브러리 Python, 같은 폴더 `seen.json`으로 중복 제거).
