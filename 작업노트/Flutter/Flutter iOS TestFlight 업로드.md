@@ -27,6 +27,18 @@ fastlane 없이 **ASC API 키 하나로** Flutter 앱을 남의 팀 계정에 �
 
 ## 기록
 
+### 2026-09-18 — 스토어 스크린샷 5장·메타데이터 등록 (보험찾개냥 1.0, 제출 전)
+
+- 맥락: 홍 "앱스크린샷이랑 메타데이터 넣자". ASC 앱 `6804209753` 버전 1.0(`PREPARE_FOR_SUBMISSION`)에 ko 메타데이터와 6.9형 스크린샷을 올렸다. 빌드 연결·심사 제출은 안 했다(build 5는 `APP_ENV=dev`라 제출용이 아니다).
+- **키·스크립트를 `/private/tmp`에서 `(로컬 경로)`로 옮겼다** — `fastlane/{AuthKey.p8,.env,api_key.json,metadata/,screenshots/ko/}` + `archive_upload.sh`·`ExportOptions.plist`. 레포 밖이라 커밋되지 않는다. `asc`는 이 폴더에서 실행하면 `.env`를 읽는다.
+- **스크린샷은 임시 진입점으로 찍었다** — `lib/main_shots.dart`(미커밋, 촬영 뒤 삭제): `providersMock` + 직접 만든 `MaterialApp.router`(`debugShowCheckedModeBanner: false`)라 `MOCK`·`DEBUG` 배너가 둘 다 없다. `bootstrap()`을 안 거치므로 `app.dart`를 건드리지 않는다. `extra`가 필요한 06 필요서류는 `extraRoutes`에 `/shots/documents`(treatmentRecordId `'7'`)를 추가해 띄웠다.
+- **`--route=/`는 홈으로 안 간다** — go_router가 플랫폼 경로 `/`를 「안 준 것」으로 보고 `initialLocation`(`/entry` → mock은 세션이 없어 `/onboarding`)로 간다. `/shots/home` → `redirect: '/'` 라우트로 우회했다.
+- 촬영: iPhone 17 Pro Max 시뮬레이터(1320×2868) · `simctl status_bar override --time 9:41` · 화면마다 `flutter run -t lib/main_shots.dart --route=…` → 로그에 `Flutter run key commands` 뜨면 5초 뒤 `simctl io screenshot` → kill. 5장: 홈 `/shots/home` · 04 `/claims/new` · 06 `/shots/documents` · 09 `/claims/1` · 08 `/claims/new/complete`. 05 추출결과는 실제 영수증 파일 경로가 필요해 뺐다.
+- **`fastlane deliver`가 `Spaceship::ConnectAPI::Models.parse: No data`로 죽었다**(`fetch_app_store_review_detail` ← `review_attachment_file`) — 한 번도 제출 안 한 버전은 `appStoreReviewDetail`이 아예 없는데 deliver 2.237이 nil을 못 받는다. `asc post /v1/appStoreReviewDetails`(attributes `demoAccountRequired:false` + `appStoreVersion` 관계) → 201 뒤 재실행하면 통과한다. Fastfile 없이 CLI로 돌렸다: `fastlane deliver --api_key_path fastlane/api_key.json --app_identifier com.somassh.boheomgaenyang --app_version 1.0 --skip_binary_upload true --overwrite_screenshots true --submit_for_review false --force true`.
+- 스크린샷 이중 업로드가 여기서도 났다(`Successfully uploaded all screenshots` 2번, `APP_IPHONE_67` 10장) → `asc dedupe-screenshots` → 5장.
+- 넣은 값: 부제 「펫보험 청구, 맡기고 잊어버리세요」 · 카테고리 LIFESTYLE/FINANCE(내 가정) · support·marketing `https://www.boheomgaenyang.com/` · privacy = 랜딩이 쓰는 Notion 방침 URL · 문의 `contact@boheomgaenyang.com`. 문구는 랜딩 `Hero.tsx`·`Features.tsx`에서 가져오되 앱에 없는 「예상 보험금」은 뺐다.
+- 남은 것(제출 전): 리뷰 연락처 4종 · 연령 등급 · App Privacy · 가격 · prod 빌드 연결 · 애플 토큰 해지 요건.
+
 ### 2026-09-18 — build 5 업로드: 머지 전 worktree 브랜치에서 (보험찾개냥 SSH-574)
 
 - 맥락: 홍 "마스킹 수정했나 ASC 올리자". 마스킹 박스 수동 조절(SSH-574, Draft PR #149)이 미머지라 `(로컬 경로)`(`feat/SSH-574` `cafc662`) 그대로 올렸다.
