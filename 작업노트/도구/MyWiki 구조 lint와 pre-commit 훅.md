@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-18
+updated: 2026-09-20
 projects: []
 ---
 
@@ -32,13 +32,26 @@ MyWiki 볼트에서 커밋이 막혔을 때 보는 문서. 2026-09-04 개편([[_
 | `생성된 _wiki/index.md가 HEAD와 다른데 staging되지 않았다` | 훅 없이 커밋했거나 `--no-verify` | `python3 scripts/build-index.py && git add _wiki/index.md` |
 | `index 드리프트: index가 오래됐다` | 작업 트리 index가 frontmatter와 다름 | 같은 명령 |
 | `본문·상태를 갱신할 때 ## 현재 카드를 먼저 추가할 것` | 프로젝트 README 본문을 고쳤는데 5줄 카드가 없음 | `# 제목` 바로 아래 `## 현재 카드`(단계·현재·다음 판정·지금 할 일·하지 않을 일) |
-| `staged 내용과 working tree가 달라 생성 검사를 보장할 수 없다` | index 대상 문서를 부분 stage했거나 Obsidian이 표를 재정렬해 둠 | 그 파일을 통째로 `git add` |
+| `staged 내용과 working tree가 달라 생성 검사를 보장할 수 없다` | index 대상 문서를 부분 stage했거나 Obsidian이 표를 재정렬해 둠. **다른 세션이 허브 변경을 stage·미커밋으로 들고 있을 때도 난다** | 그 파일을 통째로 `git add`. 남의 변경이면 아래 2026-09-20 기록의 별도 index 방식 |
 | `git diff --cached --check` 실패 | 새로 추가한 줄 끝 공백 | 공백 제거 |
 
 - **표 안 링크는 별칭 없이 쓰는 것이 가장 안전하다.** 별칭이 꼭 필요하면 파이프를 `\|`로 이스케이프한다(볼트 관례 42곳, lint가 이제 인식).
 - 우회가 필요하면 `git commit --no-verify` — 단 그 커밋은 index 드리프트를 남길 수 있으니 다음 정상 커밋의 훅이 흡수하게 둔다.
 
 ## 기록
+
+### 2026-09-20 — 다른 세션이 **stage까지 해 둔 채** 멈춰 있을 때: 별도 index(`GIT_INDEX_FILE`) + `commit-tree` + `update-ref`
+
+- 맥락: 커리어 포지셔닝 기록(`30f7a76`)을 커밋하려는데, WristNote sync 세션이 01:12부터 `_wiki/index.md`·`_wiki/log.md`·WristNote 2개를 **공유 index에 stage한 채** 30분 가까이 커밋하지 않고 있었다. 09-12·09-16의 `update-index --cacheinfo` 방식은 남의 변경이 **작업 트리에만** 있을 때의 해법이라, 남의 staged 항목이 index에 있으면 `git commit`이 그것까지 삼킨다. `git commit -- <경로>`(--only)도 `log.md`·`index.md`는 작업 트리본(남의 항목 포함)을 올리므로 안 된다.
+- 한 것 (공유 index와 작업 트리를 건드리지 않고 커밋을 만든다):
+  1. `export GIT_INDEX_FILE=<스크래치>/idx-mine; git read-tree HEAD` → 내 파일만 `git add -- <파일명들>`
+  2. `_wiki/log.md`는 `git show HEAD:_wiki/log.md` + 내 항목으로 사본을 만들어 `git hash-object -w` → `git update-index --cacheinfo 100644,<blob>,_wiki/log.md`. `_wiki/index.md`도 `HEAD`본에서 **내 허브 줄만** 바꾼 사본으로 같은 방식
+  3. 검증: `build-index.py`로 작업 트리 index를 재생성한 뒤 `diff <내 사본> _wiki/index.md` — **남의 줄 하나만** 달라야 한다. `GIT_INDEX_FILE=… lint-structure.py --staged`는 `staged 내용과 working tree가 달라 생성 검사를 보장할 수 없다: _wiki/index.md` **하나만** 내고 실패하는데, 이 상황에선 그 가드가 곧 「남의 미커밋 허브 변경이 있다」는 뜻이라 위 diff로 대신 확인했다. `git diff --cached --check`는 그대로 통과
+  4. `tree=$(git write-tree)` → `commit=$(git commit-tree $tree -p $OLD -F msg)` (훅은 안 돈다 — 3번이 그 대신이다)
+  5. **순서가 중요하다**: 먼저 `unset GIT_INDEX_FILE` 후 공유 index에 내 경로들(`log.md`·`index.md` 포함)을 `git add`하고, **그다음** `git update-ref refs/heads/main $commit $OLD`(CAS). 거꾸로 하면 그 틈에 남이 커밋할 때 남의 index에 든 옛 blob이 내 파일·log 항목을 **되돌린다.** 이 순서면 최악의 경우에도 내 변경이 남의 커밋에 섞일 뿐이고, 그때는 `update-ref`가 CAS 실패로 멈춘다
+  6. 끝나고 `git diff --cached --stat`에 **남의 4개 파일·남의 delta만** 남았는지 확인 → push
+- 주의: `publish.sh`는 HEAD가 아니라 **작업 트리**를 `cp -R`한다 — 남의 미커밋 공개 영역 변경도 같이 나간다.
+- 근거: 커밋 `30f7a76`(5개 파일, 남의 것 0), 직후 `git diff --cached`에 WristNote delta만 잔존.
 
 ### 2026-09-18 — `publish.sh`의 `visibility: private` 게이트가 큰 파일을 통과시켰다 (`head | grep -q` + `pipefail`)
 
