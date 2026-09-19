@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-09-02
-updated: 2026-09-09
+updated: 2026-09-20
 related_wiki: []
 ---
 
@@ -96,3 +96,15 @@ deliver가 업로드 직후 검증에서 **방금 올린 파일을 못 읽고** 
 - 전송 길이를 실제 오디오 길이로 (`AVAudioFile`)
 
 **스크린샷**: 이번에도 ko가 12장으로 두 벌 올라갔고 dedupe가 11장을 지웠다 — [[작업노트/AppStore/스토어 스크린샷 중복 업로드|중복 업로드]]의 방어선이 두 번째로 작동했다.
+
+## 1.1.4 (6) — 2026-09-20 01:09 제출 · 주제 제거 + 워치 타이머
+
+`asc state` 확인: **1.1.3은 READY_FOR_SALE**(승인·출시됨), 1.1.4 `WAITING_FOR_REVIEW` · build 6 `VALID` · 스크린샷 ko 5 · en-US 5.
+
+- **내용**: 홍 결정 「주제 일단 빼자」로 주제 추출·백필·위키링크·노션 「주제:」 줄 전부 제거, 워치 타이머 「1초씩 안 올라간다」 제보 대응(코덱 사다리 재시작이 타이머를 0:00으로 되감던 것 + `TimelineView`) — [[작업노트/Apple/SwiftUI|SwiftUI 작업노트]] 2026-09-19. 앱 저장소 커밋 「1.1.4 (build 6)」. **워치 앱은 아이폰 앱에 임베드라 제출은 하나다.**
+- **스크린샷**: `02-topics.png` 삭제, 01·03·04 재촬영(iPhone 17 Pro Max 시뮬레이터, 로케일당 6 → 5장). 재촬영 중 발견 — 데모 모드에서도 scenePhase `.active` → `resumeUnfinished`가 돌아 오디오 없는 «요약 중» 데모 회의가 **«실패»로 찍혔다.** `WRISTNOTE_DEMO=1`이면 건너뛰게 했다.
+- **`release` 레인은 마지막 제출에서 죽는다(EXIT 1)**: 업로드 직후엔 build 6이 아직 처리 중이라 `deliver_all`의 제출 단계가 빌드를 못 찾는다. 그 시점에 메타데이터·스크린샷·바이너리는 다 올라가 있다 — **`asc builds`가 `build 6 | VALID`를 보일 때까지 기다렸다가(이번엔 약 2분) `WRISTNOTE_VERSION=1.1.4 WRISTNOTE_BUILD=6 fastlane ios resubmit`** 하면 끝난다.
+- **이중 업로드**: 이번에도 `Tries remaining: 4` 뒤 `Successfully uploaded all screenshots` 2회, dedupe가 `removed: 10` — 방어선이 세 번째로 작동했다.
+- `Project.swift`의 버전이 1.1.1/3으로 남아 있었다(1.1.2·1.1.3 때 올린 값이 커밋에 없다). 이번에 1.1.4/6으로 커밋했다.
+- 미검증: 워치 타이머·코덱 기억은 시뮬레이터 확인뿐 — 실기기 확인은 출시 후 홍.
+
