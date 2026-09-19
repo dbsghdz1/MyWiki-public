@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-18
-updated: 2026-09-16
+updated: 2026-09-19
 projects:
   - "탭탭"
   - "[[프로젝트/개인/WristNote/README|WristNote]]"
@@ -48,6 +48,15 @@ projects:
 - **Canvas 라벨은 "우선순위 순 + 이미 그린 사각형과 겹치면 건너뛰기"로 솎는다.** `context.resolve(Text)` → `measure(in:)`으로 크기를 재고, 후보 수를 `12 × (현재 줌 ÷ 맞춤 줌)²`로 두면 확대할수록 라벨이 차례로 드러난다(옵시디언 그래프 뷰의 text fade 흉내).
 
 ## 기록
+
+### 2026-09-19 — `Text(timerInterval:)`로 바꾼 뒤에도 "1초씩 안 올라간다" → `TimelineView(.periodic)` + 코덱 사다리 재시작 (WristNote)
+
+- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 홍 실기기(Apple Watch SE 3) 제보 — *"시간이 1초씩 안올라가는 문제가 있는 것 같아"*. 09-05에 `Text(timerInterval:)`로 고친 1.1.1이 나간 뒤의 제보다.
+- 코드에서 찾은 것(**실기기 재현은 못 했다 — 원인 확정 아님**):
+  - `WatchRecorder`의 코덱 사다리가 `formatIndex = 0`(IMA4)부터 시작한다. 실기기에선 IMA4가 안 자라 5초쯤 `restartWithNextFormat()` → `finishRecording`이 `startedAt = nil` 후 `start()`가 `startedAt = Date()`를 새로 찍는다 — **앱을 띄운 뒤 첫 녹음마다 화면 타이머가 0:05 근처에서 0:00으로 되감긴다.** 시뮬레이터는 IMA4가 통해서 이 경로를 한 번도 안 탄다.
+  - `formatIndex`는 인스턴스 변수라 앱이 죽으면 0으로 돌아간다 — 매 실행 첫 녹음의 앞 5초를 버렸다.
+- 바꾼 것: ① 화면용 `startedAt`과 성장 판정용 `attemptStartedAt`을 분리, 사다리 재시작은 `startedAt`을 안 건드린다 ② 성장 판정을 통과한 `formatIndex`를 `UserDefaults("workingFormatIndex")`에 저장 ③ 타이머 표시를 `TimelineView(.periodic(from: startedAt, by: 1))` + 직접 포맷(`RecorderView.clock`)으로. `context.cadence == .minutes`(감광)면 초 자리에 `--`. 초는 `rounded()` — 스케줄이 12.98초에 깨우면 12가 두 번 보인다.
+- 근거: `(로컬 경로)` 미커밋 작업 트리 `WristNoteWatch/Sources/RecorderView.swift`·`WatchRecorder.swift`. Apple Watch SE 3 (44mm) 시뮬레이터 `WRISTNOTE_AUTOTEST=1`로 1초 간격 캡처 `0:02 → 0:03 → 0:04` 확인. **실기기 확인은 홍에게 남았다** — 또 제보가 오면 워치 로그(`subsystem com.hong.wristnote.watch`)의 `format #0 not growing` 유무부터 본다.
 
 ### 2026-09-16 — 주제가 쌓이면 그래프가 덩어리가 된다 → 옵시디언풍 그래프 (WristNote)
 
