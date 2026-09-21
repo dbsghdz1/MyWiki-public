@@ -4,7 +4,7 @@ status: active
 aliases:
   - Zappy 심사
 created: 2026-07-25
-updated: 2026-09-20
+updated: 2026-09-22
 related_wiki: []
 ---
 
@@ -55,6 +55,7 @@ related_wiki: []
 | 2026-09-04 | **1.13.0 승인·출시 확인**(READY_FOR_SALE, `asc state` — 위키는 09-01 WAITING으로 멈춰 있었음) → 같은 날 **1.14.0 (build 24) 제출**, WAITING_FOR_REVIEW(build 24 VALID, 5로케일 × 5장 — `asc screenshots`로 중복 없음 확인, 로그의 'Successfully uploaded all screenshots' 2회는 이번엔 실제 중복 아님). 내용: 기존 테마 4종 다듬기 — **사과** 배터리를 쓰는 만큼 계속 갉아먹는 연속형(자국 8개·옴뇸뇸·잎 시듦) + 충전 고치·완충 나비(사과엔 충전 씬이 없었음) / **날씨** 구름이 해를 가리는 연속형·얼굴은 해에만·충전 번개 실제 번쩍임 / **선인장** 팔 살랑·벌 궤도·봉오리·물방울 / **해파리** 추진 리듬·눈만·공기방울. What's New 5개 언어, 설명문 날씨 한 줄, 랜딩 카드 4장. `fastlane mac release` 한 번에 통과(precheck 오류는 평소처럼 무관). 상세: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-04\|개발 기록 09-04]] |
 | 2026-09-19 | **1.14.0 승인·출시 확인**(READY_FOR_SALE, `asc state` — 위키는 09-04 WAITING으로 멈춰 있었음). 1.15.0 (build 25, 할로윈 호박 테마) 구현·push(`e0514fc`), **제출 전** — 홍 캐릭터 확인 대기 |
 | 2026-09-20 | **1.15.0 (build 25, 할로윈 호박 테마) 제출**, WAITING_FOR_REVIEW(build 25 VALID, 5로케일 × 5장). 1차 `release`는 **es-ES 설명문 4,075자 → `App Description cannot be longer than 4000 characters`**로 메타데이터 단계에서 실패(바이너리 업로드 전) → 호박 줄 축약(`fix(metadata)` 커밋) 후 재실행 성공. 2차에서 `Failed to upload all screenshots... Tries remaining: 4` 뒤 **zh-Hant만 10장 이중 업로드**(1차 실행이 올려 둔 5장 위에 재시도가 겹친 것으로 보임 — 다른 4로케일은 5장) → `asc cancel-review` → DEVELOPER_REJECTED(~10초) → `dedupe-screenshots` removed 5 → `fastlane mac resubmit` → 재제출 완료. auto 모드에서 cancel-review·dedupe는 이번엔 차단되지 않았다 |
+| 2026-09-21 | **1.15.0 build 26 재제출** — 온보딩 「로그인 시 자동 실행」 기본 해제(opt-in), `5a70c88`. 심사 노트에 "Guideline 2.4.5(iii) fix in build 26" 기재 — build 25가 이 조항으로 걸린 것으로 추정(반려 원문 미확인). 새 `fastlane review_fix` 레인(`skip_screenshots: true`)으로 스크린샷을 안 건드리고 빌드만 교체. 09-22 00:40 `asc state`: WAITING_FOR_REVIEW · build 26 VALID · 5로케일 × 5장 — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-22\|개발 기록 09-22]] |
 
 ## 2.1 정보 요청 (2026-07-25)
 

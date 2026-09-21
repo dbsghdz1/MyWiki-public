@@ -8,7 +8,7 @@ aliases:
   - CuteBattery
   - 귀여운 배터리
 created: 2026-07-23
-updated: 2026-09-20
+updated: 2026-09-22
 slack_channel: zappy
 repos:
   - "github.com/dbsghdz1/Zappy"
@@ -19,10 +19,10 @@ related_wiki: []
 
 ## 현재 카드
 - **단계**: 운영
-- **현재**: 1.14.0 READY_FOR_SALE(2026-09-19 `asc state` 확인) · **1.15.0(build 25) 할로윈 호박 테마** 09-20 제출 WAITING_FOR_REVIEW(`e0514fc`) — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-19|개발 기록 09-19]] · [[프로젝트/개인/Zappy/App Store 심사 이력|심사 이력]]
-- **다음 판정**: 1.15.0 심사 결과. 피처링 노미네이션(New Content)은 10-31 역산 ≈ 10-10까지
-- **지금 할 일**: 심사 결과 확인(`asc state`) → 피처링 노미네이션
-- **하지 않을 일**: 기존 18종 소급 수정, 데스크톱 펫(`DesktopPet.featureEnabled` 차단 유지), 유료 광고(Mac 전용 구조 판단)
+- **현재**: 1.14.0 READY_FOR_SALE · **1.15.0 호박 테마 build 26**(로그인 자동 실행 opt-in 수정, `5a70c88`) WAITING_FOR_REVIEW(2026-09-22 `asc state`) · **데스크톱 펫 2D 복귀**는 브랜치 `feat/desktop-pet`(`c1e2be1`)에 완성, 미출시 — [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-22|개발 기록 09-22]] · [[프로젝트/개인/Zappy/App Store 심사 이력|심사 이력]]
+- **다음 판정**: 1.15.0 심사 결과 — 승인이면 펫을 main에 합쳐 1.16.0, 반려면 main에서 build 27. 피처링 노미네이션(New Content)은 10-31 역산 ≈ 10-10까지
+- **지금 할 일**: 홍이 펫 실기 확인(충전기 분리·드래그·외장 모니터 — `docs/desktop-pet-checks/README.md`)
+- **하지 않을 일**: 기존 18종 소급 수정, 1.15.0 승인 전 펫을 main에 합치기, 유료 광고(Mac 전용 구조 판단)
 
 macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다. 핵심 문법은 **"잔량 = 표정과 형태"** — 달이 이지러지고, 눈사람이 녹고, 불꽃이 사그라들어서 숫자를 읽지 않아도 배터리 상태가 한눈에 보인다. 리포지터리·내부 코드명은 `CuteBattery`, 사용자에게 보이는 제품명은 Zappy다.
 

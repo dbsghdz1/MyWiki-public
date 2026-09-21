@@ -107,4 +107,3 @@ deliver가 업로드 직후 검증에서 **방금 올린 파일을 못 읽고** 
 - **이중 업로드**: 이번에도 `Tries remaining: 4` 뒤 `Successfully uploaded all screenshots` 2회, dedupe가 `removed: 10` — 방어선이 세 번째로 작동했다.
 - `Project.swift`의 버전이 1.1.1/3으로 남아 있었다(1.1.2·1.1.3 때 올린 값이 커밋에 없다). 이번에 1.1.4/6으로 커밋했다.
 - 미검증: 워치 타이머·코덱 기억은 시뮬레이터 확인뿐 — 실기기 확인은 출시 후 홍.
-
