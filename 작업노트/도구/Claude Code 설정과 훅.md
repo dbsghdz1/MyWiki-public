@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-21
-updated: 2026-09-16
+updated: 2026-09-22
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -197,3 +197,19 @@ Reason: [Untrusted Code Integration].
 gstack `./setup`이 묻지 않고 `Stop` 훅(`gstack-timeline-stop`)을 `(로컬 경로)`에 등록했다. 원본은 `settings.json.bak.<타임스탬프>`로 백업하고, 자기 항목엔 `"_gstack_source"` 필드를 박아 나중에 식별·제거할 수 있게 해뒀다. 상세와 제거 명령은 [[작업노트/도구/gstack|gstack]].
 
 일반화: **남의 설치 스크립트를 돌린 뒤에는 `(로컬 경로)`의 `hooks`를 확인한다.** 훅은 조용히 매 세션 돌고, 나중에 원인 불명의 지연·출력으로 나타난다. 이 노트 2026-08-21 「새로 만든 `settings.json`은 그 세션에서 안 먹는다」와 같은 계열의 함정이다 — 설정이 *언제* 읽히는지를 모르면 누가 심었는지도 모른다.
+
+### 2026-09-22 — 앱을 지워도 그 앱의 Claude Code 플러그인 훅은 남는다 (`gitkraken-hooks`)
+
+MyWiki `co` 세션에서 WebFetch 한 번마다 이 에러가 두 번씩 찍혔다:
+
+```
+PreToolUse:WebFetch hook error
+Failed with non-blocking status code: /bin/sh: (로컬 경로) Support/GitKrakenCLI/gk: No such file or directory
+PostToolUse:WebFetch hook error
+Failed with non-blocking status code: (같은 메시지)
+```
+
+- 원인: GitKraken 앱과 CLI(`gk`)는 이미 삭제됐는데 플러그인 **`gitkraken-hooks@gitkraken`**(2026-07-21 설치, 3.1.70)이 `enabledPlugins`에 남아 있었다. 이 플러그인의 `hooks/hooks.json`은 `PreToolUse`·`PostToolUse`·`SessionStart`·`Stop`·`UserPromptSubmit` 등 **22개 이벤트 전부**에 `"…/GitKrakenCLI/gk" ai hook run --host claude-code`를 matcher 없이 걸어 둔다. 그래서 어떤 도구든 호출 전후로 없는 바이너리를 찾다 실패했다. non-blocking이라 작업은 이어지지만 매 호출 출력이 지저분해진다.
+- 찾는 법: `(로컬 경로)`의 `hooks`에는 없다 — **플러그인 훅은 `(로컬 경로)`에 있다.** 에러 메시지의 경로로 `grep -rl "<경로 조각>" (로컬 경로)` 하면 바로 나온다. 훅 에러가 «없는 경로»를 가리키면 `settings.json`보다 여기부터.
+- 조치: `claude plugin uninstall gitkraken-hooks@gitkraken` → `✔ Successfully uninstalled plugin` 이후 `settings.json`의 `enabledPlugins` 항목과 `installed_plugins.json` 등록이 함께 사라졌다(09-08 항목과 같은 이유로 캐시만 지우지 않는다). **이미 열린 세션은 훅을 로드해 둔 상태라 그대로 뜨고, 새 세션부터 사라진다.**
+- 일반화: 앱을 uninstall해도 그 앱이 등록한 Claude Code 플러그인은 따라 지워지지 않는다. GitKraken·Orca 같은 «호스트 앱 + 훅 플러그인» 조합은 **앱을 지울 때 `claude plugin list`도 같이 본다.**
