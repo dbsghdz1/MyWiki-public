@@ -57,3 +57,4 @@ related_wiki: []
 
 - [[작업노트/도구/Instagram 콘텐츠 발행 API|Instagram 콘텐츠 발행 API]] — `graph.instagram.com` 3단계 컨테이너 발행은 **`image_url`(공개 HTTPS)만 받아** 렌더한 PNG를 imgbb에 먼저 올린다. 한도(24시간 100건)와 별개로 "API access blocked"가 뜨니 `--interval`로 텀을 둔다
 - [[작업노트/도구/소셜 게시 API와 자동화 정책|소셜 게시 API와 자동화 정책]] — Instagram·Threads는 공식 API로 무료 자동 게시가 되고, 자동 답글·DM은 「상대가 먼저 반응한 경우」로 묶여 있다
+- [[작업노트/도구/Instagram 발행 계정·앱·토큰 셋업|Instagram 발행 계정·앱·토큰 셋업]] — 계정·앱·토큰을 0에서 만드는 절차(FB 페이지 → 프로페셔널 전환 → Meta 앱 → 토큰 → ImgBB → `.env`). 60일 토큰은 만료 뒤 refresh 불가라 만료 전 손으로 갱신한다 (2026-09-22)

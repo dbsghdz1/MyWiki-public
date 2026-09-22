@@ -17,6 +17,8 @@ projects:
 
 ## 핵심 정리
 
+- 계정·앱·토큰을 처음 만드는 절차(프로페셔널 전환·Meta 앱·토큰 발급·ImgBB 키)는 [[작업노트/도구/Instagram 발행 계정·앱·토큰 셋업|Instagram 발행 계정·앱·토큰 셋업]]에 있다.
+
 - **엔드포인트 3개가 전부다.** `POST /{ig-user-id}/media`(컨테이너 생성) → `GET /{container-id}?fields=status_code`가 `FINISHED`가 될 때까지 폴링 → `POST /{ig-user-id}/media_publish?creation_id=`. 캐러셀은 자식마다 `is_carousel_item=true`로 컨테이너를 만들고, 부모를 `media_type=CAROUSEL` + `children=<쉼표 목록>` + `caption=`으로 한 번 더 만든다.
 - **로컬 파일을 못 올린다 — multipart 업로드가 없고 `image_url`(공개 HTTPS URL)만 받는다.** 그래서 소마·인스타카드뉴스 둘 다 렌더한 PNG를 **imgbb에 먼저 올려 URL을 얻고** 그 URL을 넘긴다. 이미지 호스팅이 파이프라인의 필수 부품이다.
 - **페이스북 페이지는 필요 없다.** `graph.instagram.com`(Instagram Login, 권한 `instagram_business_content_publish`, 옛 `business_content_publish`는 폐기)은 인스타 프로페셔널(비즈니스·크리에이터) 계정만 있으면 된다. `graph.facebook.com` 경로(FB 페이지 연결 + `instagram_content_publish`)와 혼동하면 안 된다 — 홍보 자동화 08-12 채널 조사표의 "비즈니스 계정 + FB 페이지 + 심사 2~4주"는 후자 기준이고, 실제로 돌고 있는 건 전자다.
