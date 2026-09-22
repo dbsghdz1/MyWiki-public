@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-30
-updated: 2026-09-05
+updated: 2026-09-22
 projects: []
 ---
 
@@ -22,6 +22,7 @@ Ghostty 커스텀은 텍스트 config 하나로 하는데, **macOS에선 config 
 - 설정 리로드는 `Cmd+Shift+,`.
 - **cmux 터미널도 사용자의 Ghostty config를 그대로 읽는다.** 바이너리에 `CmuxGhosttyConfigPathResolver`·`GhosttyConfigFileReading`이 있고, cmux의 `reload_config` 액션 설명이 "Reload Ghostty config, cmux settings, and refresh terminals"다. 테마·폰트·패딩·커서는 cmux 패널에도 적용되지만 `macos-titlebar-style`·`macos-icon`·`background-blur` 같은 앱 수준 옵션은 Ghostty.app 전용. cmux 자체 설정은 `(로컬 경로)`(JSONC, 전부 주석 처리된 템플릿 — 주석 해제하면 파일 관리로 전환), 사이드바를 터미널 배경색에 맞추는 키는 `sidebarAppearance.matchTerminalBackground: true`.
 - macOS 앱 아이콘은 `macos-icon`(독·앱 전환기만, Finder는 번들 고정): 공식 변형 8종(`blueprint`·`chalkboard`·`microchip`·`glass`·`holographic`·`paper`·`retro`·`xray`), `custom`(+`macos-custom-icon` 이미지 경로), `custom-style`(+`macos-icon-frame`/`-ghost-color`/`-screen-color`, 실험적). 반영은 앱 재시작. 탭 세로 배치는 macOS에선 불가 — 네이티브 탭이라 위치 옵션이 없다(`gtk-tabs-location`은 Linux 전용, top/bottom만).
+- **Full Disk Access가 없으면 `(로컬 경로)`·`(로컬 경로)` 같은 보호 경로를 읽지 못한다** (root도 마찬가지). 증상과 진단 순서는 [[작업노트/도구/macOS 파일 접근 권한과 휴지통|macOS 파일 접근 권한과 휴지통]] (2026-09-22)
 
 ## 기록
 
