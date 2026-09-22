@@ -4,7 +4,7 @@ area: CS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-09-16
+updated: 2026-09-22
 aliases: [포트, localhost, 루프백, 사설 IP, LISTEN]
 projects:
   - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
@@ -22,6 +22,7 @@ projects:
 - **포트 ≠ PID.** PID는 OS가 실행 중인 프로그램에 붙이는 번호(켤 때마다 바뀜), 포트는 네트워크 창구 번호(내가 정하면 다시 켜도 같음). **연결을 구분하는 4개 묶음(`내 IP:포트 ↔ 상대 IP:포트`)에 PID는 없다** — 상대는 내 PID를 알 수도, 알 필요도 없다.
 - **포트는 통신하는 프로그램만 붙는다.** 잡는 쪽(서버)은 내가 번호를 정하고, 나가는 쪽(클라이언트)은 **OS가 임시 번호를 빌려준다**(`sysctl net.inet.ip.portrange.first`). 그래서 탭 10개면 번호 10개가 다 다르다.
 - **`localhost`는 IPv6(`::1`)를 먼저 시도하고 실패하면 IPv4로 재시도한다** — `Connection refused`가 두 번 찍히는 이유.
+- **웹 호스팅 = 내 서버 프로그램을 「항상 켜져 있고 공인 IP와 회선이 있는 남의 컴퓨터」에서 돌리는 것.** 내 맥도 서버가 되지만(위) 꺼지면 끝이고 사설 IP라 인터넷에서 못 찾아온다. 업체가 대신 해 주는 범위는 종류마다 다르다 — 정적 호스팅(HTTPS·CDN 자동)·관리형(패치·백업까지)·VPS(빈 컴퓨터, 보안은 내 몫).
 - 확인 명령: `lsof -nP -iTCP:3000 -sTCP:LISTEN` · `lsof -i -P` · `ipconfig getifaddr en0`.
 
 ## 기록
@@ -51,7 +52,17 @@ projects:
 - 근거: `lsof -i :9999` 출력, `netstat -an -p tcp | grep 9999`가 **3줄**(LISTEN 1 + ESTABLISHED 2)을 낸 것 — localhost라 **같은 연결의 양 끝**이 둘 다 보였다. 다른 컴퓨터였으면 1줄이다.
 - 새로 생긴 궁금증: 그 3줄이 3-way handshake인가? → 아니다 → [[학습/공부/CS/네트워크/TCP 연결의 상태|TCP 연결의 상태]]
 
+### 2026-09-22 — 웹 호스팅은 "서버 공간을 빌려 전 세계와 공유하는 것"인가?
+
+- 맥락: MDN Learn «Web mechanics»를 읽다가. 예측은 *"서버 공간을 빌려 올리고, 업체가 보안 등 서비스를 도와준다"*
+- 결론: 큰 그림은 맞고 두 군데를 고쳤다
+  - 빌리는 건 "공간"이 아니라 **항상 켜짐 · 공인 IP · 회선** 세 가지다. 위 08-18 항목의 `*:3000` 서버는 이미 서버지만, 이 셋이 없어서 인터넷에서 못 찾아온다. 호스팅은 그 셋을 판다 (MDN: uptime · always connected · dedicated IP · 전문 관리)
+  - "업체가 보안을 도와준다"는 **관리형 호스팅에서만** 맞다. 정적 호스팅(GitHub Pages·Vercel)은 파일만 올리면 HTTPS·CDN이 딸려 오고, VPS·클라우드 VM(EC2 등)은 빈 컴퓨터라 OS 패치·방화벽·인증서가 전부 내 몫이다. 업체는 물리 장비와 네트워크까지만 책임진다
+  - 도메인은 별개다 → [[학습/공부/CS/네트워크/도메인과 메일 MX|도메인과 메일 MX]]
+- 새로 생긴 궁금증: 정적 호스팅은 서버 프로그램이 없는데 누가 포트 443을 잡고 있나 — 업체의 HTTP 서버 하나가 수만 사이트를 호스트 이름(`Host` 헤더·SNI)으로 구분하는 건가?
+
 ## 참고 자료
 
 - [Beej's Guide to Network Programming](https://beej.us/guide/bgnet/) — 소켓 프로그래밍 고전 무료 가이드. 코드로 확인하고 싶을 때 (2026-08-15 확인)
 - [RFC 9293 — Transmission Control Protocol](https://www.rfc-editor.org/rfc/rfc9293) — 현행 TCP 명세. 상태 다이어그램(§3.3.2)만 봐도 가치 있음 (2026-08-15 확인)
+- [MDN — What is a web server?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_web_server) — 웹 서버 = 하드웨어+HTTP 서버 소프트웨어, 정적/동적 서버, 호스팅 업체를 쓰는 이유 4가지 (2026-09-22 확인)
