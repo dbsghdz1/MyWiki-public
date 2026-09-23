@@ -250,6 +250,7 @@ React · TypeScript · TanStack Query · Vite · Fastify · `react-dom/server` S
 - [[작업노트/도구/Aside 브라우저 폼 자동 입력|Aside repl 캡처]] — **호출마다 세션이 새로 뜬다** — 탭 열기·조작·스크린샷을 한 호출에서 끝내야 하고, 나누면 엉뚱한 탭을 잡는다. `setViewportSize`·`screenshot({clip})`·요소 `.screenshot()`이 전부 없어 **전체를 찍고 셸에서 자른다**
 - [[작업노트/도구/공공데이터포털 오픈API|공공데이터포털 오픈API]] — `apis.data.go.kr`는 Origin을 반사해 **CORS로 막히지 않는다**. 잘못된 키는 200이 아니라 **403 + XML 에러 본문**으로 온다
 - [[학습/공부/JS/React/React 컴포넌트와 JSX|React 컴포넌트와 JSX]] — JSX는 함수 호출로 컴파일되는 JS다. **`{ }`가 렌더 시점에 계산돼서** `onClick={fn()}`은 클릭 없이 실행된다. `return`이 JS와 JSX의 경계
+- [[학습/공부/JS/React/useEffect와 StrictMode|useEffect와 StrictMode]] — cleanup 자리에 fetch를 넣어도 개발에선 화면이 떴다. StrictMode가 cleanup을 한 번 불러 준 덕이고, 배포하면 영영 빈다 (실습 2)
 - [[학습/공부/JS/언어/비동기와 Promise|비동기와 Promise]] — `fetch`는 상자를 즉시 준다. 헤더·본문이 따로 와서 **두 번 기다린다**. **403에 reject하지 않으니** `r.ok`를 직접 봐야 한다 — 이 API는 잘못된 키에 403을 주므로 직결된다
 - [[학습/공부/CS/네트워크/URL과 퍼센트 인코딩|URL과 퍼센트 인코딩]] — 서비스키 403의 범인은 키가 아니라 **옆에 있던 인코딩 안 된 한글**이었다. 인코딩은 정확히 한 번
 - [[학습/공부/CS/네트워크/CORS와 동일 출처 정책|CORS와 동일 출처 정책]] — 브라우저는 요청을 막는 게 아니라 **응답을 읽게 해줄지** 판단한다. 막느냐는 서버 헤더가 정한다

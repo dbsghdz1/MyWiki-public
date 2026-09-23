@@ -112,6 +112,7 @@ iOS에서 TypeScript·React로 옮겨가며 만드는 **주력 프로젝트**다
 - [[학습/공부/JS/언어/JavaScript 모듈 시스템|JavaScript 모듈 시스템]] — `export { default as X } from` 재수출, JS 모듈엔 접근제어자가 없어 슬라이스 경계는 언어가 아니라 린터가 지킨다
 - [[학습/공부/CS/컴퓨터구조/컴퓨터의 수 표현|컴퓨터의 수 표현]] — 이진법에서 십진 소수는 무한소수라 float은 돈에 못 쓴다. 단위를 쪼개 정수로 다루고(고정소수점), 스케일링은 문자열로 한다
 - [[학습/공부/JS/언어/JavaScript 기초 문법|JavaScript 기초 문법]] — 객체 리터럴과 구조 분해가 JS의 절반, truthy/falsy, **`bigint` 나눗셈은 항상 내림이라 올림은 직접 만든다**
+- [[학습/공부/JS/언어/고차함수와 배열 메서드|고차함수와 배열 메서드]] — `while`로 0을 채우다 버그 둘을 만든 자리가 `padEnd` 한 번으로 사라졌다: 짧아서가 아니라 부품이 적어서 (D4 블록 5a)
 - [[학습/공부/JS/언어/JavaScript 런타임|JavaScript 런타임]] — Node는 V8 + OS 기능이라 서버가 될 수 있고, 그래서 API 키를 서버에만 둔다
 - [[학습/공부/JS/언어/TypeScript 타입 시스템|TypeScript 타입 시스템]] — 타입은 컴파일하면 사라지므로 `res.ok` 검사를 손으로 넣는다
 - [[학습/공부/JS/Next.js/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] — 서버 컴포넌트·Route Handler, `app/api` HTTP 출입구와 `src/**/api` 내부 함수, `revalidate`, 환경변수 인라인, proxy의 요청 단위 실행
