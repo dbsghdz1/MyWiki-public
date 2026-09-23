@@ -4,8 +4,9 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-22
-updated: 2026-09-22
+updated: 2026-09-23
 projects:
+  - "[[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]]"
   - "[[작업노트/도구/Ghostty 설정|Ghostty 설정]]"
 ---
 
@@ -32,3 +33,12 @@ projects:
   - Finder로 옮기기를 시도한 파일 중 `com.apple.macl` xattr가 있는 `26.1.0.JPG` 하나만 이동됨. 다른 xattr(`com.apple.cscachefs`, `com.apple.dataprotection.policy.exception-applied-by: com.apple.mediastream.mstreamd`, `com.apple.quarantine …;sharingd;` = AirDrop)는 원인과 무관.
   - 최종적으로 홍의 Finder가 "Trash can't be opened right now because it's being used by another task"를 띄움 → `killall Finder` 후 비우기 성공. 처음 Finder가 왜 걸렸는지는 미확정(iCloud Desktop 동기화 중인 폴더였음).
 - 근거: 이 세션의 `log stream` 출력, `xattr -l` 결과, `brctl status`(Desktop iCloud 동기화 활성)
+
+### 2026-09-23 — launchd 작업은 `(로컬 경로)`을 못 읽는다 (exit 127)
+
+- 맥락: [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] 릴스 밤 작업을 launchd에 걸었더니 `launchctl print`에 `last exit code = 127`, 로그에 `/bin/zsh: can't open input file: (로컬 경로)` — [[프로젝트/개인/인스타카드뉴스/릴스 발행 시작 2026-09-23|릴스 발행 시작]]
+- 배운 것:
+  - launchd가 띄운 `/bin/zsh`·python은 TCC상 `(로컬 경로)`(여기선 iCloud 동기화 중) 접근 권한이 없다. 대화형 터미널에서 되는 것과 다르다. **옛 `com.instacardnews.publish`·`.report`가 `last exit code = 127`로 죽어 있던 것도 같은 원인으로 보인다**(09-12 인프라 실측에서 127만 기록됨)
+  - 해법은 권한을 주는 대신 **실행본을 보호되지 않은 곳에 두는 것**: 이 Mac의 멀쩡한 launchd 작업은 전부 `(로컬 경로)`·`(로컬 경로)`에서 돈다. 릴스는 `(로컬 경로)`에 코드·폰트·`.env`(600)·venv를 복사하고 plist 템플릿을 채우는 `scripts/install_reel_runtime.sh`를 만들었다
+  - 확인은 일회성 launchd 작업(`RunAtLoad true`)으로 한다 — 같은 환경에서 `claude -p`(키체인 OAuth)·`uvx`·mise shim `node`·`hermes send`가 모두 됐다
+- 근거: `launchctl print gui/501/com.instacardnews.reel`, `output/reel-launchd.log`(실행본), 설치 후 수동 kickstart `exit 0`

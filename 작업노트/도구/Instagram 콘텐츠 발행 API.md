@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-09
-updated: 2026-09-09
+updated: 2026-09-23
 projects:
   - "소프트웨어 마에스트로"
   - "[[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]]"
@@ -26,6 +26,7 @@ projects:
 - **한도와 별개로 "API access blocked"가 뜬다.** 인스타카드뉴스가 2026-07-30~08-01에 임시 차단을 겪었고, 발행 간격 옵션(`--interval`, 기본 600초)으로 대응했다. 연속 발행은 텀을 둔다.
 - **발행만 된다 — 프로필·하이라이트는 API로 못 건드린다.** 계정 필드(`biography`·`name`·`website`·`profile_picture_url`)는 **읽기 전용**이고 쓰기 엔드포인트가 없다. 스토리 하이라이트는 생성·편집 API 자체가 없다(스토리는 `media_type=STORIES`로 발행만 되고 하이라이트에 담는 건 앱에서 손으로). 검색에 나오는 «Instagram Highlights API»들은 전부 서드파티 읽기(스크래핑)이고, 프로필 편집을 파는 도구는 비공식 private API라 계정 리스크다.
 - 컨테이너는 만들자마자 발행하면 실패한다 — 자식은 `status_code=FINISHED` 폴링, 부모 캐러셀도 몇 초 대기 후 `media_publish`.
+- **릴스도 `video_url`(공개 HTTPS)만 받는다 — Instagram Login 경로는 resumable upload를 안 받는다.** `media_type=REELS&upload_type=resumable`을 `graph.instagram.com`에 보내면 `HTTP 400 code 100 "The parameter video_url is required"`(2026-09-23 실측). rupload.facebook.com 방식은 `graph.facebook.com` 토큰 문서다. imgbb는 이미지 전용이라 영상은 **litterbox.catbox.moe 1시간 임시 호스팅**(`curl -F reqtype=fileupload -F time=1h -F fileToUpload=@…`)으로 URL을 만들어 넘긴다(`publish_reel.host_on_litterbox`). 30MB 영상은 컨테이너가 약 1분 만에 FINISHED. 발행물은 `GET /{media_id}?fields=permalink,media_product_type`으로 `REELS`인지 확인한다.
 
 ## 기록
 
@@ -68,6 +69,19 @@ projects:
   - 가로(16:9) 클립을 세로 릴스에 넣기: 같은 영상을 `scale=-2:1920,crop,boxblur=40:2,drawbox=c=0xFFF6EA@0.62:t=fill`로 깔고 위에 `scale=1210:-2,crop=1080:680`(1.12배 줌)을 `overlay=0:760`. 두 클립은 해상도(1280×720 / 1920×1080)·샘플레이트가 달라 `scale`·`aresample=48000`·`loudnorm`으로 맞춘 뒤 `concat`
   - 무료 Kling 워터마크는 클립마다 위치가 다르다(01 우하단, 02 하단 중앙) — 가리지 않고 그대로 뒀다
 - 근거: 실제 렌더 368프레임·12.27초·오디오 트랙 포함, 프레임 시트로 카드 4장이 대사 시각과 맞는 것 확인
+
+### 2026-09-23 — 릴스 발행: resumable은 거절, video_url + 임시 호스팅으로 통과
+
+- 맥락: [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] 첫 릴스([[프로젝트/개인/인스타카드뉴스/릴스 발행 시작 2026-09-23|릴스 발행 시작]]) — 08-01에 써 둔 `publish_reel.py`가 resumable 업로드 전제였다
+- 배운 것:
+  - `graph.instagram.com/v23.0/{ig-user-id}/media`에 `media_type=REELS, upload_type=resumable, caption, share_to_feed, thumb_offset`을 보내면 **400 code 100 «The parameter video_url is required»**. Instagram Login 토큰(`IGAA…`)에서는 공개 URL 방식뿐이다. `video_url`로 바꾸자 컨테이너 생성 → 약 60초 뒤 `FINISHED` → `media_publish` 성공(`media_id 18116851507983873`, https://www.instagram.com/reel/DdnnLy_DSLq/)
+  - 호스팅은 litterbox(익명·1h 만료·1GB) — Instagram이 받아 간 뒤엔 URL이 죽어도 된다. 기록에 `hosted_url`을 남긴다
+  - **계정 사용자명이 `baseball_card_news` → `yagu.3cut`로 바뀌어 있었다**(`me?fields=username`, 팔로워 269·게시물 84). 토큰·`IG_USER_ID`는 그대로다. 대신 `render_posts.py`·`render_story.py`의 워터마크 `HANDLE`이 옛 이름이라 Mac·서버 둘 다 고쳤다
+  - Mac `.env`의 토큰은 `code 190 "session has been invalidated"`(비밀번호 변경 등)로 죽어 있었고 서버 `.env`(09-10 갱신)만 살아 있었다 — 서버 값을 Mac에 복사. **토큰은 기기마다 따로 죽는다**, 발행 전 `me`로 확인
+  - **게시된 캡션은 API로 못 고친다.** `POST /{ig-media-id}`는 `comment_enabled`만 받고, 삭제(`DELETE`)는 Facebook Login 경로 + `instagram_manage_contents` 권한에서만 된다 — Instagram Login 토큰으로는 둘 다 불가. 캡션 오류는 앱에서 손으로 고친다. 그래서 발행 전에 사실을 검증해야 한다(릴스 파이프라인의 `verify_copy`)
+  - 영상 컨테이너 폴링은 Meta 권장(«1분에 한 번, 5분 이내»)에 맞춰 30초 간격, 순간 오류는 5번까지 참는다. 컨테이너 ID를 만들자마자 `publish_reels_state.json`에 적어 두면 발행 응답이 끊겨도 다음 실행이 `status_code=PUBLISHED`를 보고 두 번 올리지 않는다
+  - 같은 날 서버 08:00 카드 발행이 9/22·9/23 연속 실패: `uploaded image URL was not publicly ready after 6 attempts: https://i.ibb.co/… (The read operation timed out)` — imgbb 준비 확인의 읽기 타임아웃. 23:00 회차는 성공. 릴스와 무관하지만 같은 계정 이슈라 기록
+- 근거: `(로컬 경로)`(2026-09-23), `output/2026-09-22/publish_reels.json`, 서버 `output/scheduler.log` 09-23 08:19
 
 ## 참고 자료
 
