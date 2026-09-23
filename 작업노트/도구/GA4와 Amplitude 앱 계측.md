@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-11
+updated: 2026-09-23
 projects:
   - "탭탭"
 ---
@@ -66,15 +66,6 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 - **Amplitude-Swift의 전송은 로그만으로 판정하지 않는다.** `logLevel: .debug`면 subsystem `Amplitude`로 `Log: Start flushing N events`가 찍히지만(기본 `flushIntervalMillis=30_000`, `flushQueueSize=30`), 성공 응답은 별도 줄로 안 나온다. **판정은 앱 컨테이너의 `Library/Application Support/amplitude/<키>-$default_instance.events.index/` 디렉터리가 비었는지로 한다** — `PersistentStorageResponseHandler`가 200에서 `storage.remove(eventBlock:)`으로 파일을 지우고, 실패하면 남겨 재시도한다(400·413 같은 영구 실패에서도 지우므로 최종 확인은 Amplitude 대시보드).
 - **원격 설정 캐시가 키 유효성의 방증이다.** `Library/Preferences/com.amplitude.remoteconfig.cache.$default_instance.plist`에 sessionReplay 샘플링 등 서버 응답이 들어 있으면 **그 API 키로 Amplitude 서버와 통신이 됐다는 뜻**이다 — 네트워크·키 문제를 이벤트 전송과 분리해서 볼 수 있다.
 
-## 이벤트 설계 (멘토링에서 온 규칙)
-
-원칙 출처는 소마 멘토링.
-
-1. **UI 종속 이벤트와 전환 이벤트를 타입부터 나눈다.** 전환은 UI를 갈아엎어도 이름·의미가 그대로여야 한다. 섞어두면 UI를 바꿀 때마다 전환 지표가 끊겨 "개선했더니 떨어진 것"인지 "안 찍히는 것"인지 구분이 안 된다.
-2. **이벤트 파라미터는 이벤트에, 유저 프로퍼티는 사람에 귀속.** 둘이 같이 쌓여야 "링크 20개 이상 모은 유저의 검색 사용률" 같은 그룹핑이 된다.
-3. **정의의 원천을 한 곳에.** 팀이 전원 개발자면 타입(enum + `AnalyticsEvent` 변환)으로 정의하고 문서는 그걸 옮겨 적는다. 이름 오타는 크래시가 아니라 리포트에서 이벤트가 조용히 둘로 갈리는 식으로 나타나므로 **이름·파라미터 키를 단위 테스트로 박아둔다**.
-
-**어트리뷰션 툴(AppsFlyer/Airbridge)은 별개다.** 웹은 UTM으로 광고→유입이 이어지지만 앱은 앱스토어를 거치며 연결이 끊긴다. 유료 광고를 집행하기 전에 붙여야 한다.
 
 ## 기록
 

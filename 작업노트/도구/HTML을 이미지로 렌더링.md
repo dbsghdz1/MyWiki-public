@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-22
-updated: 2026-09-04
+updated: 2026-09-23
 projects:
   - "소프트웨어 마에스트로"
 ---
@@ -43,7 +43,7 @@ projects:
 
 ### 2026-09-04 — 메타 광고 소재(9:16·4:5·영상 오버레이)를 Pillow로 찍으면서
 
-- 맥락: 보험찾개냥 소마 멘토링 미션 "비라이브 광고 3개". 정지 소재 4장(A·C × 9:16·4:5), 영상용 투명 자막 오버레이 3장, 타이밍 미리보기 mp4를 만들었다 → 메타 광고 소재 기획.
+- 맥락: 보험찾개냥 멘토링 미션 "비라이브 광고 3개". 정지 소재 4장(A·C × 9:16·4:5), 영상용 투명 자막 오버레이 3장, 타이밍 미리보기 mp4를 만들었다 → 메타 광고 소재 기획.
 - 배운 것:
   - **Dia.app은 헤드리스 렌더러가 아니다.** 크로미움 기반이라 `/Applications/Dia.app/Contents/MacOS/Dia --headless=new --screenshot=… --user-data-dir=…`를 시도했지만 60초 넘게 돌아가다 exit 144, PNG 없음. `/Applications`에 Chrome·Chromium이 없으면 이 경로는 보지 말고 바로 Pillow(있음)나 WKWebView(08-22)로 간다.
   - **Jua 폰트는 Google Fonts에서 직접 받아진다** — `curl -A "Mozilla/5.0" "https://fonts.googleapis.com/css2?family=Jua"`로 CSS를 받으면 `https://fonts.gstatic.com/s/jua/v18/co3KmW9ljjAjcw.ttf`가 나오고 그 TTF를 Pillow가 그대로 연다. 다만 09-02 기록대로 **원본은 앱 저장소 `Client/assets/fonts/Jua-Regular.ttf`** 라 `render.py`는 저장소 파일을 우선하고 gstatic 사본은 폴백으로 뒀다.
