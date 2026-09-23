@@ -7,7 +7,7 @@ aliases:
   - book mini agent
   - 맥북 상시 가동
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-23
 repos:
   - "~/Desktop/개인 앱/BookMini — 로컬 git"
 related_wiki: []
@@ -19,11 +19,11 @@ launch_approved: 2026-09-12
 # BookMini
 
 ## 현재 카드
-- **단계**: 7일 MVP
-- **현재**: 2026-09-12 v0 설치·가동. Mac launchd 3개(`com.hong.bookmini.awake`·`.heartbeat`·`.sessions`)가 돌고 `PreventSystemSleep 1`이 켜졌다. 하트비트가 Oracle `(로컬 경로)`에 도착하고, 서버 `bookmini-watch.timer`(5분)가 등록됐다. 로그인 점검 드라이런 결과: X `@DevHongX`·Instagram은 확정, Threads는 약한 판정. 로컬 git `fb5c73b`·`a5b8069`
-- **다음 판정**: 2026-09-19 — 7일 밤 동안 하트비트 공백 없이 돌았는가. 스크립트로 안 풀린 불편이 남았으면 그것만 앱으로 만든다
-- **지금 할 일**: 7일간 그대로 두고 매일 아침 `bookmini-status`와 Slack 경보 유무만 본다 — 끊김이 나오면 원인을 여기 기록한다
-- **하지 않을 일**: 메뉴바 앱·판매·공개(7일 검증 전), 게시 자동화 자체(→ 홍보 자동화 몫)
+- **단계**: 운영
+- **현재**: 2026-09-23 Claude RC 상시 대기를 위해 잠자기 방지를 전원 연결 중으로 한정했다. 화면 꺼짐은 배터리 5분·전원 10분이며, 배터리에서 BookMini의 유휴 잠자기 방지가 사라진 것을 확인했다([[작업노트/도구/MacBook 상시 가동|검증 기록]])
+- **다음 판정**: 전원 연결 후 화면이 꺼진 상태에서 Claude RC 작업이 계속되면 유지, 끊기면 잠자기·네트워크·세션 상태를 점검한다
+- **지금 할 일**: 다음 원격 사용 때 전원 연결·화면 꺼짐 상태의 RC 지속 여부를 확인한다
+- **하지 않을 일**: 덮개 닫힘까지 무조건 잠자기를 막는 설정은 추가하지 않는다
 
 ## 왜 만드나
 
@@ -49,7 +49,7 @@ launch_approved: 2026-09-12
 
 | 조각 | 위치 | 주기 | 하는 일 |
 |---|---|---|---|
-| `bookmini-awake` | Mac launchd (KeepAlive) | 상시 | `caffeinate -i -s` — 전원 연결 시 시스템 잠자기를 막는다. 디스플레이는 설정대로 꺼진다 |
+| `bookmini-awake` | Mac launchd (KeepAlive) | 상시 | `caffeinate -s` — 전원 연결 시에만 시스템 잠자기를 막는다. 배터리에서는 방지하지 않고 디스플레이는 설정대로 꺼진다 |
 | `bookmini-heartbeat` | Mac launchd | 300초 | 시각·유휴·전원·배터리·덮개 상태를 Oracle `(로컬 경로)`에 쓴다 |
 | `bookmini-sessions` | Mac launchd | 1800초 | **입력 유휴가 10분 이상일 때만** Aside로 X·Threads·Instagram 로그인 상태를 본다. 로그아웃이면 Slack으로 알린다 |
 | `bookmini_watch.py` | Oracle systemd user timer | 300초 | 하트비트가 15분 넘게 없으면 Slack에 한 번 알리고, 돌아오면 한 번 더 알린다 |
@@ -64,6 +64,7 @@ launch_approved: 2026-09-12
 
 ## 기록
 
+- 2026-09-23 — **Claude RC용 전원 정책 정리.** 로컬 커밋 `21772cd`. 소스·설치본의 `caffeinate -i -s`를 `-s`로 바꾸고 awake 에이전트만 재시작했다. 화면 자동 꺼짐은 시스템 설정에서 배터리 5분·전원 10분으로 적용했다. 셸 구문·소스/설치본 일치·실행 PID의 assertion·`pmset -g custom`으로 검증했다. 실제 전원 연결·화면 꺼짐 뒤 RC 동작은 아직 미검증이며, 세부 근거는 [[작업노트/도구/MacBook 상시 가동|작업노트]]에 남겼다.
 - 2026-09-12 — 착수. 면제 승인, v0 범위 확정.
 - 2026-09-12 — **v0 설치·가동.**
   - 서버 감시 판단 로직 단위 테스트 5개 통과.
@@ -71,3 +72,7 @@ launch_approved: 2026-09-12
   - 서버 감시 드라이런: 끊긴 하트비트·파일 없음 두 경우 모두 경보 문구 확인.
   - 로그인 점검은 홍 사용 중(유휴 93초)이라 `skip`으로 정상 동작.
   - 덮개를 닫은 채(외부 모니터) AC 연결 상태에서 설치했다.
+
+## 배운 것
+
+- [[작업노트/도구/MacBook 상시 가동|MacBook 상시 가동]] — `caffeinate -i`는 배터리에서도 유효하다. 전원 연결 중에만 잠자기를 막으려면 `-s`를 사용한다.

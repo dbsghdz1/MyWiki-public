@@ -7,7 +7,7 @@ aliases:
   - React TypeScript Product Development
   - React TS 제품 개발
 created: 2026-07-14
-updated: 2026-08-18
+updated: 2026-09-23
 sources:
   - "2026-07-14-roadmap-sh-react-roadmap"
   - "2026-07-15-roadmap-sh-javascript-roadmap"
@@ -149,7 +149,7 @@ BarStack으로 SwiftUI를 써 본 경험을 React 학습의 지렛대로 쓴다.
 - 다른 프로젝트에서도 재사용할 수 있는 원리는 무엇인가?
 - 다음에 같은 상황이 생기면 무엇을 다르게 할 것인가?
 
-개인 앱은 별도 학습 도메인이 아니라 이 지식을 시험하는 사례로 둔다. 현재 활성 프로젝트는 [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]이며, 프로젝트 고유 요구사항과 진행 기록은 프로젝트 폴더에서 관리한다.
+개인 앱은 별도 학습 도메인이 아니라 이 지식을 시험하는 사례로 둔다. 사례 프로젝트는 [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]](2026-09-05 잠시 중지, 재개 조건은 그 README 현재 카드)와 [[프로젝트/개인/약국맵/README|약국맵]](제품은 2026-09-22 보류, 코드는 [[프로젝트/개인/약국맵/학습 로드맵|학습 로드맵]] 웹뷰 트랙의 실습 소재로 계속 쓴다)이며, 프로젝트 고유 요구사항과 진행 기록은 프로젝트 폴더에서 관리한다 (2026-09-23 기준).
 
 ## 위키 자체에 관한 메타 지식
 

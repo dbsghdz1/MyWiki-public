@@ -14,15 +14,15 @@ status: active
 | 페이지 | 목적 | 상태 | 갱신일 |
 |---|---|---|---|
 | [[프로젝트/개인/README|개인 프로젝트]] | 개인 프로젝트의 상태와 진입점을 묶는 허브 | active | 2026-09-23 |
-| [[프로젝트/개인/BarStack/README|BarStack]] | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-09 |
-| [[프로젝트/개인/BookMini/README|BookMini]] | MacBook을 맥미니처럼 상시 가동 호스트로 쓰게 하는 내부 도구 — 잠자기 방지·살아있음 감시·로그인 세션 점검 | active | 2026-09-12 |
+| [[프로젝트/개인/BarStack/README|BarStack]] | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-23 |
+| [[프로젝트/개인/BookMini/README|BookMini]] | MacBook을 맥미니처럼 상시 가동 호스트로 쓰게 하는 내부 도구 — 잠자기 방지·살아있음 감시·로그인 세션 점검 | active | 2026-09-23 |
 | [[프로젝트/개인/MyCryptoDiary/README|CoinPilot (MyCryptoDiary)]] | 가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점 | paused | 2026-09-05 |
 | [[프로젝트/개인/DayTune/README|DayTune]] | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-09-05 |
-| [[프로젝트/개인/즉석카메라/README|Fadeo]] | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-12 |
-| [[프로젝트/개인/math-sprint/README|math-sprint]] | 60초 암산 스프린트 게임의 작업 진입점 | paused | 2026-09-05 |
+| [[프로젝트/개인/즉석카메라/README|Fadeo]] | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-23 |
+| [[프로젝트/개인/math-sprint/README|math-sprint]] | Apps in Toss용 짧은 두뇌 퀴즈 스프린트 게임의 작업 진입점 | paused | 2026-09-23 |
 | [[프로젝트/개인/Subly/README|Subly]] | macOS 실시간 자막·번역 앱 실험의 작업 진입점 | paused | 2026-09-05 |
-| [[프로젝트/개인/WristNote/README|WristNote]] | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-09-20 |
-| [[프로젝트/개인/Zappy/README|Zappy]] | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-09-22 |
+| [[프로젝트/개인/WristNote/README|WristNote]] | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-09-23 |
+| [[프로젝트/개인/Zappy/README|Zappy]] | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-09-23 |
 | [[프로젝트/개인/약국맵/README|약국맵]] | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | paused | 2026-09-22 |
 | [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] | 인스타그램 카드뉴스 생성·발행 자동화의 작업 진입점 | active | 2026-09-12 |
 | [[프로젝트/개인/한능검/README|한국사 정복]] | 한국사능력검정시험 학습 앱의 작업 진입점 | active | 2026-09-11 |
@@ -40,10 +40,10 @@ status: active
 
 | 페이지 | 목적 | 상태 | 갱신일 |
 |---|---|---|---|
-| [[_wiki/1인 개발 앱 수익화|1인 개발 앱 수익화]] | 1인 개발자의 제품 선정·출시·수익화 사례를 종합한 지식 페이지 | active | 2026-08-23 |
-| [[_wiki/AI 디자인 스킬|AI 디자인 스킬]] | 코딩 에이전트의 디자인 도구와 실전 활용 경험을 종합한 지식 페이지 | needs-review | 2026-08-22 |
-| [[_wiki/LLM Wiki|LLM Wiki]] | LLM이 원본을 보존하며 누적형 지식 베이스를 운영하는 패턴과 규칙 | active | 2026-09-05 |
-| [[_wiki/React TypeScript 제품 개발|React·TypeScript로 제품 만들기]] | React·TypeScript 학습을 실제 제품 개발과 연결하는 지식 허브 | active | 2026-08-18 |
+| [[_wiki/1인 개발 앱 수익화|1인 개발 앱 수익화]] | 1인 개발자의 제품 선정·출시·수익화 사례를 종합한 지식 페이지 | active | 2026-09-23 |
+| [[_wiki/AI 디자인 스킬|AI 디자인 스킬]] | 코딩 에이전트의 디자인 도구와 실전 활용 경험을 종합한 지식 페이지 | needs-review | 2026-09-23 |
+| [[_wiki/LLM Wiki|LLM Wiki]] | LLM이 원본을 보존하며 누적형 지식 베이스를 운영하는 패턴과 규칙 | active | 2026-09-23 |
+| [[_wiki/React TypeScript 제품 개발|React·TypeScript로 제품 만들기]] | React·TypeScript 학습을 실제 제품 개발과 연결하는 지식 허브 | active | 2026-09-23 |
 
 ## 상태 안내
 

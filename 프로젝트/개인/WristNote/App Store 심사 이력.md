@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-09-02
-updated: 2026-09-20
+updated: 2026-09-23
 related_wiki: []
 ---
 
@@ -98,6 +98,8 @@ deliver가 업로드 직후 검증에서 **방금 올린 파일을 못 읽고** 
 **스크린샷**: 이번에도 ko가 12장으로 두 벌 올라갔고 dedupe가 11장을 지웠다 — [[작업노트/AppStore/스토어 스크린샷 중복 업로드|중복 업로드]]의 방어선이 두 번째로 작동했다.
 
 ## 1.1.4 (6) — 2026-09-20 01:09 제출 · 주제 제거 + 워치 타이머
+
+- **결과**: **승인 → 출시** (2026-09-19T21:48Z = 09-20 06:48 KST, 리젝 0회). 2026-09-23 lint에서 `asc state 6807479115` READY_FOR_SALE · iTunes lookup으로 확인.
 
 `asc state` 확인: **1.1.3은 READY_FOR_SALE**(승인·출시됨), 1.1.4 `WAITING_FOR_REVIEW` · build 6 `VALID` · 스크린샷 ko 5 · en-US 5.
 

@@ -9,7 +9,7 @@ aliases:
   - Figma MCP
   - Blender MCP
 created: 2026-07-31
-updated: 2026-08-22
+updated: 2026-09-23
 sources:
   - "[[_wiki/Sources/2026/07/2026-07-31-ai-design-skills-웹-조사]]"
 ---
@@ -94,4 +94,4 @@ Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관
 ## 이 vault에의 적용 (종합)
 
 - 자주 언급되는 시작 조합은 frontend-design + Vercel Web Design Guidelines + Vercel React Best Practices다. 이 Mac의 Claude Code에는 이미 `vercel:shadcn`, `vercel:react-best-practices`, `dataviz`가 설치되어 있다 (2026-07-30 확인).
-- 적용 1순위 후보는 [[프로젝트/개인/math-sprint/README|math-sprint]] — React 기반 미니게임 UI라 frontend-design류 안티슬롭 스킬의 효과가 즉시 보이는 프로젝트다.
+- 적용 1순위 후보는 [[프로젝트/개인/math-sprint/README|math-sprint]] — React 기반 미니게임 UI라 frontend-design류 안티슬롭 스킬의 효과가 즉시 보이는 프로젝트다. 단 math-sprint는 2026-08-18부터 잠시 중지 상태라(재판정은 소마 종료 2026-12 이후) 적용 시점도 그때 다시 정한다 (2026-09-23 기준).

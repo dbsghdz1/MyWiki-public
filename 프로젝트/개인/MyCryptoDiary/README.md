@@ -141,6 +141,6 @@ iOS에서 TypeScript·React로 옮겨가며 만드는 **주력 프로젝트**다
 
 - 보존 원본: [[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes|MyCryptoDiary Day 1–4 학습 노트]] — Day 1–4 구현 목록과 개념 정리
 - 다음 학습 예고(노트 기준): 현물/선물 segmented control, 코인 목록 컴포넌트, 실시간 가격 상태 업데이트, Currency Detail 동적 페이지
-- **학습 계획**: [[프로젝트/개인/MyCryptoDiary/학습 계획 2026-08-28|학습 계획 (2026-08-28 전면 개정)]] — 야생학습 9요소 진단(병목 = 연습·습관·에너지), 블록 루프, D3~D12 일정. **세션 시작 시 이 문서를 먼저 읽는다**
+- **학습 계획**: [[프로젝트/개인/MyCryptoDiary/학습 계획 2026-08-28|학습 계획 (2026-08-28 전면 개정)]] — 9요소 진단(병목 = 연습·습관·에너지), 블록 루프, D3~D12 일정. **세션 시작 시 이 문서를 먼저 읽는다**
 - 작업 기록: [[프로젝트/개인/MyCryptoDiary/실시간 데이터 UI 계획 2026-08-14|실시간 데이터 UI 계획]] · [[프로젝트/개인/MyCryptoDiary/보상형 광고 조사 2026-08-15|보상형 광고 조사]] · [[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|모의투자 전환 D1]] · [[프로젝트/개인/MyCryptoDiary/Neon Drizzle 스키마 2026-08-28|Neon·Drizzle 스키마 D2]] · [[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|Clerk 인증 D3]] · [[프로젝트/개인/MyCryptoDiary/거래 엔진 D4 2026-09-02|거래 엔진 D4]] · [[프로젝트/개인/MyCryptoDiary/D4 회고 2026-09-04|D4 회고]]
 - 학습 위키: [[_wiki/React TypeScript 제품 개발|React·TypeScript로 제품 만들기]]

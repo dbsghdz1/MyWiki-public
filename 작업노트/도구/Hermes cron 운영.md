@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-29
-updated: 2026-09-17
+updated: 2026-09-23
 projects:
   - "Hermes Cloud 배포"
 ---
@@ -104,7 +104,6 @@ projects:
   - `format_briefing()`은 `## 할 일`에서 `- [`로 시작하는 줄만 골라 `clean_markdown()`을 거쳐 붙인다. 그 함수가 **URL을 버리고 있었다**(위 핵심 정리).
   - 비 예보(`rain_windows` 또는 강수확률 ≥35%)면 `이불빨래` 줄을 빼는 필터도 같은 함수 옆에 있다 — 브리핑은 단순 전달이 아니라 **판단이 들어간 산출물**이다.
 - 한 것: `clean_markdown` 치환식 수정 + `CleanMarkdownLinkTest` 2건 추가 + `unittest` 6/6 통과 + `calendar_context.sh` 수동 실행으로 출력 확인(일요일이라 할 일 0건 — "없음"). 백업은 서버 관례대로 `daily_context.py.bak-<UTC타임스탬프>`.
-- 근거: `ubuntu@<server-ip>:(로컬 경로)` 191~192행, `(로컬 경로)` 말미. 접속은 `ssh -i (로컬 경로) ubuntu@<server-ip>`(Security List가 현재 클라이언트 IP /32만 허용 — IP가 바뀌면 먼저 그걸 의심한다).
 - 배운 것: [[학습/공부/CS/네트워크/네트워크|네트워크]] 학습 계획의 URL이 실제로 폰까지 도달하는 경로는 **일간 파일 → git push → Hermes가 pull → 스크립트 포맷 → Slack**이다. 중간에 링크를 지우는 단계가 있으면 계획 파일을 아무리 잘 써도 안 온다.
 
 
