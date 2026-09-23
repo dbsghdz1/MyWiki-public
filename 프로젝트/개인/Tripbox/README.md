@@ -6,8 +6,9 @@ status: active
 aliases:
   - 여행앱
 created: 2026-09-23
-updated: 2026-09-23
-repos: []
+updated: 2026-09-24
+repos:
+  - "github.com/dbsghdz1/Tripbox"
 related_wiki: []
 launch_gate: exempt
 launch_exception: "비수익 개인 도구 — 두 사람 여행용, TestFlight·직접 빌드로만 배포하고 스토어에 올리지 않는다"
@@ -18,7 +19,7 @@ launch_approved: 2026-09-23
 
 ## 현재 카드
 - **단계**: 7일 MVP
-- **현재**: 2026-09-23 grilling 13문항으로 범위 확정 → [[프로젝트/개인/Tripbox/PRD Tripbox v1 2026-09-23|PRD v1]] 작성. 코드 없음
+- **현재**: 2026-09-23 grilling 13문항으로 범위 확정 → PRD v1 작성, 레포 `docs/PRD.md`가 정본(09-24). 코드 없음
 - **다음 판정**: 2026-10-30 출국 전 두 사람 폰 설치 · 2026-11-08 PRD 성공 기준 4번("다음 여행에도 쓴다")으로 닫을지·스토어 게이트로 갈지
 - **지금 할 일**: 첫 기능 spec — 공유 확장으로 링크 담기 → 공유 목록
 - **하지 않을 일**: App Store 출시 준비(스크린샷·심사·수익화)
@@ -54,7 +55,8 @@ launch_approved: 2026-09-23
 
 ## 코드 저장소
 
-아직 없음 — 첫 spec 확정 뒤 `(로컬 경로)`에 만든다.
+- `(로컬 경로)` — [github.com/dbsghdz1/Tripbox](https://github.com/dbsghdz1/Tripbox) (비공개, 2026-09-24 생성)
+- **PRD 정본은 레포 `docs/PRD.md`**, 결정 표는 `docs/decisions.md`. 위키의 PRD 파일은 09-23 작성본 사본이다.
 
 ## 기록
 
