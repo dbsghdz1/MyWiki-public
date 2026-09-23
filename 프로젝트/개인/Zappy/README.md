@@ -9,7 +9,7 @@ aliases:
   - 귀여운 배터리
 created: 2026-07-23
 updated: 2026-09-23
-slack_channel: zappy
+slack_channel: 22-개인-zappy
 repos:
   - "github.com/dbsghdz1/Zappy"
 related_wiki: []

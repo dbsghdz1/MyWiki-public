@@ -10,7 +10,7 @@ aliases:
   - CollectionTopBar
 created: 2026-07-18
 updated: 2026-09-23
-slack_channel: barstack
+slack_channel: 23-개인-barstack
 repos:
   - "github.com/dbsghdz1/MacTopTopBarIconCollection"
 related_wiki: []

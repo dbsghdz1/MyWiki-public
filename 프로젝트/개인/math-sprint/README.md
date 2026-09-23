@@ -9,7 +9,7 @@ aliases:
   - 암산 스프린트
 created: 2026-07-29
 updated: 2026-09-23
-slack_channel: math-sprint
+slack_channel: 21-개인-두뇌풀가동
 repos:
   - "github.com/dbsghdz1/math-sprint"
 related_wiki:

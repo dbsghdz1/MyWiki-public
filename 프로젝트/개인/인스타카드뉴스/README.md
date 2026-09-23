@@ -7,7 +7,7 @@ aliases:
   - InstaCardNews
 created: 2026-07-22
 updated: 2026-09-23
-slack_channel: instagram
+slack_channel: 10-콘텐츠-인스타
 repos:
   - "github.com/dbsghdz1/InstaCardNews"
 related_wiki: []
