@@ -4,7 +4,7 @@ area: Flutter
 audience: ai
 status: active
 created: 2026-08-27
-updated: 2026-08-27
+updated: 2026-09-16
 projects:
   - "보험찾개냥"
 ---

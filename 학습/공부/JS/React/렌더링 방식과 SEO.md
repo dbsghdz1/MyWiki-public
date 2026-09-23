@@ -5,6 +5,8 @@ audience: me
 status: active
 created: 2026-08-30
 updated: 2026-09-09
+projects:
+  - "[[프로젝트/개인/약국맵/README|약국맵]]"
 ---
 
 # 렌더링 방식과 SEO

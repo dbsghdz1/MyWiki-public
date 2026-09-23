@@ -1,6 +1,12 @@
 ---
+type: study
+area: Flutter
 audience: ai
-분야: Flutter
+status: active
+created: 2026-09-17
+updated: 2026-09-17
+projects:
+  - "보험찾개냥"
 ---
 
 # 드래그 편집 UI의 좌표계와 경계

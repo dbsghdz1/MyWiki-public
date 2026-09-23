@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-30
-updated: 2026-08-30
+updated: 2026-09-17
 projects:
   - "계획"
 ---

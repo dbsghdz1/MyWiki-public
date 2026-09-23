@@ -4,7 +4,7 @@ area: Flutter
 audience: ai
 status: active
 created: 2026-09-15
-updated: 2026-09-18
+updated: 2026-09-23
 projects:
   - "보험찾개냥"
 ---
@@ -57,6 +57,6 @@ fastlane 없이 **ASC API 키 하나로** Flutter 앱을 남의 팀 계정에 �
 
 ### 2026-09-15 — 보험찾개냥 iOS 첫 TestFlight 업로드 (팀원 개인 팀 계정)
 
-- 맥락: 보험찾개냥 홍 "테플에 올리자". 저장소에 fastlane·iOS 배포 CI가 없고 `pubspec` 버전은 `1.0.0+1`, 서명 팀 `<팀원 팀 ID>`은 로컬 `Apple Development: <팀원 이름>` 인증서의 `OU`로 팀원 개인 팀임을 확인. 홍 개인 팀(`WN2B884S76`) ASC에는 앱·번들 ID가 없었다. 홍이 그 팀 API 키를 받아 줬다(ASC 앱 `6804209753`은 이미 있음, 홍은 `APP_MANAGER`).
+- 맥락: 보험찾개냥 홍 "테플에 올리자". 저장소에 fastlane·iOS 배포 CI가 없고 `pubspec` 버전은 `1.0.0+1`, 서명 팀은 로컬 `Apple Development: <팀원 이름>` 인증서의 `OU`로 팀원 개인 팀임을 확인. 홍 개인 팀(`WN2B884S76`) ASC에는 앱·번들 ID가 없었다. 홍이 그 팀 API 키를 받아 줬다(ASC 앱 `6804209753`은 이미 있음, 홍은 `APP_MANAGER`).
 - 배운 것: 위 「핵심 정리」 전부. dev 서버(`APP_ENV=dev`)·`#142` 머지된 main `c2c3710`으로 **build 1**(16:48 업로드, 3분 뒤 `VALID`), 새 아이콘으로 **build 2**(23:10, `IN_BETA_TESTING`). 내부 그룹 `내부 테스트` 생성 후 홍 초대 → `INSTALLED`.
 - 근거: `archive.log` `** ARCHIVE SUCCEEDED **` · `export.log` `Upload succeeded` / `** EXPORT SUCCEEDED **` · `security find-identity -v -p codesigning | grep -c <팀원 팀 ID>` = 0 · 아카이브에서 꺼낸 `AppIcon60x60@2x.png` 육안 확인 · 아이콘 커밋 `18d61ac`(로컬 `design/app-icon`, Jira 번호 받기 전이라 미푸시). 확인 스크립트의 `grep -q` 거짓 실패로 첫 실행이 업로드 전에 중단됐다.

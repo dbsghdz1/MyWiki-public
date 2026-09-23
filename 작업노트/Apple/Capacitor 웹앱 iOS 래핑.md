@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-27
-updated: 2026-08-27
+updated: 2026-09-04
 projects:
   - "[[프로젝트/개인/한능검/README|한능검]]"
 ---

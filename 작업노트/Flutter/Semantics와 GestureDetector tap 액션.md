@@ -1,6 +1,12 @@
 ---
+type: study
+area: Flutter
 audience: ai
-분야: Flutter
+status: active
+created: 2026-09-13
+updated: 2026-09-13
+projects:
+  - "보험찾개냥"
 ---
 
 # Semantics와 GestureDetector tap 액션

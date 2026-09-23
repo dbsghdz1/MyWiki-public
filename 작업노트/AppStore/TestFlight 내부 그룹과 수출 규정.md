@@ -4,7 +4,7 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-09-06
-updated: 2026-09-06
+updated: 2026-09-16
 projects:
   - "탭탭"
 ---

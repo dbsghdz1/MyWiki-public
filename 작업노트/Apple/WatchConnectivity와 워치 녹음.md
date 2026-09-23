@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-09-01
-updated: 2026-09-01
+updated: 2026-09-02
 projects:
   - "[[프로젝트/개인/WristNote/README|WristNote]]"
 ---

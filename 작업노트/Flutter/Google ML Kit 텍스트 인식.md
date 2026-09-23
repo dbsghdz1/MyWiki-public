@@ -1,6 +1,12 @@
 ---
+type: study
+area: Flutter
 audience: ai
-분야: Flutter
+status: active
+created: 2026-09-13
+updated: 2026-09-17
+projects:
+  - "보험찾개냥"
 ---
 
 # Google ML Kit 텍스트 인식 (google_mlkit_text_recognition)
@@ -9,7 +15,7 @@ audience: ai
 
 - **라틴 외 스크립트 모델은 앱이 직접 싣는다.** 플러그인 `android/build.gradle`이 `compileOnly("com.google.mlkit:text-recognition-korean:16.0.1")`라 링크는 되고 실행에서 `NoClassDefFoundError: com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions$Builder`로 죽는다. 앱 `android/app/build.gradle.kts`에 `implementation("com.google.mlkit:text-recognition-korean:16.0.1")`, iOS `Podfile`의 `target 'Runner'` 안에 `pod 'GoogleMLKit/TextRecognitionKorean', '~> 9.0.0'`(Podfile.lock의 GoogleMLKit 버전과 맞춘다)
 - **iOS 최소 15.5.** `IPHONEOS_DEPLOYMENT_TARGET`(pbxproj 3곳)과 Podfile `platform :ios, '15.5'` 둘 다. 플러그인이 SwiftPM을 지원하지 않아 SwiftPM 프로젝트에도 `ios/Podfile`이 새로 생긴다 — 첫 빌드가 `Framework 'Pods_Runner' not found`로 죽으면 `cd ios && pod install` 뒤 재빌드
-- **iOS arm64 시뮬레이터 미지원**(MLKitVision 프레임워크에 슬라이스 없음). Flutter가 `EXCLUDED_ARCHS`로 arm64를 빼고 x86_64로 빌드하며, Apple Silicon 시뮬레이터에는 설치가 거부된다(「해당 앱을 이 iOS 버전에서 사용하려면 개발자가 업데이트해야 합니다」). iOS 검증은 실기기
+- **iOS arm64 시뮬레이터는 기본으로는 설치가 거부되지만 고칠 수 있다.** MLKitVision·MLKitCommon·MLImage의 arm64 슬라이스는 기기용(`LC_BUILD_VERSION platform 2`)뿐이고 시뮬레이터용(`platform 7`)이 없어, **ML Kit podspec이** 시뮬레이터에서 `EXCLUDED_ARCHS`로 arm64를 빼고 x86_64로 빌드한다 — Apple Silicon 시뮬레이터는 설치를 거부한다(「해당 앱을 이 iOS 버전에서 사용하려면 개발자가 업데이트해야 합니다」). `lipo -info`만 보면 「arm64 있음」으로 오판하니 `lipo -thin` + `otool -l | grep -A3 LC_BUILD_VERSION`으로 판정한다. 해결은 `google_mlkit_commons`의 `ios/scripts/apple_silicon_simulator.rb`를 Podfile `post_install`에서 `mlkit_apple_silicon_simulator_patch(installer)`로 호출하는 것(SSH-569 PR #147, 2026-09-16) — 아래 09-16 기록
 - 좌표: `TextElement.boundingBox`는 **EXIF 방향을 적용한 바로 선 이미지** 기준. `image` 패키지로 픽셀을 만질 때는 `bakeOrientation` 뒤에 그린다
 - 주민번호 `숫자6-숫자7 형태의 가짜 번호`은 한 요소로 오기도, 하이픈 앞뒤로 쪼개져 오기도 한다 — 줄 안의 요소를 공백 없이 이어 붙여 정규식, 요소 하나에 앞자리까지 있으면 글자 수 비례로 자른다(신분증 숫자는 고정폭에 가깝다)
 - **OCR 화질을 올리겠다고 `image_picker`의 `imageQuality`를 빼면 마스킹이 통째로 깨진다** — 옵션이 없으면 안드로이드 `ImageResizer`가 아예 안 돌아 HEIF 원본이 그대로 오는데(SSH-402 주석), 박스를 그리는 `image` 패키지는 HEIC/HEIF를 디코드하지 못한다. 화질을 올리려면 재인코딩이 유지되는지 먼저 확인한다
