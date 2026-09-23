@@ -21,6 +21,7 @@ status: active
 | [[프로젝트/개인/즉석카메라/README|Fadeo]] | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-23 |
 | [[프로젝트/개인/math-sprint/README|math-sprint]] | Apps in Toss용 짧은 두뇌 퀴즈 스프린트 게임의 작업 진입점 | paused | 2026-09-23 |
 | [[프로젝트/개인/Subly/README|Subly]] | macOS 실시간 자막·번역 앱 실험의 작업 진입점 | paused | 2026-09-05 |
+| [[프로젝트/개인/Tripbox/README|Tripbox]] | 가고 싶은 곳 링크를 둘이 공유해 두면 AI가 일정과 근처 현지 맛집을 정리해 주는 iOS 여행 앱 | active | 2026-09-23 |
 | [[프로젝트/개인/WristNote/README|WristNote]] | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-09-23 |
 | [[프로젝트/개인/Zappy/README|Zappy]] | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-09-23 |
 | [[프로젝트/개인/약국맵/README|약국맵]] | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | paused | 2026-09-22 |
