@@ -34,7 +34,6 @@ related_wiki: []
 | [[프로젝트/개인/math-sprint/README|math-sprint]] | Apps in Toss용 60초 암산 스프린트 게임 — React·Granite 기반, build·`.ait` 통과 상태로 멈춤. **2026-08-18 잠시 중지**(중단 아님, 슬롯 배분 결정) — 소마 종료(2026-12) 이후 재판정 | paused |
 | [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] | 인스타그램 카드뉴스 생성·발행 자동화 도구 (Python) — Oracle systemd timer 08:00·23:00 자율 발행(08-14~) | active |
 | [[프로젝트/개인/MyCryptoDiary/README|CoinPilot (MyCryptoDiary)]] | 가상 1,000만원 모의투자 거래소 + 매매일기 + 유저 랭킹 — D4 매수 엔진까지 완료(PR #5~#7). **2026-09-05 잠시 중지**(수준 대비 난이도 — 풀스택 범위, [[프로젝트/개인/MyCryptoDiary/D4 회고 2026-09-04|D4 회고]]). 재개 조건은 README 현재 카드 | paused |
-| [[프로젝트/개인/사주 리포트/README|사주 리포트]] | 생년월일시 → 만세력 원국 + AI 즉시 문서 풀이 웹 서비스 — **2026-09-23 착수·MVP 완성**(남는 토큰 실험, 20·5·2 면제). 크몽 사주 gig의 납기 불만(2주~8개월)이 출발점. 실제 모델 호출은 API 키 대기 | active |
 
 ## 새 프로젝트 추가 규칙
 
