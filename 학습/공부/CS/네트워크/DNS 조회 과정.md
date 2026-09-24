@@ -5,7 +5,7 @@ audience: me
 status: active
 created: 2026-09-22
 updated: 2026-09-24
-aliases: [DNS, 재귀 확인자, 리졸버, 루트 서버, TLD, 네임서버, dig]
+aliases: [DNS, 재귀 확인자, 리졸버, 루트 서버, TLD, 네임서버, dig, Anycast, CNAME]
 ---
 
 # DNS 조회 과정
@@ -71,6 +71,31 @@ TTL이 220 → 189로 **줄어든다** = 확인자가 캐시에서 주면서 남
 - 서버 이전 전엔 TTL을 낮춘다. 단 **낮춘 설정도 옛 TTL이 끝나야 퍼지므로** 옛 TTL만큼 먼저 낮춰 둔다: 낮춤 → 옛 TTL 대기 → IP 변경 → 다시 올림.
 - 평소엔 높게: 짧으면 질의 비용↑, 캐시 미스마다 수백 ms(루트·TLD·네임서버 왕복), 네임서버 장애 시 캐시로 버티지 못한다.
 
+### 루트 서버 — 13개 IP, 기계는 수천 대 (Anycast)
+
+- 루트는 `.`을 맡은 네임서버. 아는 건 "각 TLD 담당이 누구인가"뿐 — `dig @a.root-servers.net example.com`은 `ANSWER: 0`, `com. NS gtld-servers` 13개만 준다.
+- **Anycast** = 여러 기계가 **같은 IP**를 광고하고 라우터가 경로상 가장 가까운 기계로 보낸다(대표번호처럼). 유니캐스트는 IP 하나 = 기계 하나.
+- 한국(KT)에서 `id.server CH TXT`로 "너 누구?"를 물은 결과: `e`·`f`·`j`·`l`·`m`은 인천·서울 기계가 6~8ms, `h`·`k`는 도쿄 38~49ms, `a`는 시애틀·`c`는 LA 140ms대. **가깝다 = 지도 거리가 아니라 네트워크 경로** — `a`는 한국에서 물어도 시애틀로 갔다.
+- 확인자는 13개의 응답 시간을 재 두고 빠른 곳을 쓴다. 게다가 `com.` NS 답은 TTL 172800(2일)이라 루트에 묻는 일 자체가 드물다.
+- 운영: 루트는 ICANN 감독, TLD 배정은 IANA. TLD는 gTLD(`.com`·`.dev`, `gtld-servers`의 g)와 ccTLD(`.kr`·`.jp`).
+
+> Cloudflare 글은 루트 인스턴스를 "600개 이상"이라 쓰지만 root-servers.org는 2026-09-24 기준 2045개 운영 중이라 표시한다 — 글이 오래됐다.
+
+### CNAME — "이 이름은 저 이름의 별명"
+
+| 레코드 | 답 |
+|---|---|
+| `A` | IP는 이거 |
+| `NS` | 이 **구역**은 저 네임서버한테 물어봐 |
+| `CNAME` | 이 **이름**은 저 이름과 같다, 저 이름으로 처음부터 다시 찾아 |
+
+```
+www.naver.com.   13412  CNAME  www.naver.com.nheos.com.   ← 거의 안 바뀜, TTL 김
+www.naver.com.nheos.com.  8  A  223.130.192.248 외 3       ← 수시로 바뀜, TTL 8초
+```
+
+- **IP 관리를 남의 장부로 넘기는 장치.** `blog.hong.dev CNAME cname.vercel-dns.com`이면 IP(`76.76.21.98`)는 Vercel 네임서버에 적혀 있어서, Vercel이 IP를 바꿔도 내 Cloudflare 장부는 고칠 게 없다. 내가 `A`로 IP를 직접 적었으면 내가 고쳐야 한다. Vercel·Netlify가 CNAME 연결을 안내하는 이유.
+
 ## 기록
 
 ### 2026-09-22 — Cloudflare «What is DNS?»의 8단계를 붙여넣고 "자세히"
@@ -88,6 +113,14 @@ TTL이 220 → 189로 **줄어든다** = 확인자가 캐시에서 주면서 남
 - 결론: 네임서버는 자기 구역만 아는 답변 컴퓨터. IP 변경은 권한 네임서버만 고친다. TTL은 바꾸기 쉬움 ↔ 빠름·튼튼함의 저울
 - 새로 생긴 궁금증: 네임서버를 Cloudflare에서 다른 곳으로 옮기면 그땐 `.dev` 쪽 NS를 고쳐야 할 텐데, TLD 서버에 내가 직접 쓸 수는 없을 테니 누가 대신 고쳐 주나? (등록기관?)
 
+### 2026-09-24 (이어서) — Cloudflare «DNS server types»: 루트 서버가 뭐야, CNAME은?
+
+- 맥락: 같은 Cloudflare Learning의 서버 유형 글을 붙여넣고 "루트 서버가 뭐야"
+- 예측: 한국에서 `k` 루트를 물었는데 도쿄가 답한 이유 → "가까워서, 한국엔 없고 일본엔 있어서" → **가까워서는 맞고, 기준은 지도 거리가 아니라 경로**. 한국 기계 유무는 이 결과로 알 수 없다
+- 파고든 길: 13개 루트 전부에 `id.server CH TXT` + 응답 시간 → `traceroute`로 `k`(NTT망 경유 44ms)·`l`(17ms) 경로 비교 → `www.github.com`·`www.naver.com`의 CNAME 체인 → `cname.vercel-dns.com`의 A와 NS
+- 결론: 루트 "13개"는 IP 13개, 뒤에 Anycast 기계 수천 대. CNAME은 IP 관리를 남의 장부로 넘기는 것 — Vercel IP가 바뀌어도 내 장부는 그대로
+- 새로 생긴 궁금증: 루트 도메인(`hong.dev` 자체, `www` 없이)에는 CNAME을 못 쓴다고 들었는데 왜일까? Cloudflare의 "CNAME flattening"은 그걸 어떻게 우회하나?
+
 관련: [[학습/공부/CS/네트워크/도메인과 메일 MX|도메인과 메일 MX]] — 같은 DNS, 이쪽은 MX 레코드 · [[학습/공부/CS/네트워크/포트와 localhost|포트와 localhost]] — IP를 얻은 다음은 포트
 
 ## 참고 자료
@@ -95,3 +128,6 @@ TTL이 220 → 189로 **줄어든다** = 확인자가 캐시에서 주면서 남
 - Cloudflare Learning «What is DNS?» — 붙여넣은 8단계의 출처. 확인자·루트·TLD·권한 네임서버 넷과 브라우저·OS·확인자 3단 캐시 설명 (2026-09-22 봇 차단(403)으로 URL 자동 확인 실패, 링크 생략)
 - [RFC 1034 — Domain Names: Concepts and Facilities](https://www.rfc-editor.org/rfc/rfc1034) — §2.4 네임서버(authority)·확인자 정의, §5.3.3 확인자 알고리즘(캐시 우선 · 위임을 받으면 다음 서버로) (2026-09-22 확인)
 - [How DNS Works](https://howdns.works/) — 같은 8단계를 만화로 (2026-09-22 확인)
+- Cloudflare Learning «What are the different types of DNS server?» — 확인자·루트·TLD·권한 네임서버 넷, Anycast, CNAME (2026-09-24 역시 403, 링크 생략)
+- [IANA — Root Servers](https://www.iana.org/domains/root/servers) — a~m 13개 루트와 운영 기관 (2026-09-24 확인)
+- [root-servers.org](https://root-servers.org/) — 루트 인스턴스 위치 지도, 2045개 운영 중 (2026-09-24 확인)
