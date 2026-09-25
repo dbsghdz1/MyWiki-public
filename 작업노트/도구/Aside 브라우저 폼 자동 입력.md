@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-11
-updated: 2026-09-16
+updated: 2026-09-26
 projects:
   - "HSW"
   - "[[프로젝트/개인/약국맵/README|약국맵]]"
@@ -163,3 +163,14 @@ DOM에 노드를 직접 꽂지 않은 이유: 에디터가 내부 상태를 따�
 - **없는 API가 여럿이다** — `page.setViewportSize()`는 `TypeError: not a function`, `page.screenshot({clip})`와 요소 `.screenshot()`은 `Error: Invalid parameters`. `page.$()`는 deprecated(`locator().first()` 권고). **결국 전체 화면을 찍고 셸에서 PIL로 자르는 게 가장 확실하다.**
 - **사이트 UI를 CSS로 숨겨 「깨끗한 캡처」를 만드는 건 생각보다 비싸다.** 카카오맵에서 `#view.mapContainer`의 형제·자식을 `display:none`으로 지워가다 **타일 캔버스까지 같이 죽어 완전 백지**가 나왔다. 몇 번 왕복한 끝에 **크롬이 프레임 밖으로 나가게 잘라내는 쪽**으로 돌아섰다 — 숨기기는 두세 번 시도하고 안 되면 자르기로 넘어간다.
 - 근거: 실패 로그 `not a function`(setViewportSize) · `Invalid parameters`(clip·element screenshot) · `escapes the session directory` · 백지로 나온 `k2-1512.png`. Aside CLI 1.26.906.1630
+
+### 2026-09-26 — 크몽 새 gig 등록 마법사 `/my-gigs/new` (제출 안 함)
+
+맥락: HSW의 새 크몽 서비스(AI로 만든 웹앱 배포 대행)를 처음부터 입력했다. 위 FIFO 상주 세션을 그대로 썼다.
+
+- **마법사 URL은 `https://kmong.com/my-gigs/new`다.** 1단계는 제목 input 하나와 카테고리 버튼 두 개(react-select가 아니다). 제목을 넣으면 "제목과 어울리는 카테고리를 제안드려요" 버튼(`IT·프로그래밍 서버·클라우드` 등)이 뜨고, 그걸 누르면 1·2차가 한 번에 채워진다
+- **`page.getByRole(...)`은 이 Aside 버전에서 클릭이 실패한다.** 스냅샷 트리에서 `button "이름" [ref=(e\d+)]`을 정규식으로 뽑아 `page.locator(ref).click()`하는 게 확실하다(스냅샷과 클릭을 한 호출 안에서)
+- **2단계는 한 화면**이다: 서비스 설명·제공 절차·준비사항(contenteditable 3개, 줄마다 `keyboard.insertText` + `Enter`), 주요 특징(react-select), 이미지, 가격(패키지 스위치 `[role=switch]`를 켜야 DELUXE·PREMIUM 칸이 활성화), 수정 및 재진행 안내(textarea, 네이티브 setter), 판매 핵심 정보(접힌 region — `h2` "판매 핵심 정보"를 눌러 연다: 검색 키워드 input에 `insertText`+`Enter`로 칩 등록, FAQ·작업 전 요청사항은 「추가」를 누르면 행이 생긴다)
+- **「간편 제작」 썸네일은 텍스트를 스크립트로 넣으면 글자 없는 이미지가 올라간다.** 입력창 값을 네이티브 setter나 `Meta+A`→`insertText`로 바꾸면 미리보기에는 보여도 「추가하기」가 만든 PNG(`gm6ck1790360669.png`)는 배경만 있었다. 긴 문구는 "글자 수를 줄여주세요" 경고(한 줄 약 10자). **PIL로 652×488 PNG를 직접 그려 `input[type=file]`에 올리는 쪽이 확실하다** — 파일은 세션 디렉터리 `./artifacts/`에 복사한 뒤 `page.locator('input[type=file]').first().setInputFiles('./artifacts/thumb.png')`. 올라간 CDN 파일을 `curl`로 받아 `cmp`해 원본과 같음을 확인했다
+- **상주 REPL은 최상위 스코프가 하나라 `const` 이름이 겹치면 `SyntaxError: Identifier 'V' has already been declared`로 호출 전체가 파싱 단계에서 죽는다**(클릭도 실행되지 않는다). 호출마다 새 변수명을 쓴다
+- 저장 확인 토스트는 `[class*=toast]` 계열에 "지금까지 작성한 내용이 저장됐어요"로 잡힌다(150ms 폴링)
