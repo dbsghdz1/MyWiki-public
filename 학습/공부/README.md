@@ -132,6 +132,7 @@ projects:
 - [[학습/공부/JS/언어/bigint와 정수 연산|bigint와 정수 연산]] — `bigint`는 `number`와 섞이지 않고 나눗셈은 항상 내림. 돈을 깎는 값만 `bigint`, 변환은 경계에서 한 번, **타입이 통과해도 숫자는 손계산이 검증한다** (2026-09-02)
 - [[학습/공부/JS/언어/JavaScript 런타임|JavaScript 런타임]] — Node = V8 + OS 기능, 브라우저와 능력이 다른 이유 (2026-08-18)
 - [[학습/공부/JS/언어/브라우저 렌더링과 DOM|브라우저 렌더링과 DOM]] — DOM은 **서버가 아니라 브라우저가** HTML을 파싱해 만든다. CSS는 CSSOM으로 따로, JS는 만들어진 DOM을 고치는 쪽 (2026-09-26)
+- [[학습/공부/JS/언어/HTML 문서 구조|HTML 문서 구조]] — 뼈대 줄마다 맡은 일(doctype·lang·charset·viewport·defer), 태그≠요소, void 요소, id·class·data-*, 엔티티 (2026-09-26)
 - [[학습/공부/JS/언어/JavaScript 모듈 시스템|JavaScript 모듈 시스템]] — default/named export, 재수출. **`import.meta.env`는 빌드 타임 치환이라 키가 번들에 박힌다**, `VITE_` 접두사는 「공개해도 된다」는 스위치 (2026-09-09)
 - [[학습/공부/JS/언어/비동기와 Promise|비동기와 Promise]] — `fetch`는 결과가 아니라 **나중에 채워질 상자**를 즉시 준다. 두 번 기다리고, 403·404에는 reject하지 않으므로 `r.ok`를 직접 본다 (2026-09-08)
 - [[학습/공부/JS/언어/TypeScript 타입 시스템|TypeScript 타입 시스템]] — 타입은 컴파일하면 사라진다. `r.json()`은 `any` — 외부 응답이 들어오는 **경계에 한 줄**로 선언하고, 그건 검사가 아니라 **약속**이다 (2026-09-09)
