@@ -4,8 +4,9 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-22
-updated: 2026-09-02
+updated: 2026-09-26
 projects:
+  - "[[프로젝트/개인/논문표/README|논문표]]"
   - "사업자 운영"
 ---
 
@@ -58,6 +59,16 @@ Claude Code는 실측상 **캐시 쓰기의 97%가 1시간 TTL**이다. 읽기�
 Fable 5는 $10/$50, Opus 5는 $5/$25 — **정확히 2배**다. 같은 작업량이면 Opus 5로 내리는 것만으로 소모가 절반이 된다. 별도의 효율 개선이 필요한 게 아니다.
 
 ## 기록
+
+### 2026-09-26 — WebSearch는 세션당 200회이고, 다 쓰면 탐색 에이전트가 조용히 빈손이 된다
+
+- 맥락: [[프로젝트/개인/논문표/README|논문표]]에 이르기 전 제품 후보 발굴 워크플로(2026-09-23~24). 에이전트 수십 개가 WebSearch를 병렬로 썼다.
+- 배운 것:
+  1. **세션 WebSearch 예산은 200회이고 서브에이전트·워크플로 에이전트가 같이 쓴다.** 소진 후 메시지: "Web search was not performed: this session has used its web search budget (200 of 200 WebSearch calls) … ask the user to raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION."
+  2. **소진 뒤 탐색 에이전트 10개 중 8개가 에러 없이 빈 결과를 돌려줬다.** 워크플로 요약만 보면 "시장이 비어 있다"로 오독된다. 빈 결과가 몰리면 먼저 WebSearch를 직접 한 번 불러 예산을 확인한다.
+  3. 소진 상태에서 살아 있던 경로(2026-09-24 기준): Daum 뉴스 `https://search.daum.net/search?w=news&q=`(WebFetch — `w=tot`는 대개 빈다), HN Algolia `https://hn.algolia.com/api/v1/search?query=…&tags=comment`(curl — `numericFilters`의 `>`는 `%3E`로), GitHub search API(비인증 분당 10회), iTunes Search·Lookup·RSS 리뷰 API(`/kr/rss/customerreviews/id=<ID>/sortBy=mostRecent/json`). 막힌 것: 구글, 네이버(카페·지식iN 포함), DuckDuckGo(CAPTCHA), Mojeek(403), reddit.com. Bing은 200을 주지만 질의와 무관한 결과를 준다.
+  4. 워크플로 도중 Fable 쿼터가 차면 에이전트가 "You've reached your Fable limit. Run /usage-credits to continue or switch models with /model."로 실패한다. `/model`로 Opus 5에 내린 뒤 같은 `scriptPath` + `resumeFromRunId`로 다시 돌리면 끝난 에이전트는 캐시로 재생되고 실패분만 돈다(위 1번 「Fable 자체 한도」와 같은 현상).
+- 근거: 워크플로 run `wf_2eb39314-20d`(Fable 한도로 5개 실패 → 재개 성공), `wf_d2020b27-7f2`(탐색 10개 중 빈 결과 8).
 
 ### 2026-08-22 — 한도에 막힌 건 플랜이 아니라 Fable 쿼터였다
 

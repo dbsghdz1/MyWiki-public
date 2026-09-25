@@ -5,7 +5,7 @@ summary: "다음 작업의 AI를 위한 재현 가능한 작업 경험 허브"
 status: active
 aliases: [AI 노트, 작업 경험, worknotes]
 created: 2026-08-28
-updated: 2026-09-23
+updated: 2026-09-26
 ---
 
 # 작업노트
@@ -144,11 +144,12 @@ projects:
 - [[작업노트/도구/fastlane 로컬 실행 환경|fastlane 로컬 실행 환경]] — 로컬 배포가 깨지는 건 대개 fastlane이 아니라 **`bundle exec`이 심은 `RUBYOPT`가 xcodebuild 자식까지 새는 것**. 시스템 ruby 2.6이 Homebrew ruby 4의 bundler를 로드하다 죽는데, **stderr는 gym 로그를 안 거쳐서** 원인 불명 build error로 보인다. `env -u RUBYOPT`로 직접 아카이브해보면 1분 만에 판별된다 (2026-08-26)
 - [[작업노트/도구/fastlane 배포 알림|fastlane 배포 알림]] — 배포 알림이 안 오는 건 대개 실패가 아니라 **안 불린 것**. `notify_discord`는 `DISCORD_WEBHOOK_URL`이 없으면 조용히 `return`하고(webhook은 gitignore된 `fastlane/.env`에만 있어 **CI는 원래부터 무음**), 나중에 만든 `platform :macos` lane에는 호출 자체가 빠져 있었다. 확인은 fastlane summary에 `curl -H` 스텝이 있는지로 (2026-09-01)
 - [[작업노트/도구/macOS 앱 QA 자동화|macOS 앱 QA 자동화]] — 시뮬레이터가 없는 맥 앱을 `CGEvent`·`screencapture -l`로 조작·캡처해 QA한다. **`mouseEventClickState`를 1로 안 넣으면 클릭이 통째로 무시**되는데 호버는 되므로 앱 버그로 오진하기 쉽고, 판정은 눈이 아니라 픽셀 rgb로 해야 오진이 사라진다 (2026-08-26) · 창이 움직여 30분을 오진했다(탭탭) (2026-09-01)
-- [[작업노트/도구/Vercel 배포|Vercel 배포]] — Git 연동은 레포 루트 기준, 서브폴더 사이트는 Root Directory 필수(빠지면 통째로 404), 배포 URL은 보호 때문에 401/302라 alias로 점검 · **출력 폴더 안 `.vercel/`까지 `rm -rf`하면 다음 `vercel deploy`가 폴더명으로 새 프로젝트를 만든다**(배포는 성공, 기존 도메인은 조용히 안 바뀜) — 복구는 `vercel link --yes --project <기존>` (2026-09-10)
-- [[작업노트/도구/문서 포맷 파싱|문서 포맷 파싱]] — `.pptx`는 zip+OOXML, `.key`는 zip+IWA(snappy 압축 protobuf) — 앱 없이 텍스트 추출 가능. PDF 메타데이터는 날짜 추정 근거 (2026-08-19) · 업로드 포맷은 선언이 아니라 매직 바이트로(08-26) · PDF 표는 읽기 순서 토큰 열 — 예외 셀 하나가 뒤를 전부 민다 (2026-08-27)
+- [[작업노트/도구/Vercel 배포|Vercel 배포]] — Git 연동은 레포 루트 기준, 서브폴더 사이트는 Root Directory 필수(빠지면 통째로 404), 배포 URL은 보호 때문에 401/302라 alias로 점검 · **출력 폴더 안 `.vercel/`까지 `rm -rf`하면 다음 `vercel deploy`가 폴더명으로 새 프로젝트를 만든다**(배포는 성공, 기존 도메인은 조용히 안 바뀜) — 복구는 `vercel link --yes --project <기존>` (2026-09-10) · **첫 `vercel --yes`는 곧바로 프로덕션**, 배포본 e2e는 `E2E_BASE_URL`로 (2026-09-26)
+- [[작업노트/도구/문서 포맷 파싱|문서 포맷 파싱]] — `.pptx`는 zip+OOXML, `.key`는 zip+IWA(snappy 압축 protobuf) — 앱 없이 텍스트 추출 가능. PDF 메타데이터는 날짜 추정 근거 (2026-08-19) · 업로드 포맷은 선언이 아니라 매직 바이트로(08-26) · PDF 표는 읽기 순서 토큰 열 — 예외 셀 하나가 뒤를 전부 민다 (2026-08-27) · 한국 엑셀 CSV는 **CP949**(fatal UTF-8 실패 → euc-kr), SheetJS CSV는 `raw: true`(아니면 "1/2"가 날짜), Quick Look은 docx 표 폭을 무시 (2026-09-26)
+- [[작업노트/도구/SPSS와 같은 통계 계산|SPSS와 같은 통계 계산]] — Levene은 **평균 기준**(scipy 기본 median), 왜도·첨도 **편향 보정**, 카이제곱 **무보정**, Scheffé는 직접 구현. 정답은 기억이 아니라 scipy 출력, 픽스처는 유의·비유의·사후검정 분기를 모두 지나가게 (2026-09-26)
 - [[작업노트/도구/Claude Code 설정과 훅|Claude Code 설정과 훅]] — **설정이 안 먹으면 문법보다 로딩 시점을 의심한다.** `paths: "**/*"`는 항상 로드가 아니라 조건부(빼야 세션 시작 로드), path-scoped는 Read에만, `allowed-tools`는 제한이 아니라 사전승인, 복합 명령은 조각별 매칭, 새 `settings.json`은 그 세션에서 안 먹음. **스킬 라우팅은 기본값과 다른 것만 적는다**(스킬 설명 복제는 no-op), **플러그인 정리는 `claude plugin uninstall`**로(캐시만 지우면 유령 항목), `disable-model-invocation: true`는 버그가 아니라 «사람이 연다»는 설계. **앱을 지워도 그 앱의 플러그인 훅은 남는다** — `hook error … gk: No such file` 같은 «없는 경로» 훅 에러는 `(로컬 경로)`에서 찾아 `claude plugin uninstall` (2026-09-22)
 - [[작업노트/도구/HTML을 이미지로 렌더링|HTML을 이미지로 렌더링]] — 크롬·ImageMagick 없이 **Swift + WKWebView 스냅샷**으로 HTML을 정확한 크기 PNG로. `document.fonts.ready` 뒤에 찍어야 폰트가 붙고, `zoom`을 쓰면 `getBoundingClientRect`도 배율로 돌아온다. 고정 캔버스 넘침은 `scrollHeight`로 못 잡는다. Pillow 경로: Jua는 앱 저장소 폰트가 원본(gstatic TTF는 폴백), **Dia.app은 헤드리스 안 됨**, 4:5는 9:16 축소가 아니라 별도 컴팩트 분기, ffmpeg `xfade` 체인으로 슬라이드쇼 (2026-09-04)
-- [[작업노트/도구/Claude Code 사용량과 한도|Claude Code 사용량과 한도]] — **한도는 하나가 아니다** — Fable 5는 전체 한도와 별개의 자체 쿼터라 `/model`로 Opus 5에 내려오면 풀린다(플랜 문제 아님). 사용량은 `(로컬 경로)`로 실측(중복 제거 키 `(message.id, requestId)`), 비용 절반 이상이 **캐시 읽기**(1h 쓰기 2×·읽기 0.1×) (2026-08-22)
+- [[작업노트/도구/Claude Code 사용량과 한도|Claude Code 사용량과 한도]] — **한도는 하나가 아니다** — Fable 5는 전체 한도와 별개의 자체 쿼터라 `/model`로 Opus 5에 내려오면 풀린다(플랜 문제 아님). 사용량은 `(로컬 경로)`로 실측(중복 제거 키 `(message.id, requestId)`), 비용 절반 이상이 **캐시 읽기**(1h 쓰기 2×·읽기 0.1×) (2026-08-22) · **WebSearch는 세션당 200회, 서브에이전트와 공유** — 소진되면 탐색 에이전트가 에러 없이 빈손, 대체 경로는 Daum 뉴스·HN Algolia·GitHub·iTunes API (2026-09-26)
 - [[작업노트/도구/셸 초기화와 터미널 통합|셸 초기화와 터미널 통합]] — **`.zshrc`에 쓴 것이 최종이 아니다.** 터미널 앱(cmux)의 셸 통합이 rc가 다 돈 뒤 **첫 프롬프트 `precmd` 훅**에서 내 `claude()`를 자기 래퍼로 되돌린다 — 훅이 자기를 제거하니 "source하면 되는데 새 탭이면 또 안 됨". `type -w`는 함수 존재만, 본문은 `functions`로 · **`mise use -g <도구> && <그 도구 명령>`은 한 줄이면 실패** — `mise activate`는 셸 시작 때 PATH를 꽂아 같은 명령줄에서는 새 도구가 안 보인다(`command -v` 실패 ≠ 미설치), 명령을 나누거나 shims를 PATH 앞에 (2026-09-16)
 - [[작업노트/도구/커넥터 권한과 데이터 경계|커넥터 권한과 데이터 경계]] — **커넥터가 보여주는 범위 ≠ 내 것.** `list_calendars`는 구독한 남의 캘린더까지 같은 모양으로 준다 — 자동화가 "전부 조회"하면 남의 일정이 내 계획에 들어온다. 소유 판정은 `primary`/`accessRole`·ID 화이트리스트로, 내용 추론으로 하지 않는다. 규칙이 두 곳에 있으면 둘 다 고친다 (2026-08-25)
 - [[작업노트/도구/공공데이터 라이선스|공공데이터 라이선스]] — **공공누리 유형은 시작이지 끝이 아니다.** 그 위에 저작권법 §24조의2(국가가 업무상 작성·공표 → 허락 없이 이용 가능, 상업적 제한 없음)가 있어 **유형 표시가 법률상 자유이용을 줄이지 못한다.** 국가기관 저작물의 4유형은 오히려 단서 — *데이터 안에 제3자 저작물이 섞였다*는 신호다. 봐야 할 건 딱지가 아니라 **누가 그 콘텐츠 권리를 실제로 갖는가** (2026-08-26)

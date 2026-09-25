@@ -4,8 +4,9 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-19
-updated: 2026-09-10
+updated: 2026-09-26
 projects:
+  - "[[프로젝트/개인/논문표/README|논문표]]"
   - "[[프로젝트/개인/Zappy/README|Zappy]]"
 ---
 
@@ -22,6 +23,15 @@ Git 연동 배포는 **레포 루트를 프로젝트 루트로 가정**한다 �
 - 프로젝트 설정 변경은 대시보드 없이도 REST로 가능: `PATCH https://api.vercel.com/v9/projects/<id>?teamId=<org>` body `{"rootDirectory":"landing"}` (토큰은 `(로컬 경로)`). 이후 `vercel redeploy <deployment-url>`로 같은 커밋을 새 설정으로 재빌드.
 
 ## 기록
+
+### 2026-09-26 — 처음 `vercel --yes`는 곧바로 프로덕션이다
+
+- 맥락: [[프로젝트/개인/논문표/README|논문표]] 첫 배포. Git 연동 없이 로컬 폴더에서 CLI로 올렸다.
+- 배운 것:
+  1. 링크 안 된 폴더에서 `vercel --yes`는 프로젝트를 만들고 **첫 배포를 production에 배정한다.** CLI 출력: "This is the project’s first deployment, so it was assigned to production. Future deployments will be preview deployments unless you use --prod." 미리보기로 조용히 올려 보려는 의도였다면 첫 회에는 성립하지 않는다.
+  2. alias `https://nonmunpyo.vercel.app`은 200, 배포별 URL(`nonmunpyo-<해시>-<팀>.vercel.app`)은 302(Deployment Protection) — 점검은 alias로 한다(08-19 기록과 같은 함정).
+  3. **배포본 e2e**: Playwright `baseURL`을 `E2E_BASE_URL` 환경변수로 받고, 그 값이 있으면 `webServer`를 끄게 하면 같은 테스트가 배포본을 친다. 외부 요청 검사의 기준 출처도 같은 변수에서 뽑아야 오판하지 않는다.
+- 근거: vercel CLI 58.5.1 출력, nonmunpyo `playwright.config.ts`·`e2e/smoke.spec.ts`(커밋 `d03fd38`).
 
 ### 2026-09-10 — 배포 폴더를 `rm -rf` 하면 프로젝트 연결이 끊겨 새 프로젝트로 올라간다
 - 맥락: 빌드 스크립트가 매번 출력 폴더를 새로 만들도록 `rm -rf deploy && python3 build.py --files` 로 돌렸다
