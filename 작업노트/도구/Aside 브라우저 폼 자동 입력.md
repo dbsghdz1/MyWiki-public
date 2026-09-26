@@ -4,8 +4,9 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-11
-updated: 2026-09-26
+updated: 2026-09-27
 projects:
+  - "[[프로젝트/개인/오늘 본 장면/README|오늘 본 장면]]"
   - "[[프로젝트/개인/논문표/README|논문표]]"
   - "HSW"
   - "[[프로젝트/개인/약국맵/README|약국맵]]"
@@ -203,3 +204,13 @@ DOM에 노드를 직접 꽂지 않은 이유: 에디터가 내부 상태를 따�
   6. **Instagram 프로필·GitHub·App Store(`apps.apple.com/kr/app/id…`)·Vercel 페이지는 `openTab` 뒤 3초면 그대로 찍힌다.** App Store 앱 id는 `https://itunes.apple.com/lookup?id=<한 앱 id>` → `artistId` → `lookup?id=<artistId>&entity=software`(iOS)·`entity=macSoftware`(Mac)로 같은 개발자 앱을 전부 얻는다(`term=` 검색은 팟캐스트만 나왔다).
   7. **열어 둔 탭은 반드시 `closeTab`한다.** 실패한 루프가 탭 11개를 남기자 `[warning] N tabs are open`이 붙기 시작했다. 정리는 `listBrowserTabs()`에서 URL 정규식으로 골라 `attachBrowserTab` → `closeTab`, 단 사용자의 원래 탭(targetId를 적어 둔다)은 건드리지 않는다.
 - 근거: Aside CLI 1.26.916.1741 · 세션 폴더 `(로컬 경로)` · 캡처 원본은 세션 스크래치패드 `shots/`(첨부 PDF에 실린 것이 결과).
+
+### 2026-09-27 — 유튜브 스튜디오 업로드를 launchd에서 무인으로
+- 맥락: [[프로젝트/개인/오늘 본 장면/README|오늘 본 장면]] 쇼츠를 하루 10번 게시하는 `src/uploader.py`
+- 배운 것:
+  1. **`locator.setInputFiles('/절대/경로')`는 `Path "…" escapes the session directory`로 거부된다.** 파일은 그 호출의 세션 폴더(`(로컬 경로)`) 안에 있어야 한다. 세션 폴더는 호출마다 새로 생기고, 출력이 파이프일 때는 `sessionDir:` 머리줄이 끝날 때까지 안 나온다 → 셸이 `aside repl "<js>"`를 백그라운드로 띄운 직후 `ls -t (로컬 경로) | head -1`로 새 폴더를 찾아 `cp x.part && mv x.part up.mp4`, JS는 `await fs.stat('up.mp4')`가 성공할 때까지 1초씩 폴링한다.
+  2. **REPL의 `fs`는 Promise API뿐이다**(`readFile,writeFile,mkdir,readdir,stat,lstat,unlink,rm,rename,copyFile,access,resolvePath`) — `fs.existsSync`는 없다. `pwd`는 함수가 아니라 문자열이다(`pwd()`는 `TypeError: not a function`).
+  3. **`openTab`으로 연 탭은 `aside repl "<js>"` 호출이 끝나면 닫힌다.** 다음 호출에서 `listBrowserTabs()`에 안 보인다 → 업로드~게시처럼 이어지는 흐름은 한 호출(120초 제한) 안에서 끝낸다. 표준입력으로 여러 줄을 흘려 넣으면 첫 줄만 실행되고 끝났다.
+  4. **`page.getByRole`은 없다**(`not a function`). `snapshot()` 트리에서 `textbox "이름" [ref=e245]`를 정규식으로 뽑아 `page.locator('e245')`로 쓴다. 스냅숏마다 ref가 바뀌므로 매 동작 전에 다시 뽑는다. `snapshot(page, {selector: '[role="dialog"]'})`는 유튜브 대화상자에서 빈 트리를 돌려줬다.
+  5. launchd(`com.hong.shorts-uploader`, PATH에 `(로컬 경로)`)에서 `aside repl`이 그대로 돈다 — Aside 앱이 떠 있기만 하면 된다.
+- 근거: 첫 무인 게시 2026-09-27 01:00 https://youtube.com/shorts/9RyhIsaKIyk · Aside CLI 1.26.916.1741 · 데몬 1.26.926.2148
