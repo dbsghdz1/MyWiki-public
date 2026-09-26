@@ -25,7 +25,7 @@ projects:
 - 해법은 하나다: 시스템 설정 → 개인정보 보호 및 보안 → **Full Disk Access에 터미널 앱(Ghostty/Terminal)을 추가하고 앱을 완전히 재시작**. 설정 창은 `open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"`로 바로 연다.
 
 ## 기록
-### 2026-09-22 — 휴지통의 hyunji-birthday 폴더가 안 지워진다
+### 2026-09-22 — 휴지통의 폴더 하나가 안 지워진다
 - 맥락: [[작업노트/도구/Ghostty 설정|Ghostty]] 안의 Claude Code `co` 세션에서 맥 정리(안 쓰는 앱·캐시 삭제) 뒤 홍이 "휴지통의 폴더가 왜 안 지워지나" 질문
 - 배운 것:
   - `ls (로컬 경로)` → `Operation not permitted`. `sudo rm -rf`(Terminal, 암호 입력)도 동일. 폴더 `stat`은 되고 `mv … (로컬 경로)`도 됨.

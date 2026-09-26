@@ -55,13 +55,13 @@ projects:
   - **영상 위 오버레이는 투명 PNG + `overlay=0:0:format=auto`.** 4K 원본은 `scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1,setpts=PTS-STARTPTS`로 맞춘 뒤 얹고, 클립 간 `xfade`는 fps·크기·SAR이 같아야 한다. 오버레이의 잉크색 글자는 어두운 영상에서 죽으므로 브랜드 칩·도메인 뒤에 크림 알약(alpha 225~235)을 깐다.
 - 근거: `(로컬 경로)`(같은 폴더에 산출물), `stock_원본/출처.txt`(Pexels id·구간·합성 명령), 세션 스크래치패드 `ads/`.
 
-### 2026-09-26 — HTML → A4 가로 PDF 9쪽 (지원서 포트폴리오)를 Playwright 캐시의 헤드리스 크롬으로
+### 2026-09-26 — HTML → A4 가로 PDF 9쪽을 Playwright 캐시의 헤드리스 크롬으로
 
-- 맥락: SK하이닉스 AI 해커톤 지원용 포트폴리오 PDF(pdf 1개·50MB 제한). Chrome·wkhtmltopdf·pandoc·weasyprint 전부 없지만 **`(로컬 경로)`이 있었다**(어떤 프로젝트의 `npx playwright install`이 남긴 것).
+- 맥락: 외부 제출용 PDF 자료집(pdf 1개·50MB 제한). Chrome·wkhtmltopdf·pandoc·weasyprint 전부 없지만 **`(로컬 경로)`이 있었다**(어떤 프로젝트의 `npx playwright install`이 남긴 것).
 - 배운 것:
   - **PDF**: `chrome-headless-shell --headless --disable-gpu --no-sandbox --no-pdf-header-footer --print-to-pdf="$PWD/out.pdf" "file://$PWD/page.html"`. stderr의 `CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670`은 무해하다. 9쪽·이미지 15장에 9.2MB.
   - **페이지 고정 레이아웃**: `@page { size: A4 landscape; margin: 0 }` + `.page { width:297mm; height:210mm; overflow:hidden; page-break-after:always }`. 본문이 넘치면 조용히 잘리므로(7쪽 표가 푸터를 덮었다) 쪽마다 미리보기를 본다.
   - **쪽별 PNG 미리보기**: 같은 HTML에 `.page:not(:nth-of-type(N)){display:none!important}`를 끼운 사본을 만들어 `--screenshot=pN.png --window-size=1123,794 --force-device-scale-factor=2 --hide-scrollbars --virtual-time-budget=3000`으로 찍는다(1123×794 = A4 가로 96dpi). `sips -s format png x.pdf`는 1쪽만 렌더하고, 시스템 python3에는 Quartz(PyObjC)·pypdf가 없다. PIL 11.3은 있다.
   - **폰트**: `(로컬 경로)`(Thin~Black 9종)가 깔려 있어 `font-family:"Pretendard"`가 그대로 박힌다. 이미지는 HTML 옆 상대 경로(`crops/x.png`)로 충분하다.
   - **캡처 크롭은 `sips -c <h> <w> --cropOffset <y> <x>`**(높이·너비 순, 오프셋은 y·x 순)로 충분하다 — Retina 2880×1800 캡처에서 Slack 본문만 잘라내는 데 썼다.
-- 근거: 세션 스크래치패드 `portfolio.html` · `portfolio_v3.pdf` · `preview_p*.png`.
+- 근거: 세션 스크래치패드의 HTML 원본 · 3판 PDF · `preview_p*.png`.

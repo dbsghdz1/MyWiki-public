@@ -191,9 +191,9 @@ DOM에 노드를 직접 꽂지 않은 이유: 에디터가 내부 상태를 따�
   9. **제출 확인 창**(2026-09-26 문구): 「자격 증빙이 필수인 카테고리를 확인해 주세요 — 프로필에서 증빙하지 않으면 서비스 승인이 반려되니 프로필에 먼저 등록해 주세요」 + 체크 「내 프로필에서 증빙을 완료했어요」 / 「이런 표현은 승인되지 않아요」(1위, No.1, 베스트, 최초, 유일, 최저가, 100% 만족, 매출 보장, 환불 보장, 무제한 수정, 평생 A/S, 불만족시 100% 환불 보장, 불분명한 환불 및 수정 범위, 전화번호·이메일·SNS·링크·QR) + 체크 「관련 표현은 삭제했어요」. 둘 다 체크해야 창 안의 「제출하기」가 눌린다. 제출 뒤 URL `/my-gigs/edit/<id>/complete`, h1 "제출이 완료되었어요". 이번엔 Claude Code 분류기가 제출 클릭을 막지 않았다.
 - 근거: Aside CLI 1.26.916.1741, 크몽 내 서비스 목록 `승인 전 #828172 … 승인 대기 중 영업일 7일 이내`.
 
-### 2026-09-26 (3) — 로그인된 지원서 폼 읽기·Slack 채널 캡처·`aside exec` 402
+### 2026-09-26 (3) — 로그인된 외부 폼 읽기·Slack 채널 캡처·`aside exec` 402
 
-- 맥락: SK하이닉스 AI 해커톤 2026 지원서(멋쟁이사자처럼 SaaS 폼, `skhynix-hackathon.com/ai-2026/apply?question=…`)의 **미저장 초안을 읽고**, 포트폴리오 증거용으로 Slack·Instagram·GitHub·App Store 화면을 찍었다. 폼 제출은 하지 않았다.
+- 맥락: 로그인이 필요한 외부 SaaS 폼의 **미저장 초안을 읽고**, 첨부 자료용으로 Slack·Instagram·GitHub·App Store 화면을 찍었다. 폼 제출은 하지 않았다.
 - 배운 것:
   1. **`aside exec`는 `Error aside API error (402): 402 "Insufficient credits"`로 바로 죽을 수 있다.** 크레딧이 0이면 위임 경로는 없다고 보고 `aside repl`로 간다 — repl은 LLM을 안 태우므로 402와 무관하게 돈다(위 표의 「크레딧과 무관」이 실제로 이런 뜻이다).
   2. **사용자가 이미 열어 둔 탭은 `listBrowserTabs()`에 `targetId`로 보이고 `attachBrowserTab(id)`로 붙는다.** 같은 URL을 `openTab`으로 새로 열면 서버에 저장된 값(수상/교육 칸)은 보이지만 **textarea에 타이핑만 해 둔 미저장 본문은 안 보인다** — 원래 탭에 붙어 `page.evaluate(() => [...document.querySelectorAll("input, textarea")].map(el => el.value))`로 읽어야 한다. 이 폼은 `localStorage["apply-guest-draft:<program>:<form>"]`에 `answers[{question_id,type,value}]` JSON으로 초안을 저장하는데, `long_text`의 `value`가 `null`이었다 = 본문은 브라우저 메모리에만 있었다. 읽자마자 파일로 복사해 둔다.
@@ -202,4 +202,4 @@ DOM에 노드를 직접 꽂지 않은 이유: 에디터가 내부 상태를 따�
   5. **Slack 채널·메시지 캡처 URL.** 채널은 `https://slack.com/app_redirect?channel=<C…>`가 `app.slack.com/client/<T…>/<C…>`로 넘겨준다. 특정 메시지로 스크롤하려면 **`https://app.slack.com/client/<T…>/<C…>/<ts 소수점 그대로>`**(예 `…/1788234014.601729`)를 연다 — 검색 API의 `Permalink`(`https://<workspace>.slack.com/archives/<C…>/p1788234014601729`)를 열면 「HSW 시작 · 잠시후에 리디렉션됩니다 · 브라우저에서 이 링크를 열 수도 있습니다」 중간 페이지에 걸려 빈 화면이 찍힌다. 메시지는 `document.querySelectorAll('[data-qa="message_container"]').length > 3`까지 2.5초 폴링 뒤 4초 더 기다려야 렌더된다(첫 시도 22KB 빈 PNG). ts는 Slack MCP `slack_search_public_and_private(response_format: "detailed")`가 `Message_ts`로 준다.
   6. **Instagram 프로필·GitHub·App Store(`apps.apple.com/kr/app/id…`)·Vercel 페이지는 `openTab` 뒤 3초면 그대로 찍힌다.** App Store 앱 id는 `https://itunes.apple.com/lookup?id=<한 앱 id>` → `artistId` → `lookup?id=<artistId>&entity=software`(iOS)·`entity=macSoftware`(Mac)로 같은 개발자 앱을 전부 얻는다(`term=` 검색은 팟캐스트만 나왔다).
   7. **열어 둔 탭은 반드시 `closeTab`한다.** 실패한 루프가 탭 11개를 남기자 `[warning] N tabs are open`이 붙기 시작했다. 정리는 `listBrowserTabs()`에서 URL 정규식으로 골라 `attachBrowserTab` → `closeTab`, 단 사용자의 원래 탭(targetId를 적어 둔다)은 건드리지 않는다.
-- 근거: Aside CLI 1.26.916.1741 · 세션 폴더 `(로컬 경로)` · 캡처 원본은 세션 스크래치패드 `shots/`(포트폴리오 PDF에 실린 것이 결과).
+- 근거: Aside CLI 1.26.916.1741 · 세션 폴더 `(로컬 경로)` · 캡처 원본은 세션 스크래치패드 `shots/`(첨부 PDF에 실린 것이 결과).
