@@ -43,7 +43,16 @@ DOM 트리는 **서버가 아니라 브라우저가** 만든다. 서버는 HTML 
 - **서버의 몫은 HTML을 「만드는」 것까지** — 백엔드는 템플릿에 데이터를 섞어 HTML을 만들어 보낸다. DOM으로 바꾸는 건 그걸 받은 브라우저다. 처음에 「서버가 DOM을 만든다」로 읽은 건 이 두 단계를 하나로 합친 것이었다.
 - 원문과 MDN은 어긋나지 않는다. 원문은 CSS가 「DOM을 써서」 스타일을 붙인다고만 하고, MDN은 그 사이에 CSSOM이라는 별도 트리가 있고 렌더 트리에서 합쳐진다고 한 단계 더 들어간다.
 
+### 2026-09-26 — HTML 이름 풀이: 「외부 링크로 연결되는 구조화된 언어」로 이해했다
+- 처음 이해: hypertext = 외부 링크로 이동하는 기능, markup language = 열린·닫힌 태그로 문서를 구조화하는 언어(HTML·XML·MD·SVG). 그래서 HTML = 외부 링크로 연결되는 구조화된 언어.
+- 맞은 것: 두 단어로 쪼갠 방향, 「구조화된 문서」라는 요점, SVG가 태그 기반이라는 것(XML 문법).
+- 고친 것 ① **hypertext는 「외부」가 아니라 「다른 텍스트로」 잇는 텍스트다.** MDN 정의는 *"text that contains links to other texts, as opposed to a single linear flow like in a novel"* — 대비 대상은 소설처럼 처음부터 끝까지 한 줄로 읽는 글이다. 같은 페이지 안 `#pricing`, 같은 사이트의 다른 페이지도 전부 하이퍼텍스트 링크다.
+- 고친 것 ② **마크업 언어가 전부 태그를 쓰는 건 아니다.** Markdown은 `#`·`*` 같은 기호로 표시하는 경량 마크업 언어다. 태그로 쓰는 건 HTML·XML·SVG 쪽이고, 그중에서도 `img`·`br` 같은 void 요소는 닫는 태그가 없다([[학습/공부/JS/언어/HTML 문서 구조|HTML 문서 구조]]).
+- 고친 것 ③ **HTML이 표시하는 건 구조와 「의미」다.** 「이건 제목, 이건 강조」라고 라벨을 붙이지, 모양은 CSS 몫이다. 그래서 다시 쓰면: **HTML = 문서의 구조와 의미를 태그로 표시하고, 링크로 다른 문서와 이어지는 마크업 언어.**
+
 ## 참고 자료
 - roadmap.sh, [What is HTML?](https://roadmap.sh/packs/html/what-is-html) — HTML pack 첫 레슨, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
 - MDN, [Populating the page: how browsers work](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/How_browsers_work) — 파싱 → DOM·CSSOM → 렌더 트리 → 레이아웃 → 페인트 (2026-09-26 확인)
 - web.dev, [Constructing the Object Model](https://web.dev/articles/critical-rendering-path/constructing-the-object-model) — bytes → characters → tokens → nodes → DOM, CSS도 같은 과정으로 CSSOM (2026-09-26 확인)
+- MDN, [Hypertext](https://developer.mozilla.org/en-US/docs/Glossary/Hypertext) — 다른 텍스트로 가는 링크를 품은 텍스트, 선형 흐름과 대비 (2026-09-26 확인)
+- [CommonMark Spec](https://spec.commonmark.org/0.31.2/) — Markdown이 태그가 아닌 기호 문법이라는 근거 (2026-09-26 확인)
