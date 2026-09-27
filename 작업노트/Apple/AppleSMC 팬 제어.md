@@ -27,6 +27,7 @@ projects: []
   - **모드 키는 소문자 `F0md`**(`ui8`). 인텔·구형 자료의 `F0Md`는 없다. `Ftst`(M3 이후 잠금 해제 키라는 자료가 있음)도 이 기기엔 없다.
   - 목표 속도 `F0Tg`(`flt `)
   - 온도: `Tp*` 23개 = CPU, `Tg*` 42개 = GPU, 모두 `flt `. 유휴 CPU 37~50°C, GPU 33~45°C — **45°C 임계값이면 가벼운 작업에도 팬이 돈다.**
-- **root 없이 SMC 쓰기**: 코드에서 막았으므로 실제 에러 코드는 미확인. 실제 쓰기(`F0md=1` → `F0Tg`)는 홍이 `sudo ./install.sh`를 돌린 뒤 검증해야 한다 — **미검증**.
+- **쓰기 검증 (2026-09-28)**: root 데몬에서 `F0md=1` → `F0Tg` 쓰기가 **`Ftst` 잠금 해제 없이 바로 먹는다**. `yes` 8개 부하로 CPU 53°C → 수 초 뒤 양쪽 팬 0 → 3744rpm, 목표 rpm을 따라 오르내림 확인.
+- **설치 지뢰**: Claude Code `!`에서는 `sudo`가 `a terminal is required to read the password`로 실패 → `osascript -e 'do shell script "…" with administrator privileges'`로 비밀번호 창을 띄운다. 이때 **`(로컬 경로)` 안 스크립트는 `Operation not permitted (126)`** — Desktop은 TCC 보호 폴더라 관리자 셸도 못 읽는다. 보호 밖 폴더로 복사해서 실행. 관리자 창 경유 시 `SUDO_USER`도 비어 있다.
 - **종료 시 자동 모드 복귀 필수**: `F0md=1`로 두고 프로세스가 죽으면 팬이 마지막 속도에 고정된다. SIGTERM·SIGINT·SIGHUP에서 `F*md=0`.
 - **Macs Fan Control과 동시 실행 금지**: 둘 다 같은 키를 덮어쓴다.
