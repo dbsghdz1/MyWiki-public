@@ -6,7 +6,7 @@ status: active
 created: 2026-09-01
 updated: 2026-09-04
 projects:
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "Zappy"
 ---
 
 # AppKit 오프스크린 렌더와 argument domain

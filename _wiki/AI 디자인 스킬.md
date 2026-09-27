@@ -11,7 +11,7 @@ aliases:
 created: 2026-07-31
 updated: 2026-09-23
 sources:
-  - "[[_wiki/Sources/2026/07/2026-07-31-ai-design-skills-웹-조사]]"
+  - "2026-07-31-ai-design-skills-웹-조사"
 ---
 
 # AI 디자인 스킬
@@ -20,6 +20,7 @@ Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관
 
 > [!NOTE]
 > **근거 상태 — `needs-review` 유지 (2026-08-22 재검토)**
+>
 > 설치 수·스타 수를 각 스킬의 원 저장소에서 직접 확인하지 않아 `needs-review`였고, **2026-08-22 lint에서 해제를 시도했으나 실패했다.** 출처였던 claudeskills.info를 다시 열었을 때 여기 적힌 네 스킬(frontend-design·ui-ux-pro-max·design-taste-frontend·shadcn)의 설치 수가 **더 이상 같은 자리에 없었다** — 즉 아래 표는 **2026-07-30 시점의 재현 불가능한 스냅샷**이다.
 > 따라서 이 표의 숫자는 **순위의 대략적 근거로만 쓰고, 수치 자체를 인용하지 않는다.** 해제 조건은 각 스킬 원 저장소에서 직접 확인하는 것이며, 그 전까지는 상태를 유지한다.
 
@@ -30,6 +31,7 @@ Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관
 
 > [!WARNING]
 > **근거 충돌**
+>
 > - frontend-design 설치 수 277,000+ (2026-03 기준) — Composio 기사
 > - frontend-design 설치 수 686.9K (2026-07-30 조회) — claudeskills.info
 > - 현재 판단: 기준일이 4개월 다르므로 성장으로 설명될 수 있으나, 집계 방식 차이 가능성도 있어 미해결

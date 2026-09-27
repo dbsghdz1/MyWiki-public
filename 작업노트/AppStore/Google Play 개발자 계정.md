@@ -6,7 +6,7 @@ status: active
 created: 2026-08-26
 updated: 2026-09-02
 projects:
-  - "[[프로젝트/개인/한능검/README|한능검]]"
+  - "한능검"
 ---
 
 # Google Play 개발자 계정
@@ -28,6 +28,7 @@ projects:
 
 > [!CAUTION]
 > **개인사업자는 이 번호를 Apple에 쓸 수 없다 (2026-08-26 정정)**
+>
 > 처음엔 *"한 번 받아두면 애플·구글 양쪽에 쓴다"*라고 적었는데 **틀렸다.** Apple 공식 문서는 개인사업자를 Organization에서 명시적으로 배제한다.
 > > *"If your legal status is a sole proprietorship/single person business, **enroll as an individual**."*
 > Organization으로 받는 형태는 **Corporation · Limited Partnership · LLC**뿐이고, **sole proprietorship · DBA · 상호명 · 지점은 불가**다. 그리고 Individual 등록에는 D-U-N-S가 **애초에 필요 없다.**
@@ -46,11 +47,13 @@ projects:
 
 > [!TIP]
 > **그래서 언제 받을 가치가 있나**
+>
 > **① 도메인 있는 웹사이트가 이미 있거나 생길 예정이고 ② 앱을 한 번이 아니라 계속 낼 계획이면** 받는 게 낫다. 12명 × 14일은 **신규 앱마다** 반복되는 비용인데, D-U-N-S는 한 번이다.
 > 반대로 앱 하나만 내고 말 거라면 개인 계정으로 12명을 모으는 쪽이 빠르다.
 
 > [!TIP]
 > **iOS만 해본 사람이 놓치는 지점**
+>
 > App Store는 개인이든 조직이든 심사 절차가 같아서 **"계정 유형이 출시 가능 여부를 가른다"는 감각이 없다.** Google Play는 다르다. 계정을 만드는 시점의 선택이 이후 모든 앱의 출시 조건을 결정한다. **개인→조직 전환은 공식 절차가 있다**(아래 2026-09-01 정정). 조직→개인은 불가.
 
 ## 기록

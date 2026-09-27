@@ -6,7 +6,7 @@ status: active
 created: 2026-08-22
 updated: 2026-09-26
 projects:
-  - "[[프로젝트/개인/논문표/README|논문표]]"
+  - "논문표"
   - "사업자 운영"
 ---
 

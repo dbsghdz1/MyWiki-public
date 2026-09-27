@@ -6,7 +6,7 @@ status: active
 created: 2026-09-27
 updated: 2026-09-27
 projects:
-  - "[[프로젝트/개인/오늘 본 장면/README|오늘 본 장면]]"
+  - "오늘 본 장면"
 ---
 
 # 유튜브 쇼츠 CC 소싱과 자동 업로드

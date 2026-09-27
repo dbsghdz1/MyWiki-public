@@ -7,7 +7,7 @@ created: 2026-08-18
 updated: 2026-09-22
 aliases: [포트, localhost, 루프백, 사설 IP, LISTEN]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # 포트와 localhost

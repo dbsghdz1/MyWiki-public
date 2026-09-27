@@ -7,7 +7,7 @@ created: 2026-09-04
 updated: 2026-09-16
 projects:
   - "보험찾개냥"
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "약국맵"
 ---
 
 # Figma MCP

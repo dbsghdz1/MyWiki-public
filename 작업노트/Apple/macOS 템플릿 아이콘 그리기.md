@@ -6,7 +6,7 @@ status: active
 created: 2026-08-25
 updated: 2026-09-12
 projects:
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "Zappy"
 ---
 
 # macOS 템플릿 아이콘 그리기

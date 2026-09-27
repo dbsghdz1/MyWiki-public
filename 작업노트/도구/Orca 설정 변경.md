@@ -6,7 +6,7 @@ status: active
 created: 2026-09-22
 updated: 2026-09-22
 projects:
-  - "[[작업노트/도구/Ghostty 설정|Ghostty 설정]]"
+  - "Ghostty 설정"
 ---
 
 # Orca 설정 변경

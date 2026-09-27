@@ -12,7 +12,7 @@ sources:
   - "2026-07-14-roadmap-sh-react-roadmap"
   - "2026-07-15-roadmap-sh-javascript-roadmap"
   - "2026-07-23-typescript-handbook-variable-declarations"
-  - "[[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes]]"
+  - "2026-07-24-mycryptodiary-day1-4-learning-notes"
 ---
 
 # React·TypeScript로 제품 만들기
@@ -21,6 +21,7 @@ React와 TypeScript를 따로 암기하는 대신 실제 제품을 설계하고 
 
 > [!NOTE]
 > **시작 상태**
+>
 > 첫 기준 자료로 roadmap.sh의 React Developer Roadmap을 수집했다. 로드맵은 학습 범위를 찾는 지도이며 모든 도구를 순서대로 익혀야 하는 의무 목록으로 취급하지 않는다. roadmap.sh React 로드맵
 
 ## 목표
@@ -48,6 +49,7 @@ React와 TypeScript를 따로 암기하는 대신 실제 제품을 설계하고 
 
 > [!NOTE]
 > **실제 학습 기록은 공부 영역에 있다 (2026-08-18)**
+>
 > 이 허브의 지도에 대응하는 1인칭 학습 노트가 MyCryptoDiary 작업에서 나오고 있다 — [JavaScript 기초 문법](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EA%B8%B0%EC%B4%88%20%EB%AC%B8%EB%B2%95.md) · [JavaScript 런타임](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%9F%B0%ED%83%80%EC%9E%84.md) · [JavaScript 모듈 시스템](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%AA%A8%EB%93%88%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) · [TypeScript 타입 시스템](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) · [Next.js 서버와 캐싱](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/Next.js%20%EC%84%9C%EB%B2%84%EC%99%80%20%EC%BA%90%EC%8B%B1.md) · [Feature-Sliced Design](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/Feature-Sliced%20Design.md). 새 이해는 그쪽 `## 기록`에 쌓고, 이 허브는 외부 로드맵 기준선과 지식 지도만 유지한다.
 
 

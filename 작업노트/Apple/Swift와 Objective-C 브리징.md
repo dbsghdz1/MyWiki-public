@@ -6,7 +6,7 @@ status: active
 created: 2026-08-18
 updated: 2026-08-18
 projects:
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "Zappy"
 ---
 
 # Swift와 Objective-C 브리징

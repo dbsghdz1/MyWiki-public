@@ -7,8 +7,8 @@ created: 2026-08-16
 updated: 2026-09-09
 aliases: [ES Modules, export/import, 모듈 재수출]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "MyCryptoDiary"
+  - "약국맵"
 ---
 
 # JavaScript 모듈 시스템

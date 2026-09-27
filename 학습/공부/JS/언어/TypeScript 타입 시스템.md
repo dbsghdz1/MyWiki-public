@@ -7,7 +7,7 @@ created: 2026-08-18
 updated: 2026-09-09
 aliases: [타입 소거, type erasure, 컴파일 타임 런타임]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # TypeScript 타입 시스템

@@ -6,8 +6,8 @@ status: active
 created: 2026-09-22
 updated: 2026-09-23
 projects:
-  - "[[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]]"
-  - "[[작업노트/도구/Ghostty 설정|Ghostty 설정]]"
+  - "인스타카드뉴스"
+  - "Ghostty 설정"
 ---
 
 # macOS 파일 접근 권한(TCC)과 휴지통

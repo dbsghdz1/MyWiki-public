@@ -7,7 +7,7 @@ created: 2026-08-21
 updated: 2026-09-16
 aliases: [TCP/IP 4계층, 캡슐화, PDU, 체크섬, MTU, MSS]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # TCP/IP 4계층과 캡슐화

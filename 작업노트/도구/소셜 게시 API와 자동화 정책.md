@@ -7,7 +7,7 @@ created: 2026-09-12
 updated: 2026-09-12
 projects:
   - "홍보 자동화"
-  - "[[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]]"
+  - "인스타카드뉴스"
 ---
 
 # 소셜 게시 API와 자동화 정책 — Reddit · X · Threads · Instagram

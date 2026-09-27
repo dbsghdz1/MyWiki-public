@@ -7,7 +7,7 @@ created: 2026-08-18
 updated: 2026-08-18
 aliases: [Node.js, V8, 자바스크립트 엔진]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # JavaScript 런타임

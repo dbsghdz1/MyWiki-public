@@ -7,7 +7,7 @@ created: 2026-09-23
 updated: 2026-09-23
 aliases: [useEffect, StrictMode, cleanup]
 projects:
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "약국맵"
 ---
 
 # useEffect와 StrictMode

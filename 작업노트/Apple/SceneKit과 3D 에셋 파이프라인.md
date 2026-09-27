@@ -6,7 +6,7 @@ status: active
 created: 2026-08-20
 updated: 2026-08-20
 projects:
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "Zappy"
 ---
 
 # SceneKit과 3D 에셋 파이프라인

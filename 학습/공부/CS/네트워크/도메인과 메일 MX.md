@@ -7,7 +7,7 @@ created: 2026-09-15
 updated: 2026-09-16
 aliases: [도메인, MX 레코드, DNS, 메일 호스팅, RDAP, whois]
 projects:
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "Zappy"
 ---
 
 # 도메인과 메일 MX

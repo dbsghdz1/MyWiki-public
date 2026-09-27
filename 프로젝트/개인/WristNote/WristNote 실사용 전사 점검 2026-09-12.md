@@ -1,7 +1,7 @@
 ---
 type: project-log
 title: "WristNote 실사용 전사 점검 — 볼트에 떨어진 결과물 2건"
-project: "[[프로젝트/개인/WristNote/README|WristNote]]"
+project: "WristNote"
 created: 2026-09-18
 updated: 2026-09-18
 ---

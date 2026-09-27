@@ -7,7 +7,7 @@ created: 2026-08-16
 updated: 2026-08-29
 aliases: [FSD, 피처 슬라이스 디자인]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # Feature-Sliced Design

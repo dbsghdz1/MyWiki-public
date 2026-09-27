@@ -6,7 +6,7 @@ status: active
 created: 2026-09-08
 updated: 2026-09-13
 projects:
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "약국맵"
 ---
 
 # 서버 상태와 TanStack Query

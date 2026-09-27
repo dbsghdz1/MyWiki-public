@@ -6,7 +6,7 @@ status: active
 created: 2026-09-09
 updated: 2026-09-09
 projects:
-  - "[[프로젝트/개인/한능검/README|한국사 정복]]"
+  - "한국사 정복"
 ---
 
 # 인앱 구매 등록 API — READY_TO_SUBMIT까지 필요한 다섯 조각

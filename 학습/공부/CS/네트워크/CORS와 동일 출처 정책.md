@@ -6,7 +6,7 @@ status: active
 created: 2026-09-08
 updated: 2026-09-08
 projects:
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "약국맵"
 ---
 
 # CORS와 동일 출처 정책

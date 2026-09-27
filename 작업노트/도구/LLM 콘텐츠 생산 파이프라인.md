@@ -6,7 +6,7 @@ status: active
 created: 2026-09-01
 updated: 2026-09-04
 projects:
-  - "[[프로젝트/개인/한능검/README|한능검]]"
+  - "한능검"
 ---
 
 # LLM 콘텐츠 생산 파이프라인

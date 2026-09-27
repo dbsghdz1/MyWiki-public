@@ -7,7 +7,7 @@ created: 2026-08-18
 updated: 2026-09-16
 aliases: [서버 컴포넌트, revalidate, App Router, fetch 캐싱, Next 16]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # Next.js 서버와 캐싱

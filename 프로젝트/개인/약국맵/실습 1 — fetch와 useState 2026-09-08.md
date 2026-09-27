@@ -6,7 +6,7 @@ status: done
 created: 2026-09-08
 updated: 2026-09-08
 projects:
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "약국맵"
 ---
 
 # 약국맵 실습 1 — fetch와 useState (2026-09-08)

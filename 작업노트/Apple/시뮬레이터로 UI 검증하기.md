@@ -6,7 +6,7 @@ status: active
 created: 2026-08-25
 updated: 2026-08-25
 projects:
-  - "[[프로젝트/개인/즉석카메라/README|Fadeo(즉석카메라)]]"
+  - "Fadeo(즉석카메라)"
 ---
 
 # 시뮬레이터로 UI 검증하기

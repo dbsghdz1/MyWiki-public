@@ -6,7 +6,7 @@ status: active
 created: 2026-09-23
 updated: 2026-09-23
 projects:
-  - "[[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]]"
+  - "인스타카드뉴스"
 ---
 
 # KBO 하이라이트 클립 수급과 릴스 컷

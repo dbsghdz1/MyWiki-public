@@ -10,7 +10,7 @@ created: 2026-07-14
 updated: 2026-09-23
 slack_channel: llm-wiki
 sources:
-  - "[[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약]]"
+  - "2026-07-14-llm-wiki-사용자-요약"
   - "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f"
 ---
 
@@ -20,6 +20,7 @@ LLM Wiki는 LLM이 원본을 매번 검색해 일회성 답을 만드는 데 그
 
 > [!NOTE]
 > **근거 상태 — 2026-08-22 해소**
+>
 > 처음에는 사용자 제공 한국어 요약 한 건만 근거라 `needs-review`였다. **2026-08-22 lint에서 원문 gist를 직접 확인해 해제했다** — [llm-wiki.md (Karpathy, 2026-04-04)](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (2026-08-22 확인).
 > 원문에서 확인된 것: **3계층**(raw sources 불변 · wiki는 LLM 소유 · schema 파일이 구조와 관례를 규정)과 **3연산**(ingest·query·lint), RAG 대비 논지("rediscover knowledge from scratch on every question" ↔ "the wiki is a persistent, compounding artifact — the cross-references are already there"), 그리고 유지 규율 명제 **"The tedious part of maintaining a knowledge base is not the reading or the thinking — it's the bookkeeping."** `index.md`(카테고리별 카탈로그)·`log.md`(append-only 기록)의 역할 구분도 원문과 일치한다.
 > 아직 확인하지 않은 것: **gist 댓글**. 본문 주장에는 영향이 없다.
@@ -102,6 +103,7 @@ Inbox → Sources에 원본 보존
 
 > [!NOTE]
 > **2026-09-05 검토 — 구조 lint의 결함 3개를 고쳤다**
+>
 > 개편 이튿날 리뷰에서 재현한 결함: ① 표 안의 `\|` 이스케이프 별칭 링크(볼트 관례 42곳)를 "새 wikilink 대상을 찾을 수 없다"로 오탐 ② 본문만 고친 프로젝트 README 커밋이 "index 미스테이징"으로 막힘 — index가 안 바뀌면 stage할 수 없어 `updated:`를 올려야만 통과했다 ③ log가 200KB를 넘으면 잘라내야 하는데 append-only 검사가 삭제를 막는 교착(당시 84KB, 하루 약 10KB 증가). 수정: 이스케이프 정규화, index는 생성 결과가 HEAD와 다를 때만 요구, 아카이브 이동은 지운 항목이 같은 커밋에 staged된 `_wiki/log-YYYY-MM.md`에 그대로 있을 때 통과. 훅은 검사 전에 `build-index.py`를 실행해 index를 자동 stage하므로 다른 기기·루틴이 만든 드리프트도 흡수한다. **훅은 클론마다 `git config core.hooksPath .githooks`로 켜야 한다.** 회귀 테스트 3묶음 추가. 상세: [MyWiki 구조 lint와 pre-commit 훅](../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/MyWiki%20%EA%B5%AC%EC%A1%B0%20lint%EC%99%80%20pre-commit%20%ED%9B%85.md).
 
 ## 대화 증류 진입점 — /wiki 스킬 (2026-08-08 기준)

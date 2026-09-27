@@ -6,8 +6,8 @@ status: active
 created: 2026-08-19
 updated: 2026-09-26
 projects:
-  - "[[프로젝트/개인/논문표/README|논문표]]"
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "논문표"
+  - "Zappy"
 ---
 
 # Vercel 배포

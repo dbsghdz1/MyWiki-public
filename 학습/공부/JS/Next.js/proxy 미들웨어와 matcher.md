@@ -7,7 +7,7 @@ created: 2026-08-28
 updated: 2026-09-16
 aliases: [proxy.ts, middleware, matcher, 미들웨어, Route Group, 인증 경계]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # Next.js proxy 미들웨어와 matcher

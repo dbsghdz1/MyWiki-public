@@ -6,7 +6,7 @@ status: active
 created: 2026-09-05
 updated: 2026-09-05
 projects:
-  - "[[프로젝트/개인/한능검/README|한능검]]"
+  - "한능검"
 ---
 
 # LLM 문항 생성 검증

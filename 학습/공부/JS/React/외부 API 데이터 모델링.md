@@ -7,7 +7,7 @@ created: 2026-08-20
 updated: 2026-08-20
 aliases: [DTO, 응답 타입 두 겹, 데이터 모델링]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # 외부 API 데이터 모델링

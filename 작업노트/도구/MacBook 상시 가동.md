@@ -7,7 +7,7 @@ created: 2026-09-12
 updated: 2026-09-23
 projects:
   - "홍보 자동화"
-  - "[[프로젝트/개인/BookMini/README|BookMini]]"
+  - "BookMini"
 ---
 
 # MacBook 상시 가동 — 맥미니처럼 쓰기

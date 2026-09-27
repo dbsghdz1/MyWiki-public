@@ -7,7 +7,7 @@ created: 2026-09-14
 updated: 2026-09-16
 aliases: [HTTP, HTTPS, 인증서, CA, HTTP/2, HTTP/3, QUIC]
 projects:
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "약국맵"
 ---
 
 # HTTP와 TCP/IP의 역할

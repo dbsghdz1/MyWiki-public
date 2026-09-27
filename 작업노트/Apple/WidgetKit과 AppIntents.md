@@ -6,7 +6,7 @@ status: active
 created: 2026-08-19
 updated: 2026-08-25
 projects:
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "Zappy"
 ---
 
 # WidgetKit과 AppIntents

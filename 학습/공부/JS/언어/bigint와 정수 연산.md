@@ -7,7 +7,7 @@ created: 2026-09-02
 updated: 2026-09-16
 aliases: [bigint, BigInt, 정수 나눗셈, 올림, 돈 계산]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # bigint와 정수 연산

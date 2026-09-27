@@ -6,8 +6,8 @@ status: active
 created: 2026-08-19
 updated: 2026-08-19
 projects:
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
-  - "[[프로젝트/개인/BarStack/README|BarStack]]"
+  - "Zappy"
+  - "BarStack"
 ---
 
 # App Store 성장 도구
@@ -28,6 +28,7 @@ projects:
 
 > [!NOTE]
 > **근거 수준 (2026-08-19)**
+>
 > "Mac 앱은 Apple Ads의 캠페인 대상이 될 수 없다"를 **한 문장으로 부정하는 Apple 공식 문서는 찾지 못했다.** 근거는 둘의 조합이다 — ① 계정 요건이 iPhone/iPad 앱을 명시(원문 확인) ② 광고 지면 설명이 전부 App Store의 iOS/iPadOS 화면 기준이고 Mac App Store 언급이 없다(딥링크는 "iOS 18 and later"). 실무 결론은 바뀌지 않지만, **"Apple이 명시적으로 금지했다"가 아니라 "지면이 iOS/iPadOS뿐이라 성립하지 않는다"가 정확한 진술**이다.
 
 ### Mac 전용 앱에도 되는 것

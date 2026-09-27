@@ -7,7 +7,7 @@ created: 2026-08-18
 updated: 2026-09-23
 aliases: [JS 문법, 객체 리터럴, 구조 분해, destructuring]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # JavaScript 기초 문법

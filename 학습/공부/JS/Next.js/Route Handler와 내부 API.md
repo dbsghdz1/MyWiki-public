@@ -7,7 +7,7 @@ created: 2026-08-18
 updated: 2026-09-16
 aliases: [Route Handler, route.ts, app/api, src api 세그먼트, same-origin 창구]
 projects:
-  - "[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]]"
+  - "MyCryptoDiary"
 ---
 
 # Next.js Route Handler와 내부 API

@@ -6,7 +6,7 @@ status: active
 created: 2026-08-22
 updated: 2026-08-22
 projects:
-  - "[[프로젝트/개인/DayTune/README|DayTune]]"
+  - "DayTune"
 ---
 
 # UIKit 내비게이션 바 숨김과 pop 제스처

@@ -6,7 +6,7 @@ status: active
 created: 2026-08-22
 updated: 2026-08-22
 projects:
-  - "[[프로젝트/개인/DayTune/README|DayTune]]"
+  - "DayTune"
 ---
 
 # HealthKit 수면 데이터 조회

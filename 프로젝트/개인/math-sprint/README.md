@@ -13,7 +13,7 @@ slack_channel: 21-개인-두뇌풀가동
 repos:
   - "github.com/dbsghdz1/math-sprint"
 related_wiki:
-  - "[[_wiki/React TypeScript 제품 개발]]"
+  - "React TypeScript 제품 개발"
 ---
 
 # math-sprint — 토스 미니앱 암산 스프린트
@@ -29,6 +29,7 @@ Apps in Toss 환경에서 실행되는 60초 암산 게임이다. 현재 설명�
 
 > [!NOTE]
 > **2026-09-23 코드 확인 — 아래 07-29 설명 이후 바뀐 것**
+>
 > `src/games/sprint/SprintGame.tsx`의 `GAME_SECONDS = 30`, 왕관 퍼즐 `src/games/queens`, 리더보드 `src/leaderboard.ts`, 광고 `src/ads.ts`가 있다. 커밋 메시지 기준으로는 08-14 「두뇌 스프린트로 개편: 혼합 두뇌 퀴즈 30초 스프린트」가 마지막이다(해석 — 빌드는 다시 돌리지 않았다).
 
 ## 현재 확인된 구현
@@ -53,6 +54,7 @@ Apps in Toss 환경에서 실행되는 60초 암산 게임이다. 현재 설명�
 
 > [!NOTE]
 > 2026-08-18 **보류 결정** (홍) — **잠시 중지된 프로젝트다 (중단·폐기가 아니다)**
+>
 > ~~07-30 이후 활동 없음.~~ → 2026-09-23 lint 정정: `git log`에 07-31~08-14 커밋 8건(`f65ae5b`~`71b0955`)이 있다. DayTune·BarStack 1.2처럼 슬롯 배분 결정으로 멈췄다. 정규 슬롯 없음.
 > **중지 시점의 상태는 온전하다** — `npm run build`·`.ait` 생성 통과, 저장소 연결 완료. 재개 시 이 지점에서 이어간다.
 > **재개 조건**: 소마 종료(2026-12) 이후 재판정.

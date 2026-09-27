@@ -6,7 +6,7 @@ status: active
 created: 2026-09-05
 updated: 2026-09-16
 projects:
-  - "[[프로젝트/개인/약국맵/README|약국맵]]"
+  - "약국맵"
 ---
 
 # 한국 지도 API 선택

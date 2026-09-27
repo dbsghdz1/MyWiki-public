@@ -33,4 +33,5 @@ Blender MCP로 눈사람 테마를 3D화하고, 녹는 4단계와 충전(함박�
 
 > [!WARNING]
 > **마케팅 폴더의 기존 2D GIF 부재 (2026-08-09 확인)**
+>
 > [07-31 기록](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-07-31.md)에는 `(로컬 경로)`에 `zappy-snowman.gif`·`zappy-moon.gif`가 있다고 되어 있으나, 이번에 확인 시 폴더가 비어 있었다(3D 산출물 복사 전). 사용자가 옮겼다면 무관하고, 유실이면 07-31 기록의 생성기(Themes.swift + main.swift, swiftc)로 재생성 가능.

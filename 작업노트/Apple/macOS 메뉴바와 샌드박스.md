@@ -6,8 +6,8 @@ status: active
 created: 2026-08-16
 updated: 2026-09-09
 projects:
-  - "[[프로젝트/개인/BarStack/README|BarStack]]"
-  - "[[프로젝트/개인/Zappy/README|Zappy]]"
+  - "BarStack"
+  - "Zappy"
 ---
 
 # macOS 메뉴바와 샌드박스

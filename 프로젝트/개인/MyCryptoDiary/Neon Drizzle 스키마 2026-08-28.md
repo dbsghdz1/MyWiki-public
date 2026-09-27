@@ -7,7 +7,7 @@ aliases:
 created: 2026-08-28
 updated: 2026-08-28
 related_wiki:
-  - "[[학습/공부/CS/데이터베이스/데이터베이스]]"
+  - "데이터베이스"
 ---
 
 # MyCryptoDiary D2 — Neon + Drizzle 스키마 (2026-08-18, 26~28)
