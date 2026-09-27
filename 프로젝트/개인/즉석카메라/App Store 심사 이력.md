@@ -45,7 +45,7 @@ appId `6805274191` · bundle `com.hong.fadeo`
 The train version '1.0' is closed for new build submissions (90186)
 ```
 
-`Project.swift`의 `MARKETING_VERSION`을 1.1로 올리고 `tuist generate`까지 했는데도 IPA의 `CFBundleShortVersionString`이 1.0이었다. **tuist `extendingDefault` 기본 Info.plist가 "1.0"을 리터럴로 박는다** — 상세는 [[작업노트/Apple/Xcode 빌드와 번들 구성|Xcode 빌드와 번들 구성]]. `"CFBundleShortVersionString": "$(MARKETING_VERSION)"`을 직접 넣어 해결.
+`Project.swift`의 `MARKETING_VERSION`을 1.1로 올리고 `tuist generate`까지 했는데도 IPA의 `CFBundleShortVersionString`이 1.0이었다. **tuist `extendingDefault` 기본 Info.plist가 "1.0"을 리터럴로 박는다** — 상세는 [Xcode 빌드와 번들 구성](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Apple/Xcode%20%EB%B9%8C%EB%93%9C%EC%99%80%20%EB%B2%88%EB%93%A4%20%EA%B5%AC%EC%84%B1.md). `"CFBundleShortVersionString": "$(MARKETING_VERSION)"`을 직접 넣어 해결.
 
 메타데이터·스크린샷은 그 전에 이미 1.1로 올라가 있었다(deliver가 바이너리보다 먼저 돈다).
 
@@ -66,7 +66,7 @@ The train version '1.0' is closed for new build submissions (90186)
 | 이름(en) | `Fadeo` | `Fadeo - Instant Film Camera` |
 | 부제(en) | `The camera that makes you wait` | `Photos that develop in 10 min` |
 
-근거: [[작업노트/AppStore/앱 이름과 검색 노출|앱 이름과 검색 노출]] — **자기 이름으로 검색해도 200위 안에 없었다.**
+근거: [앱 이름과 검색 노출](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/%EC%95%B1%20%EC%9D%B4%EB%A6%84%EA%B3%BC%20%EA%B2%80%EC%83%89%20%EB%85%B8%EC%B6%9C.md) — **자기 이름으로 검색해도 200위 안에 없었다.**
 
 ## 다음 제출 때 기억할 것
 
@@ -108,8 +108,8 @@ done
 
 - 1.2에서 필름을 팩에 묶었던 것을 되돌렸다. 하단 칩이 `클래식 ˅`로 필터 선택기처럼 생겼는데 누르면 팩을 버리라고 해서, **필터의 얼굴에 팩 교체의 비용이 붙어 있었다.** 새 팩(8/8)을 구경만 해도 "남은 8장은 버려집니다"가 떴다.
 - 고르는 자리는 **가로 다이얼**이고 견본은 합성 장면이 아니라 **지금 뷰파인더에 보이는 그 프레임**이다. 필름 여섯의 차이는 같은 장면 위에서만 보인다.
-- 다이얼이 펼쳐질 때 고른 필름이 가운데 안 서던 것을 고쳤다 — `GeometryReader` 첫 패스의 폭 0 때문이다([[작업노트/Apple/SwiftUI|SwiftUI]]).
+- 다이얼이 펼쳐질 때 고른 필름이 가운데 안 서던 것을 고쳤다 — `GeometryReader` 첫 패스의 폭 0 때문이다([SwiftUI](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Apple/SwiftUI.md)).
 - 줌은 프리뷰와 촬영이 같은 스트림이라 기기 배율 하나로 둘 다 걸린다. 상한 5배(광각 크롭이라 배율이 곧 화질 손해이고, 이 앱은 비디오 프레임이 그대로 사진이 된다).
 - 스토어 스크린샷을 새 카메라 화면으로 다시 뽑았다.
 
-**스크린샷이 또 이중 업로드됐다** — ko 9장·en-US 7장(정상 5장). 제출 전 dedupe 단계를 `deliver_all`에 넣어 6장을 지우고 제출했다. 커밋 `72a7a5a`·`5d3f69a`, 상세는 [[작업노트/AppStore/스토어 스크린샷 중복 업로드|스토어 스크린샷 중복 업로드]].
+**스크린샷이 또 이중 업로드됐다** — ko 9장·en-US 7장(정상 5장). 제출 전 dedupe 단계를 `deliver_all`에 넣어 6장을 지우고 제출했다. 커밋 `72a7a5a`·`5d3f69a`, 상세는 [스토어 스크린샷 중복 업로드](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/%EC%8A%A4%ED%86%A0%EC%96%B4%20%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%20%EC%A4%91%EB%B3%B5%20%EC%97%85%EB%A1%9C%EB%93%9C.md).

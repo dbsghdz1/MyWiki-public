@@ -10,7 +10,7 @@ projects: []
 
 # MyWiki 구조 lint와 pre-commit 훅
 
-MyWiki 볼트에서 커밋이 막혔을 때 보는 문서. 2026-09-04 개편([[_wiki/LLM Wiki|LLM Wiki]] 「운영 v2」)으로 `.githooks/pre-commit`이 매 커밋 전에 `scripts/build-index.py` → `scripts/lint-structure.py --staged` → `git diff --cached --check`를 돌린다. 규칙 원본은 `AGENTS.md` 「Operation: Lint」, 수치 정본은 `scripts/wiki-config.json`.
+MyWiki 볼트에서 커밋이 막혔을 때 보는 문서. 2026-09-04 개편([LLM Wiki](../../_wiki/LLM%20Wiki.md) 「운영 v2」)으로 `.githooks/pre-commit`이 매 커밋 전에 `scripts/build-index.py` → `scripts/lint-structure.py --staged` → `git diff --cached --check`를 돌린다. 규칙 원본은 `AGENTS.md` 「Operation: Lint」, 수치 정본은 `scripts/wiki-config.json`.
 
 ## 핵심 정리
 
@@ -109,7 +109,7 @@ MyWiki 볼트에서 커밋이 막혔을 때 보는 문서. 2026-09-04 개편([[_
 
 ### 2026-09-05 — Codex의 09-04 lint 개편을 리뷰하며 결함 3개를 재현·수정
 
-- 맥락: [[_wiki/LLM Wiki|LLM Wiki]] 운영 v2 개편(커밋 `3a65207`, Codex)을 이튿날 리뷰. 첫 커밋에서 lint에 두 번 막힌 것이 계기.
+- 맥락: [LLM Wiki](../../_wiki/LLM%20Wiki.md) 운영 v2 개편(커밋 `3a65207`, Codex)을 이튿날 리뷰. 첫 커밋에서 lint에 두 번 막힌 것이 계기.
 - 배운 것:
   - `validate_added_wikilinks`가 이스케이프 별칭 링크의 `\`를 대상 경로에 남겨 오탐했다 — 함수 직접 호출로 재현. `raw.replace("\\|", "|")` 후 split으로 수정.
   - "index 대상 문서가 바뀌었지만 index가 staging되지 않았다"는 index가 안 바뀌면 통과할 수 없는 검사였다(stage할 것이 없다). `index_stage_error`로 바꿔 생성 결과가 HEAD와 다를 때만 요구.

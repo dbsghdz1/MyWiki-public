@@ -25,13 +25,13 @@ React/Vite로 만든 웹 코어를 Capacitor로 감싸 iOS 앱으로 내는 법.
 ## 기록
 
 ### 2026-09-04 — 위젯·iCloud KV를 붙이면 자동 서명이 App Group 등록에서 막힌다 (포털은 `aside repl`로)
-- 맥락: [[프로젝트/개인/한능검/README|한능검]] 2.1.0 — 홈 위젯(`HangeomWidget`, 앱 그룹 UserDefaults 스냅샷)과 iCloud 키-값 백업(`SceneDelegate` `CloudSink` → `NSUbiquitousKeyValueStore`)을 처음 실은 릴리즈. 웹→네이티브는 `WKScriptMessageHandler`(`hangeomWidget`·`hangeomCloud`) 둘로 통했고 Capacitor 플러그인은 안 썼다(Preferences는 앱 그룹 미지원).
+- 맥락: [한능검](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/README.md) 2.1.0 — 홈 위젯(`HangeomWidget`, 앱 그룹 UserDefaults 스냅샷)과 iCloud 키-값 백업(`SceneDelegate` `CloudSink` → `NSUbiquitousKeyValueStore`)을 처음 실은 릴리즈. 웹→네이티브는 `WKScriptMessageHandler`(`hangeomWidget`·`hangeomCloud`) 둘로 통했고 Capacitor 플러그인은 안 썼다(Preferences는 앱 그룹 미지원).
 - 배운 것:
   - `fastlane ios release`(자동 서명 + ASC API 키)가 `Provisioning profile "iOS Team Provisioning Profile: *" doesn't support the group.com.hong.hangeom App Group` / `doesn't include the com.apple.developer.ubiquity-kvstore-identifier` / 위젯 타깃 `Authentication failed: bearer token`으로 죽었다. bundle ID 두 개(앱·위젯)에 `APP_GROUPS` capability는 켜져 있었지만 **그룹 자체가 포털에 없었고**, iCloud capability도 없었다.
   - iCloud는 ASC API로 켜진다(`POST /v1/bundleIdCapabilities` `ICLOUD`/`ICLOUD_VERSION=XCODE_6` → 201). App Group은 API가 없어 포털 — **Aside의 LLM 크레딧이 소진(OpenAI 402)돼도 `aside repl`(Playwright)로 등록·연결이 된다.** 절차와 URL은 appstore-release 스킬 플레이북에 적었다. 연결 후 재실행하면 자동 서명이 새 프로파일을 만들고 통과한다.
   - `maestro/record.sh`의 derivedData가 `/tmp`라 SPM 체크아웃이 반쯤 사라져 `Could not resolve package dependencies`(exit 74) — `SourcePackages` 삭제로 복구.
   - 인앱 버전 문자열은 `src/Settings.tsx`의 `APP_VERSION` 상수다 — pbxproj·Fastfile(`app_version` 3곳, `resubmit`의 `HANGEOM_BUILD` 기본값)과 함께 올려야 한다. 이번에 네 군데를 손으로 맞췄다.
-- 근거: 릴리즈 로그 `release-2.1.0.log`(01:55 서명 실패) → 포털 등록 → `release-2.1.0-b.log` 02:14 제출. 위키 [[프로젝트/개인/한능검/App Store 심사 이력|심사 이력]] 2.1.0 절.
+- 근거: 릴리즈 로그 `release-2.1.0.log`(01:55 서명 실패) → 포털 등록 → `release-2.1.0-b.log` 02:14 제출. 위키 [심사 이력](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md) 2.1.0 절.
 
 ### 2026-09-02 — capacitor:// 웹뷰에서 유튜브 임베드는 오류 153, https 래퍼 한 장으로 풀린다
 
@@ -58,13 +58,13 @@ React/Vite로 만든 웹 코어를 Capacitor로 감싸 iOS 앱으로 내는 법.
 
 ### 2026-08-27 — 상태 표시줄은 `overlay:true` + CSS safe-area 가 정답이다
 
-- 맥락: [[프로젝트/개인/한능검/README|한능검]] 앱을 Capacitor로 래핑해 시뮬레이터에서 처음 띄웠더니 **헤더가 상태 표시줄과 겹쳐** 앱 제목과 시계가 뒤엉켰다.
+- 맥락: [한능검](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/README.md) 앱을 Capacitor로 래핑해 시뮬레이터에서 처음 띄웠더니 **헤더가 상태 표시줄과 겹쳐** 앱 제목과 시계가 뒤엉켰다.
 - 배운 것:
   1. **`StatusBar.setOverlaysWebView({ overlay: false })`는 해결이 아니다.** 겹침은 사라지지만 웹뷰가 상태 표시줄 아래에서 시작하고 **그 자리를 아무도 칠하지 않아 검은 띠**가 남는다. 배경색을 따로 지정해야 하는데, 다크 모드까지 따라가려면 관리 지점이 늘어난다.
   2. **정답은 `overlay: true` + CSS `env(safe-area-inset-top)`이다.** 웹뷰가 화면 전체를 덮게 두고(iOS 표준) 겹침은 CSS가 피한다. 스크롤할 때 콘텐츠가 상태 표시줄 아래로 흐르는 자연스러운 동작이 덤으로 온다.
   3. **`env()`가 동작하려면 `<meta name="viewport" ... viewport-fit=cover>`가 있어야 한다.** 이게 빠지면 safe-area 값이 전부 0이라, CSS는 맞게 썼는데 왜 안 되는지 한참 헤맨다.
   4. 좌우도 잊지 말 것 — `padding-left: max(16px, env(safe-area-inset-left))`. 가로 모드와 노치 기기에서 콘텐츠가 잘린다.
-- 근거: `(로컬 경로)`, `src/index.css`. 정리는 [[프로젝트/개인/한능검/iOS 앱 2026-08-27|iOS 앱]].
+- 근거: `(로컬 경로)`, `src/index.css`. 정리는 [iOS 앱](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/iOS%20%EC%95%B1%202026-08-27.md).
 
 ### 2026-08-27 — 정적 데이터를 번들에 넣으면 App Store 4.2 방어가 된다
 

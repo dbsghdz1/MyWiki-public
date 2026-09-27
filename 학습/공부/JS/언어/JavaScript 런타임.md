@@ -50,7 +50,7 @@ Next.js에서 환경 변수 중 `NEXT_PUBLIC_` 접두사가 붙은 것만 클라
 
 ### 2026-08-18 — "브라우저 없이 JS를 실행한다"가 무슨 뜻인지
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] D1 업비트 연동 중, `npm run dev`가 띄우는 게 무엇인지 물으며 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]])
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D1 업비트 연동 중, `npm run dev`가 띄우는 게 무엇인지 물으며 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md))
 - 배운 것: 위 핵심 정리 전체. "브라우저 = 크롬"이라는 인식에서 출발해, **엔진(V8)과 브라우저는 다른 것**이고 Node가 엔진만 떼어 온 것임을 알게 됨.
 - 근거: 로컬에서 `node -e`로 `typeof window === 'undefined'`와 `fs.readFileSync` 성공을 직접 확인. `node -v` v24.18.0
 

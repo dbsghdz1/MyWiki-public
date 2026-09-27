@@ -28,7 +28,7 @@ projects:
 
 ### 2026-09-09 — SPA의 첫 HTML이 실제로 비어 있는 것을 `curl`로 봤다
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 3-B·3-C — SSR과 하이드레이션 2026-09-09|실습 3-B·3-C]]
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 3-B·3-C](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%203-B%C2%B73-C%20%E2%80%94%20SSR%EA%B3%BC%20%ED%95%98%EC%9D%B4%EB%93%9C%EB%A0%88%EC%9D%B4%EC%85%98%202026-09-09.md)
 - **`curl -s localhost:5173 | grep -c "약국"` → 0.** 브라우저에서는 목록이 잘 보이는데도 그렇다 — **`curl`은 JS를 실행하지 않기 때문**이고, 크롤러 상당수가 `curl`에 가깝다. 받은 HTML은 `<div id="root"></div>` + `<script src="/src/main.tsx">`가 전부였다
 - **SSR을 붙인 뒤 같은 명령이 약국 3개를 냈다.** 「검색 유입이 사업 근거인 서비스가 왜 SSR을 쓰는가」를 문서가 아니라 명령 한 줄로 판정할 수 있다
 - 서버가 만든 HTML을 브라우저가 **버리지 않게** 하려면 `hydrateRoot`가 필요하다. `createRoot`인 채로 `<script>`만 끼우면 React가 서버 HTML을 지우고 다시 그리며 데이터를 **또** 받아온다(Network에 `/api/pharmacies` 1줄) — SSR이 헛수고가 되는 실패 모양

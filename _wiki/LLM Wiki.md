@@ -16,9 +16,10 @@ sources:
 
 # LLM Wiki
 
-LLM Wiki는 LLM이 원본을 매번 검색해 일회성 답을 만드는 데 그치지 않고, 이전 읽기와 질문의 결과를 영구적인 Markdown 위키에 통합하는 지식 관리 패턴이다. 새 자료가 들어올 때 기존 종합, 상호참조, 모순 표시를 함께 갱신하므로 위키 자체가 누적되는 산출물이 된다. [[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약|Karpathy LLM Wiki 사용자 요약]]
+LLM Wiki는 LLM이 원본을 매번 검색해 일회성 답을 만드는 데 그치지 않고, 이전 읽기와 질문의 결과를 영구적인 Markdown 위키에 통합하는 지식 관리 패턴이다. 새 자료가 들어올 때 기존 종합, 상호참조, 모순 표시를 함께 갱신하므로 위키 자체가 누적되는 산출물이 된다. [Karpathy LLM Wiki 사용자 요약](Sources/2026/07/2026-07-14-llm-wiki-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9A%94%EC%95%BD.md)
 
-> [!note] 근거 상태 — 2026-08-22 해소
+> [!NOTE]
+> **근거 상태 — 2026-08-22 해소**
 > 처음에는 사용자 제공 한국어 요약 한 건만 근거라 `needs-review`였다. **2026-08-22 lint에서 원문 gist를 직접 확인해 해제했다** — [llm-wiki.md (Karpathy, 2026-04-04)](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (2026-08-22 확인).
 > 원문에서 확인된 것: **3계층**(raw sources 불변 · wiki는 LLM 소유 · schema 파일이 구조와 관례를 규정)과 **3연산**(ingest·query·lint), RAG 대비 논지("rediscover knowledge from scratch on every question" ↔ "the wiki is a persistent, compounding artifact — the cross-references are already there"), 그리고 유지 규율 명제 **"The tedious part of maintaining a knowledge base is not the reading or the thinking — it's the bookkeeping."** `index.md`(카테고리별 카탈로그)·`log.md`(append-only 기록)의 역할 구분도 원문과 일치한다.
 > 아직 확인하지 않은 것: **gist 댓글**. 본문 주장에는 영향이 없다.
@@ -32,7 +33,7 @@ LLM Wiki는 LLM이 원본을 매번 검색해 일회성 답을 만드는 데 그
 | 모순 처리 | 현재 답을 만드는 과정에서 발견 | 위키에 충돌 상태를 영구 기록 |
 | 유지 주체 | 검색 파이프라인과 사용자 | 스키마를 따르는 LLM 에이전트 |
 
-이 비교는 RAG 전체가 지식을 축적하지 못한다는 일반 명제가 아니라, 사용자가 요약한 글에서 대비한 “질의 때마다 원본 조각을 찾는 사용 방식”과 “영구 위키를 관리하는 방식”의 차이다. [[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약|Karpathy LLM Wiki 사용자 요약]]
+이 비교는 RAG 전체가 지식을 축적하지 못한다는 일반 명제가 아니라, 사용자가 요약한 글에서 대비한 “질의 때마다 원본 조각을 찾는 사용 방식”과 “영구 위키를 관리하는 방식”의 차이다. [Karpathy LLM Wiki 사용자 요약](Sources/2026/07/2026-07-14-llm-wiki-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9A%94%EC%95%BD.md)
 
 ## 세 계층
 
@@ -40,7 +41,7 @@ LLM Wiki는 LLM이 원본을 매번 검색해 일회성 답을 만드는 데 그
 2. **Wiki**는 LLM이 소유하는 요약과 주제별 종합이다. 새 자료와 질문에 따라 계속 수정된다.
 3. **Schema**는 `AGENTS.md` 같은 운영 계약이다. 디렉터리 소유권, 문서 형식, 출처 정책, 수집·질의·점검 절차를 고정한다.
 
-핵심은 생성 능력보다 유지 규율이다. 위키가 오래될수록 새 페이지 작성보다 기존 페이지와 링크를 빠뜨리지 않고 갱신하는 장부 정리가 중요해진다. [[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약|Karpathy LLM Wiki 사용자 요약]]
+핵심은 생성 능력보다 유지 규율이다. 위키가 오래될수록 새 페이지 작성보다 기존 페이지와 링크를 빠뜨리지 않고 갱신하는 장부 정리가 중요해진다. [Karpathy LLM Wiki 사용자 요약](Sources/2026/07/2026-07-14-llm-wiki-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9A%94%EC%95%BD.md)
 
 ## 운영 루프
 
@@ -60,17 +61,17 @@ Inbox → Sources에 원본 보존
 - **Query**는 index에서 출발해 위키를 읽고, 필요할 때만 원본으로 내려가 답한다.
 - **Lint**는 링크 누락, 고립 페이지, 오래된 주장, 모순, 중복 페이지를 찾는다.
 
-`index.md`는 의미 기반 진입점이고 `log.md`는 위키가 어떻게 변했는지 보여주는 append-only 감사 기록이다. 이 둘을 같은 상세 장부로 만들지 않는 것이 중요하다. index는 현재 상태를, log는 변경의 주소만 맡는다. [[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약|Karpathy LLM Wiki 사용자 요약]]
+`index.md`는 의미 기반 진입점이고 `log.md`는 위키가 어떻게 변했는지 보여주는 append-only 감사 기록이다. 이 둘을 같은 상세 장부로 만들지 않는 것이 중요하다. index는 현재 상태를, log는 변경의 주소만 맡는다. [Karpathy LLM Wiki 사용자 요약](Sources/2026/07/2026-07-14-llm-wiki-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9A%94%EC%95%BD.md)
 
 ## 주요 실패 모드
 
 ### Drift
 
-새 자료가 들어왔는데 관련 허브나 상호참조 일부가 갱신되지 않으면 페이지가 오류를 드러내지 않은 채 낡는다. 사용자 제공 요약에 소개된 장기 운용 사례는 이를 가장 큰 실패 모드로 지목한다. 따라서 매 수집의 영향 범위 lint와 정기적인 전체 lint가 필요하다. [[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약|Karpathy LLM Wiki 사용자 요약]]
+새 자료가 들어왔는데 관련 허브나 상호참조 일부가 갱신되지 않으면 페이지가 오류를 드러내지 않은 채 낡는다. 사용자 제공 요약에 소개된 장기 운용 사례는 이를 가장 큰 실패 모드로 지목한다. 따라서 매 수집의 영향 범위 lint와 정기적인 전체 lint가 필요하다. [Karpathy LLM Wiki 사용자 요약](Sources/2026/07/2026-07-14-llm-wiki-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9A%94%EC%95%BD.md)
 
 ### 페이지 과분화
 
-개념 하나마다 파일 하나를 만들면 짧은 코드나 밀도 높은 원본보다 위키가 더 커질 수 있다. 사용자 제공 요약의 실험 사례에서는 여러 파일을 밀도 높은 표 하나로 합쳤을 때 토큰과 시간이 줄었다. 이 위키는 주제 허브를 기본 단위로 삼고, 여러 출처를 독립적으로 압축할 필요가 있을 때만 페이지를 분리한다. [[_wiki/Sources/2026/07/2026-07-14-llm-wiki-사용자-요약|Karpathy LLM Wiki 사용자 요약]]
+개념 하나마다 파일 하나를 만들면 짧은 코드나 밀도 높은 원본보다 위키가 더 커질 수 있다. 사용자 제공 요약의 실험 사례에서는 여러 파일을 밀도 높은 표 하나로 합쳤을 때 토큰과 시간이 줄었다. 이 위키는 주제 허브를 기본 단위로 삼고, 여러 출처를 독립적으로 압축할 필요가 있을 때만 페이지를 분리한다. [Karpathy LLM Wiki 사용자 요약](Sources/2026/07/2026-07-14-llm-wiki-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9A%94%EC%95%BD.md)
 
 ### 근거의 권위 혼동
 
@@ -78,7 +79,7 @@ Inbox → Sources에 원본 보존
 
 ## 이 vault의 v1 결정
 
-- [[_wiki/React TypeScript 제품 개발|React·TypeScript로 제품 만들기]]를 첫 도메인으로 삼는다.
+- [React·TypeScript로 제품 만들기](React%20TypeScript%20%EC%A0%9C%ED%92%88%20%EA%B0%9C%EB%B0%9C.md)를 첫 도메인으로 삼는다.
 - 자료는 사람이 Inbox에 넣고 에이전트가 Sources로 수집한다.
 - 에이전트는 Wiki를 자동 편집하되 작업별 Git 커밋을 남긴다.
 - 검증 가능한 주장은 문단 또는 표 행 단위로 출처를 표시한다.
@@ -91,16 +92,17 @@ Inbox → Sources에 원본 보존
 
 | 우선순위 | 적용한 규칙 | 실패를 막는 방식 |
 |---|---|---|
-| 1 | [[_wiki/index|Wiki Index]]는 공식 진입점의 frontmatter에서 전체 생성 | status·updated·설명의 수동 복제와 범위 밖 등재를 제거 |
+| 1 | [Wiki Index](index.md)는 공식 진입점의 frontmatter에서 전체 생성 | status·updated·설명의 수동 복제와 범위 밖 등재를 제거 |
 | 2 | 새 log는 헤더와 `입력·변경·검토·커밋` 네 줄만 사용 | 구현 상세가 감사 로그를 다시 비대하게 만드는 것을 차단 |
 | 3 | 프로젝트 README 맨 위에 5줄 `현재 카드`를 점진 적용 | 긴 연대기를 읽지 않고 다음 판정과 지금 할 일 하나를 찾음 |
 | 4 | 경로·루틴 역할·게이트 수치·비공개 prefix를 기계 설정 하나로 관리 | 폴더 이동 뒤 외부 루틴만 옛 경로를 보는 drift를 줄임 |
 | 5 | 매 커밋 구조 lint와 30일 의미 lint를 분리 | 싼 검사는 항상, 출처·충돌 같은 판단은 주기적으로 수행 |
 
-현재 카드는 `단계·현재·다음 판정·지금 할 일·하지 않을 일`만 가진다. 기존 프로젝트를 일괄 재작성하지 않고 다음 Sync나 상태 변경 때 붙인다. 새 수익 제품은 [[프로젝트/개인/README|개인 프로젝트 허브]]의 20·5·2 규칙을 통과하기 전 `idea`에 머물고, 유통 경로를 먼저 설명할 수 있어야 개발로 넘어간다.
+현재 카드는 `단계·현재·다음 판정·지금 할 일·하지 않을 일`만 가진다. 기존 프로젝트를 일괄 재작성하지 않고 다음 Sync나 상태 변경 때 붙인다. 새 수익 제품은 [개인 프로젝트 허브](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/README.md)의 20·5·2 규칙을 통과하기 전 `idea`에 머물고, 유통 경로를 먼저 설명할 수 있어야 개발로 넘어간다.
 
-> [!note] 2026-09-05 검토 — 구조 lint의 결함 3개를 고쳤다
-> 개편 이튿날 리뷰에서 재현한 결함: ① 표 안의 `\|` 이스케이프 별칭 링크(볼트 관례 42곳)를 "새 wikilink 대상을 찾을 수 없다"로 오탐 ② 본문만 고친 프로젝트 README 커밋이 "index 미스테이징"으로 막힘 — index가 안 바뀌면 stage할 수 없어 `updated:`를 올려야만 통과했다 ③ log가 200KB를 넘으면 잘라내야 하는데 append-only 검사가 삭제를 막는 교착(당시 84KB, 하루 약 10KB 증가). 수정: 이스케이프 정규화, index는 생성 결과가 HEAD와 다를 때만 요구, 아카이브 이동은 지운 항목이 같은 커밋에 staged된 `_wiki/log-YYYY-MM.md`에 그대로 있을 때 통과. 훅은 검사 전에 `build-index.py`를 실행해 index를 자동 stage하므로 다른 기기·루틴이 만든 드리프트도 흡수한다. **훅은 클론마다 `git config core.hooksPath .githooks`로 켜야 한다.** 회귀 테스트 3묶음 추가. 상세: [[작업노트/도구/MyWiki 구조 lint와 pre-commit 훅|MyWiki 구조 lint와 pre-commit 훅]].
+> [!NOTE]
+> **2026-09-05 검토 — 구조 lint의 결함 3개를 고쳤다**
+> 개편 이튿날 리뷰에서 재현한 결함: ① 표 안의 `\|` 이스케이프 별칭 링크(볼트 관례 42곳)를 "새 wikilink 대상을 찾을 수 없다"로 오탐 ② 본문만 고친 프로젝트 README 커밋이 "index 미스테이징"으로 막힘 — index가 안 바뀌면 stage할 수 없어 `updated:`를 올려야만 통과했다 ③ log가 200KB를 넘으면 잘라내야 하는데 append-only 검사가 삭제를 막는 교착(당시 84KB, 하루 약 10KB 증가). 수정: 이스케이프 정규화, index는 생성 결과가 HEAD와 다를 때만 요구, 아카이브 이동은 지운 항목이 같은 커밋에 staged된 `_wiki/log-YYYY-MM.md`에 그대로 있을 때 통과. 훅은 검사 전에 `build-index.py`를 실행해 index를 자동 stage하므로 다른 기기·루틴이 만든 드리프트도 흡수한다. **훅은 클론마다 `git config core.hooksPath .githooks`로 켜야 한다.** 회귀 테스트 3묶음 추가. 상세: [MyWiki 구조 lint와 pre-commit 훅](../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/MyWiki%20%EA%B5%AC%EC%A1%B0%20lint%EC%99%80%20pre-commit%20%ED%9B%85.md).
 
 ## 대화 증류 진입점 — /wiki 스킬 (2026-08-08 기준)
 

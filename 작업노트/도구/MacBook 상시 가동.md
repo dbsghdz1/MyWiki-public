@@ -42,7 +42,7 @@ projects:
   - 증상: `launchctl print gui/$(id -u)/<label>`의 `last exit code = 141`, 로그 파일은 빈 채.
   - 원인: 읽는 쪽(`head -1`, `awk '… {exit}'`)이 먼저 끝나면 앞 명령(`pmset -g batt`, `ioreg`)이 SIGPIPE를 받고, pipefail이 그걸 실패로 올린다.
   - 수정: 출력을 먼저 변수에 담고(`out="$(pmset -g batt)"`) here-string으로 파싱한다.
-- **구현체**: 이 문서의 구성을 스크립트로 묶은 것이 [[프로젝트/개인/BookMini/README|BookMini]] v0다 — 현재는 `caffeinate -s` launchd(전원 연결 시에만 잠자기 방지), 5분 하트비트 → Oracle 감시 → Slack. 2026-09-23에 배터리에서도 적용되던 `-i`를 제거했다.
+- **구현체**: 이 문서의 구성을 스크립트로 묶은 것이 [BookMini](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BookMini/README.md) v0다 — 현재는 `caffeinate -s` launchd(전원 연결 시에만 잠자기 방지), 5분 하트비트 → Oracle 감시 → Slack. 2026-09-23에 배터리에서도 적용되던 `-i`를 제거했다.
 - **2026-09-12 홍 설정 반영**: 충전 한도 80%(CLI로 값은 못 읽고 94% `not charging`으로 간접 확인), macOS 자동 업데이트 끔(`defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates` → `0`). App Store 앱 자동 업데이트(`com.apple.commerce AutoUpdate=1`)는 재부팅을 일으키지 않아 그대로 둔다.
 - **2026-09-12 원격 로그인 켬(홍)** — 확인: `nc -z -G 3 127.0.0.1 22` 성공(`launchctl print system/com.openssh.sshd`는 온디맨드라 로드 여부로 판단하지 않는다). 밖에서 닿으려면 Tailscale 같은 사설망이 아직 없다.
 - **원격 복구 경로를 먼저 만든다.**
@@ -54,7 +54,7 @@ projects:
 
 ### 2026-09-23 — Claude RC 대기를 전원 연결 중으로 한정
 
-- **맥락**: 홍이 전원 연결 중에만 Claude RC를 계속 쓰려는 목적을 설명하고 설정 변경을 승인했다. [[프로젝트/개인/BookMini/README|BookMini]] 로컬 커밋 `21772cd`.
+- **맥락**: 홍이 전원 연결 중에만 Claude RC를 계속 쓰려는 목적을 설명하고 설정 변경을 승인했다. [BookMini](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BookMini/README.md) 로컬 커밋 `21772cd`.
 - **이전 설명 정정**: 09-12에는 `caffeinate -i -s` 전체를 AC 전용으로 설명했으나, 로컬 `man caffeinate`에 따르면 `-i`는 전원 종류와 무관하게 유휴 잠자기를 막고 `-s`만 AC에서 유효하다. 09-23 변경 전 배터리에서 BookMini PID에 무기한 `PreventUserIdleSystemSleep`이 실제로 있었다. 기존 설명보다 매뉴얼과 실행 상태를 우선한다.
 - **수정**: 소스 `bin/bookmini-awake`와 설치본을 `exec /usr/bin/caffeinate -s`로 맞추고 `com.hong.bookmini.awake`만 `launchctl kickstart -k`로 재시작했다. 전체 설치기는 실행하지 않았다. 화면 자동 꺼짐은 macOS Lock Screen UI에서 배터리 5분·전원 10분으로 적용했다.
 - **검증**: `bash -n`, `git diff --check`, 소스/설치본 `cmp` 통과. `pmset -g custom`에서 `displaysleep` 5/10, 양쪽 `sleep 1`·`powermode 0` 유지. 배터리 상태에서 awake 새 PID에는 `PreventSystemSleep`만 있고 시스템 집계는 0이었다. BookMini의 `PreventUserIdleSystemSleep`은 사라졌다. 다른 프로세스의 300초 유휴 잠자기 방지는 별도로 남아 있으므로 집계값 1만 보고 수정 실패로 판정하지 않는다.

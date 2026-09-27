@@ -23,7 +23,7 @@ projects:
 ## 기록
 
 ### 2026-08-22 — "push된 상태에서 제스처로 pop이 안 되고 스크롤할 때 위쪽이 이상하다"
-- 맥락: [[프로젝트/개인/DayTune/README|DayTune]]. 7개 화면이 각자 `viewWillAppear`에서 바를 숨기고 HealthConnection만 `viewWillDisappear`에서 다시 켜고 있었다. delegate 설정은 어디에도 없음.
+- 맥락: [DayTune](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md). 7개 화면이 각자 `viewWillAppear`에서 바를 숨기고 HealthConnection만 `viewWillDisappear`에서 다시 켜고 있었다. delegate 설정은 어디에도 없음.
 - 수정: `Core/Navigation/DTNavigationController.swift` 신설(바 숨김 1회 + pop 제스처 delegate), 7개 VC의 토글 제거, `AppCoordinator`가 서브클래스 사용, TodayPlan 스크롤 뷰 `.never`. 시뮬레이터에서 홈·오늘의 계획·설정·추천 상세 렌더링 동일 확인. 제스처는 실기기 확인 필요.
 
 ## 참고 자료

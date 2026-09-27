@@ -24,7 +24,7 @@ UpbitTicker   업비트가 준 모양 그대로 (snake_case, 필요한 필드만
 Coin          우리 모양 (camelCase, 도메인 이름)
 ```
 
-- **1겹에서 이름을 바꾸면 안 된다.** TS엔 Swift `CodingKeys`가 없어서 `JSON.parse` 결과는 서버가 준 키 그대로다. `trade_price`를 `tradePrice`로 적어두면 값이 조용히 `undefined`가 된다 → [[학습/공부/JS/언어/TypeScript 타입 시스템|타입은 런타임에 아무것도 검사하지 않는다]].
+- **1겹에서 이름을 바꾸면 안 된다.** TS엔 Swift `CodingKeys`가 없어서 `JSON.parse` 결과는 서버가 준 키 그대로다. `trade_price`를 `tradePrice`로 적어두면 값이 조용히 `undefined`가 된다 → [타입은 런타임에 아무것도 검사하지 않는다](../%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md).
 - 1겹 파일에 snake_case가 보이는 건 오히려 **"이건 외부 응답 그대로"라는 신호**다.
 - 얻는 것: 외부가 필드명을 바꾸거나 다른 제공자를 붙일 때 **변환 함수 한 곳만** 고친다. UI는 외부 스키마를 모른다.
 - **2겹은 소비자가 생길 때 만든다.** 소비자가 없는데 미리 만들면 조기 추상화다.
@@ -90,7 +90,7 @@ toCoin(ticker, meta?.korean_name ?? ticker.market);   // 못 찾아도 화면이
 `if (!res.ok) throw`만 두고 아무도 잡지 않으면, 외부 API가 429 하나를 주는 순간 **그 값을 쓰는 화면 전체가 500**이 된다. 서버 컴포넌트는 컴포넌트 함수 안에서 `await` 하기 때문에 예외가 렌더 트리를 타고 위로 올라가기 때문이다.
 
 - 실패를 **위젯 단위로 가둬야** 카드 하나가 못 그려져도 나머지 화면이 산다.
-- 상태 코드 검사는 여전히 필수다 — [[학습/공부/JS/언어/TypeScript 타입 시스템|fetch는 404·500에 reject 하지 않는다]].
+- 상태 코드 검사는 여전히 필수다 — [fetch는 404·500에 reject 하지 않는다](../%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md).
 - 에러 메시지는 **어느 API가 왜 터졌는지** 알 수 있게 규칙을 통일한다. 접두사가 함수마다 제각각이면 로그에서 추적이 안 된다.
 
 ### 8. 표시용 숫자와 계산용 숫자의 경계
@@ -99,13 +99,13 @@ toCoin(ticker, meta?.korean_name ?? ticker.market);   // 못 찾아도 화면이
 
 ### 9. 캐시 주기 = 데이터가 변하는 속도
 
-ticker 5초 · 일봉 60초 · 마켓 목록 3600초. 임의의 숫자가 아니라 각 리소스가 실제로 바뀌는 주기에서 나온다. → [[학습/공부/JS/Next.js/Next.js 서버와 캐싱|Next.js 서버와 캐싱]]
+ticker 5초 · 일봉 60초 · 마켓 목록 3600초. 임의의 숫자가 아니라 각 리소스가 실제로 바뀌는 주기에서 나온다. → [Next.js 서버와 캐싱](../Next.js/Next.js%20%EC%84%9C%EB%B2%84%EC%99%80%20%EC%BA%90%EC%8B%B1.md)
 
 ## 기록
 
 ### 2026-08-20 — 홈을 업비트 실시세로 (D1 마무리)
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] D1 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]]) — `market-board`·`watchlist`를 목 데이터에서 실데이터로.
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D1 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md)) — `market-board`·`watchlist`를 목 데이터에서 실데이터로.
 - 배운 것: 위 핵심 정리 전체.
 - **눈으로 안 잡히는 버그를 처음 만남**: `formatPercent`에서 부호를 `rate >= 0 ? '+' : '-'`로 붙였더니 음수가 `--2.43%`가 됐다. `toFixed`가 음수 부호를 이미 포함하기 때문. **상승장에서만 보면 영원히 못 잡는다.** 계획서가 D5에 유닛 테스트를 넣는 이유를 미리 본 셈. 같은 부류로 `formatKRW(amount) + '원'`처럼 이미 포함된 것을 또 붙이는 실수도 했다 → `50,000,000원원`.
 - 검증: 화면 5종을 업비트 원본과 대조해 가격·등락률·거래대금 일치 확인. 미세한 차이는 `revalidate: 5` 캐시가 실제로 동작한다는 증거였다.
@@ -113,7 +113,7 @@ ticker 5초 · 일봉 60초 · 마켓 목록 3600초. 임의의 숫자가 아니
 
 ### 2026-08-20 (2) — 코드 리뷰에서 나온 것
 
-- 맥락: D1 PR #4에 Standards/Spec 두 축 리뷰를 돌린 결과 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]])
+- 맥락: D1 PR #4에 Standards/Spec 두 축 리뷰를 돌린 결과 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md))
 - 배운 것: 위 6·7·8번. 특히 **`tradeVolume24h` 오명명은 두 축 중 Spec 리뷰만 잡았다** — 코드 규칙(Standards)으로는 멀쩡하고 **원본 API 문서와 대조해야만** 보이는 종류라, 리뷰를 두 축으로 나눈 것이 실제로 값을 했다.
 - 두 축이 함께 잡은 것(신호가 강한 것): 외부 API 실패 시 화면 전체가 죽는 구조, 같은 상황(`getCoins` 결과 비어 있음)에 대한 가드가 한 위젯엔 있고 다른 위젯엔 없는 불일치, 입력 무검증(`count=abc` → `NaN`이 외부로 전송).
 - 근거: PR #4 리뷰, `src/entities/coin/model/types.ts`, `src/shared/api/upbit/client.ts`

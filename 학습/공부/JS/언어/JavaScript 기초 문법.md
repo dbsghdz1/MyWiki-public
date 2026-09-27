@@ -67,7 +67,7 @@ false · 0 · "" · null · undefined · NaN
 
 `!`는 값을 boolean으로 바꿔 뒤집는다. `searchParams.get()`의 반환은 `string | null`이지 boolean이 아니다 — `!`가 변환하는 것이다. Swift의 `x == nil`보다 넓게 잡아서, 쿼리스트링이 `?markets=`처럼 값 없이 온 경우(빈 문자열)까지 한 번에 막아준다.
 
-### 고차함수 → [[학습/공부/JS/언어/고차함수와 배열 메서드|고차함수와 배열 메서드]]
+### 고차함수 → [고차함수와 배열 메서드](%EA%B3%A0%EC%B0%A8%ED%95%A8%EC%88%98%EC%99%80%20%EB%B0%B0%EC%97%B4%20%EB%A9%94%EC%84%9C%EB%93%9C.md)
 
 함수를 받거나 돌려주는 함수다. 짧은 코드가 좋은 건 **부품이 적어서**이고, 체인이 길어지면 중간에 이름을 붙여 끊는다. (2026-09-23 150줄을 넘어 별도 노트로 분리)
 
@@ -82,13 +82,13 @@ false · 0 · "" · null · undefined · NaN
 | 배열 메서드 | `map` `filter` `find` `reduce` — Swift와 이름·개념이 거의 같다. `join(',')`은 Swift `joined(separator:)`, `split(',')`은 그 반대 |
 | `this`·프로토타입 | React 함수형 컴포넌트만 쓰면 거의 안 만난다. **지금은 건너뛴다** |
 
-`bigint` 나눗셈·`number`와의 경계는 [[학습/공부/JS/언어/bigint와 정수 연산|bigint와 정수 연산]]으로 분리했다 (2026-09-16).
+`bigint` 나눗셈·`number`와의 경계는 [bigint와 정수 연산](bigint%EC%99%80%20%EC%A0%95%EC%88%98%20%EC%97%B0%EC%82%B0.md)으로 분리했다 (2026-09-16).
 
 ## 기록
 
 ### 2026-09-09 — `SyntaxError`는 원인보다 뒤에서 터진다
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 3-A — Fastify 프록시 2026-09-09|실습 3-A]]. `async () = {`처럼 화살표의 `>`를 빠뜨렸다
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 3-A](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%203-A%20%E2%80%94%20Fastify%20%ED%94%84%EB%A1%9D%EC%8B%9C%202026-09-09.md). `async () = {`처럼 화살표의 `>`를 빠뜨렸다
 - 배운 것:
   - 에러는 **6번 줄(`return { ok: true };`)**을 가리켰지만 범인은 **5번 줄**이었다. 파서가 `() = {`를 "대입인가 보다" 하고 넘어갔다가 `return`을 만나서야 멈춘 것
   - **`SyntaxError`가 뜨면 가리킨 줄과 그 위 한두 줄을 같이 본다.** 런타임 에러(`TypeError` 등)는 반대로 가리킨 자리가 대체로 범인이다
@@ -97,7 +97,7 @@ false · 0 · "" · null · undefined · NaN
 
 ### 2026-09-04 — 소수 문자열을 정수로 (MyCryptoDiary D4 블록 5a)
 
-맥락: `"0.001"` → `100000n` 변환 함수(`shared/lib/toScaleBigInt.ts`). `parseFloat`을 쓰면 안 되는 이유는 [[학습/공부/CS/컴퓨터구조/컴퓨터의 수 표현|수 표현]] 참조.
+맥락: `"0.001"` → `100000n` 변환 함수(`shared/lib/toScaleBigInt.ts`). `parseFloat`을 쓰면 안 되는 이유는 [수 표현](../../CS/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B5%AC%EC%A1%B0/%EC%BB%B4%ED%93%A8%ED%84%B0%EC%9D%98%20%EC%88%98%20%ED%91%9C%ED%98%84.md) 참조.
 
 `for` + `flag` + `count`로 30줄을 쓴 뒤 `split`·`padEnd`로 **6줄**로 줄였다. 그 과정에서 얻은 것:
 
@@ -109,7 +109,7 @@ false · 0 · "" · null · undefined · NaN
 
 ### 2026-08-18 — 업비트 route handler를 쓰다가
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] D1 업비트 연동 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]]). `app/api/upbit/ticker/route.ts`를 쓰면서 문법이 막혔다.
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D1 업비트 연동 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md)). `app/api/upbit/ticker/route.ts`를 쓰면서 문법이 막혔다.
 - 배운 것:
   - `const { searchParams } = new URL(request.url)` — **이미 쓰고 있었는데 구조 분해인 줄 몰랐다.** 뜻을 알고 나니 `import { }`와 옵션 객체 전달이 한 덩어리로 이해됨.
   - `NextResponse.json({ error: 'markets is required' }, { status: 400 })`의 `{ }`가 객체 리터럴. 인자 두 개가 각각 "본문"과 "옵션"이고, 옵션을 객체로 넘기는 게 JS 관례라는 것.
@@ -122,4 +122,4 @@ false · 0 · "" · null · undefined · NaN
 
 - [MDN — Working with objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects) — 객체 리터럴, 점/대괄호 접근, 속성 추가·삭제, 참조 타입 (2026-08-18 확인)
 - [MDN — Destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) — 이름 바꾸기·기본값·중첩·rest·함수 파라미터 분해 (2026-08-18 확인)
-- [MDN — JavaScript 모듈 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) — [[학습/공부/JS/언어/JavaScript 모듈 시스템|모듈 시스템]] 쪽과 이어짐 (2026-08-16 확인)
+- [MDN — JavaScript 모듈 가이드](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) — [모듈 시스템](JavaScript%20%EB%AA%A8%EB%93%88%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) 쪽과 이어짐 (2026-08-16 확인)

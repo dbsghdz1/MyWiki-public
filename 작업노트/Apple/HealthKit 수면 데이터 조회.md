@@ -25,7 +25,7 @@ projects:
 ## 기록
 
 ### 2026-08-22 — 워치 수면 추적이 켜져 있는데 "수면 데이터 없음"
-- 맥락: [[프로젝트/개인/DayTune/README|DayTune]] 새벽 2시 테스트. `fetchLastNightSleep()`이 `startOfDay(now) - 6h`(어제 18:00) 이후 샘플만 조회 → 직전 밤(시작 20일 23시경)이 윈도우 밖 → nil.
+- 맥락: [DayTune](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) 새벽 2시 테스트. `fetchLastNightSleep()`이 `startOfDay(now) - 6h`(어제 18:00) 이후 샘플만 조회 → 직전 밤(시작 20일 23시경)이 윈도우 밖 → nil.
 - 수정: `HealthKitHealthDataRepository` — 36h lookback + `latestSleepSession(from:)` 순수 함수(3h 공백 세션 분리, 합집합 합산). 테스트 6개 추가(`HealthKitHealthDataRepositorySleepSessionTests`): 단일 밤 단계 합산, 두 밤 중 마지막만, 짧은 각성은 같은 세션, 중복 소스 미중복, 정렬 안 된 입력.
 - 근거: 수정 전 코드 `HealthKitHealthDataRepository.swift:55-72`, 수정 후 테스트 18/18 통과.
 

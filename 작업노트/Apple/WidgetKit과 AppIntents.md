@@ -31,11 +31,11 @@ projects:
 ## 기록
 
 ### 2026-08-19 — 위젯마다 테마를 고르게 만들기
-- 맥락: [[프로젝트/개인/Zappy/README|Zappy]] 1.7에서 Zappy+ 가치를 늘리려고 "위젯마다 다른 캐릭터"를 넣었다. 이 앱은 `.lproj` 없이 `L10n.pick(...)`으로 5개 언어를 런타임 분기하는 구조라, 인텐트 문구도 같은 방식으로 쓰려다 빌드가 15개 오류로 깨졌다.
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.7에서 Zappy+ 가치를 늘리려고 "위젯마다 다른 캐릭터"를 넣었다. 이 앱은 `.lproj` 없이 `L10n.pick(...)`으로 5개 언어를 런타임 분기하는 구조라, 인텐트 문구도 같은 방식으로 쓰려다 빌드가 15개 오류로 깨졌다.
 - 배운 것: 위 핵심 정리 전부. 요점은 **AppIntents는 빌드 타임 세계**라서 런타임 로컬라이제이션과 층이 다르다는 것 — 이 앱처럼 리소스를 안 쓰는 프로젝트라도 인텐트를 넣는 순간 문자열 카탈로그를 도입해야 한다.
 - 근거: 커밋 `a791917`. `Widget/ZappyThemeWidget.swift`(리터럴), `Widget/Localizable.xcstrings`(21키 × ko/ja/es/zh-Hant), pbxproj `knownRegions`. 검증: 빌드 산출물 `ZappyWidget.appex/Contents/Resources/{ko,ja,es,zh-Hant}.lproj/Localizable.strings`에 번역이 들어갔고 `extract.actionsdata`(4,976B)에 `ZappyThemeIntent`·`ThemePick`·`StylePick`이 들어갔다.
 
 ### 2026-08-25 — 충전 중 위젯 리로드 폭주
-- 맥락: [[프로젝트/개인/Zappy/README|Zappy]]에서 AC에 꽂아둔 채 쓰는 동안 NotificationCenter 77% + WindowServer 37% CPU를 먹는 것이 관측됐다. 원인은 SMC `IsCharging` 흔들림(30초에 17회)이 스냅샷 비교를 그대로 통과해 2초에 한 번 `reloadAllTimelines()`가 돌던 것.
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md)에서 AC에 꽂아둔 채 쓰는 동안 NotificationCenter 77% + WindowServer 37% CPU를 먹는 것이 관측됐다. 원인은 SMC `IsCharging` 흔들림(30초에 17회)이 스냅샷 비교를 그대로 통과해 2초에 한 번 `reloadAllTimelines()`가 돌던 것.
 - 배운 것: 위 핵심 정리의 리로드 예산·IsCharging 항목. 스냅샷 문자열 비교는 "같은 값 반복"만 거르지 "진동하는 값"은 못 거른다 — 진동은 시간축으로만(20초 버텨야 인정) 걸러진다.
 - 근거: Zappy 1.10.1 커밋 `05f927d` (`App.swift`의 `settledCharging` 히스테리시스 + 리로드 최소 간격 30초).

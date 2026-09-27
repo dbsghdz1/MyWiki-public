@@ -16,7 +16,7 @@ projects:
 ## 학습 계획
 
 **미션:** 서버에서 가져온 데이터를 「화면이 소유한 상태」가 아니라 「서버에서 빌려 온 것」으로 다룰 줄 안다. 도구 이름 없이 *왜 그렇게 다뤄야 하는지* 설명할 수 있으면 끝이다.
-할 수 있게 되는 것 — ① 같은 화면을 `useEffect`+fetch와 `useQuery` 두 벌로 만들고 **요청 수가 달라지는 이유**를 실측 근거로 설명한다 ② `staleTime`·`queryKey`·`gcTime`이 각각 무엇을 정하는지 **기본값과 함께**, 그리고 **언제 바꿔야 하는지** 말한다 ③ 응답 타입을 직접 정의해 `useQuery` 결과가 **로딩 중에는 `undefined`로 좁혀지는 지점**을 타입으로 설명한다. 범위 밖 — SSR·하이드레이션([[프로젝트/개인/약국맵/학습 로드맵|학습 로드맵]] 3·6에서).
+할 수 있게 되는 것 — ① 같은 화면을 `useEffect`+fetch와 `useQuery` 두 벌로 만들고 **요청 수가 달라지는 이유**를 실측 근거로 설명한다 ② `staleTime`·`queryKey`·`gcTime`이 각각 무엇을 정하는지 **기본값과 함께**, 그리고 **언제 바꿔야 하는지** 말한다 ③ 응답 타입을 직접 정의해 `useQuery` 결과가 **로딩 중에는 `undefined`로 좁혀지는 지점**을 타입으로 설명한다. 범위 밖 — SSR·하이드레이션([학습 로드맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%ED%95%99%EC%8A%B5%20%EB%A1%9C%EB%93%9C%EB%A7%B5.md) 3·6에서).
 
 - [ ] **Important Defaults** — 기본값 4개(`staleTime` 0 · `gcTime` 5분 · 자동 배경 재요청 트리거 3개). 완료 기준: 탭 전환 시 요청이 가는 이유를 기본값으로 설명
 - [ ] **Query Keys** — 배열인 이유, 결정론적 해시, queryFn의 변수가 키에 들어가야 하는 이유. 완료 기준: 키를 잘못 잡으면 무슨 일이 나는지 예로 설명
@@ -85,21 +85,21 @@ JSX의 `onClick={fn()}`과 **완전히 같은 실수**다. 라이브러리가 "�
 
 ### 2026-09-09 — useEffect 버전과 나란히 놓고 요청 수를 셌다 (실습 실습 2-B)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 2 — useEffect와 useQuery 2026-09-09|실습 세션 2·2-B]]. 같은 약국 목록 API를 두 벌로 구현해 Network 줄 수를 비교
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 세션 2·2-B](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%202%20%E2%80%94%20useEffect%EC%99%80%20useQuery%202026-09-09.md). 같은 약국 목록 API를 두 벌로 구현해 Network 줄 수를 비교
 - 배운 것: 위 「핵심 정리」 전부가 이 세션에서 나왔다. 특히 **`useQuery`가 기본값에서는 `useEffect`보다 요청을 더 많이 보낸다**(포커스마다) — 그게 손해가 아니라 **약국 영업 상태처럼 변하는 데이터에는 맞는 기본값**이고, 빈도는 `staleTime`으로 내가 정한다
 - 계측 함정: Network 탭의 **`Preserve log`가 켜져 있으면** 새로고침해도 줄이 안 지워져서 "요청이 계속 쌓인다"로 보인다. **줄 수를 세는 실험에서는 꺼야 한다**
 - 근거: `pharmacy-map` 커밋 `238d87f`
 
 ### 2026-09-12 — `dehydrate`가 뭔지 물었다 (실습 실습 6 진행 중)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] 실습 6. `window.__PHARMACIES__`를 `prefetchQuery` → `dehydrate` → `HydrationBoundary`로 바꾸는 코드를 쓰던 중 *"dehydrate 개념이 뭐야"*
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) 실습 6. `window.__PHARMACIES__`를 `prefetchQuery` → `dehydrate` → `HydrationBoundary`로 바꾸는 코드를 쓰던 중 *"dehydrate 개념이 뭐야"*
 - 배운 것: 위 「`dehydrate`」 절. 핵심은 **캐시는 메모리라 못 건너가고 글자만 건너간다** — 그래서 말렸다가 붓는다
-- 정정: [[프로젝트/개인/약국맵/실습 3-B·3-C — SSR과 하이드레이션 2026-09-09|3-C 기록]]의 *"HTML·JSON 두 벌 중복을 없애는 게 실습 6"*은 **반만 맞다.** 두 벌로 가는 건 그대로고, 없어지는 건 **손으로 만든 전역과 그 전역을 읽는 별도 코드**다
+- 정정: [3-C 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%203-B%C2%B73-C%20%E2%80%94%20SSR%EA%B3%BC%20%ED%95%98%EC%9D%B4%EB%93%9C%EB%A0%88%EC%9D%B4%EC%85%98%202026-09-09.md)의 *"HTML·JSON 두 벌 중복을 없애는 게 실습 6"*은 **반만 맞다.** 두 벌로 가는 건 그대로고, 없어지는 건 **손으로 만든 전역과 그 전역을 읽는 별도 코드**다
 - 근거: 설치된 `@tanstack/query-core` 5.102.8 `src/hydration.ts` — `defaultShouldDehydrateQuery`가 `status === 'success'`, `hydrate`가 `state.dataUpdatedAt > query.state.dataUpdatedAt`일 때만 덮어씀. 작업 파일 `server/main.js` · `src/main.tsx`(미커밋)
 
 ### 2026-09-13 — `staleTime`과 `dehydrate`를 인출했다 (teacher 세션 간격 복습)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]]. [[학습/공부/JS/React/뮤테이션과 낙관적 업데이트|낙관적 업데이트]] 수업을 열기 전 지난 세션 것 1문제 인출
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md). [낙관적 업데이트](%EB%AE%A4%ED%85%8C%EC%9D%B4%EC%85%98%EA%B3%BC%20%EB%82%99%EA%B4%80%EC%A0%81%20%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8.md) 수업을 열기 전 지난 세션 것 1문제 인출
 - **증명된 것**: *"`src/main.tsx:68`의 `staleTime: 60000`을 지우면 `/api/pharmacies`가 몇 줄 뜨나"*에 **1줄, 그리고 이유까지** 스스로 답했다 — *"받아온 지 1분 이내라 최신으로 치는데, 0이면 한 번 더 부른다"*. 어제 배운 **`dehydrate`가 데이터와 함께 「받은 시각」을 보낸다**가 남아 있어서 나온 답이다
 - **측정은 아직 안 했다** — 예측만 적고 멈췄다. `npm run build && node server/main.js` 후 Network 탭에서 세는 것이 다음 세션 첫 조각
 - 근거: `src/main.tsx:68`, `server/main.js:37`(`prefetchQuery`)·`:43`(`dehydrate`)

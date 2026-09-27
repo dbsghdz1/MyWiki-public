@@ -27,7 +27,7 @@ projects:
 
 ### 2026-09-09 — 「번들에 실린다」를 실제로 측정하고, `process.env`로 옮겼다
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 3-A — Fastify 프록시 2026-09-09|실습 3-A]]. 09-08에 *"빌드 타임 치환이라 키가 실린다"*고 적어만 뒀던 것을 이번엔 **눈으로 확인하고** 없앴다
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 3-A](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%203-A%20%E2%80%94%20Fastify%20%ED%94%84%EB%A1%9D%EC%8B%9C%202026-09-09.md). 09-08에 *"빌드 타임 치환이라 키가 실린다"*고 적어만 뒀던 것을 이번엔 **눈으로 확인하고** 없앴다
 - 배운 것:
   - **측정 명령**: `npm run build && grep -o 'serviceKey=.\{0,12\}' dist/assets/*.js` → `serviceKey=x7MTtJX86eeW`. 개발자 도구에서 보이는 건 "개발 서버라 원본이 보이는 것"일 수도 있으므로, **판정은 빌드 산출물로 해야 한다**
   - **`VITE_` 접두사는 값의 성격이 아니라 「공개해도 된다」는 스위치다.** 같은 값이라도 `VITE_DATA_GO_KR_KEY`는 번들에 실리고 `DATA_GO_KR_KEY`는 Vite가 쳐다보지도 않는다
@@ -38,7 +38,7 @@ projects:
 
 ### 2026-09-08 — `import.meta.env`는 조회가 아니라 빌드 타임 치환이다
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 1 — fetch와 useState 2026-09-08|실습 세션 1]]에서 서비스키를 코드로 꺼내다가, `process.env`를 썼는데 안 됐다
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 세션 1](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md)에서 서비스키를 코드로 꺼내다가, `process.env`를 썼는데 안 됐다
 - 배운 것:
   - **`process`는 Node.js 런타임의 전역이라 브라우저엔 없다** — `process is not defined`. 브라우저 번들러인 Vite는 **`import.meta.env`**를 쓴다
   - `import.meta`는 ES 모듈 표준이 정한 **모듈 자기 정보 자리**다. 번들러가 거기에 `env`를 얹는 것이지, JS가 환경변수를 읽는 기능이 있는 게 아니다
@@ -51,7 +51,7 @@ projects:
 
 ### 2026-08-16 — FSD public API를 만들며
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] FSD 이사에서 슬라이스마다 `index.ts`를 쓰다가 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]])
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) FSD 이사에서 슬라이스마다 `index.ts`를 쓰다가 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md))
 - 배운 것:
   - `export { GlassCard } from ...`은 named export를 찾는 문법이라 `export default function GlassCard`를 잡지 못한다 → `export { default as GlassCard } from './GlassCard'`.
   - 상대경로 `./`는 "내가 있는 폴더". `shared/ui/index.ts`에서 `./ui/...`나 `./index`를 쓰면 자기 폴더 아래/자기 자신을 가리키는 순환이 된다.

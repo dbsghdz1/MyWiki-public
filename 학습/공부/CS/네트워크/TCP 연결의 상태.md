@@ -24,7 +24,7 @@ projects: []
 
 ### 2026-09-17 — netstat 3줄이 3-way handshake인가?
 
-- 궁금했던 것: [[학습/공부/CS/네트워크/학습 계획|N2]](49~52강) 세션. `nc -l 9999`로 연결을 만들고 `netstat`을 보니 줄이 3개라 **그게 3-way handshake인가** 싶었다. 앞 질문은 [[학습/공부/CS/네트워크/포트와 localhost|포트와 localhost]].
+- 궁금했던 것: [N2](%ED%95%99%EC%8A%B5%20%EA%B3%84%ED%9A%8D.md)(49~52강) 세션. `nc -l 9999`로 연결을 만들고 `netstat`을 보니 줄이 3개라 **그게 3-way handshake인가** 싶었다. 앞 질문은 [포트와 localhost](%ED%8F%AC%ED%8A%B8%EC%99%80%20localhost.md).
 - 예측: netstat 3줄 = 3-way handshake. **틀렸다.**
 - 파고든 길: `sudo tcpdump -i lo0 -n 'tcp port 9999'`를 켜두고 연결을 끊었다 다시 붙였다.
 - 알게 된 것:

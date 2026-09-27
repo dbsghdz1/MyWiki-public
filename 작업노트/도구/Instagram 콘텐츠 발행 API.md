@@ -37,7 +37,7 @@ projects:
   - 인증은 `IG_ACCESS_TOKEN`(`IGAA…` 로 시작하는 Instagram Login 토큰) 환경변수 하나. imgbb 키는 `(로컬 경로)`의 `IMGBB_API_KEY`를 재사용한다 — **소마 발행 스크립트가 인스타카드뉴스 레포의 .env에 의존한다**(그 파일이 없으면 실패)
   - 캡션은 `caption.txt`에서 읽고 `--data-urlencode`로 넘긴다. 게시물 폴더 규약은 `posts/YYYY-MM-DD-주제/{caption.txt,card1..3.png,render_cards.py}`이고 `./publish.sh posts/2026-09-08-DM접수시작` 처럼 폴더를 인자로 준다
   - 릴스·스토리도 같은 컨테이너 방식(`media_type=REELS`/`STORIES`)이지만 **소마·인스타카드뉴스 어디에도 연동돼 있지 않다**(인스타카드뉴스는 AI 릴스 프로토타입까지만)
-- 근거: `(로컬 경로)` (2026-09-02 작성), `posts/` 3개 폴더(09-02·09-03·09-08), [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] "API access blocked" 대응 기록, 한도 수치는 Meta 콘텐츠 발행 문서 정리 글(2026-09-09 확인)
+- 근거: `(로컬 경로)` (2026-09-02 작성), `posts/` 3개 폴더(09-02·09-03·09-08), [인스타카드뉴스](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) "API access blocked" 대응 기록, 한도 수치는 Meta 콘텐츠 발행 문서 정리 글(2026-09-09 확인)
 
 ### 2026-09-09 — 프로필·하이라이트 자동 설정은 안 된다 (문안_프로필_DM.md 1절)
 
@@ -71,7 +71,7 @@ projects:
 
 ### 2026-09-23 — 릴스 발행: resumable은 거절, video_url + 임시 호스팅으로 통과
 
-- 맥락: [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] 첫 릴스([[프로젝트/개인/인스타카드뉴스/릴스 발행 시작 2026-09-23|릴스 발행 시작]]) — 08-01에 써 둔 `publish_reel.py`가 resumable 업로드 전제였다
+- 맥락: [인스타카드뉴스](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) 첫 릴스([릴스 발행 시작](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/%EB%A6%B4%EC%8A%A4%20%EB%B0%9C%ED%96%89%20%EC%8B%9C%EC%9E%91%202026-09-23.md)) — 08-01에 써 둔 `publish_reel.py`가 resumable 업로드 전제였다
 - 배운 것:
   - `graph.instagram.com/v23.0/{ig-user-id}/media`에 `media_type=REELS, upload_type=resumable, caption, share_to_feed, thumb_offset`을 보내면 **400 code 100 «The parameter video_url is required»**. Instagram Login 토큰(`IGAA…`)에서는 공개 URL 방식뿐이다. `video_url`로 바꾸자 컨테이너 생성 → 약 60초 뒤 `FINISHED` → `media_publish` 성공(`media_id 18116851507983873`, https://www.instagram.com/reel/DdnnLy_DSLq/)
   - 호스팅은 litterbox(익명·1h 만료·1GB) — Instagram이 받아 간 뒤엔 URL이 죽어도 된다. 기록에 `hosted_url`을 남긴다

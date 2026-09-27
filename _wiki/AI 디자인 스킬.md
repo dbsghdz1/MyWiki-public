@@ -16,9 +16,10 @@ sources:
 
 # AI 디자인 스킬
 
-Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관련으로 가장 유명한 것들의 지형도다. 2026-07-30 웹 조사 기준이며, 설치 수는 집계 사이트·블로그가 보고한 2차 수치다. [[_wiki/Sources/2026/07/2026-07-31-ai-design-skills-웹-조사|AI 디자인 스킬 웹 조사]]
+Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관련으로 가장 유명한 것들의 지형도다. 2026-07-30 웹 조사 기준이며, 설치 수는 집계 사이트·블로그가 보고한 2차 수치다. [AI 디자인 스킬 웹 조사](Sources/2026/07/2026-07-31-ai-design-skills-%EC%9B%B9-%EC%A1%B0%EC%82%AC.md)
 
-> [!note] 근거 상태 — `needs-review` 유지 (2026-08-22 재검토)
+> [!NOTE]
+> **근거 상태 — `needs-review` 유지 (2026-08-22 재검토)**
 > 설치 수·스타 수를 각 스킬의 원 저장소에서 직접 확인하지 않아 `needs-review`였고, **2026-08-22 lint에서 해제를 시도했으나 실패했다.** 출처였던 claudeskills.info를 다시 열었을 때 여기 적힌 네 스킬(frontend-design·ui-ux-pro-max·design-taste-frontend·shadcn)의 설치 수가 **더 이상 같은 자리에 없었다** — 즉 아래 표는 **2026-07-30 시점의 재현 불가능한 스냅샷**이다.
 > 따라서 이 표의 숫자는 **순위의 대략적 근거로만 쓰고, 수치 자체를 인용하지 않는다.** 해제 조건은 각 스킬 원 저장소에서 직접 확인하는 것이며, 그 전까지는 상태를 유지한다.
 
@@ -27,7 +28,8 @@ Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관
 - **frontend-design** (Anthropic 공식) — 압도적 1위. 흔한 폰트(Inter·Roboto·Arial·Space Grotesk)를 코드 작성 전에 금지하고, 명시적 미학 방향(브루탈리즘·에디토리얼 등)을 먼저 확정하게 강제해 "AI 슬롭" 디자인을 차단한다.
 - **ui-ux-pro-max** — 커뮤니티 1위. 84개 UI 스타일, 192개 컬러 팔레트, 74개 폰트 페어링 데이터베이스를 갖춘 디자인 시스템 자동 생성기.
 
-> [!warning] 근거 충돌
+> [!WARNING]
+> **근거 충돌**
 > - frontend-design 설치 수 277,000+ (2026-03 기준) — Composio 기사
 > - frontend-design 설치 수 686.9K (2026-07-30 조회) — claudeskills.info
 > - 현재 판단: 기준일이 4개월 다르므로 성장으로 설명될 수 있으나, 집계 방식 차이 가능성도 있어 미해결
@@ -57,7 +59,7 @@ Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관
 
 ## Figma MCP 실전 노하우 (1차 경험, 2026-08-09 기준)
 
-[[프로젝트/개인/DayTune/README|DayTune]] 디자인 작업에서 검증한 에이전트 Figma 편집(`use_figma` Plugin API) 패턴. 출처: Claude 대화, 2026-08-09.
+[DayTune](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) 디자인 작업에서 검증한 에이전트 Figma 편집(`use_figma` Plugin API) 패턴. 출처: Claude 대화, 2026-08-09.
 
 - **절대좌표 파일은 편집 누적에 취약하다.** 수정할수록 정렬이 어긋나 감사→수정 루프가 끝나지 않는다. 톤·컬러만 유지하고 오토레이아웃 + 로컬 컴포넌트로 재건축하는 편이 총비용이 낮았다 (13개 화면 기준).
 - **재건축 순서**: 새 페이지 → 공용 컴포넌트(StatusBar·TabBar variants·Button) → 화면당 `use_figma` 1회 + `node.screenshot()` 인라인 검증 → 구버전을 클론으로 교체. 스크립트가 원자적이라 실패 복구가 쉽다.
@@ -81,7 +83,7 @@ Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관
 
 ## Blender MCP 실전 노하우 (1차 경험, 2026-08-09 기준)
 
-[[프로젝트/개인/Zappy/README|Zappy]] 눈사람 3D화에서 검증한 에이전트 Blender 조작(`execute_blender_code`) 패턴. 출처: Claude 대화, 2026-08-09.
+[Zappy](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 눈사람 3D화에서 검증한 에이전트 Blender 조작(`execute_blender_code`) 패턴. 출처: Claude 대화, 2026-08-09.
 
 - **콘 프리미티브의 팁은 로컬 +Z, 밑면은 -Z.** X축 회전 부호를 잘못 잡으면 팁이 오브젝트 안으로 박히고 밑면이 바깥을 본다(당근코가 뒤집힌 원인). 회전 후 `matrix_world`로 밑면 위치를 검산하는 게 안전.
 - **카메라 정면에서 앞으로 향한 콘은 원판으로 보인다.** 돌출부가 있는 캐릭터는 3/4 앵글이 기본값 — 정면샷 고집하며 콘을 키우는 것보다 카메라를 트는 게 빠르다.
@@ -94,4 +96,4 @@ Claude Code 등 코딩 에이전트에 설치해 쓰는 스킬 중 디자인 관
 ## 이 vault에의 적용 (종합)
 
 - 자주 언급되는 시작 조합은 frontend-design + Vercel Web Design Guidelines + Vercel React Best Practices다. 이 Mac의 Claude Code에는 이미 `vercel:shadcn`, `vercel:react-best-practices`, `dataviz`가 설치되어 있다 (2026-07-30 확인).
-- 적용 1순위 후보는 [[프로젝트/개인/math-sprint/README|math-sprint]] — React 기반 미니게임 UI라 frontend-design류 안티슬롭 스킬의 효과가 즉시 보이는 프로젝트다. 단 math-sprint는 2026-08-18부터 잠시 중지 상태라(재판정은 소마 종료 2026-12 이후) 적용 시점도 그때 다시 정한다 (2026-09-23 기준).
+- 적용 1순위 후보는 [math-sprint](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/math-sprint/README.md) — React 기반 미니게임 UI라 frontend-design류 안티슬롭 스킬의 효과가 즉시 보이는 프로젝트다. 단 math-sprint는 2026-08-18부터 잠시 중지 상태라(재판정은 소마 종료 2026-12 이후) 적용 시점도 그때 다시 정한다 (2026-09-23 기준).

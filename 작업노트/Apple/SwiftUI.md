@@ -51,7 +51,7 @@ projects:
 
 ### 2026-09-19 — `Text(timerInterval:)`로 바꾼 뒤에도 "1초씩 안 올라간다" → `TimelineView(.periodic)` + 코덱 사다리 재시작 (WristNote)
 
-- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 홍 실기기(Apple Watch SE 3) 제보 — *"시간이 1초씩 안올라가는 문제가 있는 것 같아"*. 09-05에 `Text(timerInterval:)`로 고친 1.1.1이 나간 뒤의 제보다.
+- 맥락: [WristNote](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) 홍 실기기(Apple Watch SE 3) 제보 — *"시간이 1초씩 안올라가는 문제가 있는 것 같아"*. 09-05에 `Text(timerInterval:)`로 고친 1.1.1이 나간 뒤의 제보다.
 - 코드에서 찾은 것(**실기기 재현은 못 했다 — 원인 확정 아님**):
   - `WatchRecorder`의 코덱 사다리가 `formatIndex = 0`(IMA4)부터 시작한다. 실기기에선 IMA4가 안 자라 5초쯤 `restartWithNextFormat()` → `finishRecording`이 `startedAt = nil` 후 `start()`가 `startedAt = Date()`를 새로 찍는다 — **앱을 띄운 뒤 첫 녹음마다 화면 타이머가 0:05 근처에서 0:00으로 되감긴다.** 시뮬레이터는 IMA4가 통해서 이 경로를 한 번도 안 탄다.
   - `formatIndex`는 인스턴스 변수라 앱이 죽으면 0으로 돌아간다 — 매 실행 첫 녹음의 앞 5초를 버렸다.
@@ -60,7 +60,7 @@ projects:
 
 ### 2026-09-16 — 주제가 쌓이면 그래프가 덩어리가 된다 → 옵시디언풍 그래프 (WristNote)
 
-- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 홍 요청 — *"내용이 많아지면 주제들이 너무 많이 쌓여서 ui가 이상해 … 옵시디언느낌"*. 1.1.0 주제 탭은 `List` 첫 행에 320pt `TopicGraphView` + 아래 주제 목록.
+- 맥락: [WristNote](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) 홍 요청 — *"내용이 많아지면 주제들이 너무 많이 쌓여서 ui가 이상해 … 옵시디언느낌"*. 1.1.0 주제 탭은 `List` 첫 행에 320pt `TopicGraphView` + 아래 주제 목록.
 - 재현: 시뮬레이터 앱 컨테이너의 `Library/Application Support/WristNote/meetings.json`에 합성 회의 40건(주제 70개)을 써 넣고 `WRISTNOTE_TAB=topics`로 실행 → 파란 원 70개와 라벨이 가운데 한 덩어리. **재설치하면 데이터 컨테이너 UUID가 바뀐다** — 경로는 매번 `xcrun simctl get_app_container booted com.hong.wristnote data`로 다시 얻는다.
 - 원인 세 겹:
   1. Fruchterman–Reingold를 320pt 상자 안에서 돌리고 `x = min(max(x, 40), width - 40)`으로 클램프 — 반발력이 설 자리가 없다.
@@ -77,7 +77,7 @@ projects:
 - 배운 것: 위 「핵심 정리」 세 항목.
   - 전체 화면 상단 여백은 **앱이 준 게 아니라 타이틀바 안전영역이었다.** 창 모드 캡처에서 상단바 divider가 89pt, 계산상(패딩만) 60pt라 29pt 차이 = 타이틀바 높이. 보정 후 전체 화면에서도 divider가 89pt로 일치했다.
   - 피그마의 상태 스펙은 **변수 목록이 아니라 렌더 픽셀로 확인**하는 게 빠르다. `get_variable_defs`는 프레임의 토큰 목록만 주고 어느 상태에 무엇이 붙는지는 안 알려 준다 — `get_screenshot` PNG를 받아 각 스와치를 샘플링하면 `#6251FB→#5345D5`(primary), `n30→n40`(gray), `n10→n30`(white), 그리고 **채워진 danger는 호버에서 색이 안 바뀐다**까지 한 번에 갈린다.
-  - 호버 판정은 눈이 아니라 픽셀로: 새 카테고리 버튼 위에 커서를 올린 캡처에서 `#D8D5F9`가 나와 `bl6@22%` 계산값과 맞았고, 카드 수정 버튼 테두리는 좌측 가장자리에서 `#C4C4C8`(=`n50`)이 잡혔다. ([[작업노트/도구/macOS 앱 QA 자동화|QA 하네스]])
+  - 호버 판정은 눈이 아니라 픽셀로: 새 카테고리 버튼 위에 커서를 올린 캡처에서 `#D8D5F9`가 나와 `bl6@22%` 계산값과 맞았고, 카드 수정 버튼 테두리는 좌측 가장자리에서 `#C4C4C8`(=`n50`)이 잡혔다. ([QA 하네스](../%EB%8F%84%EA%B5%AC/macOS%20%EC%95%B1%20QA%20%EC%9E%90%EB%8F%99%ED%99%94.md))
 - 근거: 미커밋 작업 트리(`(로컬 경로)`, develop). `DesignSystem/Sources/macOS/Modifier/MacHoverBackground.swift`·`MacFullScreenTopPadding.swift`(신규), 호출부 20여 곳(`MacAlertDialog`·`MacSearchBarButton`·`LinkActionToast`·`LinkEditToolbar`·`LinkListSortControl`·`SearchDeleteButton`·`AddCategoryPopover`·`SettingRowButton` 등). Debug 빌드 통과 후 실제 앱을 띄워 캡처로 확인.
 
 ### 2026-09-06 — 필름 고르기를 가로 다이얼로: 여백이 없으면 끝 칸이 가운데에 못 선다 (Fadeo)
@@ -92,7 +92,7 @@ projects:
 
 ### 2026-09-05 — 워치 녹음 타이머가 "0:03 → 0:07"로 건너뛴다 → `Text(timerInterval:)` (WristNote)
 
-- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 1.1.0 심사 중, 홍이 실기기에서 "시간초가 갑자기 올라가 7초 이렇게" 라고 보고. 워치 녹음 화면의 경과 시간 표시.
+- 맥락: [WristNote](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) 1.1.0 심사 중, 홍이 실기기에서 "시간초가 갑자기 올라가 7초 이렇게" 라고 보고. 워치 녹음 화면의 경과 시간 표시.
 - 배운 것:
   - `Timer.scheduledTimer(withTimeInterval: 1, repeats: true)`로 `elapsed`를 갱신하고 `String(format: "%02d:%02d", ...)`로 그리면, **손목 내림·Always-On 감광 중 run loop tick이 멈춘다.** `elapsed`는 `Date().timeIntervalSince(startedAt)` 절대차라 값 자체는 정확하지만, **갱신 시점이 없어서** 화면을 다시 보는 순간 밀린 초가 한 번에 반영된다. 증상은 "타이머가 느리다"가 아니라 **"건너뛴다"** 로 나타난다.
   - 해결은 시작 시각만 넘기고 그리기를 시스템에 맡기는 것: `Text(timerInterval: startedAt...Date.distantFuture, countsDown: false)`. 앱이 tick하지 않아도 매초 다시 그려진다. 포맷은 시스템이 정해서 `00:05`가 `0:05`, 1시간 넘으면 `1:00:00`이 된다(직접 포맷하던 `%02d:%02d`는 65분에 `65:23`을 찍었다 — 새 쪽이 낫다).
@@ -198,7 +198,7 @@ Text("\(totalLinkCount)개" as String)  // → "4009개"
 
 카드 안에서 스크롤 끝을 페이드하는 그라데이션도 **카드 색과 같은 토큰**으로 맞춰야 한다 — 배경색으로 페이드하면 카드 위에 다른 색 띠가 생긴다.
 
-**일반화: 색을 "무엇처럼 보이는가"가 아니라 "어느 층인가"로 고른다.** 배경층·표면층·강조층을 토큰으로 나눠 두면 다크에서 층이 무너지지 않는다. [[작업노트/Apple/macOS 템플릿 아이콘 그리기|템플릿 아이콘]]에서 알파만 남는 것과 같은 종류의 함정이다.
+**일반화: 색을 "무엇처럼 보이는가"가 아니라 "어느 층인가"로 고른다.** 배경층·표면층·강조층을 토큰으로 나눠 두면 다크에서 층이 무너지지 않는다. [템플릿 아이콘](macOS%20%ED%85%9C%ED%94%8C%EB%A6%BF%20%EC%95%84%EC%9D%B4%EC%BD%98%20%EA%B7%B8%EB%A6%AC%EA%B8%B0.md)에서 알파만 남는 것과 같은 종류의 함정이다.
 
 - 근거: `Assets.xcassets/Color/Background/{background,bgDim}.colorset`, 커밋 `8a9a1b9`
 
@@ -306,13 +306,14 @@ let angle = Double(h % 41) / 10.0 - 2.0
 - 근거: `(로컬 경로)` 커밋 `fa62033` (`CameraSession.hasCamera` 가드).
 
 ### 2026-08-25 — ~~TabView는 보이지 않는 탭도 미리 만든다~~ → **오진이었다. 시뮬레이터의 낡은 다이얼로그를 증거로 읽었다** (즉석카메라)
-> [!warning] 아래 진단은 틀렸다 — 같은 날 로그로 반증됨
+> [!WARNING]
+> **아래 진단은 틀렸다 — 같은 날 로그로 반증됨**
 > **iOS 26의 `TabView`는 선택되지 않은 탭을 지연 생성한다.** `.task`에 디버그 로그를 넣어 보니 **한 번도 실행되지 않았다.**
 > 권한 다이얼로그가 뜬 진짜 이유는 **`simctl`이 화면을 탭할 수 없어서, 최초 실행(기본 탭이 촬영일 때) 때 뜬 다이얼로그가 닫히지 않고 이후 모든 스크린샷에 계속 얹혀 있었기 때문**이다. 앱을 종료해도 남는다.
 > **교훈: 시뮬레이터 스크린샷의 다이얼로그는 현재 실행의 것이 아닐 수 있다.** 권한은 `xcrun simctl privacy <dev> grant camera <bundle>`로 미리 부여하고 시작한다.
 > 아래 가드 자체는 무해해서 코드에 남겨뒀다(다른 OS 버전에서는 유효할 수 있다).
 
-- 맥락: [[프로젝트/개인/즉석카메라/README|즉석카메라]] v1 골격. 시뮬레이터에서 **앨범 탭을 보고 있는데 카메라 권한 요청이 떴다.**
+- 맥락: [즉석카메라](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%A6%89%EC%84%9D%EC%B9%B4%EB%A9%94%EB%9D%BC/README.md) v1 골격. 시뮬레이터에서 **앨범 탭을 보고 있는데 카메라 권한 요청이 떴다.**
 - 배운 것: **`TabView`는 선택되지 않은 탭의 뷰도 미리 만든다.** 그래서 그 안의 `.task`·`.onAppear`가 **화면에 보이기 전에 실행된다.** 카메라·마이크·위치처럼 **권한을 묻거나 하드웨어를 켜는 작업**을 탭 루트에 두면 사용자가 그 탭을 열지도 않았는데 실행된다.
 - 해결: 부모가 선택 상태를 내려주고 `.task(id: isActive)`로 **실제로 보일 때만** 실행한다. `onDisappear`만으로는 부족하다 — 애초에 나타난 적이 없어도 `.task`는 이미 돌았기 때문이다.
 ```swift
@@ -336,7 +337,7 @@ TabView(selection: $tab) {
   - 앱을 빌드해 실제로 호버를 걸고 픽셀을 재 보니 **호버는 정상 발화하고 있었다** — 팝업 배경 `rgb(42,43,51)` → 호버 `rgb(55,55,64)`, 차이 13. 2026-08-18에 다크 대비 때문에 `bgDimHover` → `n20`으로 바꿨던 그 색인데, `n20`은 라이트에서 `#F6F6F6`이라 `n0`(흰색) 위에서 9/255 차이다. **다크를 고치면서 라이트를 잃은 셈.** `n40`으로 올리니 차이 25(라이트 31).
   - '카테고리 삭제하기'만 `backgroundColor: bgDimDanger`를 상시로 깔고 호버 색도 같은 토큰이라, 기본 상태가 이미 호버처럼 보이고 호버해도 변화가 없었다. 상시 배경을 지우니 기본은 투명, 호버할 때만 빨간 딤이 된다.
   - 사이드바가 접혔을 때 뜨는 '사이드바 열기' 버튼은 배경이 `.clear`였다 — 콘텐츠 배경 위에 아이콘만 떠 있어 옆의 네비 버튼(`MacArrowButton`: `n0` 배경 + 그림자 2겹 + radius 12)과 따로 놀았다. 같은 뷰가 사이드바 안에서도 쓰이므로 `isFloating` 플래그로 갈랐다.
-- 근거: `taptap-ios` `TapTapMac/Sources/Sidebar/SidebarCategoryRow.swift`·`MacSidebarAssets.swift`·`RootView.swift`. 수정 전후 모두 앱을 띄워 `NSBitmapImageRep.colorAt`으로 픽셀 확인 ([[작업노트/도구/macOS 앱 QA 자동화|QA 하네스]]).
+- 근거: `taptap-ios` `TapTapMac/Sources/Sidebar/SidebarCategoryRow.swift`·`MacSidebarAssets.swift`·`RootView.swift`. 수정 전후 모두 앱을 띄워 `NSBitmapImageRep.colorAt`으로 픽셀 확인 ([QA 하네스](../%EB%8F%84%EA%B5%AC/macOS%20%EC%95%B1%20QA%20%EC%9E%90%EB%8F%99%ED%99%94.md)).
 
 ### 2026-08-18 — 사이드바 호버·블러·팝업 폭 (탭탭 macOS)
 - 맥락: 탭탭 디자인 QA #133 (작업 기록)에서 사이드바 호버·그라데이션 블러·⋮ 팝업을 손보다가.

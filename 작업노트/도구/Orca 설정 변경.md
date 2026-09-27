@@ -31,6 +31,6 @@ projects:
 ## 기록
 
 ### 2026-09-22 — 앱 아이콘·폰트 키우기
-- 맥락: 홍이 Orca 안에서 연 MyWiki 세션에서 "앱 아이콘 바꾸고 폰트 전체적으로 2pt 키워줘". 관련: [[작업노트/도구/Ghostty 설정|Ghostty 설정]](터미널 테마 `Ghostty Default Style Dark`를 Orca가 그대로 씀).
+- 맥락: 홍이 Orca 안에서 연 MyWiki 세션에서 "앱 아이콘 바꾸고 폰트 전체적으로 2pt 키워줘". 관련: [Ghostty 설정](Ghostty%20%EC%84%A4%EC%A0%95.md)(터미널 테마 `Ghostty Default Style Dark`를 Orca가 그대로 씀).
 - 배운 것: 위 핵심 정리 전부. 결과 `appIcon: blue`, `terminalFontSize: 16`, `uiZoomLevel: 0.5`(110%).
 - 근거: `orca-data.json` grep으로 매 단계 확인. Orca 1.4.205, macOS 26.5.

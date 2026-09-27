@@ -90,7 +90,7 @@ function App() {
 
 **비율로는 MDN이 9할이다.** React가 만들어내는 건 진짜 HTML 요소라, "이 요소가 뭐 하는 물건인가"는 전부 MDN이다. React 문서를 볼 일은 **적는 법**(`onClick`, `className`)과 훅뿐이다.
 
-### `useEffect`·StrictMode → [[학습/공부/JS/React/useEffect와 StrictMode|useEffect와 StrictMode]]
+### `useEffect`·StrictMode → [useEffect와 StrictMode](useEffect%EC%99%80%20StrictMode.md)
 
 `useEffect`는 화면을 그린 **뒤에** 할 일이고, `return`하는 함수는 「치울 일」이다. StrictMode는 개발 모드에서만 `setup → cleanup → setup`을 돌린다. (2026-09-23 분리)
 
@@ -98,18 +98,18 @@ function App() {
 
 ### 2026-09-09 — `createRoot` vs `hydrateRoot`, 그리고 JSX 없이 `createElement` 직접 쓰기
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 3-B·3-C — SSR과 하이드레이션 2026-09-09|실습 3-B·3-C]]
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 3-B·3-C](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%203-B%C2%B73-C%20%E2%80%94%20SSR%EA%B3%BC%20%ED%95%98%EC%9D%B4%EB%93%9C%EB%A0%88%EC%9D%B4%EC%85%98%202026-09-09.md)
 - **`createRoot`는 «이 자리는 내가 처음부터 그린다»**라서 서버가 보낸 HTML을 버린다. **`hydrateRoot`는 이미 그려진 DOM을 그대로 두고 이벤트·상태만 붙인다** — 「수분 공급」이라는 이름 그대로 마른 뼈대를 적시는 것
   - 관찰 가능한 차이: 데이터가 HTML에 이미 있는데도 `createRoot`면 `/api/pharmacies`를 **또** 부른다(Network 1줄) → `hydrateRoot`면 0줄
   - 이어받으려면 **클라이언트의 첫 렌더 결과가 서버 HTML과 같아야** 한다. 그래서 서버가 데이터를 `window.__PHARMACIES__`로 같이 심는다 — `<li>1번약국</li>`은 **글자**지 데이터가 아니라서 되꺼낼 수 없다
 - **JSX 없이 쓰면 이렇게 생겼다**: `<li key={p.hpid}>{p.dutyName}</li>` = `h("li", { key: p.hpid }, p.dutyName)`. 서버 파일이 `.js`라 JSX를 못 써서 컴파일 결과를 손으로 썼다 — 09-08의 *"JSX는 함수 호출로 컴파일된다"*가 실물로 나온 자리
 - 근거: `pharmacy-map` `9270889`, `src/main.tsx`·`server/main.js`
 
-### 2026-09-09 — cleanup 자리에 fetch를 넣은 기록 → [[학습/공부/JS/React/useEffect와 StrictMode|useEffect와 StrictMode]]로 옮겼다 (2026-09-23)
+### 2026-09-09 — cleanup 자리에 fetch를 넣은 기록 → [useEffect와 StrictMode](useEffect%EC%99%80%20StrictMode.md)로 옮겼다 (2026-09-23)
 
 ### 2026-09-08 — 버튼 하나를 만들며 막힌 자리 전부 (실습 실습 세션 1)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 1 — fetch와 useState 2026-09-08|실습 세션 1]]. Vite 템플릿에서 시작해 "버튼 누르면 약국 XML을 화면에" 까지
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 세션 1](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md). Vite 템플릿에서 시작해 "버튼 누르면 약국 XML을 화면에" 까지
 - 배운 것:
   - `onClick={console.log("안녕")}`을 쓰고 **버튼을 누르지 않았는데 콘솔에 찍혔다.** 예측은 "안 찍힌다"였다 — `{ }`가 렌더 시점에 계산된다는 걸 몸으로 본 자리
   - `return`을 `<>` 안에 넣어 화면이 통째로 비었다. **에러가 안 났다**는 게 이 버그의 성질

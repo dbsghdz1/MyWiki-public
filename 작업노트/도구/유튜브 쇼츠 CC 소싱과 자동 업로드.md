@@ -26,7 +26,7 @@ CC BY 원본으로 쇼츠를 자동 제작·게시할 때의 결론: **CC 표시
 ## 기록
 
 ### 2026-09-27 — 하루 10개 제작·게시 자동화 첫날
-- 맥락: [[프로젝트/개인/오늘 본 장면/README|오늘 본 장면]] 채널 개설, `(로컬 경로)`(`src/factory.py`·`render.py`·`uploader.py`) 작성
+- 맥락: [오늘 본 장면](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) 채널 개설, `(로컬 경로)`(`src/factory.py`·`render.py`·`uploader.py`) 작성
 - 배운 것:
   - Homebrew ffmpeg에는 `drawtext`·`ass`·`subtitles` 필터가 없다(`ffmpeg -filters`에 안 보임) → 자막은 Pillow로 전체 화면 RGBA PNG를 글자 단위로 만들고 concat demuxer(`file`/`duration`)로 슬라이드쇼 스트림을 만들어 `overlay`한다. 타이핑 중 글자 크기가 흔들리지 않게 완성 문장 기준으로 폰트 크기를 고정한다.
   - `mlx-whisper`(`mlx-community/whisper-large-v3-turbo`)는 Apple Silicon에서 36분 영상을 몇 분에 전사하지만, 음악·무음 구간에서 `over and over…` 같은 반복 환각과 0초 세그먼트 수십 개를 낸다 → 단어 다양성이 1/4 미만인 세그먼트와 연속 중복을 버린다.

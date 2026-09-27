@@ -58,13 +58,13 @@ Apple Watch(watchOS 26.2) 실기기에서 같은 코드가 세 단계로 실패�
 
 ### 2026-09-02 — WristNote 실기기 M0: 잘린 파일 → AAC 무출력 → 마이크 권한, 세 겹
 
-- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 홍의 실기기(Apple Watch watchOS 26.2 + iPhone iOS 26.5) 테스트. 전송은 됐는데 전사가 "빈 텍스트"로 실패해 `devicectl device copy from --domain-type appDataContainer`로 아이폰 컨테이너의 `meetings.json`·녹음 파일을 꺼내 분석.
+- 맥락: [WristNote](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) 홍의 실기기(Apple Watch watchOS 26.2 + iPhone iOS 26.5) 테스트. 전송은 됐는데 전사가 "빈 텍스트"로 실패해 `devicectl device copy from --domain-type appDataContainer`로 아이폰 컨테이너의 `meetings.json`·녹음 파일을 꺼내 분석.
 - 배운 것: 위 「실기기 워치 녹음 — 세 가지」 전부. 순서대로 벗겨졌고 각 단계는 앞 단계를 고치기 전엔 보이지 않았다.
 - 근거: `(로컬 경로)` 커밋 `9bcdaff`(전송을 didFinish 뒤로) → `fc903de`(AAC 48kHz 시도, 실패) → `44cd002`(코덱 사다리, µ-law) → `61aae30`(권한 요청). 홍이 붙여준 워치 콘솔: `finished … size=24588 audio=0.06s wall=12.61s`, `tick wall=10 … fileSize=28`, `tick … fileSize=4096` → 권한 요청 후 정상.
 
 ### 2026-09-01 — WristNote v1 골격 시뮬레이터 페어 검증
 
-- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] 야간 자율 작업. 워치 녹음 → `transferFile` → 아이폰 수신 흐름을 Series 11(46mm) + iPhone 17 Pro 시뮬레이터 페어에서 돌렸다.
+- 맥락: [WristNote](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) 야간 자율 작업. 워치 녹음 → `transferFile` → 아이폰 수신 흐름을 Series 11(46mm) + iPhone 17 Pro 시뮬레이터 페어에서 돌렸다.
 - 배운 것: 위 「핵심 정리」 전부. 워치 녹음·전송 호출까지는 되고 아이폰 배달만 시뮬레이터 한계.
 - 근거: `(로컬 경로)` 커밋 `f8c4bd3` (`WatchRecorder.swift`·`WatchSession.swift`·`PhoneSession.swift`). 워치 로그 `subsystem == "com.hong.wristnote.watch"`: `recording started inputs=1` → `stop: … exists=true size=25120` → `didFinish … error=nil`. 아이폰 `wcd` 로그 21:14:28 `received message … 28222 bytes`.
 

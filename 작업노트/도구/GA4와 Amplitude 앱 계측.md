@@ -88,7 +88,7 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
   - **탭탭 `appstore` 레인은 업로드까지만 한다**(`submit_for_review: false`). 그리고 `latest_testflight_build_number(version:) + 1`을 계산해 **xcconfig의 `MARKETING_VERSION`·`CURRENT_PROJECT_VERSION`을 직접 써넣는다** — 버전 올림 커밋이 필요 없고, `*.xcconfig`가 gitignore라 그 변경은 git에 남지도 않는다.
   - **업로드 직후에는 빌드가 버전 레코드에 안 붙는다.** Apple 처리에 수 분 걸리고, 그동안 `asc state`는 «build: ❌ not attached»만 보여준다. **처리 중인지 판단하려면 `asc builds`**(연결 여부와 무관하게 업로드된 빌드를 보여준다)를 보고, 나타나면 `asc attach-build <versionId> <buildId>`로 붙인다.
 - 결과: **1.2.2 (2) 업로드 → 빌드 `4cbe7ba3` 연결 완료, `PREPARE_FOR_SUBMISSION`**. 릴리즈 노트는 1.2.1 내용이 남아 있어 «내부를 정비했어요»로 교체(사용자에게 보이는 변화가 없는 릴리즈다). **심사 제출은 앱 개인정보 선언 확인 전까지 하지 않았다.**
-- 근거: develop `c5e9226d`(#149 + #148), 버전 레코드 `c80a4eda-a795-4730-a309-27d042fdccae`, 빌드 `4cbe7ba3-471f-43b9-8646-1eb5980d90b5`. `env -u RUBYOPT fastlane ios appstore version:1.2.2 skip_screenshots:true`([[작업노트/도구/fastlane 로컬 실행 환경|RUBYOPT 누출]] 회피). 시뮬레이터 프로바이더 실측 `Console, Amplitude`.
+- 근거: develop `c5e9226d`(#149 + #148), 버전 레코드 `c80a4eda-a795-4730-a309-27d042fdccae`, 빌드 `4cbe7ba3-471f-43b9-8646-1eb5980d90b5`. `env -u RUBYOPT fastlane ios appstore version:1.2.2 skip_screenshots:true`([RUBYOPT 누출](fastlane%20%EB%A1%9C%EC%BB%AC%20%EC%8B%A4%ED%96%89%20%ED%99%98%EA%B2%BD.md) 회피). 시뮬레이터 프로바이더 실측 `Console, Amplitude`.
 
 ### 2026-09-09 — GA4를 실제로 켜다: 링커 플래그 하나가 업로드를 통째로 막고 있었다 (탭탭)
 
@@ -132,4 +132,4 @@ xcrun simctl spawn booted log stream --level debug --predicate 'subsystem == "Ta
 - 맥락: 탭탭 홍보 착수를 앞두고 지표를 심었다. Tuist + TCA 구조에 `Projects/AnalyticsKit`(staticFramework)을 만들어 GA4(Firebase 12.18.0)·Amplitude(Amplitude-Swift 1.18.8)·콘솔 세 프로바이더로 팬아웃.
 - 배운 것: 위 「핵심 정리」 전부. 특히 ① `FirebaseApp.configure()`의 fatalError ② gitignore된 plist 때문에 CI 빌드가 GA4 없이 나가는 것 ③ `CategoryListFeature`가 화면이 아니라 홈 섹션이라 `screen_view`가 두 번 찍힌 것.
 - 근거: 브랜치 `feat/analytics-ga4-amplitude` (`origin/develop` `7b507de` 기준), `Docs/analytics-events.md`. 시뮬레이터 로그로 `screen_view { screen_name=home }`·`has_onboarded=true`·`device_shell=phone` 실제 발화 확인, `AnalyticsKit` 스킴 테스트 12건 통과. 키(Firebase plist·`AMPLITUDE_API_KEY`)는 아직 없어 콘솔 프로바이더만 활성.
-- 관련: [[작업노트/도구/Tuist|Tuist]] — Firebase SPM을 Tuist external로 붙이는 부분.
+- 관련: [Tuist](Tuist.md) — Firebase SPM을 Tuist external로 붙이는 부분.

@@ -48,8 +48,8 @@ URL 뒤의 `utm_*`는 **링크를 만든 쪽이 "이 방문은 어디서 왔다"
 
 ## 더 알아보면 좋은 것
 
-- 앱 설치 유입은 UTM으로 이어지지 않는다. 앱스토어를 거치면서 연결이 끊기므로 AppsFlyer·Airbridge 같은 어트리뷰션 툴이 따로 필요하다 → [[작업노트/도구/GA4와 Amplitude 앱 계측|GA4와 Amplitude 앱 계측]]
-- 쿼리 스트링 값의 인코딩 규칙 → [[학습/공부/CS/네트워크/URL과 퍼센트 인코딩|URL과 퍼센트 인코딩]]
+- 앱 설치 유입은 UTM으로 이어지지 않는다. 앱스토어를 거치면서 연결이 끊기므로 AppsFlyer·Airbridge 같은 어트리뷰션 툴이 따로 필요하다 → [GA4와 Amplitude 앱 계측](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/GA4%EC%99%80%20Amplitude%20%EC%95%B1%20%EA%B3%84%EC%B8%A1.md)
+- 쿼리 스트링 값의 인코딩 규칙 → [URL과 퍼센트 인코딩](../CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/URL%EA%B3%BC%20%ED%8D%BC%EC%84%BC%ED%8A%B8%20%EC%9D%B8%EC%BD%94%EB%94%A9.md)
 
 ## 참고 자료
 

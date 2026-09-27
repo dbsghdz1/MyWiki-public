@@ -24,7 +24,7 @@ projects:
 ## 기록
 
 ### 2026-08-22 — 건강 앱 연결 → 권한 허용 직후 SIGABRT
-- 맥락: [[프로젝트/개인/DayTune/README|DayTune]] CTA 버튼 디자인 수정 후 "건강앱연결에서 크래시 난다" 보고. 디자인 변경과 무관한 기존 버그였다.
+- 맥락: [DayTune](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) CTA 버튼 디자인 수정 후 "건강앱연결에서 크래시 난다" 보고. 디자인 변경과 무관한 기존 버그였다.
 - 근거: `(로컬 경로)` — `HealthConnectionViewModel.requestHealthKitPermission()` 안에서 `try await requestHealthAuthorizationUseCase.execute()` 뒤 `finishHealthConnection()` → `onFinish` → `AppCoordinator.showSleepAnalyzing()` → `setViewControllers(_:animated:)` → `NSAssertionHandler` → SIGABRT. 시뮬레이터(iPhone 17 Pro, iOS 26.5) 새 설치 → CTA 탭 → 허용에서 100% 재현.
 - 수정: `await MainActor.run { finishHealthConnection() }` (프로젝트 기존 관례 — `HomeViewModel`·`SleepAnalyzingViewModel`도 같은 방식). 수정 후 같은 경로로 "수면 데이터 없음" 화면까지 정상 진입 확인.
 - 덤: 시뮬레이터 자동화 중 macOS에는 GNU `timeout`이 없어 `timeout 30 cmd`가 **command not found로 조용히 아무것도 안 한 채 "성공"처럼 보였다.** 샌드박스 안에서 `simctl launch/io`가 멈춰 보인 것도 실제론 이 조합이었다 — macOS에서 시간 제한이 필요하면 백그라운드 실행 + `sleep` 또는 `gtimeout`(coreutils).

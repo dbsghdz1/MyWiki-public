@@ -7,7 +7,7 @@ aliases:
   - React TypeScript Product Development
   - React TS 제품 개발
 created: 2026-07-14
-updated: 2026-09-23
+updated: 2026-09-28
 sources:
   - "2026-07-14-roadmap-sh-react-roadmap"
   - "2026-07-15-roadmap-sh-javascript-roadmap"
@@ -19,7 +19,8 @@ sources:
 
 React와 TypeScript를 따로 암기하는 대신 실제 제품을 설계하고 구현하면서 얻은 재사용 가능한 지식을 축적하는 최상위 허브다. 공식 문서와 외부 글, 구현 기록, 디버깅 경험을 연결해 “무엇인가”뿐 아니라 “언제, 왜, 어떻게 사용하는가”까지 정리한다.
 
-> [!note] 시작 상태
+> [!NOTE]
+> **시작 상태**
 > 첫 기준 자료로 roadmap.sh의 React Developer Roadmap을 수집했다. 로드맵은 학습 범위를 찾는 지도이며 모든 도구를 순서대로 익혀야 하는 의무 목록으로 취급하지 않는다. roadmap.sh React 로드맵
 
 ## 목표
@@ -45,8 +46,9 @@ React와 TypeScript를 따로 암기하는 대신 실제 제품을 설계하고 
 
 ## 현재 학습 기준선
 
-> [!note] 실제 학습 기록은 공부 영역에 있다 (2026-08-18)
-> 이 허브의 지도에 대응하는 1인칭 학습 노트가 MyCryptoDiary 작업에서 나오고 있다 — [[학습/공부/JS/언어/JavaScript 기초 문법|JavaScript 기초 문법]] · [[학습/공부/JS/언어/JavaScript 런타임|JavaScript 런타임]] · [[학습/공부/JS/언어/JavaScript 모듈 시스템|JavaScript 모듈 시스템]] · [[학습/공부/JS/언어/TypeScript 타입 시스템|TypeScript 타입 시스템]] · [[학습/공부/JS/Next.js/Next.js 서버와 캐싱|Next.js 서버와 캐싱]] · [[학습/공부/JS/React/Feature-Sliced Design|Feature-Sliced Design]]. 새 이해는 그쪽 `## 기록`에 쌓고, 이 허브는 외부 로드맵 기준선과 지식 지도만 유지한다.
+> [!NOTE]
+> **실제 학습 기록은 공부 영역에 있다 (2026-08-18)**
+> 이 허브의 지도에 대응하는 1인칭 학습 노트가 MyCryptoDiary 작업에서 나오고 있다 — [JavaScript 기초 문법](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EA%B8%B0%EC%B4%88%20%EB%AC%B8%EB%B2%95.md) · [JavaScript 런타임](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%9F%B0%ED%83%80%EC%9E%84.md) · [JavaScript 모듈 시스템](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%AA%A8%EB%93%88%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) · [TypeScript 타입 시스템](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) · [Next.js 서버와 캐싱](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/Next.js%20%EC%84%9C%EB%B2%84%EC%99%80%20%EC%BA%90%EC%8B%B1.md) · [Feature-Sliced Design](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/Feature-Sliced%20Design.md). 새 이해는 그쪽 `## 기록`에 쌓고, 이 허브는 외부 로드맵 기준선과 지식 지도만 유지한다.
 
 
 roadmap.sh는 React 학습 전에 JavaScript 초급 주제를 익히고, Vite를 이용한 환경 구성에서 함수형 컴포넌트, JSX, props와 state, 조건부 렌더링, 합성으로 진행하는 경로를 제시한다. 이어 기본·공통 Hooks와 렌더링 개념을 다룬 뒤 상태 관리, 라우팅, API 호출, 테스트, TypeScript와 검증, 폼으로 범위를 넓힌다. 순서는 엄격하지 않다고 명시한다. roadmap.sh React 로드맵
@@ -94,11 +96,11 @@ JavaScript 로드맵은 프레임워크보다 먼저 함수, 연산자, 자료�
 - `var`의 루프 캡처 함정(콜백이 최종값을 공유)은 React에서도 stale closure 형태로 재현된다. `let`·`const`가 반복마다 새 환경을 만든다는 사실이 event handler와 `useEffect` 클로저를 이해하는 기반이 된다.
 - MyCryptoDiary 코드에서 `var`가 보이면 교체 대상이고, ESLint의 `prefer-const`는 핸드북의 권장을 자동화한 것이다.
 
-핸드북의 “spread는 얕은 복사” 규칙은 실제 구현에서 이미 사용되었다. MyCryptoDiary Day 1–4에서 `sort()`가 원본 배열을 변경하기 때문에 props를 직접 바꾸지 않으려고 `[...diaries].sort(...)`로 복사 후 정렬했다. 두 출처가 같은 규칙을 원리(핸드북)와 적용 사례(학습 노트)로 뒷받침한다. TS 핸드북 변수 선언 [[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes|MyCryptoDiary Day 1–4 학습 노트]]
+핸드북의 “spread는 얕은 복사” 규칙은 실제 구현에서 이미 사용되었다. MyCryptoDiary Day 1–4에서 `sort()`가 원본 배열을 변경하기 때문에 props를 직접 바꾸지 않으려고 `[...diaries].sort(...)`로 복사 후 정렬했다. 두 출처가 같은 규칙을 원리(핸드북)와 적용 사례(학습 노트)로 뒷받침한다. TS 핸드북 변수 선언 [MyCryptoDiary Day 1–4 학습 노트](Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes.md)
 
 ### SwiftUI 경험에서 React로
 
-BarStack으로 SwiftUI를 써 본 경험을 React 학습의 지렛대로 쓴다. Day 1–4 학습 노트가 정리한 대응 관계다. 역할이 비슷하다는 뜻이며 내부 구현이 같은 것은 아니다. [[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes|MyCryptoDiary Day 1–4 학습 노트]]
+BarStack으로 SwiftUI를 써 본 경험을 React 학습의 지렛대로 쓴다. Day 1–4 학습 노트가 정리한 대응 관계다. 역할이 비슷하다는 뜻이며 내부 구현이 같은 것은 아니다. [MyCryptoDiary Day 1–4 학습 노트](Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes.md)
 
 | React·TypeScript | Swift·SwiftUI | 주의할 차이 |
 |---|---|---|
@@ -110,7 +112,7 @@ BarStack으로 SwiftUI를 써 본 경험을 React 학습의 지렛대로 쓴다.
 | Next.js `Link` | `NavigationLink` | 파일 기반 라우팅(`app/diary/[id]`)과 결합된다 |
 | `sort()` 뒤 spread 복사 | `sorted()`가 새 배열 반환 | JS `sort()`는 **원본을 변경**한다 — Swift와 반대 |
 
-노트가 남긴 재사용 가능한 구조 원칙(종합 표시): Next.js App Router 컴포넌트는 기본이 Server Component이고 `useState`·`onClick`이 필요한 파일만 `'use client'`로 경계를 만든다. Mock 데이터는 `data/`로 분리해 두면 API 응답으로 교체하기 쉽고 컴포넌트 테스트가 쉬워진다 — 이는 MyCryptoDiary만이 아니라 이후 React 프로젝트의 기본 배치로 삼는다. [[_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes|MyCryptoDiary Day 1–4 학습 노트]]
+노트가 남긴 재사용 가능한 구조 원칙(종합 표시): Next.js App Router 컴포넌트는 기본이 Server Component이고 `useState`·`onClick`이 필요한 파일만 `'use client'`로 경계를 만든다. Mock 데이터는 `data/`로 분리해 두면 API 응답으로 교체하기 쉽고 컴포넌트 테스트가 쉬워진다 — 이는 MyCryptoDiary만이 아니라 이후 React 프로젝트의 기본 배치로 삼는다. [MyCryptoDiary Day 1–4 학습 노트](Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes.md)
 
 ### 제품 중심 학습 순서
 
@@ -149,11 +151,11 @@ BarStack으로 SwiftUI를 써 본 경험을 React 학습의 지렛대로 쓴다.
 - 다른 프로젝트에서도 재사용할 수 있는 원리는 무엇인가?
 - 다음에 같은 상황이 생기면 무엇을 다르게 할 것인가?
 
-개인 앱은 별도 학습 도메인이 아니라 이 지식을 시험하는 사례로 둔다. 사례 프로젝트는 [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]](2026-09-05 잠시 중지, 재개 조건은 그 README 현재 카드)와 [[프로젝트/개인/약국맵/README|약국맵]](제품은 2026-09-22 보류, 코드는 [[프로젝트/개인/약국맵/학습 로드맵|학습 로드맵]] 웹뷰 트랙의 실습 소재로 계속 쓴다)이며, 프로젝트 고유 요구사항과 진행 기록은 프로젝트 폴더에서 관리한다 (2026-09-23 기준).
+개인 앱은 별도 학습 도메인이 아니라 이 지식을 시험하는 사례로 둔다. 사례 프로젝트는 [MyCryptoDiary](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md)(2026-09-05 잠시 중지 → 2026-09-24 재개 결정, D5는 10월 중순부터 — 그 README 현재 카드)와 [약국맵](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md)(제품은 2026-09-22 보류, 코드는 [학습 로드맵](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%ED%95%99%EC%8A%B5%20%EB%A1%9C%EB%93%9C%EB%A7%B5.md) 웹뷰 트랙의 실습 소재로 계속 쓴다)이며, 프로젝트 고유 요구사항과 진행 기록은 프로젝트 폴더에서 관리한다 (2026-09-23 기준).
 
 ## 위키 자체에 관한 메타 지식
 
-이 vault의 축적 방식과 품질 관리 원칙은 [[_wiki/LLM Wiki|LLM Wiki]]에 정리되어 있다. 이 페이지는 학습 도메인의 진입점이고, LLM Wiki 페이지는 위키 운영법을 설명하는 메타 허브다.
+이 vault의 축적 방식과 품질 관리 원칙은 [LLM Wiki](LLM%20Wiki.md)에 정리되어 있다. 이 페이지는 학습 도메인의 진입점이고, LLM Wiki 페이지는 위키 운영법을 설명하는 메타 허브다.
 
 ## 첫 수집 후보
 

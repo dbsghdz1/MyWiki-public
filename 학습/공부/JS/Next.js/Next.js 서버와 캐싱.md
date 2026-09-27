@@ -18,9 +18,9 @@ Next.js는 **React를 서버에서 실행해 HTML을 만들어 브라우저로 �
 
 ## 이 폴더
 
-- [[학습/공부/JS/Next.js/빌드 타임과 런타임|빌드 타임과 런타임]] — 축이 두 개(tsc·Tailwind는 빌드 타임), `NEXT_PUBLIC_`은 허가가 아니라 「번들에 박아라」는 명령
-- [[학습/공부/JS/Next.js/proxy 미들웨어와 matcher|proxy 미들웨어와 matcher]] — 요청마다 돈다, 정적 파일을 안 빼면 성능이 아니라 파손, `matcher: []`는 실행 0회, Route Group layout으로 인증 경계
-- [[학습/공부/JS/Next.js/Route Handler와 내부 API|Route Handler와 내부 API]] — `app/api`는 HTTP 창구, `src/**/api`는 내부 함수. 브라우저는 서버 파일을 import할 수 없어서 HTTP가 필요하다
+- [빌드 타임과 런타임](%EB%B9%8C%EB%93%9C%20%ED%83%80%EC%9E%84%EA%B3%BC%20%EB%9F%B0%ED%83%80%EC%9E%84.md) — 축이 두 개(tsc·Tailwind는 빌드 타임), `NEXT_PUBLIC_`은 허가가 아니라 「번들에 박아라」는 명령
+- [proxy 미들웨어와 matcher](proxy%20%EB%AF%B8%EB%93%A4%EC%9B%A8%EC%96%B4%EC%99%80%20matcher.md) — 요청마다 돈다, 정적 파일을 안 빼면 성능이 아니라 파손, `matcher: []`는 실행 0회, Route Group layout으로 인증 경계
+- [Route Handler와 내부 API](Route%20Handler%EC%99%80%20%EB%82%B4%EB%B6%80%20API.md) — `app/api`는 HTTP 창구, `src/**/api`는 내부 함수. 브라우저는 서버 파일을 import할 수 없어서 HTTP가 필요하다
 
 ## 핵심 정리
 
@@ -80,7 +80,7 @@ fetch(url, { next: { revalidate: 5 } })   // 5초 안에 같은 URL이면 저장
 
 ### 2026-08-18 — 업비트 연동 (D1)
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] D1 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]])에서 `shared/api/upbit` + `app/api/upbit/ticker/route.ts`를 만들며.
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D1 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md))에서 `shared/api/upbit` + `app/api/upbit/ticker/route.ts`를 만들며.
 - 배운 것: 위 핵심 정리 전체. 특히 **"React가 Next에게 HTML을 준다"고 거꾸로 이해하고 있었던 것**을 바로잡았고, JSX가 HTML 문자열이 아니라 JS 객체를 만든다는 것을 처음 알았다.
 - 검증: `curl "localhost:3000/api/upbit/ticker?markets=KRW-BTC"` → 실시세 JSON, 파라미터 없이 호출 → 400. D1 DoD 항목.
 - 근거: 커밋 `c761e7a`(client), `2551b96`(route handler)

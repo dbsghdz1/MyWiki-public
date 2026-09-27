@@ -12,7 +12,7 @@ related_wiki:
 
 # MyCryptoDiary D2 — Neon + Drizzle 스키마 (2026-08-18, 26~28)
 
-[[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] 모의투자 전환의 두 번째 작업. 로컬 목 데이터 다음 단계로 Neon PostgreSQL과 Drizzle을 연결하고, 거래·랭킹의 원본 및 파생 데이터를 담는 스키마를 실제 원격 DB에 반영했다.
+[MyCryptoDiary](README.md) 모의투자 전환의 두 번째 작업. 로컬 목 데이터 다음 단계로 Neon PostgreSQL과 Drizzle을 연결하고, 거래·랭킹의 원본 및 파생 데이터를 담는 스키마를 실제 원격 DB에 반영했다.
 
 ## 한 것
 
@@ -43,7 +43,7 @@ related_wiki:
 
 ## 배운 것
 
-- [[학습/공부/CS/데이터베이스/데이터베이스|데이터베이스]] — 스키마와 DTO·Model의 차이, PK·FK·복합 PK, 공유 기본키, `numeric`과 `bigint`, 파생 스냅샷
+- [데이터베이스](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.md) — 스키마와 DTO·Model의 차이, PK·FK·복합 PK, 공유 기본키, `numeric`과 `bigint`, 파생 스냅샷
 
 ## 다음
 

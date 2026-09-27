@@ -26,7 +26,8 @@ projects:
 - **D-U-N-S는 무료다.** 국내 발급기관은 **NICE D&B**이고, **90일 이내 발급된 영문 사업자등록증명**이 필요하다(홈택스에서 별도 발급). 개인·법인 사업자 모두 발급 가능하다.
 - **순서가 중요하다** — D-U-N-S 신청 → 조직 계정 등록 → 앱 개발. 반대로 하면 앱을 다 만들고 30일을 기다리거나, 테스터 12명을 구하러 다녀야 한다.
 
-> [!danger] 개인사업자는 이 번호를 Apple에 쓸 수 없다 (2026-08-26 정정)
+> [!CAUTION]
+> **개인사업자는 이 번호를 Apple에 쓸 수 없다 (2026-08-26 정정)**
 > 처음엔 *"한 번 받아두면 애플·구글 양쪽에 쓴다"*라고 적었는데 **틀렸다.** Apple 공식 문서는 개인사업자를 Organization에서 명시적으로 배제한다.
 > > *"If your legal status is a sole proprietorship/single person business, **enroll as an individual**."*
 > Organization으로 받는 형태는 **Corporation · Limited Partnership · LLC**뿐이고, **sole proprietorship · DBA · 상호명 · 지점은 불가**다. 그리고 Individual 등록에는 D-U-N-S가 **애초에 필요 없다.**
@@ -43,18 +44,20 @@ projects:
 4. **이름이 세 군데에서 정확히 일치해야 한다.** ① 개발자 계정의 사업자명 ② 사업자등록증의 사업자명 ③ D-U-N-S에 등록된 사업자명. 영문 표기가 조금만 달라도 검증에서 막히고, 고치려면 D&B 쪽 수정을 또 기다린다.
 5. **Apple에서는 회수가 안 된다** (개인사업자 한정). 위 경고 참고 — 애플은 개인사업자를 Individual로만 받고 거기엔 D-U-N-S가 필요 없다. "양쪽에 쓴다"는 기대가 깨지면 동기의 절반이 사라진다.
 
-> [!tip] 그래서 언제 받을 가치가 있나
+> [!TIP]
+> **그래서 언제 받을 가치가 있나**
 > **① 도메인 있는 웹사이트가 이미 있거나 생길 예정이고 ② 앱을 한 번이 아니라 계속 낼 계획이면** 받는 게 낫다. 12명 × 14일은 **신규 앱마다** 반복되는 비용인데, D-U-N-S는 한 번이다.
 > 반대로 앱 하나만 내고 말 거라면 개인 계정으로 12명을 모으는 쪽이 빠르다.
 
-> [!tip] iOS만 해본 사람이 놓치는 지점
+> [!TIP]
+> **iOS만 해본 사람이 놓치는 지점**
 > App Store는 개인이든 조직이든 심사 절차가 같아서 **"계정 유형이 출시 가능 여부를 가른다"는 감각이 없다.** Google Play는 다르다. 계정을 만드는 시점의 선택이 이후 모든 앱의 출시 조건을 결정한다. **개인→조직 전환은 공식 절차가 있다**(아래 2026-09-01 정정). 조직→개인은 불가.
 
 ## 기록
 
 ### 2026-08-26 — 웹 + 양대 스토어 출시를 검토하다 D-U-N-S 30일을 발견했다 (같은 날 일부 정정)
 
-- 맥락: [[프로젝트/개인/한능검/README|한능검]] 학습 앱을 웹으로 만들고 iOS·Android 양쪽에 내는 구조를 검토하면서, Android 출시 요건을 처음 확인했다. 홍은 iOS·macOS 출시 경험만 있고 **Google Play는 처음**이다.
+- 맥락: [한능검](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/README.md) 학습 앱을 웹으로 만들고 iOS·Android 양쪽에 내는 구조를 검토하면서, Android 출시 요건을 처음 확인했다. 홍은 iOS·macOS 출시 경험만 있고 **Google Play는 처음**이다.
 - 배운 것:
   - **개인 계정이면 신규 앱마다 12명 × 14일 비공개 테스트가 필수다.** 2023-11-13 이후 생성된 개인 계정에 적용되며 2026년 기준 그대로다. 이건 심사가 아니라 **출시 자격 요건**이라 잘 만든다고 면제되지 않는다.
   - **조직 계정은 면제되고, 개인사업자로도 조직 계정을 만들 수 있다.** 법인일 필요가 없다.
@@ -100,6 +103,10 @@ projects:
   - **`Case Status Report`는 SSO를 만들어도 열리지 않는다 (2026-09-02 실측, 앞 항목 정정).** 계정을 만들고 로그인까지 해도 화면은 계속 `Requires Sign-In via D&B Single Sign-On`이다. 다섯 경로를 시도했고 전부 같았다: 페이지의 `D&B Single Sign-On` 링크(**로그인 링크가 아니라 dnb.com 홍보 페이지로 튄다**) · `?CUST=APPLEDEV` 재진입 · 새 탭 진입 · OneLogin에서 앱 시작 · `service.dnb.com` 직접 진입. **원인: OneLogin 계정에 붙은 앱이 `Digital Service Center` 하나뿐이고 Apple 트랙 케이스 조회는 거기 없다.** 그 Digital Service Center도 `for U.S. Support`라 한국 계약은 대상이 아니다. → **케이스 진행 확인은 회신 메일과 전화뿐이다. 포털에서 시간 쓰지 말 것.**
   - **SSO 계정은 포털에서 버튼 하나로 만들어진다** (2026-09-02 생성). 성공 판정은 페이지의 `OneLogin Status`가 `User Not Found: <메일>` → `Email: <메일>`로 바뀌는 것이고, 안내 문구도 "create a" → "login with"로 바뀐다. 비밀번호 초기화 링크는 `noreply@dnb.com`에서 온다. **D&B에 등록한 이메일은 주 계정이 아닌 개발용 주소였다** — 초기화 메일도 케이스 회신도 전부 그쪽으로 가므로, 어느 주소로 접수했는지를 먼저 확인해야 한다.
   - **D&B 폼은 한글을 `?`로 저장한다.** 접수 확인 메일에 되돌아온 본문에서 `HSW 주식회사`가 `HSW ????`로, 한글 라벨도 `? ?? ??`로 깨져 있었다. **영문만 읽어도 뜻이 통하게 써야 한다** — 이번엔 `주식회사` 바로 뒤에 `a Corporation`을 붙여둬서 손실이 없었다. 고유명사를 한글로만 쓰면 그 정보는 사라진다.
+- **2026-09-28 — #34814947은 통지 없이 `Closed`, 재접수 Case #34880382.** 회신 기한(09-23)이 지나도 메일이 없어 확인하니 두 케이스(#34798515·#34814947) 모두 `Closed`였고 결과 메일은 개발용 주소에도 **한 통도 오지 않았다**. 같은 내용으로 `Create New DUNS` 재접수 — Additional Details에 두 이전 케이스 번호·963252083 오매칭·"사업자등록번호로 매칭" 명시, 영문 사업자등록증명 재첨부. 처리 7~14 영업일 → **2026-10-07 ~ 10-16**.
+  - **`Case Status Report`는 이제 열린다 (09-02 "열리지 않는다" 정정).** 포털에서 이메일만 넣으면 `we have located your contact information`과 함께 목록이 나온다. **기본 Range가 `All Open`이라 닫힌 케이스는 `0 Cases currently open`으로 숨는다** — Range를 `Last 90 Days`로 바꿔야 보인다. 표에는 Status만 있고 **발급 번호·반려 사유는 없다.**
+  - **D&B에는 받는 이메일 주소가 없다.** Apple 도움말의 "email D&B" 링크 셋 모두 `support.dnb.com/?CUST=APPLEDEV` 폼이다. 문의·후속 확인도 `Submit Case`로 새 케이스를 연다.
+  - 케이스가 닫혔는데 메일이 없으면 [Apple D-U-N-S 조회](https://developer.apple.com/enroll/duns-lookup/)로 새 번호가 생겼는지부터 본다.
   - **접수 확인 메일은 Additional Details 본문만 돌려준다** — Legal Business Name·Business Registration Number·Legal Structure·주소 같은 구조화 필드는 안 보여준다. 그 값이 제대로 들어갔는지는 SSO 계정을 만들어 `Case Status Report`로 봐야 한다.
   - 폼이 요구한 값 중 사고 방지에 직결된 둘: `Business Structure / Legal Structure`(드롭다운이 아니라 **자유 입력** — `Sole Proprietorship` 타이핑)와 **`Business Registration Number`**(한국 사업자등록번호 전용 필드가 있다). 이 둘이 동명 법인과 갈라주는 장치다. `CEO Title`은 개인사업자면 `Owner`.
   - 첨부 금지 목록이 명시돼 있다 — 운전면허·여권·주민번호·**통장 사본(Banking Statements)**. 보강 서류는 임대차계약서나 사업자명이 찍힌 공과금 고지서 쪽이다.

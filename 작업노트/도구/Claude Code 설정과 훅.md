@@ -151,7 +151,7 @@ cmux(Ghostty) 터미널 테마를 TokyoNight로 바꿨더니 **Claude Code 화�
 
 ### 2026-09-05 — 사람만 부르는 스킬(`disable-model-invocation: true`)은 모델의 스킬 목록에 안 보인다 — `/teach`가 그 예
 
-- 맥락: [[학습/README|학습]] 허브에 "학습선생님" 스킬을 만들려고 Matt Pocock 저장소(aihero.dev/skills)를 조사.
+- 맥락: [학습](../../%ED%95%99%EC%8A%B5/README.md) 허브에 "학습선생님" 스킬을 만들려고 Matt Pocock 저장소(aihero.dev/skills)를 조사.
 - 배운 것:
   - 설치된 `mattpocock-skills` 1.2.3(`(로컬 경로)`)에 **`/teach`가 이미 들어 있다** (`skills/productivity/teach/SKILL.md` + `MISSION-FORMAT.md`·`LEARNING-RECORD-FORMAT.md`·`RESOURCES-FORMAT.md`). 세션 시작 스킬 목록에는 `grilling`·`tdd`·`wizard` 등만 보이고 `teach`·`grill-me`·`handoff`가 없어서 "없다"고 오판할 뻔했다. 원인은 frontmatter `disable-model-invocation: true` — **사람이 `/이름`으로 칠 때만 열리고 모델 목록에서는 빠진다.** 스킬 존재 여부는 목록이 아니라 플러그인 `plugin.json`의 `skills` 배열이나 캐시 디렉터리로 확인해야 한다.
   - 같은 플러그인이 두 마켓플레이스(`claude-plugins-official` 1.2.3, `mattpocock` 1.2.0, 같은 SHA `2ab9580`)에 이중 설치돼 있다. 저장소 README는 "installing both leaves you with every skill twice"라고 경고한다 — 정리 대상.
@@ -194,7 +194,7 @@ Reason: [Untrusted Code Integration].
 
 ### 2026-09-16 — 서드파티 스킬 설치기가 전역 `settings.json`에 훅을 심을 수 있다
 
-gstack `./setup`이 묻지 않고 `Stop` 훅(`gstack-timeline-stop`)을 `(로컬 경로)`에 등록했다. 원본은 `settings.json.bak.<타임스탬프>`로 백업하고, 자기 항목엔 `"_gstack_source"` 필드를 박아 나중에 식별·제거할 수 있게 해뒀다. 상세와 제거 명령은 [[작업노트/도구/gstack|gstack]].
+gstack `./setup`이 묻지 않고 `Stop` 훅(`gstack-timeline-stop`)을 `(로컬 경로)`에 등록했다. 원본은 `settings.json.bak.<타임스탬프>`로 백업하고, 자기 항목엔 `"_gstack_source"` 필드를 박아 나중에 식별·제거할 수 있게 해뒀다. 상세와 제거 명령은 [gstack](gstack.md).
 
 일반화: **남의 설치 스크립트를 돌린 뒤에는 `(로컬 경로)`의 `hooks`를 확인한다.** 훅은 조용히 매 세션 돌고, 나중에 원인 불명의 지연·출력으로 나타난다. 이 노트 2026-08-21 「새로 만든 `settings.json`은 그 세션에서 안 먹는다」와 같은 계열의 함정이다 — 설정이 *언제* 읽히는지를 모르면 누가 심었는지도 모른다.
 

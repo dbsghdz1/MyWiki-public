@@ -26,7 +26,8 @@ AI가 조종할 수 있는 브라우저. **사용자가 이미 로그인해둔 �
 | 장점 | 한 줄로 끝남, 사이트별 스킬·메모리 보유 | LLM을 안 태워 **크레딧과 무관**, 동작이 결정적 |
 | 함정 | **OpenAI 크레딧이 없으면 `402 Insufficient credits`로 즉사** (2026-09-11 실측) | 셀렉터·타이밍을 직접 다뤄야 함 |
 
-> [!important] 운영 방침 (2026-09-11 홍 지시)
+> [!IMPORTANT]
+> **운영 방침 (2026-09-11 홍 지시)**
 > **`aside exec`는 쓰지 않는다. 브라우저 작업은 `aside repl`로 Claude가 직접 몬다.** 크레딧이 복구돼도 마찬가지다. 대가로 페이지 트리가 컨텍스트를 많이 먹으므로 **스냅샷 전문을 반복해 뜨지 말고 셸에서 필요한 구간만 grep/sed하고, 값 검증은 `page.evaluate`로 짧게 받는다.** 제출·전송·결제처럼 밖으로 나가는 클릭은 여전히 홍 확인을 받는다.
 
 ### 비용이 어디서 나가나 (계량기가 셋이다)
@@ -179,7 +180,7 @@ DOM에 노드를 직접 꽂지 않은 이유: 에디터가 내부 상태를 따�
 
 ### 2026-09-26 (2) — 크몽 새 gig 제출까지: 이미지가 0바이트로 조용히 실패한 이유
 
-- 맥락: [[프로젝트/개인/논문표/README|논문표]] 크몽 서비스 #828172 등록(제출 완료). 입력값 전문은 서비스 원문.
+- 맥락: [논문표](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EB%85%BC%EB%AC%B8%ED%91%9C/README.md) 크몽 서비스 #828172 등록(제출 완료). 입력값 전문은 서비스 원문.
 - 배운 것:
   1. **Aside 1.26.916에서 `aside repl` 한 번 호출 = 세션 디렉터리 하나다.** `pwd`가 호출마다 `(로컬 경로)`으로 바뀐다(`aside guide repl`은 "bindings persist across calls"라고 하지만 파일 경로는 아니다). 앞 호출의 세션 폴더에 셸로 `cp`해 둔 이미지를 다음 호출에서 `setInputFiles("./artifacts/x.png")`하면 **에러 없이 크기 0바이트 File**이 들어간다 — `e.files[0].size`가 0, 화면 카운터는 `메인 이미지(0/1)` 그대로. **같은 호출 안에서** `fs.writeFile("./artifacts/x.png", Buffer.from("<base64>", "base64"))`로 쓰고 바로 `setInputFiles`한다. base64 262KB도 명령 인자로 문제없이 넘어갔다.
   2. **`/my-gigs/new`에서 첫 이미지를 올리면 임시 서비스를 먼저 만들고 `/my-gigs/edit/<id>?rootCategoryId=…&subCategoryId=…`로 넘어가는데, 그 사이 업로드가 날아간다.** 새 화면에서는 제목·카테고리만 넣고, 이미지는 편집 화면에서 올린다. 같은 이미지를 다시 넣으면 "최대 1개까지 추가 가능해요" 창이 뜨는데, 이건 실패한 업로드가 슬롯을 잡고 있다는 뜻이다(새로고침하면 풀린다).
@@ -206,7 +207,7 @@ DOM에 노드를 직접 꽂지 않은 이유: 에디터가 내부 상태를 따�
 - 근거: Aside CLI 1.26.916.1741 · 세션 폴더 `(로컬 경로)` · 캡처 원본은 세션 스크래치패드 `shots/`(첨부 PDF에 실린 것이 결과).
 
 ### 2026-09-27 — 유튜브 스튜디오 업로드를 launchd에서 무인으로
-- 맥락: [[프로젝트/개인/오늘 본 장면/README|오늘 본 장면]] 쇼츠를 하루 10번 게시하는 `src/uploader.py`
+- 맥락: [오늘 본 장면](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) 쇼츠를 하루 10번 게시하는 `src/uploader.py`
 - 배운 것:
   1. **`locator.setInputFiles('/절대/경로')`는 `Path "…" escapes the session directory`로 거부된다.** 파일은 그 호출의 세션 폴더(`(로컬 경로)`) 안에 있어야 한다. 세션 폴더는 호출마다 새로 생기고, 출력이 파이프일 때는 `sessionDir:` 머리줄이 끝날 때까지 안 나온다 → 셸이 `aside repl "<js>"`를 백그라운드로 띄운 직후 `ls -t (로컬 경로) | head -1`로 새 폴더를 찾아 `cp x.part && mv x.part up.mp4`, JS는 `await fs.stat('up.mp4')`가 성공할 때까지 1초씩 폴링한다.
   2. **REPL의 `fs`는 Promise API뿐이다**(`readFile,writeFile,mkdir,readdir,stat,lstat,unlink,rm,rename,copyFile,access,resolvePath`) — `fs.existsSync`는 없다. `pwd`는 함수가 아니라 문자열이다(`pwd()`는 `TypeError: not a function`).

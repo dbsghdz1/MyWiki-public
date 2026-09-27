@@ -52,7 +52,7 @@ projects:
 
 ### 2026-08-29 — `app/`과 `src/`, 두 `api`의 경계
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] D4를 시작하기 전에 "왜 `src`와 `app`을 나눴는가, `app/api`와 `src/**/api`는 왜 둘 다 api인가"를 질문하며 현재 구조를 다시 읽었다.
+- 맥락: [CoinPilot](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D4를 시작하기 전에 "왜 `src`와 `app`을 나눴는가, `app/api`와 `src/**/api`는 왜 둘 다 api인가"를 질문하며 현재 구조를 다시 읽었다.
 - 배운 것:
   - `app/`은 URL과 Next 예약 파일을 연결하는 얇은 어댑터이고, `src/`는 화면·행동·업무 명사·기반 코드의 실제 소유권을 나누는 곳이다.
   - HTTP로 공개할 필요가 없는 서버 로직은 `app/api`를 만들지 않는다. `getOrCreateAccount()`는 홈 서버 컴포넌트가 직접 호출하므로 `src/entities/account/api`만 있으면 된다.
@@ -61,7 +61,7 @@ projects:
 
 ### 2026-08-16 — MyCryptoDiary FSD 이사
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] 모의투자 전환 D1, `src/components/{ui,layout,home}` → FSD 계층으로 재배치 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]])
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) 모의투자 전환 D1, `src/components/{ui,layout,home}` → FSD 계층으로 재배치 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md))
 - 배운 것:
   - `index.ts`가 뭔지 처음엔 잡히지 않았다. "슬라이스의 **문**"으로 이해하니 풀림 — 밖에서는 문으로만 들어오고, 안의 파일 구조가 바뀌어도 문의 주소(`@/widgets/header`)는 그대로. 규모가 작을 땐 효과가 안 느껴지는 게 정상.
   - `shared/ui/index.ts` vs `widgets/header/index.ts` — 문의 위치가 계층마다 다른 이유는 shared/app만 슬라이스 없이 세그먼트가 바로 오기 때문.
@@ -72,7 +72,7 @@ projects:
 
 ### 2026-08-20 — 규칙 2번("같은 계층 import 금지")이 실제로 작동한 순간
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] D1 마무리. `widgets/market-board`와 `widgets/watchlist`가 똑같은 로직(시세 받기 → 마켓 목록에서 이름 찾기 → 변환)을 쓰게 됨
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D1 마무리. `widgets/market-board`와 `widgets/watchlist`가 똑같은 로직(시세 받기 → 마켓 목록에서 이름 찾기 → 변환)을 쓰게 됨
 - 배운 것:
   - 위젯끼리 import는 규칙 2번 위반. 규칙이 제시하는 해법 그대로 **아래 계층으로 내렸다** — `entities/coin/api/getCoins.ts`. "시세를 받아 Coin 배열을 만든다"는 코인 도메인의 일이라 entities가 맞고, entities는 두 위젯보다 아래라 양쪽이 쓸 수 있다.
   - **내리는 타이밍**이 핵심이다. 계획서의 "애매하면 widget에 통째로, 재사용이 실제로 생길 때 내린다"대로, 첫 위젯을 만들 땐 위젯 안에 두고 두 번째 소비자가 나타난 시점에 내렸다. 미리 내렸으면 조기 추상화였다.

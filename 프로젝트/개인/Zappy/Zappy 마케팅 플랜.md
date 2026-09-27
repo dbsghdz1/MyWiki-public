@@ -10,13 +10,15 @@ related_wiki: []
 
 # Zappy 마케팅 플랜
 
-출시 마케팅 플랜. 전략 배경은 [[프로젝트/개인/Zappy/Zappy 로드맵과 유료화 계획|로드맵]] 참고.
+출시 마케팅 플랜. 전략 배경은 [로드맵](Zappy%20%EB%A1%9C%EB%93%9C%EB%A7%B5%EA%B3%BC%20%EC%9C%A0%EB%A3%8C%ED%99%94%20%EA%B3%84%ED%9A%8D.md) 참고.
 **방향: 당분간 홍보 7 : 개발 3.** 병목은 완성도가 아니라 인지도다. 시즌 테마는 개발이 아니라 마케팅 이벤트로 취급한다.
 
-> [!warning] 현실 점검 (2026-08-14)
+> [!WARNING]
+> **현실 점검 (2026-08-14)**
 > 1.0~1.4.0까지 5개 버전을 출시하는 동안 **홍보 실행 0회** — 7:3 원칙이 실제로는 0:10이었다. 1.5 제출 후에는 개발을 멈추고 아래 런치 플랜을 실행한다.
 
-> [!note] D-day 확정 (2026-08-18)
+> [!NOTE]
+> **D-day 확정 (2026-08-18)**
 > 1.5는 취소되고 **1.6.0이 2026-08-17 출시**됐다 — 아래 런치 플랜의 D-day는 1.6.0 출시일이며, 지금이 D+1이다. 소재에 위젯(데스크톱·알림센터)·충전 완료 연출이 추가됐다. 첫 실행 채널은 카카오톡 오픈채팅(문구 세트 8번).
 
 ## 1.6.0 런치 플랜 (2026-08-14 설계 — 원래 1.5 기준, 1.6.0 출시로 승계)
@@ -30,7 +32,7 @@ related_wiki: []
 5. **D+7~14**: 리뷰어 오퍼 코드 DM, 반응 좋은 채널에 후속 포스트 (테마별 GIF 시리즈 — 주 2회)
 6. **10월 할로윈**: 유령 소멸 문법의 할로윈 변형(호박 유령 등) = 시즌 테마 이벤트 1호
 
-**홍보 자동화(프로젝트)와의 연계**: 첫 실전 = 1.6.0 출시(2026-08-17). **X는 사용자 수동 게시**(2026-08-15 결정 — X API PPU 크레딧 문제로 자동 게시 안 함, Hermes는 Slack `#zappy`에 완성 카피·GIF·링크만 전달). 나머지 채널(Threads·디스콰이엇 메이커로그·Reddit 등)은 Hermes 초안→Slack 승인 흐름. Threads·인스타 전용 게시 권한은 미연결이라 그 전까지 수동 발행. 상세: [[프로젝트/개인/Zappy/Zappy 자동 홍보 운영|자동 홍보 운영]].
+**홍보 자동화(프로젝트)와의 연계**: 첫 실전 = 1.6.0 출시(2026-08-17). **X는 사용자 수동 게시**(2026-08-15 결정 — X API PPU 크레딧 문제로 자동 게시 안 함, Hermes는 Slack `#zappy`에 완성 카피·GIF·링크만 전달). 나머지 채널(Threads·디스콰이엇 메이커로그·Reddit 등)은 Hermes 초안→Slack 승인 흐름. Threads·인스타 전용 게시 권한은 미연결이라 그 전까지 수동 발행. 상세: [자동 홍보 운영](Zappy%20%EC%9E%90%EB%8F%99%20%ED%99%8D%EB%B3%B4%20%EC%9A%B4%EC%98%81.md).
 
 **사용자(홍) 액션 필요 — 진행 현황 (2026-08-14)**: ~~② 오퍼 코드~~ ✅ 500장 생성, 리뷰어 20장 발송시트(`리뷰어-발송시트.md`) 준비. ~~③ Analytics~~ ✅ Enable + 재배포로 스크립트 활성 확인 (켠 뒤 재배포 필요했음 — 교훈). **디스콰이엇 제품 등록도 선집행 완료** (메이커로그 1편 남음). 남은 것: **① X 앱 전용 계정 개설**(API 키는 자동화 단계에 — pay-per-use 가입), **④ PH 런치 요일 결정**.
 
@@ -38,11 +40,11 @@ related_wiki: []
 
 외부 홍보 피드백을 받았다: *"이 경우엔 Apple Search, Meta 정도가 맞긴 합니다만. 전환율이 높을 거라고 예상되지 않는다면 유료 마케팅을 하지 않는 것도 방법입니다 (앱 이벤트랑, 피처링만 진행)."*
 
-**결론(유료 스킵)은 채택한다. 다만 이유가 다르고, 거명된 수단 셋 중 둘은 Mac 앱에 아예 없는 옵션이다** — 근거는 [[작업노트/AppStore/App Store 성장 도구|공부: App Store 성장 도구]](Apple 공식 문서 5건 원문 확인, 2026-08-19).
+**결론(유료 스킵)은 채택한다. 다만 이유가 다르고, 거명된 수단 셋 중 둘은 Mac 앱에 아예 없는 옵션이다** — 근거는 [공부: App Store 성장 도구](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/App%20Store%20%EC%84%B1%EC%9E%A5%20%EB%8F%84%EA%B5%AC.md)(Apple 공식 문서 5건 원문 확인, 2026-08-19).
 
 | 피드백에 나온 수단 | Mac 전용 앱(Zappy)에서 | 판단 |
 |---|---|---|
-| Apple Search Ads(Apple Ads) | ❌ **Zappy는 macOS 앱이라 광고 대상이 아니다** — 광고 지면이 iOS/iPadOS App Store뿐이다. 계정 요건 "app for iPhone or iPad currently on the App Store"는 그 결과 ([[작업노트/AppStore/App Store 성장 도구\|App Store 성장 도구]]) | 검토 대상에서 제외 (iOS 앱이 생겨도 Zappy는 대상 아님) |
+| Apple Search Ads(Apple Ads) | ❌ **Zappy는 macOS 앱이라 광고 대상이 아니다** — 광고 지면이 iOS/iPadOS App Store뿐이다. 계정 요건 "app for iPhone or iPad currently on the App Store"는 그 결과 ([App Store 성장 도구](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/App%20Store%20%EC%84%B1%EC%9E%A5%20%EB%8F%84%EA%B5%AC.md)) | 검토 대상에서 제외 (iOS 앱이 생겨도 Zappy는 대상 아님) |
 | Meta 광고 | △ 가능하지만 **"앱 설치" 캠페인 목표를 못 쓴다**(스토어 대상이 iOS/Android). 랜딩·스토어 링크로 보내는 트래픽 캠페인만 가능 → 설치 이벤트가 광고 플랫폼에 안 돌아오니 최적화·리타게팅 불성립 | 미집행 |
 | 앱 이벤트(In-App Events) | ❌ iOS/iPadOS 전용. ASC도 "can only be attached to iPhone and iPad apps" | **불가 — 대체 수단 필요** |
 | 피처링(Featuring Nomination) | ✅ **가능. macOS 포함** | **주력으로 채택** |
@@ -55,7 +57,7 @@ related_wiki: []
 
 ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Launch / App Enhancements / New Content** 셋, 플랫폼에 macOS 선택. **리드타임 최소 3주**(넓은 노출을 노리면 더 일찍). 필요 역할: Account Holder·Admin·App Manager·Marketing. CSV 일괄 업로드는 **초안 없이 즉시 제출**되니 개별 생성으로 할 것.
 
-시즌 테마 캘린더([[프로젝트/개인/Zappy/Zappy 로드맵과 유료화 계획|로드맵]])를 그대로 **노미네이션 캘린더로 쓴다** — 시즌마다 출시 3주 전 `New Content` 노미네이션 1건.
+시즌 테마 캘린더([로드맵](Zappy%20%EB%A1%9C%EB%93%9C%EB%A7%B5%EA%B3%BC%20%EC%9C%A0%EB%A3%8C%ED%99%94%20%EA%B3%84%ED%9A%8D.md))를 그대로 **노미네이션 캘린더로 쓴다** — 시즌마다 출시 3주 전 `New Content` 노미네이션 1건.
 
 | 노미네이션 | 유형 | 소재 | 제출 시점 |
 |---|---|---|---|
@@ -81,7 +83,7 @@ ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Laun
 - (구) v0 리뉴얼 메모: 다국어 5종 전면 리뉴얼 — 프롬프트·카피 팩·도메인 스왑 절차는 레포 `landing/v0-brief.md`. ⚠️ zappy-landing엔 App Store 구매 알림 웹훅이 있어 이전 시 함수·환경변수 이식 필수
 - ⚠️ **랜딩·구매 웹훅 장애 (08-15 18:22 ~ 08-19 01:50, 복구)**: 08-14 Vercel 프로젝트를 GitHub `dbsghdz1/Zappy`에 연결하면서 **Root Directory를 비워둬** 08-15 push 배포가 레포 루트를 빌드 → `zappy-landing.vercel.app` 전체(랜딩·`/api/appstore-webhook`) 404. 그 사이 **08-18 23:03 Zappy+ 구매(₩3,300 KOR)** 알림을 Apple이 2회(23:03·00:03) 보냈으나 404로 실패. 조치: Root Directory=`landing`으로 설정 후 redeploy → 200/405 복구, Apple 테스트 알림 SUCCESS. Apple 재시도(1h→12h→24h→48h→72h)에 따라 미수신 건은 08-19 ~11:03 재시도에서 슬랙 도착 예정. 확인 수단: App Store Server API `notifications/history`(ASC 팀 API 키 + `bid` 클레임으로 호출 가능). 08-08·08-10 구매 2건은 정상 수신됐었음.
 - 에셋 위치: `(로컬 경로)`, 랜딩 https://zappy-landing.vercel.app , 스토어 https://apps.apple.com/kr/app/zappy/id6794384033
-  - 3D 눈사람 히어로 스틸 + 충전 클립(GIF/MP4) 추가 (2026-08-09, [[프로젝트/개인/Zappy/Zappy 3D 눈사람 Blender 2026-08-09|작업기록]])
+  - 3D 눈사람 히어로 스틸 + 충전 클립(GIF/MP4) 추가 (2026-08-09, [작업기록](Zappy%203D%20%EB%88%88%EC%82%AC%EB%9E%8C%20Blender%202026-08-09.md))
   - ~~2D GIF 2종(눈사람·달) 유실~~ → **최신 충전 GIF 6종 복사 완료(2026-08-14)**: 눈사람·유령(실체화)·슬라임(방울)·소다(기포)·로봇(앉아 충전)·너구리(라면) — docs/theme-reference에서, 210×132(6x). 더 큰 사이즈 필요하면 generate.swift의 scale만 키우면 됨
 - 10월: 할로윈 유령 변형 테마 = "새 소식" + SNS 이벤트
 
@@ -120,7 +122,8 @@ ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Laun
 
 ### 3. X · 스레드 (한국어)
 
-> [!note] 2026-09-12 X `@DevHongX`에 게시 — [x.com/DevHongX/status/2098488027442225279](https://x.com/DevHongX/status/2098488027442225279). 테마 수를 14→18로 고친 뒤 올렸다(GIF 없이 텍스트+링크).
+> [!NOTE]
+> **2026-09-12 X `@DevHongX`에 게시 — [x.com/DevHongX/status/2098488027442225279](https://x.com/DevHongX/status/2098488027442225279). 테마 수를 14→18로 고친 뒤 올렸다(GIF 없이 텍스트+링크).**
 
 > 맥북 배터리가 줄면 눈사람이 녹아요 ☃️
 >
@@ -202,7 +205,8 @@ ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Laun
 **첫 메시지엔 기술 디테일을 넣지 않는다** — 반려 3번·0.8MB·벡터 드로잉은 질문이 왔을 때 푸는 카드다. 대신 **구체적인 그림 한 줄**("눈사람이 녹는다")과 소속(기수)을 앞세운다. 전용 문구·실제 발송판은 킷 파일 D절.
 
 
-> [!warning] needs-review (2026-09-15) — Zappy+ 달러 가격
+> [!WARNING]
+> **needs-review (2026-09-15) — Zappy+ 달러 가격**
 > US App Store 페이지(apps.apple.com/us/app/zappy/id6794384033)는 In-App Purchase를 **Zappy+ $1.99**로 보여준다. 이 문서의 PH·Reddit 문구와 로드맵은 **$2.99**다. 영어 문구를 쓰기 전에 ASC 가격표로 확인하고 고친다.
 
 ## 측정

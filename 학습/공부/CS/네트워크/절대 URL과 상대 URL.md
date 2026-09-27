@@ -83,7 +83,7 @@ file:///Desktop/index.html    + //cdn.example.com/a.js -> file://cdn.example.com
 - 파고든 길: Node로 https·http·`file:` base 세 가지에 `//cdn…`을 풀어 봄 → MDN Mixed content(스크립트는 차단) → Paul Irish 2010 글의 2014년 정정
 - 결론: 한 HTML을 http·https 양쪽에서 쓰기 위한 옛 혼합 콘텐츠 대책. HTTPS가 기본인 지금은 `https://`를 명시하는 게 맞고, `file://`로 열면 깨지는 부작용까지 있다
 
-관련: [[학습/공부/CS/네트워크/URL과 퍼센트 인코딩|URL과 퍼센트 인코딩]] — 같은 URL이지만 이쪽은 값을 어떻게 싣느냐
+관련: [URL과 퍼센트 인코딩](URL%EA%B3%BC%20%ED%8D%BC%EC%84%BC%ED%8A%B8%20%EC%9D%B8%EC%BD%94%EB%94%A9.md) — 같은 URL이지만 이쪽은 값을 어떻게 싣느냐
 
 ## 참고 자료
 

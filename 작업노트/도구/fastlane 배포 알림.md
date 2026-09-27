@@ -32,4 +32,4 @@ projects:
 ### 2026-09-01 — 업로드 결과 조회는 lane 밖에서 하면 2FA로 샌다
 
 - `fastlane run latest_testflight_build_number app_identifier:… version:1.1.0 platform:osx`를 그냥 실행하면 **API 키 없이 Spaceship(Apple ID) 로그인으로 떨어져** `Error: Incorrect verification code`가 반복된다. lane 안에서는 앞선 `app_store_connect_api_key`가 세션을 깔아줘서 되던 것이다.
-- 단독 조회는 `api_key_path:<key.json>`을 같이 줘야 한다([[작업노트/도구/fastlane 로컬 실행 환경|fastlane 로컬 실행 환경]]에 JSON 형식). 그게 번거로우면 **업로드 로그의 `Successfully exported and signed the pkg file` → `Successfully uploaded package to App Store Connect`와, 업로드 직전 lane이 찍은 `Latest upload for version 1.1.0 on osx platform is build: N`** 조합으로 확인하는 게 빠르다.
+- 단독 조회는 `api_key_path:<key.json>`을 같이 줘야 한다([fastlane 로컬 실행 환경](fastlane%20%EB%A1%9C%EC%BB%AC%20%EC%8B%A4%ED%96%89%20%ED%99%98%EA%B2%BD.md)에 JSON 형식). 그게 번거로우면 **업로드 로그의 `Successfully exported and signed the pkg file` → `Successfully uploaded package to App Store Connect`와, 업로드 직전 lane이 찍은 `Latest upload for version 1.1.0 on osx platform is build: N`** 조합으로 확인하는 게 빠르다.

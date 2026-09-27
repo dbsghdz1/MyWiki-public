@@ -56,13 +56,13 @@ fetch(location.href).then(r => r.text()).then(t => console.log(t.slice(0, 200)))
 
 MDN이 명시한다 — *"if the server responds with an error like 404, then `fetch()` fulfills with a `Response`"*. **거부(reject)되는 건 네트워크 자체가 끊겼을 때뿐**이다. 그래서 `r.ok` 또는 `r.status`를 **직접 봐야 한다.**
 
-공공 API에서 특히 아프다: 키가 틀리면 `403` + 에러 XML이 오는데, 체크가 없으면 그 에러 XML이 **정상 데이터인 척** 파싱 단계로 넘어간다. → [[작업노트/도구/공공데이터포털 오픈API|공공데이터포털 오픈API]]
+공공 API에서 특히 아프다: 키가 틀리면 `403` + 에러 XML이 오는데, 체크가 없으면 그 에러 XML이 **정상 데이터인 척** 파싱 단계로 넘어간다. → [공공데이터포털 오픈API](../../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/%EA%B3%B5%EA%B3%B5%EB%8D%B0%EC%9D%B4%ED%84%B0%ED%8F%AC%ED%84%B8%20%EC%98%A4%ED%94%88API.md)
 
 ## 기록
 
 ### 2026-09-08 — 콘솔에서 fetch를 처음 쳐봤다 (실습 실습 세션 1)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 1 — fetch와 useState 2026-09-08|실습 세션 1]]. React 붙이기 전에 콘솔에서 `fetch`만 격리해서 확인
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 세션 1](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md). React 붙이기 전에 콘솔에서 `fetch`만 격리해서 확인
 - 배운 것:
   - 예측은 "XML 글자가 찍힌다"였는데 **`Promise {<pending>}`이 찍혔다.** 예측 누락 — 그리고 이게 이 개념의 전부였다
   - `PromiseResult`에 `Response`가 들어 있고 `bodyUsed: false`인 것을 눈으로 봄 → **응답 ≠ 본문**

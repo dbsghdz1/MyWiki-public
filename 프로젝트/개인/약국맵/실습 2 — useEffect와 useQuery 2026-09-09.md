@@ -17,7 +17,7 @@ projects:
 
 ## 계기
 
-[[프로젝트/개인/약국맵/실습 1 — fetch와 useState 2026-09-08|세션 1]]에서 못 간 자리. 09-08 23:50경 시작해 자정을 넘겨 진행했다.
+[세션 1](%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md)에서 못 간 자리. 09-08 23:50경 시작해 자정을 넘겨 진행했다.
 
 ## 해본 것
 
@@ -101,8 +101,8 @@ queryFn: fetch(apiUrl).then(...)       // 09-09
 
 ## 배운 것
 
-- [[학습/공부/JS/React/서버 상태와 TanStack Query|서버 상태와 TanStack Query]] — 요청 수 3행 비교표, 중복 제거, `staleTime`이 막는 것과 못 막는 것
-- [[학습/공부/JS/React/React 컴포넌트와 JSX|React 컴포넌트와 JSX]] — `useEffect`의 cleanup 자리, StrictMode 이중 실행, 의존성 배열 3가지
+- [서버 상태와 TanStack Query](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EC%84%9C%EB%B2%84%20%EC%83%81%ED%83%9C%EC%99%80%20TanStack%20Query.md) — 요청 수 3행 비교표, 중복 제거, `staleTime`이 막는 것과 못 막는 것
+- [React 컴포넌트와 JSX](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/React%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80%20JSX.md) — `useEffect`의 cleanup 자리, StrictMode 이중 실행, 의존성 배열 3가지
 
 ## 근거
 

@@ -16,7 +16,7 @@ updated: 2026-09-11
 
 ## 2.2.0 (build 10) — 2026-09-04 14:18 제출 → 중복 스크린샷 16장 정리 → **14:20 재제출 (WAITING_FOR_REVIEW)** — AI 예상 모의고사 5회 + 리뷰 요청
 
-- 내용: 제80회 AI 예상 모의고사 5회분(250문항, `predict-80-N.json`, 앱 에디션·심화 전용) + 스토어 리뷰 요청 브리지(`hangeomReview`, 60점+ 완주 2회째, 버전당 1회). What's New ko/en-US. 상세: [[프로젝트/개인/한능검/AI 예상 모의고사 2026-09-04|AI 예상 모의고사]].
+- 내용: 제80회 AI 예상 모의고사 5회분(250문항, `predict-80-N.json`, 앱 에디션·심화 전용) + 스토어 리뷰 요청 브리지(`hangeomReview`, 60점+ 완주 2회째, 버전당 1회). What's New ko/en-US. 상세: [AI 예상 모의고사](AI%20%EC%98%88%EC%83%81%20%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC%202026-09-04.md).
 - 검증: Maestro 회귀 30장(예상 모의고사 구간 추가) 통과. 2.1.0에서 배운 대로 버전 네 곳(pbxproj·Fastfile 3곳·`APP_VERSION`) 동시 갱신, `resubmit` 기본 빌드 10.
 - 밟은 지뢰: ① `src/review.ts`를 만들자 기존 `Review.tsx`(오답노트)와 **대소문자만 다른 파일명**이라 Vite 빌드가 실패(macOS 대소문자 무시 FS) → `storeReview.ts`로 개명. ② Maestro `visible: "예상 1회"`가 실패 — 행 라벨은 제목+부제가 이어 붙으므로 `"예상 1회.*"` 정규식이어야 한다(기존 `무작위 50문항.*`과 같은 규칙). ③ 스크린샷 이중 업로드 재발(4세트 전부 10장) → cancel → dedupe → resubmit(표준 절차).
 
@@ -126,9 +126,9 @@ deliver가 또 스크린샷을 **두 번 올려 10장**이 됐다(플레이북 �
 
 ## 2.3.0 (12) — 2026-09-09 제출 · **유료 → 무료 + 잠금해제 IAP**
 
-홍 결정으로 09-17 트립와이어를 앞당겨 실행했다. 무료/유료 경계와 근거는 [[프로젝트/개인/한능검/README|README]]의 「가격」 절에 있다.
+홍 결정으로 09-17 트립와이어를 앞당겨 실행했다. 무료/유료 경계와 근거는 [README](README.md)의 「가격」 절에 있다.
 
-- IAP `com.hong.hangeom.full`(비소모성 ₩6,600, ASC id `6810125328`)을 API로 만들었다. **`MISSING_METADATA`에서 안 움직이던 마지막 조각은 지역(`inAppPurchaseAvailabilities`)이었다** — 상세는 [[작업노트/AppStore/인앱 구매 등록 API|인앱 구매 등록 API]].
+- IAP `com.hong.hangeom.full`(비소모성 ₩6,600, ASC id `6810125328`)을 API로 만들었다. **`MISSING_METADATA`에서 안 움직이던 마지막 조각은 지역(`inAppPurchaseAvailabilities`)이었다** — 상세는 [인앱 구매 등록 API](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/%EC%9D%B8%EC%95%B1%20%EA%B5%AC%EB%A7%A4%20%EB%93%B1%EB%A1%9D%20API.md).
 - 심사 스크린샷은 Maestro가 찍은 잠금해제 시트(`maestro/unlock.yaml`).
 - **fastlane으로는 버전만 제출된다.** IAP를 같이 넣으려고 심사 제출을 직접 만들었다: `reviewSubmissions` → `reviewSubmissionItems` 둘(`appStoreVersion` + **`inAppPurchaseVersion`**) → `submitted: true`. 이때 fastlane이 대신 해주던 **수출 규정**(`builds.usesNonExemptEncryption=false`)을 직접 넣어야 한다.
 - **출시 방식을 `MANUAL`로 바꿨다.** 승인 즉시 출시되면 앱이 아직 유료인 채로 잠금 버전이 나가고, 그때 산 사람은 **앱 값을 내고도 IAP를 또 사야 한다**(빌드 12는 기존 구매자 판정에서 빠진다). 가격 무료 전환과 출시를 같은 자리에서 해야 한다.

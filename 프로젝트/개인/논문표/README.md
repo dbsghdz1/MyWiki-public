@@ -64,8 +64,8 @@ launch_approved: 2026-09-26
 
 ## 배운 것
 
-- [[작업노트/도구/SPSS와 같은 통계 계산|SPSS와 같은 통계 계산]] — Levene은 평균 기준, 왜도·첨도는 편향 보정, 카이제곱은 무보정. 정답은 기억이 아니라 scipy 출력에서
-- [[작업노트/도구/문서 포맷 파싱|문서 포맷 파싱]] — 한국 엑셀 CSV는 CP949, SheetJS CSV는 `raw: true`, Quick Look은 docx 표 폭을 무시
-- [[작업노트/도구/Vercel 배포|Vercel 배포]] — 첫 `vercel --yes`는 곧바로 프로덕션
-- [[작업노트/도구/Aside 브라우저 폼 자동 입력|Aside 브라우저 폼 자동 입력]] — 크몽 등록: `aside repl` 호출마다 세션 폴더가 바뀌어 이미지가 0바이트로 올라가는 함정, 논문 카테고리 금지어 "수정"·"작업"
-- [[작업노트/도구/Claude Code 사용량과 한도|Claude Code 사용량과 한도]] — WebSearch 세션 200회 소진 시 탐색 에이전트가 조용히 빈손이 된다
+- [SPSS와 같은 통계 계산](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/SPSS%EC%99%80%20%EA%B0%99%EC%9D%80%20%ED%86%B5%EA%B3%84%20%EA%B3%84%EC%82%B0.md) — Levene은 평균 기준, 왜도·첨도는 편향 보정, 카이제곱은 무보정. 정답은 기억이 아니라 scipy 출력에서
+- [문서 포맷 파싱](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/%EB%AC%B8%EC%84%9C%20%ED%8F%AC%EB%A7%B7%20%ED%8C%8C%EC%8B%B1.md) — 한국 엑셀 CSV는 CP949, SheetJS CSV는 `raw: true`, Quick Look은 docx 표 폭을 무시
+- [Vercel 배포](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/Vercel%20%EB%B0%B0%ED%8F%AC.md) — 첫 `vercel --yes`는 곧바로 프로덕션
+- [Aside 브라우저 폼 자동 입력](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/Aside%20%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%20%ED%8F%BC%20%EC%9E%90%EB%8F%99%20%EC%9E%85%EB%A0%A5.md) — 크몽 등록: `aside repl` 호출마다 세션 폴더가 바뀌어 이미지가 0바이트로 올라가는 함정, 논문 카테고리 금지어 "수정"·"작업"
+- [Claude Code 사용량과 한도](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/Claude%20Code%20%EC%82%AC%EC%9A%A9%EB%9F%89%EA%B3%BC%20%ED%95%9C%EB%8F%84.md) — WebSearch 세션 200회 소진 시 탐색 에이전트가 조용히 빈손이 된다

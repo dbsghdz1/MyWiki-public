@@ -23,7 +23,7 @@ projects:
 
 - **macOS 스크린샷은 세트가 하나다** — `AppScreenshotSet::DisplayType`에 `APP_DESKTOP` 하나뿐이고 크기는 2880×1800(또는 2560×1600 등 허용 크기). iOS처럼 기기별 세트를 고를 일이 없다.
 - **업로드 전 알파 채널을 없앤다.** 피그마에서 뽑은 PNG는 RGBA로 나오는데 App Store 이미지에 알파가 있으면 거부된다 — 흰 배경에 합성해 RGB로 저장한다.
-- **deliver 대신 spaceship로 직접 올리면 이중 업로드를 피한다.** `loc.create_app_screenshot_set(attributes: { screenshotDisplayType: ... })` → `set.upload_screenshot(path:, wait_for_processing: true)`를 순서대로 부르면 그 순서가 그대로 진열 순서가 되고, 올린 뒤 `app_screenshots`의 `assetDeliveryState`가 `COMPLETE`인지로 검증한다(deliver의 중복 업로드 함정은 [[작업노트/도구/fastlane 배포 알림|배포 자동화]] 계열 기록 참고).
+- **deliver 대신 spaceship로 직접 올리면 이중 업로드를 피한다.** `loc.create_app_screenshot_set(attributes: { screenshotDisplayType: ... })` → `set.upload_screenshot(path:, wait_for_processing: true)`를 순서대로 부르면 그 순서가 그대로 진열 순서가 되고, 올린 뒤 `app_screenshots`의 `assetDeliveryState`가 `COMPLETE`인지로 검증한다(deliver의 중복 업로드 함정은 [배포 자동화](../%EB%8F%84%EA%B5%AC/fastlane%20%EB%B0%B0%ED%8F%AC%20%EC%95%8C%EB%A6%BC.md) 계열 기록 참고).
 
 - **수출 규정은 빌드마다 새로 묻는다.** Info.plist에 `ITSAppUsesNonExemptEncryption`이 없으면 **빌드 단위로** `usesNonExemptEncryption`이 비어 제출이 막힌다(탭탭 iOS 1.2.1 실측 — 그 키가 다른 브랜치에만 있었다). 이미 올라간 빌드는 `Spaceship::ConnectAPI.patch_builds(build_id:, attributes: { usesNonExemptEncryption: false })`로 채울 수 있다. **값이 비어 있을 때만 통한다** — 한 번 정해진 뒤에는 "You cannot update when the value is already set"으로 거부된다.
 - **제출을 막는 항목은 에러 한 번에 다 나온다.** `reviewSubmission.submit_for_review`가 거부되면 사유가 줄바꿈으로 나열된다(실측: `contentRightsDeclaration` 누락 + App Privacy 미게시 + `is not in valid state` 세 줄). **한 줄씩 고치지 말고 전부 읽고 한 번에 채운 뒤 재시도**한다.

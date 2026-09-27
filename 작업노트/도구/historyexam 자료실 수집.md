@@ -17,7 +17,7 @@ projects:
 
 ### 2026-08-30 — 기본 14회차 28개 PDF 수집 (한능검)
 
-맥락: [[프로젝트/개인/한능검/기본 기출 수집 2026-08-29|한능검 기본 기출 수집]]. 근거: `(로컬 경로)`에 실제 수신·검증한 절차.
+맥락: [한능검 기본 기출 수집](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/%EA%B8%B0%EB%B3%B8%20%EA%B8%B0%EC%B6%9C%20%EC%88%98%EC%A7%91%202026-08-29.md). 근거: `(로컬 경로)`에 실제 수신·검증한 절차.
 
 - **목록**: `GET https://www.historyexam.go.kr/pst/list.do?bbs=dat&pageIndex=1..4`. 게시글은 `fn_goDetail('<글ID>','BBS0003')` 패턴으로 HTML에 박혀 있다. 2026-08 시점 총 37건 = 심화 57~79회 + 기본 14회(57·58·60·61·63·64·66·67·69·71·73·75·77·79 — **기본은 일부 회차만 시행**).
 - **상세**: `POST /pst/view.do?bbs=dat`, body `pst_sno=<글ID>`. GET `view.do?id=...`은 ERROR 페이지가 나온다 — 반드시 POST. 페이지 안 `fnFileDownload('B_YYYYMMDDhhmmss...')`가 파일 ID.

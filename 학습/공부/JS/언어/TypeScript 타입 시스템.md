@@ -74,7 +74,7 @@ import type { UpbitTicker } from './types';
 
 ### 2026-09-09 — 외부 응답이 들어오는 「경계」에서 타입을 선언한다
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 3-A — Fastify 프록시 2026-09-09|실습 3-A]]. 약국 목록을 `.map`으로 그리다가 빌드가 막혔다
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 3-A](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%203-A%20%E2%80%94%20Fastify%20%ED%94%84%EB%A1%9D%EC%8B%9C%202026-09-09.md). 약국 목록을 `.map`으로 그리다가 빌드가 막혔다
 - 배운 것:
   - `error TS7006: Parameter 'p' implicitly has an 'any' type` — **`r.json()`의 반환은 `any`**라서 그 값을 타고 내려온 배열의 `.map((p) => …)`도 `p`가 뭔지 모른다. `any`에는 정보가 없어서 문맥 타입을 못 준다
   - 해결은 **경계에 한 줄**: `const pharmacies: Pharmacy[] = query.data?.response?.body?.items?.item ?? []`. 이 줄 아래부터 자동완성이 살아나고 `p.dutyNmae` 같은 오타를 `tsc`가 잡는다
@@ -85,7 +85,7 @@ import type { UpbitTicker } from './types';
 
 ### 2026-08-18 — 업비트 client를 쓰다가
 
-- 맥락: [[프로젝트/개인/MyCryptoDiary/README|MyCryptoDiary]] D1, `shared/api/upbit/client.ts`에서 `Promise<UpbitTicker[]>`를 반환하며 "타입 지정이 런타임/컴파일에 무슨 차이가 있는지" 막힘 ([[프로젝트/개인/MyCryptoDiary/모의투자 전환 D1 2026-08-16|작업 기록]])
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D1, `shared/api/upbit/client.ts`에서 `Promise<UpbitTicker[]>`를 반환하며 "타입 지정이 런타임/컴파일에 무슨 차이가 있는지" 막힘 ([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/%EB%AA%A8%EC%9D%98%ED%88%AC%EC%9E%90%20%EC%A0%84%ED%99%98%20D1%202026-08-16.md))
 - 배운 것: 위 핵심 정리 전체. 특히 `tsc`로 실제 컴파일해 `.ts` → `.js`를 나란히 놓고 타입이 사라지는 걸 눈으로 확인한 것이 결정적이었다.
 - 파생: 외부 API 응답 타입을 **두 겹으로 두는 이유**도 여기서 나온다. 1겹 `UpbitTicker`는 업비트가 준 모양 그대로(snake_case) — 여기서 camelCase로 바꿔 적으면 `JSON.parse` 결과와 키가 안 맞아 값이 `undefined`가 된다. Swift `CodingKeys`가 해주던 매핑을 TS에선 **변환 함수를 손으로 써서** 2겹(camelCase, 우리 모델)으로 옮긴다. 타입 표기는 매핑을 해주지 않는다.
 - 근거: 커밋 `c761e7a`, `src/shared/api/upbit/{types,client}.ts`

@@ -26,7 +26,7 @@ projects:
 - **자동 자막(ko json3)이 장면 찾기의 1차 신호다.** `--write-auto-subs --sub-langs ko --sub-format json3` → `events[].tStartMs` + `segs[].utf8`. 고유명사·숫자는 자주 틀린다(«만루»→«말로», «힐리어드»→«힐리어»). **캐스터의 «홈런!» 콜은 타격 5~10초 뒤**에 나오므로 첫 강한 키워드가 말해진 시각에서 16초 앞(`PRE_ROLL`)에서 시작해야 투구·타격이 들어온다. 9/22 kt-SSG 힐리어드 만루포는 타격 834~836s, 자막 «홈런» 847.8s, HOMERUN 그래픽 845s였다.
 - **음량은 `ffmpeg -af ebur128=peak=none -f null -`** 의 stderr(`t: … M: …` momentary LUFS)를 1초 버킷 평균으로 쓴다. 장면 전환은 `select='gt(scene,0.4)',showinfo`의 `pts_time` — 중계 하이라이트는 디졸브가 많아 0.4에선 컷이 드물다(852~872s에 1개, 866.4s). 끝은 그 컷에 맞추면 다음 이닝 그래픽(«9회말»)이 안 섞인다.
 - **콘택트시트로 타이밍을 확정한다**: `fps=1,scale=320:-1,tile=6xN`. Homebrew ffmpeg 8.1.2에는 **`drawtext` 필터가 없다**(`No such filter: 'drawtext'`) — 시각 라벨은 PIL로 칸마다 그린다(`reel_daily.annotate_sheet`).
-- **launchd는 `(로컬 경로)`을 못 읽는다** — 밤 작업은 `(로컬 경로)`에 복사한 실행본으로 돈다([[작업노트/도구/macOS 파일 접근 권한과 휴지통|macOS 파일 접근 권한]]). 레포에서 고친 뒤 `scripts/install_reel_runtime.sh`를 돌려야 반영된다.
+- **launchd는 `(로컬 경로)`을 못 읽는다** — 밤 작업은 `(로컬 경로)`에 복사한 실행본으로 돈다([macOS 파일 접근 권한](macOS%20%ED%8C%8C%EC%9D%BC%20%EC%A0%91%EA%B7%BC%20%EA%B6%8C%ED%95%9C%EA%B3%BC%20%ED%9C%B4%EC%A7%80%ED%86%B5.md)). 레포에서 고친 뒤 `scripts/install_reel_runtime.sh`를 돌려야 반영된다.
 - **문안 사실은 기사로만, 두 번 검증한다.** 자막·화면에서 읽은 아웃카운트 같은 것도 기사에 없으면 쓰지 않는다. `reel_daily.verify_copy`가 두 번째 `claude -p`로 주장을 기사와 대조하고, 고친 문안을 한 번 더 검증한다. 9/22 Sonnet 5 문안의 오류 3개(아웃카운트·«격차를 벌렸다»·#직관)를 잡았다. 헤드리스 호출은 `--model opus --setting-sources project,local --no-session-persistence`로 한다 — 사용자 설정의 훅·기본 모델을 끌고 오지 않는다(`--bare`는 OAuth·키체인을 안 읽어 구독 로그인으로는 못 쓴다).
 - **렌더 레이아웃(야구1열식)**: 1080×1920, 배경은 클립을 채움·블러·어둡게, 전경은 가로 1080 맞춤(**zoom 1.15는 중계 스코어버그 «KT 4 / SSG 2»의 왼쪽이 잘린다** → 1.0), 위에 노란 킥커 칩 + Pretendard Black 제목 2줄, 클립 아래 푸터, 하단 `@yagu.3cut`. 인코딩은 Reels 사양대로 `libx264 high yuv420p -r 30 -g 60 -sc_threshold 0`, `aac 128k 48kHz`, `-movflags +faststart`. 34초에 30MB.
 
@@ -34,7 +34,7 @@ projects:
 
 ### 2026-09-23 — 첫 릴스: 9/22 힐리어드 시즌 38호 만루포 (kt 8-2 SSG)
 
-- 맥락: [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] — 홍 "야구 계정에 릴스를 올리고 싶어". 07-23 AI 나레이션 프로토타입(스크립트 유실)과 08-01 경기 클립 시제작(`render_short.py`·`publish_reel.py`, 미발행) 중 **경기 클립 형식**을 택했다. 결과 [[프로젝트/개인/인스타카드뉴스/릴스 발행 시작 2026-09-23|릴스 발행 시작 2026-09-23]]
+- 맥락: [인스타카드뉴스](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) — 홍 "야구 계정에 릴스를 올리고 싶어". 07-23 AI 나레이션 프로토타입(스크립트 유실)과 08-01 경기 클립 시제작(`render_short.py`·`publish_reel.py`, 미발행) 중 **경기 클립 형식**을 택했다. 결과 [릴스 발행 시작 2026-09-23](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/%EB%A6%B4%EC%8A%A4%20%EB%B0%9C%ED%96%89%20%EC%8B%9C%EC%9E%91%202026-09-23.md)
 - 배운 것: 위 핵심 정리 전부. 추가로 —
   - 연합뉴스 종합 기사(«힐리어드 38호 아치 만루홈런 폭발…», 22:34)가 그날의 장면을 정해 준다. 전적 기사(`[프로야구 인천전적] kt 8-2 SSG`)의 `△ 홈런 = 힐리어드 38호(9회4점·kt)` 줄이 홈런 이닝·타점의 기계 판독 원천이다. 기사 본문은 `<div class="story-news article">` 안 `<p>`이고 WebFetch는 yna.co.kr을 못 열어 `curl -A Mozilla`로 받았다.
   - `pick_moment.score_windows`가 처음엔 852.2s에서 시작하는 구간을 냈다(첫 «홈런» 자막 −5초). 콘택트시트로 보니 타격은 834s — 그래서 PRE_ROLL을 14초로, 앵커를 피크 앞 30초 안의 **가장 이른** 키워드로 바꿨다. 자막만 믿으면 홈런의 절반이 잘린다. (같은 날 리뷰 뒤 수정: 30초 안 «가장 이른» 줄은 약한 잡담 줄까지 잡아 피크가 구간 밖으로 밀렸다 — 기준점은 피크 앞 20초~뒤 5초의 **강한**(1.5점 이상) 키워드 줄로, 시각은 조각 시각으로, PRE_ROLL은 16초로 바꾸고 피크 뒤 6초는 반드시 담게 했다.)
@@ -43,7 +43,7 @@ projects:
 
 ### 2026-09-23 — 밤 자동화 설치: 리뷰 24건 확인·수정, launchd TCC, 403
 
-- 맥락: [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] 자동 파이프라인(`reel_daily.py`)을 launchd `com.instacardnews.reel`(23:45, 06:30 재시도)로 설치 — [[프로젝트/개인/인스타카드뉴스/릴스 발행 시작 2026-09-23|릴스 발행 시작]]
+- 맥락: [인스타카드뉴스](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) 자동 파이프라인(`reel_daily.py`)을 launchd `com.instacardnews.reel`(23:45, 06:30 재시도)로 설치 — [릴스 발행 시작](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/%EB%A6%B4%EC%8A%A4%20%EB%B0%9C%ED%96%89%20%EC%8B%9C%EC%9E%91%202026-09-23.md)
 - 배운 것: 위 핵심 정리의 403·`Match`·구간 재사용·자막 오탐·launchd·사실 검증 항목. 추가로 —
   - 첫 헤드리스 호출은 `{"api_error_status":429,"result":"You've hit your session limit · resets 5:20pm"}`로 죽었다 — 대화 세션과 같은 구독 한도를 쓴다. 그래서 06:30 재시도 슬롯과 «같은 날 같은 알림 한 번» 장치를 넣었다. 재시도는 서버 08:00 카드 발행과 겹치지 않게 06:30.
   - `ffprobe`로 본 첫 릴스: `elst`(edit list)가 비디오·오디오 트랙에 있다. Meta 사양은 «no edit lists»지만 발행은 됐다 — 거절되면 `-use_editlist 0`부터 본다.

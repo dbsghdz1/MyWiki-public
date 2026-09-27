@@ -62,7 +62,7 @@ Fable 5는 $10/$50, Opus 5는 $5/$25 — **정확히 2배**다. 같은 작업량
 
 ### 2026-09-26 — WebSearch는 세션당 200회이고, 다 쓰면 탐색 에이전트가 조용히 빈손이 된다
 
-- 맥락: [[프로젝트/개인/논문표/README|논문표]]에 이르기 전 제품 후보 발굴 워크플로(2026-09-23~24). 에이전트 수십 개가 WebSearch를 병렬로 썼다.
+- 맥락: [논문표](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EB%85%BC%EB%AC%B8%ED%91%9C/README.md)에 이르기 전 제품 후보 발굴 워크플로(2026-09-23~24). 에이전트 수십 개가 WebSearch를 병렬로 썼다.
 - 배운 것:
   1. **세션 WebSearch 예산은 200회이고 서브에이전트·워크플로 에이전트가 같이 쓴다.** 소진 후 메시지: "Web search was not performed: this session has used its web search budget (200 of 200 WebSearch calls) … ask the user to raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION."
   2. **소진 뒤 탐색 에이전트 10개 중 8개가 에러 없이 빈 결과를 돌려줬다.** 워크플로 요약만 보면 "시장이 비어 있다"로 오독된다. 빈 결과가 몰리면 먼저 WebSearch를 직접 한 번 불러 예산을 확인한다.

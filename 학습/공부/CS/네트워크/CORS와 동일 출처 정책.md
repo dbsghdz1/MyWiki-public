@@ -59,14 +59,14 @@ projects:
 
 ### 2026-09-08 — localhost에서 공공 API를 직접 불렀는데 되더라 (실습 실습 세션 1)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 1 — fetch와 useState 2026-09-08|실습 세션 1]]. `localhost:5173` → `apis.data.go.kr` 직접 호출
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 세션 1](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md). `localhost:5173` → `apis.data.go.kr` 직접 호출
 - 예측: **"남의 서버라 막힌다"** → **틀렸다.** 200으로 왔고 화면에 XML이 떴다
 - 실제로 본 것:
   - 응답 헤더 `access-control-allow-origin: http://localhost:5173` — **우리 Origin이 그대로 반사돼 있다**
   - Network에 **`OPTIONS` 줄이 없다** — 헤더 없는 맨 `GET`이라 단순 요청
 - 배운 것: 직관("기본은 못 읽는다")은 맞았고, 이 서버가 허락한 것뿐이다. **막느냐 마느냐를 정하는 건 브라우저가 아니라 서버의 헤더다**
 - 프로젝트 영향: 약국맵 Fastify 도입 근거에서 CORS가 빠지고 **키 노출 + 캐싱**만 남았다. 실습 1·2는 프록시 없이 진행
-- 근거: [[작업노트/도구/공공데이터포털 오픈API|공공데이터포털 오픈API]], `pharmacy-map` 커밋 `3c81de8`
+- 근거: [공공데이터포털 오픈API](../../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%8F%84%EA%B5%AC/%EA%B3%B5%EA%B3%B5%EB%8D%B0%EC%9D%B4%ED%84%B0%ED%8F%AC%ED%84%B8%20%EC%98%A4%ED%94%88API.md), `pharmacy-map` 커밋 `3c81de8`
 
 ## 더 알아보면 좋은 것
 

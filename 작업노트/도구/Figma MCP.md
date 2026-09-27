@@ -39,7 +39,7 @@ projects:
 
 ### 2026-09-16 — 약국맵 v2 섹션을 Figma에 새로 만들며 (약국맵)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] 시안을 카카오맵 대응으로 보완. **기존 섹션을 고치지 않고 아래에 v2 섹션을 새로 만들어** 비교하고 버릴 수 있게 했다(`figma.createSection()` → `x/y` + `resizeWithoutConstraints`).
+- 맥락: [약국맵](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) 시안을 카카오맵 대응으로 보완. **기존 섹션을 고치지 않고 아래에 v2 섹션을 새로 만들어** 비교하고 버릴 수 있게 했다(`figma.createSection()` → `x/y` + `resizeWithoutConstraints`).
 - 배운 것:
   - 위 「핵심 정리」의 6개 — 특히 **Pretendard 부재**와 **`dashPattern`**, **`get_screenshot`의 그림자 패딩**에서 시간을 썼다.
   - **판정판은 이미지로 굽지 말고 Figma 안에서 조립하는 게 낫다.** 배경만 `upload_assets`로 꽂고 패널·핀은 기존 노드를 `clone()`해 절대 좌표로 얹으면, 핀을 끌어 옮겨가며 볼 수 있고 배경 교체도 fill 재업로드 한 번이다. PIL로 합성한 첫 버전은 배경을 바꿀 때마다 전부 다시 구워야 했다.

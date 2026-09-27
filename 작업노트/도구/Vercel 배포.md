@@ -26,7 +26,7 @@ Git 연동 배포는 **레포 루트를 프로젝트 루트로 가정**한다 �
 
 ### 2026-09-26 — 처음 `vercel --yes`는 곧바로 프로덕션이다
 
-- 맥락: [[프로젝트/개인/논문표/README|논문표]] 첫 배포. Git 연동 없이 로컬 폴더에서 CLI로 올렸다.
+- 맥락: [논문표](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EB%85%BC%EB%AC%B8%ED%91%9C/README.md) 첫 배포. Git 연동 없이 로컬 폴더에서 CLI로 올렸다.
 - 배운 것:
   1. 링크 안 된 폴더에서 `vercel --yes`는 프로젝트를 만들고 **첫 배포를 production에 배정한다.** CLI 출력: "This is the project’s first deployment, so it was assigned to production. Future deployments will be preview deployments unless you use --prod." 미리보기로 조용히 올려 보려는 의도였다면 첫 회에는 성립하지 않는다.
   2. alias `https://nonmunpyo.vercel.app`은 200, 배포별 URL(`nonmunpyo-<해시>-<팀>.vercel.app`)은 302(Deployment Protection) — 점검은 alias로 한다(08-19 기록과 같은 함정).
@@ -42,12 +42,12 @@ Git 연동 배포는 **레포 루트를 프로젝트 루트로 가정**한다 �
 - 근거: 배포 URL이 `deploy-<hash>-<team>.vercel.app` 으로 나온 것으로 발견
 
 ### 2026-08-19 — Git 연동 후 Root Directory 미설정으로 랜딩·웹훅 4일간 404
-- 맥락: [[프로젝트/개인/Zappy/README|Zappy]] — "구매 슬랙 알림이 안 온다"를 추적하다가 `zappy-landing.vercel.app`이 `/`까지 404인 것을 발견
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) — "구매 슬랙 알림이 안 온다"를 추적하다가 `zappy-landing.vercel.app`이 `/`까지 404인 것을 발견
 - 배운 것:
   - 08-14 프로젝트를 GitHub `dbsghdz1/Zappy`에 연결했는데 Root Directory가 비어 있었고, 08-15 push 배포가 레포 루트(Swift 프로젝트)를 빌드해 index.html도 `api/`도 없는 배포가 프로덕션 alias를 차지했다. 그 전까지는 `landing/` 폴더에서 CLI로 배포해 왔기 때문에 문제가 안 보였다.
   - 배포 URL로 웹훅을 찔렀을 땐 401이 나와 "살아 있다"고 착각할 뻔했다 — Deployment Protection의 401이었다. alias로 쳐서 404를 확인한 것이 결정적.
   - `rootDirectory=landing` PATCH + `vercel redeploy` 14초 만에 200/405 복구.
-- 근거: 빌드 로그 `Cloning github.com/dbsghdz1/Zappy (Branch: main, Commit: 047ef1d)` … `Build Completed in 186ms`; 프로젝트 API 응답 `rootDirectory: None → 'landing'`; [[프로젝트/개인/Zappy/Zappy 마케팅 플랜]] 랜딩 절 장애 기록. 관련: [[작업노트/AppStore/App Store Server Notifications|App Store Server Notifications]]
+- 근거: 빌드 로그 `Cloning github.com/dbsghdz1/Zappy (Branch: main, Commit: 047ef1d)` … `Build Completed in 186ms`; 프로젝트 API 응답 `rootDirectory: None → 'landing'`; [Zappy 마케팅 플랜](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EB%A7%88%EC%BC%80%ED%8C%85%20%ED%94%8C%EB%9E%9C.md) 랜딩 절 장애 기록. 관련: [App Store Server Notifications](../AppStore/App%20Store%20Server%20Notifications.md)
 
 ## 참고 자료
 - [Vercel — Configuring a Build: Root Directory](https://vercel.com/docs/deployments/configure-a-build#root-directory) — 서브폴더 프로젝트 설정 위치 (2026-08-19 확인)

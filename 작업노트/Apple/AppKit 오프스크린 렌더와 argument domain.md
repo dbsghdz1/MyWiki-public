@@ -31,10 +31,10 @@ projects:
 ### 2026-09-01 — Zappy 1.13 스토어 스크린샷 생성기 · 온보딩/NEW 배지 검증
 - 맥락: 5로케일 스크린샷을 Figma 대신 코드로 만들며 4번째 장에 실제 `ThemeGridView`를 넣었다. 첫 렌더에서 그리드 라벨·모노 아이콘이 전부 흰색(투명해 보임) — 홍의 Mac이 다크 모드라 `labelColor`가 흰색으로 해석된 것. `performAsCurrentDrawingAppearance`는 효과 없었고 `grid.appearance = NSAppearance(named: .aqua)`로 해결.
 - NEW 배지 확인용 `-newThemes "(풍선,나무)"`는 무동작 → `'("풍선","나무")'`로 바꾸자 배지가 떴다.
-- 근거: `docs/store-screenshots/generate.swift`(쇼트 4의 `grid.appearance` 주석), 레포 CLAUDE.md 개발 플래그 절, 개발 기록 [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-01]].
+- 근거: `docs/store-screenshots/generate.swift`(쇼트 4의 `grid.appearance` 주석), 레포 CLAUDE.md 개발 플래그 절, 개발 기록 [Zappy 개발 기록 2026-09-01](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-09-01.md).
 
 ### 2026-09-04 — Zappy 1.14 테마 다듬기 · 랜딩 카드 · 테스트 인스턴스
 - 맥락: 날씨·사과·선인장·해파리 4종을 다듬고(`WeatherGeom`·`AppleGeom` 신설) 렌더 하네스로 검증하던 중. 홍이 테스트 앱 메뉴에서 "다른 캐릭터로 안 바뀌네" — `ps`로 보니 `-theme 사과 -forceLevel 60` 인자로 떠 있던 인스턴스(PID 18874). 죽이고 `-devFullAccess YES`만으로 재실행하니 정상. 그 뒤 `package-app.sh` 후 `open`했는데 옛 프로세스(47367)가 그대로 살아 있어 새 빌드가 안 뜸 → `kill` 후 `open`.
 - 랜딩 카드 재생성: `lockFocus` 결과가 840×528 → `NSBitmapImageRep` 직접 그리기로 420×264.
 - `docs/theme-reference` 재생성에서 69개 노이즈 파일 되돌림; 풍선 레퍼런스 6장이 그동안 빠져 있었던 것도 이때 발견해 추가.
-- 근거: [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-09-04]], 커밋 `6cda9c7`·`45a171a`·`e4a2b1b`.
+- 근거: [Zappy 개발 기록 2026-09-04](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-09-04.md), 커밋 `6cda9c7`·`45a171a`·`e4a2b1b`.

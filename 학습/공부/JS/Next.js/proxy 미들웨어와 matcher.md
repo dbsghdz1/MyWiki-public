@@ -12,7 +12,7 @@ projects:
 
 # Next.js proxy 미들웨어와 matcher
 
-**proxy(구 middleware)는 페이지마다가 아니라 요청마다 돈다.** matcher는 뺄 것을 나열하고 나머지를 잡는 부정 look-ahead로 쓰고, 빈 배열은 「아무 데서도 안 돈다」다 — 빌드 출력의 `ƒ Proxy (Middleware)` 줄이 실행 여부의 증거다. (2026-09-16 [[학습/공부/JS/Next.js/Next.js 서버와 캐싱|Next.js 서버와 캐싱]]에서 분리)
+**proxy(구 middleware)는 페이지마다가 아니라 요청마다 돈다.** matcher는 뺄 것을 나열하고 나머지를 잡는 부정 look-ahead로 쓰고, 빈 배열은 「아무 데서도 안 돈다」다 — 빌드 출력의 `ƒ Proxy (Middleware)` 줄이 실행 여부의 증거다. (2026-09-16 [Next.js 서버와 캐싱](Next.js%20%EC%84%9C%EB%B2%84%EC%99%80%20%EC%BA%90%EC%8B%B1.md)에서 분리)
 
 ## 핵심 정리
 
@@ -57,7 +57,7 @@ matcher: [
 
 ### 2026-08-29 — Route Group layout으로 인증 경계 묶기 (D3 블록 6)
 
-맥락: [[프로젝트/개인/MyCryptoDiary/README|CoinPilot]] D3에서 비로그인 사용자는 홈만 보고 나머지 UI는 로그인하도록 보호했다([[프로젝트/개인/MyCryptoDiary/Clerk 인증 D3 2026-08-29|작업 기록]]).
+맥락: [CoinPilot](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) D3에서 비로그인 사용자는 홈만 보고 나머지 UI는 로그인하도록 보호했다([작업 기록](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/Clerk%20%EC%9D%B8%EC%A6%9D%20D3%202026-08-29.md)).
 
 - `(protected)`처럼 괄호로 감싼 폴더는 파일을 묶지만 URL에는 나타나지 않는다. 그래서 `app/(protected)/market/page.tsx`를 실제 `/market` 주소 그대로 유지하면서 공통 layout 하나로 보호할 수 있다.
 - 설치된 Clerk v7 타입에서 `createRouteMatcher`는 deprecated였다. 경로 문자열 목록은 실제 라우트 이동과 어긋날 수 있으므로, 요청 전처리용 `proxy.ts`는 Clerk 세션 연결만 맡기고 자원 보호는 Route Group layout의 `auth()`에 뒀다.

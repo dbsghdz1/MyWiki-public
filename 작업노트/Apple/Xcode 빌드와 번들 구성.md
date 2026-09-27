@@ -50,7 +50,7 @@ infoPlist: .extendingDefault(with: [
 
 
 ### 2026-08-25 — 앱 아이콘은 1024·알파 없음이어야 하고, 그걸 코드로 만들 때 두 번 걸린다 (현상중)
-- 맥락: [[프로젝트/개인/즉석카메라/README|즉석카메라]] 아이콘을 Swift 렌더 스크립트로 생성.
+- 맥락: [즉석카메라](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%A6%89%EC%84%9D%EC%B9%B4%EB%A9%94%EB%9D%BC/README.md) 아이콘을 Swift 렌더 스크립트로 생성.
 - 배운 것:
   - **`NSImage.lockFocus()`는 화면 배율을 탄다.** 1024로 그려도 레티나에서 **2048**이 나오고 **알파 채널이 남는다.** 앱스토어는 알파 있는 아이콘을 거부한다.
   - **알파 없는 24비트 비트맵에는 CoreGraphics가 못 그린다.** `NSBitmapImageRep(..., samplesPerPixel: 3, hasAlpha: false)`를 만들어 `NSGraphicsContext`로 그리면 **SIGTRAP(exit 133)으로 죽는다.**
@@ -59,7 +59,7 @@ infoPlist: .extendingDefault(with: [
 
 ### 2026-08-20 — 기능을 코드를 지우지 않고 출시에서 빼기
 
-- 맥락: [[프로젝트/개인/Zappy/README|Zappy]] 1.7.0에서 데스크톱 펫을 빼고 제출해야 했다. 코드는 남기고 싶었다 — 캐릭터 설계만 다시 잡으면 되돌릴 것이라서.
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.7.0에서 데스크톱 펫을 빼고 제출해야 했다. 코드는 남기고 싶었다 — 캐릭터 설계만 다시 잡으면 되돌릴 것이라서.
 - 배운 것:
   - **게이트는 가장 안쪽에도 하나 둔다.** 메뉴 항목을 안 만드는 것만으로는 부족했다. 개발 빌드에서 켜 뒀던 `UserDefaults` 값이 남아 있으면 출시판에서 창이 떠버린다. `isOn` 게터 자체를 `flag && defaults`로 바꿔서 저장된 설정과 무관하게 꺼지게 했다.
   - **동기화 폴더에서 파일 하나 빼기**는 pbxproj를 손으로 고쳐야 한다. Xcode 16 형식이라 `PBXFileSystemSynchronizedBuildFileExceptionSet { membershipExceptions = ("zappy-snowman.usdz"); target = <Zappy> }`를 새로 만들고, `AppShell` 동기화 루트 그룹에 `exceptions = (그 세트)`를 달았다. 원래 이 절엔 "위젯 타깃에서 앱 전용 소스를 뺀다"는 용례만 있었는데, **타깃이 하나뿐인 폴더에 걸면 = 아무 데도 안 들어간다**로 쓸 수 있다.
@@ -79,5 +79,5 @@ infoPlist: .extendingDefault(with: [
 ### 2026-09-15 — ad-hoc 재서명으로 크래시를 재현하면 권한을 뺀 탓에 죽는다 (탭탭 macOS)
 
 - 맥락: 탭탭 팀원 맥에서 build 8이 즉시 크래시. Distribution 서명 아카이브는 로컬 실행이 안 돼 `codesign --force --deep -s - --entitlements <sandbox+network만>`로 재서명해 띄웠다.
-- 배운 것: **App Group·iCloud entitlement를 뺀 재서명본은 샌드박스가 그룹 컨테이너 접근을 막아 `Core/AppGroupContainer.swift:29: Fatal error: Failed to initialize ModelContainer`(SQLite 23, `Sandbox access to file-read-data denied`)로 반드시 죽는다** — 원래 크래시와 무관한 거짓 재현이다. **이전 빌드(build 6)를 같은 방식으로 돌리는 대조군**을 두면 같은 자리에서 죽어 바로 가려진다. 게다가 한 번 실행한 재서명본은 LaunchServices에 등록돼 TestFlight 「열기」를 가로챈다(→ [[작업노트/AppStore/TestFlight 내부 그룹과 수출 규정|TestFlight 기록]]) — 끝나면 지우고 `lsregister -u`.
+- 배운 것: **App Group·iCloud entitlement를 뺀 재서명본은 샌드박스가 그룹 컨테이너 접근을 막아 `Core/AppGroupContainer.swift:29: Fatal error: Failed to initialize ModelContainer`(SQLite 23, `Sandbox access to file-read-data denied`)로 반드시 죽는다** — 원래 크래시와 무관한 거짓 재현이다. **이전 빌드(build 6)를 같은 방식으로 돌리는 대조군**을 두면 같은 자리에서 죽어 바로 가려진다. 게다가 한 번 실행한 재서명본은 LaunchServices에 등록돼 TestFlight 「열기」를 가로챈다(→ [TestFlight 기록](../AppStore/TestFlight%20%EB%82%B4%EB%B6%80%20%EA%B7%B8%EB%A3%B9%EA%B3%BC%20%EC%88%98%EC%B6%9C%20%EA%B7%9C%EC%A0%95.md)) — 끝나면 지우고 `lsregister -u`.
 - 근거: 재현 로그 두 벌(build 8·6 모두 `EXC_BREAKPOINT` · 프레임 `AppGroupContainer.shared` ← `MacApp.body.getter (TapTapMac.swift:49)`), build 6→8 `Info.plist` diff는 이름 2개·빌드 번호뿐.

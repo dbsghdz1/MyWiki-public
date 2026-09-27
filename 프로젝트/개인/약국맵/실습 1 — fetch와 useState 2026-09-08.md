@@ -17,7 +17,7 @@ projects:
 
 ## 계기
 
-[[프로젝트/개인/약국맵/README|약국맵]] 착수. [[프로젝트/개인/약국맵/학습 로드맵|학습 로드맵]] 1번 *"약국 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 불러온다"*. 시작 시점의 코드는 Vite 템플릿 0줄 상태.
+[약국맵](README.md) 착수. [학습 로드맵](%ED%95%99%EC%8A%B5%20%EB%A1%9C%EB%93%9C%EB%A7%B5.md) 1번 *"약국 목록을 `useEffect`+fetch와 TanStack `useQuery` 두 벌로 불러온다"*. 시작 시점의 코드는 Vite 템플릿 0줄 상태.
 
 ## 해본 것
 
@@ -68,15 +68,15 @@ projects:
 
 - **세션 2를 「`useEffect` 하나」로 줄인다.** 원래 2번(필터 + 폴링)은 그다음
 - TanStack 대조(원래 1번의 후반부)는 `useEffect`가 손에 붙은 뒤에
-- **JS 워밍업**([[학습/공부/README|공부]] README 6일 순환)에서 **5일차 비동기**와 **2일차 구조 분해**를 먼저 돌린다 — 위 막힌 자리 2·3·4가 거기 있다
+- **JS 워밍업**([공부](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/README.md) README 6일 순환)에서 **5일차 비동기**와 **2일차 구조 분해**를 먼저 돌린다 — 위 막힌 자리 2·3·4가 거기 있다
 
 ## 배운 것
 
-- [[학습/공부/JS/React/React 컴포넌트와 JSX|React 컴포넌트와 JSX]] — JSX는 함수 호출로 컴파일된다, `{ }`는 렌더 시점에 계산된다, `return`이 경계
-- [[학습/공부/JS/언어/비동기와 Promise|비동기와 Promise]] — `fetch`는 상자를 즉시 준다, 두 번 기다린다, 403에 reject하지 않는다
-- [[학습/공부/CS/네트워크/URL과 퍼센트 인코딩|URL과 퍼센트 인코딩]] — 이중 인코딩. 범인은 키가 아니라 옆의 한글이었다
-- [[학습/공부/CS/네트워크/CORS와 동일 출처 정책|CORS와 동일 출처 정책]] — 브라우저는 요청을 막는 게 아니라 응답을 읽게 해줄지 판단한다
-- [[학습/공부/CS/네트워크/HTTP와 TCP-IP의 역할|HTTP와 TCP/IP의 역할]] — 두 HTTP 홉을 `curl -v`로 보며: HTTP는 무엇을 주고받을지, TCP는 어느 포트의 프로그램에 빠짐없이, IP는 어느 컴퓨터까지. Fastify는 TCP 3000번에서 HTTP를 받는 프로그램 (09-14)
+- [React 컴포넌트와 JSX](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/React%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80%20JSX.md) — JSX는 함수 호출로 컴파일된다, `{ }`는 렌더 시점에 계산된다, `return`이 경계
+- [비동기와 Promise](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/%EB%B9%84%EB%8F%99%EA%B8%B0%EC%99%80%20Promise.md) — `fetch`는 상자를 즉시 준다, 두 번 기다린다, 403에 reject하지 않는다
+- [URL과 퍼센트 인코딩](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/URL%EA%B3%BC%20%ED%8D%BC%EC%84%BC%ED%8A%B8%20%EC%9D%B8%EC%BD%94%EB%94%A9.md) — 이중 인코딩. 범인은 키가 아니라 옆의 한글이었다
+- [CORS와 동일 출처 정책](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/CORS%EC%99%80%20%EB%8F%99%EC%9D%BC%20%EC%B6%9C%EC%B2%98%20%EC%A0%95%EC%B1%85.md) — 브라우저는 요청을 막는 게 아니라 응답을 읽게 해줄지 판단한다
+- [HTTP와 TCP/IP의 역할](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/HTTP%EC%99%80%20TCP-IP%EC%9D%98%20%EC%97%AD%ED%95%A0.md) — 두 HTTP 홉을 `curl -v`로 보며: HTTP는 무엇을 주고받을지, TCP는 어느 포트의 프로그램에 빠짐없이, IP는 어느 컴퓨터까지. Fastify는 TCP 3000번에서 HTTP를 받는 프로그램 (09-14)
 
 ## 근거
 

@@ -29,7 +29,7 @@ Xcode 프로젝트를 `Project.swift`로 생성하는 도구. 로컬엔 mise로 
 
 ### 2026-09-01 — WristNote 스캐폴딩
 
-- 맥락: [[프로젝트/개인/WristNote/README|WristNote]] iOS + watchOS 앱을 처음부터 만들며 pbxproj 손작성 대신 Tuist 사용.
+- 맥락: [WristNote](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) iOS + watchOS 앱을 처음부터 만들며 pbxproj 손작성 대신 Tuist 사용.
 - 배운 것: 위 「핵심 정리」. 루트 판정 실패와 빈 Config.swift 에러를 연달아 밟았다.
 - 근거: `(로컬 경로)`, 커밋 `f8c4bd3`.
 

@@ -28,11 +28,11 @@ projects:
 ## 기록
 
 ### 2026-08-18 — 호버 하트가 한 번도 동작하지 않은 채 출시된 이유
-- 맥락: [[프로젝트/개인/Zappy/README|Zappy]] 1.6.0에 넣은 "메뉴바 아이콘에 마우스를 올리면 하트가 뜬다" 기능이 실기에서 전혀 동작하지 않았다. 스토어 릴리즈 노트에 5개 언어로 광고된 상태였다.
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.6.0에 넣은 "메뉴바 아이콘에 마우스를 올리면 하트가 뜬다" 기능이 실기에서 전혀 동작하지 않았다. 스토어 릴리즈 노트에 5개 언어로 광고된 상태였다.
 - 배운 것:
   - `AppDelegate`(NSObject 직계)에 `@objc func mouseEntered(with:)`를 두고 `NSTrackingArea(owner: self)`로 연결했는데, 셀렉터가 `mouseEnteredWith:`로 나가 AppKit이 보내는 `mouseEntered:`와 어긋났다. tracking area 등록도, 하트 그리기도 전부 정상이었고 **호출만 없었다**.
   - 코드 리뷰로는 잘 안 잡힌다 — `@objc`가 붙어 있고 메서드 이름도 눈으로 보기엔 맞기 때문이다. 위 두 가지 검증(responds(to:) / strings)이 훨씬 빠르다.
-- 근거: 재현 스크립트로 `Current(NSObject)` = `mouseEntered:` false / `mouseEnteredWith:` true, `@objc(mouseEntered:)` 명시본과 `NSResponder` 상속본은 반대로 나오는 것을 확인. 출시된 1.6.0 바이너리에서 `strings | grep`으로 `mouseEnteredWith:`만 존재함을 확인. 수정 커밋 `f7e0889`(`@objc(mouseEntered:)` / `@objc(mouseExited:)`), 1.6.1 핫픽스로 제출. 작업 기록 [[프로젝트/개인/Zappy/Zappy 개발 기록 2026-08-18|Zappy 개발 기록 2026-08-18]].
+- 근거: 재현 스크립트로 `Current(NSObject)` = `mouseEntered:` false / `mouseEnteredWith:` true, `@objc(mouseEntered:)` 명시본과 `NSResponder` 상속본은 반대로 나오는 것을 확인. 출시된 1.6.0 바이너리에서 `strings | grep`으로 `mouseEnteredWith:`만 존재함을 확인. 수정 커밋 `f7e0889`(`@objc(mouseEntered:)` / `@objc(mouseExited:)`), 1.6.1 핫픽스로 제출. 작업 기록 [Zappy 개발 기록 2026-08-18](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-18.md).
 
 ## 참고 자료
 

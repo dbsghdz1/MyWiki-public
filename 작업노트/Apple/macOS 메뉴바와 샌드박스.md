@@ -35,20 +35,20 @@ App Sandbox 안에서 다른 앱의 메뉴바 아이템을 "알아내는" 유일
 ## 기록
 
 ### 2026-08-16 — 숨긴 아이콘을 팝오버에 보여주기 위한 재검증과 구현
-- 맥락: [[프로젝트/개인/BarStack/README|BarStack]]에서 "팝오버에 어떤 앱이 숨겨져 있는지 보여달라"는 요구. wiki엔 "샌드박스가 AX를 차단"이라고 실측돼 있었고, 나는 Magnet(MAS·샌드박스·AX 사용)을 반례로 들어 재검증을 제안했다가 **틀렸다** — 샌드박스는 AX를 정말 통째로 막는다.
+- 맥락: [BarStack](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md)에서 "팝오버에 어떤 앱이 숨겨져 있는지 보여달라"는 요구. wiki엔 "샌드박스가 AX를 차단"이라고 실측돼 있었고, 나는 Magnet(MAS·샌드박스·AX 사용)을 반례로 들어 재검증을 제안했다가 **틀렸다** — 샌드박스는 AX를 정말 통째로 막는다.
 - 배운 것:
   - 샌드박스에서 다른 앱 메뉴바를 읽는 길은 CGWindowList + 화면 기록 권한(이름 해금)뿐. 클릭 실행은 불가(AX).
   - 화면 기록 권한은 재실행 후 반영, 디스플레이별 행·명명 규칙 차이, 행 간 순서 불일치 — 위 핵심 정리.
-- 근거: 테스트 앱 `AXProbeSandboxed/Plain`(같은 바이너리, sandbox entitlement만 차이)을 `open`으로 띄워 손쉬운 사용 허용 후 비교 — 샌드박스 0개(전부 -25204) / 비샌드박스 29개. `SRProbeSandboxed`로 화면 기록 허용 후 재실행 → 번들 ID 30개. 구현 커밋 `fdff799`(CollectionTopBar `HiddenItemsScanner.swift`), 작업 기록 [[프로젝트/개인/BarStack/BarStack 개발 기록 2026-08-16|BarStack 개발 기록 2026-08-16]].
+- 근거: 테스트 앱 `AXProbeSandboxed/Plain`(같은 바이너리, sandbox entitlement만 차이)을 `open`으로 띄워 손쉬운 사용 허용 후 비교 — 샌드박스 0개(전부 -25204) / 비샌드박스 29개. `SRProbeSandboxed`로 화면 기록 허용 후 재실행 → 번들 ID 30개. 구현 커밋 `fdff799`(CollectionTopBar `HiddenItemsScanner.swift`), 작업 기록 [BarStack 개발 기록 2026-08-16](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/BarStack%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-16.md).
 
 ### 2026-08-16 (밤) — 클릭 실행 시도와 되돌림, 단일 디스플레이 실측
-- 맥락: [[프로젝트/개인/BarStack/README|BarStack]] 팝오버의 숨긴 아이콘을 눌러 그 앱 메뉴를 열게 하려다가, 클릭이 계속 씹히는 원인을 쫓다 보니 **번들 ID 이름 창이 복제본**이란 걸 알게 됐고, 미러링으로 단일 디스플레이를 흉내 내 보니 **번들 ID 자체가 사라져** 낮에 배포한 목록이 노치 맥북 단독에선 빈 목록이었다.
+- 맥락: [BarStack](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md) 팝오버의 숨긴 아이콘을 눌러 그 앱 메뉴를 열게 하려다가, 클릭이 계속 씹히는 원인을 쫓다 보니 **번들 ID 이름 창이 복제본**이란 걸 알게 됐고, 미러링으로 단일 디스플레이를 흉내 내 보니 **번들 ID 자체가 사라져** 낮에 배포한 목록이 노치 맥북 단독에선 빈 목록이었다.
 - 배운 것: 위 핵심 정리의 "진짜 창과 복제 창", "글리프는 진짜 창을 캡처", "합성 클릭은 진짜 창만" 세 항목. 결국 목록은 **글리프 캡처**로 다시 만들었고(진짜 행은 우리 아이템의 autosave 이름 `BarStack.divider`로 찾음), 클릭 실행은 커서 점프·노치 아래 아이템 문제로 사용자 판단에 따라 되돌렸다.
-- 근거: 커밋 `1c88fbb`(글리프+클릭) → `e8bdbe6`(클릭 제거). 상관 실험 로그는 [[프로젝트/개인/BarStack/BarStack 개발 기록 2026-08-16|개발 기록]]. 미러링 토글은 `CGConfigureDisplayMirrorOfDisplay`(세션 범위)로 했고, `CGGetActiveDisplayList`는 미러링 중 보조 디스플레이를 빼므로 되돌릴 땐 `CGGetOnlineDisplayList`를 써야 한다.
+- 근거: 커밋 `1c88fbb`(글리프+클릭) → `e8bdbe6`(클릭 제거). 상관 실험 로그는 [개발 기록](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/BarStack%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-16.md). 미러링 토글은 `CGConfigureDisplayMirrorOfDisplay`(세션 범위)로 했고, `CGGetActiveDisplayList`는 미러링 중 보조 디스플레이를 빼므로 되돌릴 땐 `CGGetOnlineDisplayList`를 써야 한다.
 
 
 ### 2026-08-19 — 샌드박스에서 배터리 상세를 읽을 수 있나 (IORegistry)
-- 맥락: [[프로젝트/개인/Zappy/README|Zappy]] 1.7의 Zappy+ 기능으로 "배터리 리포트"(사이클 수·최대 용량·온도·전력)를 넣기로 했는데, 공개 API인 `IOPSCopyPowerSourcesInfo`로는 잔량·남은 시간까지만 나온다. 사이클 수는 `AppleSmartBattery` IORegistry 노드에 있어서 **MAS 샌드박스에서 읽히는지**가 기능 자체의 성립 조건이었다.
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.7의 Zappy+ 기능으로 "배터리 리포트"(사이클 수·최대 용량·온도·전력)를 넣기로 했는데, 공개 API인 `IOPSCopyPowerSourcesInfo`로는 잔량·남은 시간까지만 나온다. 사이클 수는 `AppleSmartBattery` IORegistry 노드에 있어서 **MAS 샌드박스에서 읽히는지**가 기능 자체의 성립 조건이었다.
 - 배운 것:
   - IORegistry 조회는 샌드박스에서 그대로 된다 — entitlement 추가도, 권한 프롬프트도 없다. 위 핵심 정리 두 항목.
   - `MaxCapacity`는 기종에 따라 퍼센트(100)로 오므로 mAh가 필요하면 `AppleRawMaxCapacity`(없으면 `NominalChargeCapacity`)를 쓴다. `Temperature`는 1/100 ℃, `Voltage`는 mV, `Amperage`는 mA(방전 시 음수)라 전력(W)은 `V × A / 1000`.

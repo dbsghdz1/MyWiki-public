@@ -47,11 +47,11 @@ useEffect(() => {
 
 ### 2026-09-09 — cleanup 자리에 fetch를 넣어 「개발에서만 되는 버그」를 만들었다 (실습 2)
 
-- 맥락: [[프로젝트/개인/약국맵/README|약국맵]] [[프로젝트/개인/약국맵/실습 2 — useEffect와 useQuery 2026-09-09|실습 세션 2]]. 버튼 없이 자동 요청으로 바꾸며
+- 맥락: [약국맵](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) [실습 세션 2](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EC%8B%A4%EC%8A%B5%202%20%E2%80%94%20useEffect%EC%99%80%20useQuery%202026-09-09.md). 버튼 없이 자동 요청으로 바꾸며
 - 배운 것:
   - `useEffect(() => { return () => { fetch(...) } }, [])` — **fetch가 cleanup에 들어갔는데 화면엔 데이터가 떴다.** StrictMode의 `setup → cleanup → setup` 덕에 cleanup이 한 번 불렸기 때문. **배포하면 화면이 영영 빈다**
   - `[]`를 빼면 2줄이 됐다. 3줄로 안 간 건 **두 번째 응답이 첫 번째와 똑같은 문자열**이라 React가 재렌더를 건너뛴 것뿐 — 응답에 시각이 섞였으면 무한 루프였다
   - `queryFn: fetch(url).then(...)`으로 또 같은 실수를 했다. **`onClick={fn()}`과 같은 모양** — "필요할 때 부르겠다"는 자리엔 언제나 함수를 넘긴다
 - 근거: `pharmacy-map` 커밋 `238d87f`
 
-- 이 노트는 2026-09-23 [[학습/공부/JS/React/React 컴포넌트와 JSX|React 컴포넌트와 JSX]]가 150줄을 넘어 useEffect·StrictMode 절과 09-09 기록을 떼어 만들었다.
+- 이 노트는 2026-09-23 [React 컴포넌트와 JSX](React%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80%20JSX.md)가 150줄을 넘어 useEffect·StrictMode 절과 09-09 기록을 떼어 만들었다.

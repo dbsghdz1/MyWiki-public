@@ -26,7 +26,7 @@ projects:
 
 ## 기록
 ### 2026-09-22 — 휴지통의 폴더 하나가 안 지워진다
-- 맥락: [[작업노트/도구/Ghostty 설정|Ghostty]] 안의 Claude Code `co` 세션에서 맥 정리(안 쓰는 앱·캐시 삭제) 뒤 홍이 "휴지통의 폴더가 왜 안 지워지나" 질문
+- 맥락: [Ghostty](Ghostty%20%EC%84%A4%EC%A0%95.md) 안의 Claude Code `co` 세션에서 맥 정리(안 쓰는 앱·캐시 삭제) 뒤 홍이 "휴지통의 폴더가 왜 안 지워지나" 질문
 - 배운 것:
   - `ls (로컬 경로)` → `Operation not permitted`. `sudo rm -rf`(Terminal, 암호 입력)도 동일. 폴더 `stat`은 되고 `mv … (로컬 경로)`도 됨.
   - `log stream`에 `kernel (Sandbox) System Policy: osascript(73460) deny(1) file-write-unlink (로컬 경로)` — Finder를 시켰는데 거부 주체는 osascript.
@@ -36,7 +36,7 @@ projects:
 
 ### 2026-09-23 — launchd 작업은 `(로컬 경로)`을 못 읽는다 (exit 127)
 
-- 맥락: [[프로젝트/개인/인스타카드뉴스/README|인스타카드뉴스]] 릴스 밤 작업을 launchd에 걸었더니 `launchctl print`에 `last exit code = 127`, 로그에 `/bin/zsh: can't open input file: (로컬 경로)` — [[프로젝트/개인/인스타카드뉴스/릴스 발행 시작 2026-09-23|릴스 발행 시작]]
+- 맥락: [인스타카드뉴스](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) 릴스 밤 작업을 launchd에 걸었더니 `launchctl print`에 `last exit code = 127`, 로그에 `/bin/zsh: can't open input file: (로컬 경로)` — [릴스 발행 시작](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/%EB%A6%B4%EC%8A%A4%20%EB%B0%9C%ED%96%89%20%EC%8B%9C%EC%9E%91%202026-09-23.md)
 - 배운 것:
   - launchd가 띄운 `/bin/zsh`·python은 TCC상 `(로컬 경로)`(여기선 iCloud 동기화 중) 접근 권한이 없다. 대화형 터미널에서 되는 것과 다르다. **옛 `com.instacardnews.publish`·`.report`가 `last exit code = 127`로 죽어 있던 것도 같은 원인으로 보인다**(09-12 인프라 실측에서 127만 기록됨)
   - 해법은 권한을 주는 대신 **실행본을 보호되지 않은 곳에 두는 것**: 이 Mac의 멀쩡한 launchd 작업은 전부 `(로컬 경로)`·`(로컬 경로)`에서 돈다. 릴스는 `(로컬 경로)`에 코드·폰트·`.env`(600)·venv를 복사하고 plist 템플릿을 채우는 `scripts/install_reel_runtime.sh`를 만들었다
