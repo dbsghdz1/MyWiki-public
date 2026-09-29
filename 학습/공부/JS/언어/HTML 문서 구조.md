@@ -5,7 +5,7 @@ audience: me
 status: active
 created: 2026-09-26
 updated: 2026-09-29
-aliases: [HTML 문서 구조, HTML 뼈대, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
+aliases: [HTML 문서 구조, HTML 뼈대, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
 projects: []
 ---
 
@@ -77,6 +77,15 @@ projects: []
 - `div`·`span`은 **의미 없는 포장지** — 맞는 시맨틱 태그가 없을 때만. 화면은 같아도 스크린 리더가 「본문으로 가기」「메뉴 찾기」를 태그로 한다(시각장애 인구 4~5%).
 - `br` = 주소·시처럼 줄을 강제로 끊어야 할 때만, 닫는 태그 없음(`</br>`은 에러). `hr` = 주제가 바뀌는 지점.
 
+### 2026-09-30 — MDN 「Creating links」 (빵집 미션 3단계)
+- 계기: 인스타그램 링크를 `href="www.instagram.com"`로 써서 `localhost:5500/www.instagram.com`으로 갔다 — 스킴(`https://`)이 없으면 브라우저는 **상대 경로(내 사이트 안 파일 이름)**로 읽는다([절대 URL과 상대 URL](../../CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%EC%A0%88%EB%8C%80%20URL%EA%B3%BC%20%EC%83%81%EB%8C%80%20URL.md)). 외부 링크는 항상 전체 URL.
+- 경로: 같은 폴더 `contacts.html`(=`./contacts.html`) · 하위 `projects/index.html` · 상위 `../` · 사이트 루트 기준 `/pdfs/a.pdf`(파일을 옮겨도 안 깨진다). 내부 링크는 도메인 없이 쓰는 게 권장(이식성).
+- 조각 링크: 대상에 `id`, 링크는 `#id`(같은 문서) 또는 `other.html#id`.
+- 링크 텍스트: 「여기를 클릭」 금지 — 스크린 리더는 링크만 모아 읽고, 검색엔진은 링크 텍스트로 대상을 색인한다. URL·「링크」라는 말을 텍스트에 넣지 않는다.
+- 새 탭 `target="_blank"`: 뒤로 가기가 안 먹어 헷갈리고, 스크린 리더 사용자는 새 탭이 열린 걸 모를 수 있다 → 흔한 관례는 **외부 링크만 새 탭**, 그리고 아이콘·「(새 탭)」 같은 **표시를 붙인다**. `title`은 마우스 호버에만 보여 키보드·터치 사용자는 못 본다.
+- 기타: 다운로드 `download` 속성, 메일 `mailto:주소?subject=…&body=…`(값은 URL 인코딩).
+- **한국어판과 차이** (09-30 비교): 한국어 번역에는 「새 탭은 언제 여나」 절이 없고 `target="_blank"`는 동영상 예제에만 스치듯 나온다. 영어판에는 루트 기준 경로 `/`, URL이 서버 파일 경로로 바뀌는 과정(`index.html` 기본 페이지·끝 `/`의 의미)도 있다. **MDN은 영어판이 원본**이다.
+
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
 - MDN, [Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax) — doctype·head/body·void 요소·boolean 속성·엔티티 (2026-09-26 확인)
@@ -87,3 +96,4 @@ projects: []
 - MDN, [Viewport meta tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Viewport_meta_element) — 980px 가상 뷰포트, `width=device-width` 권장, `user-scalable=no` 접근성 경고 (2026-09-29 확인)
 - MDN, [`<meta name="viewport">`](https://developer.mozilla.org/ko/docs/Web/HTML/Reference/Elements/meta/name/viewport) — content 값 목록·범위·기본값, 접근성 경고 (홍이 준 링크, 2026-09-30 확인)
 - MDN, [Structuring documents](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Structuring_documents) — 다섯 칸과 시맨틱 태그, div/span, br/hr (홍이 준 링크, 2026-09-30 확인)
+- MDN, [Creating links](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links) — 경로·조각 링크·링크 텍스트·새 탭·mailto (홍이 준 링크, 2026-09-30 확인). [한국어판](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Structuring_content/Creating_links)은 새 탭 절 등이 빠진 번역 (2026-09-30 확인)
