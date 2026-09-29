@@ -4,8 +4,8 @@ area: JS
 audience: me
 status: active
 created: 2026-09-26
-updated: 2026-09-26
-aliases: [HTML 문서 구조, HTML 뼈대, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
+updated: 2026-09-29
+aliases: [HTML 문서 구조, HTML 뼈대, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
 projects: []
 ---
 
@@ -44,7 +44,18 @@ projects: []
 - 원문 요약이 위 핵심 정리다. 직접 해 볼 것(레슨의 Try it): 위 뼈대를 `index.html`로 저장 → Elements 탭에서 `head`·`body` 중첩 확인 → `<title>` 바꾸면 탭 제목, `<h1>` 바꾸면 본문이 바뀌는지 → `lang` 지워도 페이지는 돌지만 접근성 신호가 사라짐 → `data-author="you"`를 붙이면 화면엔 변화 없고 DevTools에만 보임 → HTML 검증기에 넣어 오류 고치기.
 - 원전과 대조: void 요소 목록은 HTML 표준에 13개로 정의돼 있다 — `area` `base` `br` `col` `embed` `hr` `img` `input` `link` `meta` `source` `track` `wbr`. 레슨은 그중 6개만 예로 든다.
 
+### 2026-09-29 — 「밀과 오븐」 빵집 미션 중 `<meta charset>`
+- 계기: 미션 `index.html`에 `<meat charset>` 오타 → 인코딩이 뭔지, 왜 `head`에 두는지 물었다. 붙여 준 블로그 글의 설명 「브라우저마다 인코딩 방식이 달라서 깨진다」는 반만 맞다.
+- **인코딩** = 글자 ↔ 바이트 변환 규칙. 파일에는 바이트만 저장된다. 「밀과 오븐」을 UTF-8로 저장하면 `eb b0 80 ea b3 bc 20 ec 98 a4 eb b8 90`이고, 같은 바이트를 다른 규칙으로 읽으면 깨진다(Python으로 확인):
+  - UTF-8 → `밀과 오븐` / windows-1252 → `ë°€ê³¼ ì˜¤ë¸�` / EUC-KR → `諛�怨� ��ㅻ��`
+- 그래서 정확한 원인은 **저장한 규칙과 읽는 규칙이 다를 때**다. 선언이 없으면 브라우저는 추측하고, 그 추측이 브라우저·언어 설정마다 다를 뿐이다.
+- 브라우저가 규칙을 정하는 우선순위: **BOM > HTTP `Content-Type` 헤더의 charset > `<meta charset>`**. 파일에 `utf-8`이라 써도 서버가 다른 charset을 보내면 서버가 이긴다.
+- `<meta charset>`은 **파일 앞 1024바이트 안에** 끝나야 한다 — 브라우저는 앞부분만 훑어 규칙을 정한 뒤 본문을 읽기 때문이다. 그래서 `<head>`를 열자마자 첫 줄에 둔다. 블로그 예제처럼 `<title>` 뒤에 둬도 짧으면 동작하지만, `<title>`의 한글이 이미 규칙 없이 읽힐 수 있어 첫 줄이 안전하다.
+- `meta`는 void 요소라 `</meta>`를 쓰면 **틀린 HTML**이다(MDN: 「must not have an end tag」). 블로그의 「안 써도 된다」보다 강하다.
+
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
 - MDN, [Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax) — doctype·head/body·void 요소·boolean 속성·엔티티 (2026-09-26 확인)
 - WHATWG HTML Living Standard, [Void elements](https://html.spec.whatwg.org/multipage/syntax.html#void-elements) — void 요소 13개의 정본 목록 (2026-09-26 확인)
+- MDN, [`<meta>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta) — charset 선언은 앞 1024바이트 안, void 요소라 닫는 태그 금지 (2026-09-29 확인)
+- W3C Internationalization, [Declaring character encodings in HTML](https://www.w3.org/International/questions/qa-html-encoding-declarations) — BOM > HTTP 헤더 > meta 우선순위, `head` 바로 뒤에 두라는 권고 (2026-09-29 확인)
