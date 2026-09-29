@@ -5,7 +5,7 @@ audience: me
 status: active
 created: 2026-09-26
 updated: 2026-09-29
-aliases: [HTML 문서 구조, HTML 뼈대, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
+aliases: [HTML 문서 구조, HTML 뼈대, strong, em, b vs strong, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
 projects: []
 ---
 
@@ -86,6 +86,13 @@ projects: []
 - 기타: 다운로드 `download` 속성, 메일 `mailto:주소?subject=…&body=…`(값은 URL 인코딩).
 - **한국어판과 차이** (09-30 비교): 한국어 번역에는 「새 탭은 언제 여나」 절이 없고 `target="_blank"`는 동영상 예제에만 스치듯 나온다. 영어판에는 루트 기준 경로 `/`, URL이 서버 파일 경로로 바뀌는 과정(`index.html` 기본 페이지·끝 `/`의 의미)도 있다. **MDN은 영어판이 원본**이다.
 
+### 2026-09-30 — MDN 「Emphasis and importance」 (빵집 미션 4단계 ① 앞)
+- `em` = **말할 때 힘주는 강조**. 힘준 단어가 바뀌면 뜻이 바뀐다(「I am *glad* you weren't *late*」 → 비꼬기). 기본 모양은 기울임.
+- `strong` = **중요함**(「highly toxic」「Do not be late!」). 기본 모양은 굵게. 둘 다 스크린 리더가 인식하고 억양을 바꿔 읽도록 설정할 수 있다. 서로 중첩 가능.
+- `i`·`b`·`u`는 HTML5에서 **모양이 아니라 관례적 의미**로 다시 정의됐다: `i` = 외국어·학명·기술 용어·속생각, `b` = 키워드·제품명·첫 문장, `u` = 고유명사·맞춤법 오류 표시. MDN: 더 알맞은 요소가 없을 때만 — 「대개 있다」.
+- 밑줄은 링크로 오해받으니 웹에선 링크에만. `big`·`font`는 모양만 바꾸는 폐기 요소.
+- 그래서 H3 질문의 답: `b`와 `strong`은 화면이 같아도 **의미가 다르다** — 알레르기 경고처럼 「중요하다」면 `strong`, 그냥 눈에 띄게 할 단어면 `b`.
+
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
 - MDN, [Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax) — doctype·head/body·void 요소·boolean 속성·엔티티 (2026-09-26 확인)
@@ -97,3 +104,4 @@ projects: []
 - MDN, [`<meta name="viewport">`](https://developer.mozilla.org/ko/docs/Web/HTML/Reference/Elements/meta/name/viewport) — content 값 목록·범위·기본값, 접근성 경고 (홍이 준 링크, 2026-09-30 확인)
 - MDN, [Structuring documents](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Structuring_documents) — 다섯 칸과 시맨틱 태그, div/span, br/hr (홍이 준 링크, 2026-09-30 확인)
 - MDN, [Creating links](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links) — 경로·조각 링크·링크 텍스트·새 탭·mailto (홍이 준 링크, 2026-09-30 확인). [한국어판](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Structuring_content/Creating_links)은 새 탭 절 등이 빠진 번역 (2026-09-30 확인)
+- MDN, [Emphasis and importance](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Emphasis_and_importance) — em·strong, i·b·u의 HTML5 의미 (홍이 준 링크, 2026-09-30 확인)
