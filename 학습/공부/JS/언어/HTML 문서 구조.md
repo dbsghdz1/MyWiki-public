@@ -61,6 +61,14 @@ projects: []
 - `user-scalable=no`는 비주얼 뷰포트 확대를 막는다 → 저시력 사용자가 못 읽는다. WCAG는 최소 2배 확대를 요구한다(MDN 경고). 그래서 검증기가 경고를 냈다.
 - 확인 방법: 콘솔에서 `innerWidth`(레이아웃 폭)·`visualViewport.width`(보이는 폭)·`document.documentElement.scrollHeight`(문서 길이) vs `innerHeight`(창 높이). **핀치 줌**(트랙패드 두 손가락)으로 확대하면 `visualViewport.width`만 줄어든다. **Cmd +**(브라우저 줌)는 다르다 — CSS 픽셀 자체를 키워서 레이아웃 뷰포트가 CSS px로 좁아지므로 `innerWidth`·`innerHeight`가 같이 준다(09-30 실험에서 `innerHeight`도 줄어 발견). DevTools를 아래에 붙여 열어도 창이 좁아져 `innerHeight`가 준다.
 
+### 2026-09-30 — MDN `<meta name="viewport">` 레퍼런스 정리
+- 표준 한 줄: `<meta name="viewport" content="width=device-width, initial-scale=1">`. `content`는 `이름=값`을 쉼표로 잇는다.
+- `width` = 레이아웃 뷰포트 폭(창문 폭). `device-width`는 기기 폭, 숫자면 px(1~10000). 숫자를 주면 그 폭이 **최소 폭**처럼 동작하고, 화면이 더 넓으면 브라우저가 창문을 넓힌다(확대하지 않고).
+- `initial-scale` = 처음 열 때 배율(기본 1, 0.1~10). `minimum-scale`·`maximum-scale` = 축소·확대 한계(기본 0.1·10).
+- `user-scalable` = 사용자 확대 허용(기본 yes). `no`·낮은 `maximum-scale`은 저시력 사용자를 막는다 — WCAG 최소 2배, 권장 5배.
+- `height`·`interactive-widget`(가상 키보드가 뜰 때 창문을 줄일지 덮을지, 실험적)는 거의 안 쓴다.
+- 고밀도 화면: `initial-scale=1`이어도 브라우저가 CSS 1px을 물리 픽셀 여러 개로 그린다(300dpi 이상 ≈ 2배) — 그래서 CSS px ≠ 화면 픽셀.
+
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
 - MDN, [Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax) — doctype·head/body·void 요소·boolean 속성·엔티티 (2026-09-26 확인)
@@ -69,3 +77,4 @@ projects: []
 - W3C Internationalization, [Declaring character encodings in HTML](https://www.w3.org/International/questions/qa-html-encoding-declarations) — BOM > HTTP 헤더 > meta 우선순위, `head` 바로 뒤에 두라는 권고 (2026-09-29 확인)
 - MDN, [Viewport(용어 사전)](https://developer.mozilla.org/ko/docs/Glossary/Viewport) — 레이아웃·비주얼 뷰포트 구분 (홍이 준 링크, 2026-09-29 확인)
 - MDN, [Viewport meta tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Viewport_meta_element) — 980px 가상 뷰포트, `width=device-width` 권장, `user-scalable=no` 접근성 경고 (2026-09-29 확인)
+- MDN, [`<meta name="viewport">`](https://developer.mozilla.org/ko/docs/Web/HTML/Reference/Elements/meta/name/viewport) — content 값 목록·범위·기본값, 접근성 경고 (홍이 준 링크, 2026-09-30 확인)
