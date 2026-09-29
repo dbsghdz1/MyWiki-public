@@ -5,7 +5,7 @@ audience: me
 status: active
 created: 2026-09-26
 updated: 2026-09-29
-aliases: [HTML 문서 구조, HTML 뼈대, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
+aliases: [HTML 문서 구조, HTML 뼈대, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
 projects: []
 ---
 
@@ -69,6 +69,14 @@ projects: []
 - `height`·`interactive-widget`(가상 키보드가 뜰 때 창문을 줄일지 덮을지, 실험적)는 거의 안 쓴다.
 - 고밀도 화면: `initial-scale=1`이어도 브라우저가 CSS 1px을 물리 픽셀 여러 개로 그린다(300dpi 이상 ≈ 2배) — 그래서 CSS px ≠ 화면 픽셀.
 
+### 2026-09-30 — MDN 「Structuring documents」 (빵집 미션 2단계 앞)
+- 페이지는 대개 다섯 칸: 머리말 `header` · 메뉴 `nav` · 본문 `main` · 옆 정보 `aside` · 바닥글 `footer`. 머리말·메뉴·바닥글은 사이트 모든 페이지에서 같고, **`main`만 페이지마다 다르다**.
+- `main` — 이 페이지에만 있는 내용. **페이지에 한 번**, `body` 바로 아래. `nav`는 **주요** 이동 링크만(부차 링크는 넣지 않는다).
+- `article` — 떼어 내도 혼자 말이 되는 덩어리(블로그 글 하나). `section` — 페이지의 한 기능 부분, **제목으로 시작**. 둘은 서로 안에 들어갈 수 있다 — 맥락이 정한다.
+- `aside` — 본문과 간접적으로만 관련된 것(용어 풀이·저자 소개·관련 링크). `header`·`footer`는 `body` 바로 아래면 페이지 전체용, `article`·`section` 안이면 그 절 전용.
+- `div`·`span`은 **의미 없는 포장지** — 맞는 시맨틱 태그가 없을 때만. 화면은 같아도 스크린 리더가 「본문으로 가기」「메뉴 찾기」를 태그로 한다(시각장애 인구 4~5%).
+- `br` = 주소·시처럼 줄을 강제로 끊어야 할 때만, 닫는 태그 없음(`</br>`은 에러). `hr` = 주제가 바뀌는 지점.
+
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
 - MDN, [Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax) — doctype·head/body·void 요소·boolean 속성·엔티티 (2026-09-26 확인)
@@ -78,3 +86,4 @@ projects: []
 - MDN, [Viewport(용어 사전)](https://developer.mozilla.org/ko/docs/Glossary/Viewport) — 레이아웃·비주얼 뷰포트 구분 (홍이 준 링크, 2026-09-29 확인)
 - MDN, [Viewport meta tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Viewport_meta_element) — 980px 가상 뷰포트, `width=device-width` 권장, `user-scalable=no` 접근성 경고 (2026-09-29 확인)
 - MDN, [`<meta name="viewport">`](https://developer.mozilla.org/ko/docs/Web/HTML/Reference/Elements/meta/name/viewport) — content 값 목록·범위·기본값, 접근성 경고 (홍이 준 링크, 2026-09-30 확인)
+- MDN, [Structuring documents](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Structuring_documents) — 다섯 칸과 시맨틱 태그, div/span, br/hr (홍이 준 링크, 2026-09-30 확인)
