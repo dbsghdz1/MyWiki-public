@@ -59,7 +59,7 @@ projects: []
 - 창은 둘이다. **레이아웃 뷰포트** = 페이지를 배치할 때 기준으로 쓰는 폭. `<meta name="viewport">`가 정하는 게 이것이다. **비주얼 뷰포트** = 지금 실제로 보이는 부분. 두 손가락으로 확대하면 비주얼만 작아지고 레이아웃은 그대로다.
 - meta가 없으면 폰은 레이아웃 뷰포트를 980px 같은 가짜 폭으로 잡고 그린 뒤 화면에 맞게 축소한다 — 모바일을 고려 안 한 옛 페이지가 안 깨지게 하려는 호환 동작. `width=device-width`가 이걸 끈다.
 - `user-scalable=no`는 비주얼 뷰포트 확대를 막는다 → 저시력 사용자가 못 읽는다. WCAG는 최소 2배 확대를 요구한다(MDN 경고). 그래서 검증기가 경고를 냈다.
-- 확인 방법: 콘솔에서 `innerWidth`(레이아웃 폭)·`visualViewport.width`(보이는 폭)·`document.documentElement.scrollHeight`(문서 길이) vs `innerHeight`(창 높이). 확대하면 `visualViewport.width`만 줄어든다.
+- 확인 방법: 콘솔에서 `innerWidth`(레이아웃 폭)·`visualViewport.width`(보이는 폭)·`document.documentElement.scrollHeight`(문서 길이) vs `innerHeight`(창 높이). **핀치 줌**(트랙패드 두 손가락)으로 확대하면 `visualViewport.width`만 줄어든다. **Cmd +**(브라우저 줌)는 다르다 — CSS 픽셀 자체를 키워서 레이아웃 뷰포트가 CSS px로 좁아지므로 `innerWidth`·`innerHeight`가 같이 준다(09-30 실험에서 `innerHeight`도 줄어 발견). DevTools를 아래에 붙여 열어도 창이 좁아져 `innerHeight`가 준다.
 
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
