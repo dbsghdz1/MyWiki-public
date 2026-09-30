@@ -5,7 +5,7 @@ audience: me
 status: active
 created: 2026-09-26
 updated: 2026-09-29
-aliases: [HTML 문서 구조, HTML 뼈대, ul, ol, dl, 목록, strong, em, b vs strong, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
+aliases: [HTML 문서 구조, HTML 뼈대, 빵집 미션, X-Frame-Options, blockquote, scope, ul, ol, dl, 목록, strong, em, b vs strong, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
 projects: []
 ---
 
@@ -97,6 +97,19 @@ projects: []
 - 판정 질문 하나: **항목 순서를 섞으면 뜻이 바뀌나?** 안 바뀌면 `ul`(점 목록 — 대표 메뉴, 장보기 목록), 바뀌면 `ol`(번호 목록 — 예약 절차, 레시피 단계). 「unordered」는 순서가 뒤섞인다는 게 아니라 **순서에 의미가 없다**는 뜻이다.
 - `dl` = 용어(`dt`)와 설명(`dd`)의 짝(용어 사전, 빵 용어 풀이).
 - 점·번호는 모양일 뿐이고 CSS로 바꿀 수 있다. 태그가 남기는 건 의미 — 스크린 리더는 「목록, 항목 4개」라고 먼저 알려 준다. 그래서 `p` 네 줄은 화면이 비슷해도 목록이 아니다.
+
+### 2026-10-01 — 빵집 미션을 끝내며 새로 잡은 것
+- **`section` vs `article`** = 신문의 「면」과 「기사」. 판정은 크기가 아니라 **오려서 다른 곳에 붙여도 말이 되나**. 대표 메뉴·영업시간·예약 절차 = `section`, 후기 한 개 = `article`(후기 `section` 안). 애매하면 `section`.
+- **`s` vs `del`**: 바뀐 가격처럼 「더는 맞지 않는 내용」은 `s`, 문서에서 지운 편집 기록은 `del`.
+- **`alt` vs `figcaption`**: `alt`는 사진 **대신** 읽히는 「보이는 모습」, 캡션은 모두에게 보이는 「이야기」 — 같은 문장을 두 번 쓰면 스크린 리더가 두 번 읽는다. `title`은 대체 텍스트가 아니다.
+- **인용**: 한 단락은 `blockquote`(안에 `p`), 문장 속 짧은 인용은 `q`.
+- **표 머리칸**: `th`도 `tr` 안. 윗줄은 `scope="col"`, 각 줄 첫 칸은 `scope="row"` → 스크린 리더가 「화~금, 오픈, 08:00」처럼 머리칸과 같이 읽는다. 절 제목 `h2`와 표 제목 `caption`은 따로.
+- **`iframe`이 빈칸** — 구글 지도 **페이지** 주소(`/maps/place/…`)는 응답에 `x-frame-options: SAMEORIGIN`을 실어 보내 브라우저가 거부한다(curl로 확인). 퍼가기용 `/maps/embed?pb=…`는 이 헤더가 없어 뜬다. **끼워 넣기를 막는 쪽은 넣어지는 사이트이고, 응답 헤더(X-Frame-Options, CSP `frame-ancestors`)로 막는다** — H7 질문의 답. 값 없는 `sandbox`는 스크립트까지 막아 지도가 안 그려진다. `width`는 숫자(px)만.
+- **폼 셋**: `label for` ↔ `input id` 짝 · `type`이 칸 종류와 브라우저 검사를 정함 · `name` 없는 칸은 전송 안 됨 · 파일 전송은 `method="post"` + `enctype="multipart/form-data"`(없으면 파일 이름만 간다) · `required`·`accept`는 편의, **조작할 수 있으니 서버에서 다시 검증**.
+- **엔티티 `&lt;`**: `<`는 이미 ASCII다 — 문제는 인코딩이 아니라 **태그 시작과 글자라는 두 역할이 겹치는 것**. JS 문자열의 `\"`와 같은 이스케이프. 번호로 `&#60;`도 된다. 역할 있는 글자는 `<` `>` `&` 셋.
+- **`defer` vs `async`**: 옵션은 `<script>` 태그 **하나마다** 붙는 양자택일. 둘 다 파싱과 **동시에 내려받고**(Network 탭에 `script.js`가 따로 받아진다), `defer`는 파싱이 끝난 뒤 **쓴 순서대로**, `async`는 **도착하는 순간** 파싱을 멈추고 실행(순서·DOM 보장 없음). 실험: `head`의 스크립트에서 `document.querySelector("footer")` → `defer`면 요소, 옵션 없음이면 `null`.
+- **스크린 리더**(맥 VoiceOver, Cmd+F5)는 화면을 못 보고 태그를 읽는다 — 시맨틱 태그를 「랜드마크」 목록으로 모아 본문·메뉴로 바로 이동시킨다. 그래서 시맨틱 태그는 화면이 아니라 **읽는 쪽**을 바꾼다(`header`·`main` 등은 기본 모양도 `div`와 같다).
+- 몰입: 단계마다 검증받는 방식이 맞았다. 폼(5단계)에서 「굳이 알아야 하나」 — 지루함 쪽 신호 → 핵심 셋만 코드로 받고 넘어가서 다시 붙었다.
 
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
