@@ -5,7 +5,7 @@ audience: me
 status: active
 created: 2026-09-26
 updated: 2026-09-29
-aliases: [HTML 문서 구조, HTML 뼈대, strong, em, b vs strong, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
+aliases: [HTML 문서 구조, HTML 뼈대, ul, ol, dl, 목록, strong, em, b vs strong, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
 projects: []
 ---
 
@@ -93,6 +93,11 @@ projects: []
 - 밑줄은 링크로 오해받으니 웹에선 링크에만. `big`·`font`는 모양만 바꾸는 폐기 요소.
 - 그래서 H3 질문의 답: `b`와 `strong`은 화면이 같아도 **의미가 다르다** — 알레르기 경고처럼 「중요하다」면 `strong`, 그냥 눈에 띄게 할 단어면 `b`.
 
+### 2026-09-30 — 목록 셋: `ul` · `ol` · `dl` (빵집 미션 4단계 ③·④)
+- 판정 질문 하나: **항목 순서를 섞으면 뜻이 바뀌나?** 안 바뀌면 `ul`(점 목록 — 대표 메뉴, 장보기 목록), 바뀌면 `ol`(번호 목록 — 예약 절차, 레시피 단계). 「unordered」는 순서가 뒤섞인다는 게 아니라 **순서에 의미가 없다**는 뜻이다.
+- `dl` = 용어(`dt`)와 설명(`dd`)의 짝(용어 사전, 빵 용어 풀이).
+- 점·번호는 모양일 뿐이고 CSS로 바꿀 수 있다. 태그가 남기는 건 의미 — 스크린 리더는 「목록, 항목 4개」라고 먼저 알려 준다. 그래서 `p` 네 줄은 화면이 비슷해도 목록이 아니다.
+
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)
 - MDN, [Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax) — doctype·head/body·void 요소·boolean 속성·엔티티 (2026-09-26 확인)
@@ -105,3 +110,4 @@ projects: []
 - MDN, [Structuring documents](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Structuring_documents) — 다섯 칸과 시맨틱 태그, div/span, br/hr (홍이 준 링크, 2026-09-30 확인)
 - MDN, [Creating links](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links) — 경로·조각 링크·링크 텍스트·새 탭·mailto (홍이 준 링크, 2026-09-30 확인). [한국어판](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Structuring_content/Creating_links)은 새 탭 절 등이 빠진 번역 (2026-09-30 확인)
 - MDN, [Emphasis and importance](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Emphasis_and_importance) — em·strong, i·b·u의 HTML5 의미 (홍이 준 링크, 2026-09-30 확인)
+- MDN, [Lists](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Lists) — ul·ol·dl과 중첩 (2026-09-26 확인)
