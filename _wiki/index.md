@@ -14,7 +14,7 @@ status: active
 | 페이지 | 목적 | 상태 | 갱신일 |
 |---|---|---|---|
 | [개인 프로젝트](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/README.md) | 개인 프로젝트의 상태와 진입점을 묶는 허브 | active | 2026-09-28 |
-| [BarStack](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md) | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-23 |
+| [BarStack](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md) | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-30 |
 | [BookMini](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BookMini/README.md) | MacBook을 맥미니처럼 상시 가동 호스트로 쓰게 하는 내부 도구 — 잠자기 방지·살아있음 감시·로그인 세션 점검 | active | 2026-09-23 |
 | [CoinPilot (MyCryptoDiary)](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) | 가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점 | active | 2026-09-28 |
 | [DayTune](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-09-05 |
@@ -35,7 +35,7 @@ status: active
 | 페이지 | 목적 | 상태 | 갱신일 |
 |---|---|---|---|
 | [학습](../%ED%95%99%EC%8A%B5/README.md) | 학습 활동 전체를 공부·아카이빙으로 연결하고 실습 세션 규칙을 정하는 허브 | active | 2026-09-23 |
-| [공부](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/README.md) | 다시 읽고 이해를 쌓는 개인 학습 노트 허브 | active | 2026-09-26 |
+| [공부](../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/README.md) | 다시 읽고 이해를 쌓는 개인 학습 노트 허브 | active | 2026-09-30 |
 | [아카이빙](../%ED%95%99%EC%8A%B5/%EC%95%84%EC%B9%B4%EC%9D%B4%EB%B9%99/README.md) | 비활성 학습 노트를 보존하는 아카이브 허브 | active | 2026-08-30 |
 | [작업노트](../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/README.md) | 다음 작업의 AI를 위한 재현 가능한 작업 경험 허브 | active | 2026-09-26 |
 

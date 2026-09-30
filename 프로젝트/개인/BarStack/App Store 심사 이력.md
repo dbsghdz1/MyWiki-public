@@ -4,7 +4,7 @@ status: active
 aliases:
   - BarStack 심사 이력
 created: 2026-07-22
-updated: 2026-09-23
+updated: 2026-09-30
 related_wiki: []
 sources:
   - "2026-07-22-apple-app-review-2-1-information-needed-barstack"
@@ -70,8 +70,16 @@ sources:
 | 1.1 (4) | 제출됨 (07-29) | **승인 → 출시** (07-30, 1회 통과) |
 | 1.1.1 (6) | 제출됨 (08-17 00:03) | **승인 → 출시** (08-17, 1회 통과) |
 | 1.1.2 (7) | 제출됨 (09-09) | **승인 → 출시** (09-10 01:44 KST, 1회 통과 — 2026-09-23 lint에서 확인) |
+| 1.1.3 (8) | 제출됨 (09-30 11:44 KST) | 심사 대기 (WAITING_FOR_REVIEW) |
 
 다음 갱신 시점: 다음 버전 제출 시. 상세한 재설계 경위는 [개발 기록](BarStack%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-07-22.md), 다음 버전 계획은 [로드맵](BarStack%20%EB%A1%9C%EB%93%9C%EB%A7%B5%EA%B3%BC%20%EC%9C%A0%EB%A3%8C%ED%99%94%20%EA%B3%84%ED%9A%8D.md) 참고.
+
+## 1.1.3 (8) — 2026-09-30 제출
+
+- **결과**: 제출 직후 `asc state 6792326039` → `WAITING_FOR_REVIEW`, build 8 VALID, en-US 스크린샷 4장(중복 없음). 자동 출시.
+- **담은 것**: ① macOS 27에서 Compact가 아무것도 숨기지 못하던 문제 — 27은 화면 폭 절반 이상인 상태 아이템을 빼 버려 10,000pt ‹ 핸들이 사라졌다. 27에서만 핸들을 좁은 화면 폭/2−64로 줄이고 길이 0 스페이서 6개로 폭을 메운다. 27에서 숨긴 아이콘 목록은 끔. ② **1.1.2에 출시된 버그** — 접힘 상태에서 목록이 항상 0개(`c880818`의 `genuineRow`가 늘어난 핸들을 버림). ③ 접은 뒤 배치 안내 문구가 남던 것, Peek 중 목록 문구. 원인·근거는 [macOS 메뉴바와 샌드박스](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Apple/macOS%20%EB%A9%94%EB%89%B4%EB%B0%94%EC%99%80%20%EC%83%8C%EB%93%9C%EB%B0%95%EC%8A%A4.md).
+- **미실측**: macOS 27 기기가 없어 27 동작은 Hidden Bar·Thaw의 실측에 기댔다. 27 사용자는 업그레이드 후 숨길 아이콘을 한 번 다시 ⌘-드래그해야 한다(새 autosave 이름). 출시 후 27 제보로 확인.
+- **절차 메모**: `upload` lane은 메타데이터를 건너뛰고 `submit` lane도 `skip_metadata: true`라 What's New가 안 올라간다. `fastlane deliver --api_key_path fastlane/asc_api_key.json --skip_binary_upload true --skip_screenshots true --build_number 8 --submit_for_review true`로 노트와 제출을 한 번에 했다. 코드: 커밋 `07aed98`, 브랜치 `fix/macos27-compact`(push, 미병합).
 
 ## 1.1.2 (7) — 2026-09-09 제출
 

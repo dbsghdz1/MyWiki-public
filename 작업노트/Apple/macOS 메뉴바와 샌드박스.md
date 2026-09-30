@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-16
-updated: 2026-09-09
+updated: 2026-09-30
 projects:
   - "BarStack"
   - "Zappy"
@@ -31,6 +31,18 @@ App Sandbox 안에서 다른 앱의 메뉴바 아이템을 "알아내는" 유일
 - **행을 `minY`로만 묶으면 디스플레이 두 대의 메뉴바가 한 행으로 합쳐진다.** `CGWindowListCopyWindowInfo`의 bounds는 주 디스플레이 기준 전역 좌표라, **두 디스플레이의 윗변이 맞춰져 있으면 진짜 행과 복제 행의 `minY`가 똑같이 0**이다. 그러면 `rows[Int(bounds.minY.rounded())]`가 둘을 한 행으로 만들고, 복제 행 전체가 우리 아이템 왼쪽에 놓인 것으로 읽혀 목록이 그대로 두 배가 된다. 세로 오프셋이 13pt만 있어도 안 겹치므로 **평소엔 멀쩡하다가 디스플레이 정렬을 맞추는 순간 재현된다.**
 - 병합된 띠에서 우리 행만 잘라내는 규칙: **중심점이 우리 디스플레이(`BarStack.main`이 있는 그 디스플레이) 안에 있거나, 화면 밖으로 밀려났으면 우리 ‹ 핸들에 붙어 있는 것만.** 두 번째 조건이 핵심이다 — 접힘 상태에서는 진짜 행도 복제 행도 스페이서(10,000pt)에 밀려 전부 음수 x에 있어서 "디스플레이 안"만으로는 못 가른다. 각자의 스페이서가 서로 다른 자리로 밀어내므로 **핸들에서 왼쪽으로 인접(gap ≤ 24pt)한 것만 따라가면** 우리 것만 남는다.
 - 재현·검증은 `CGConfigureDisplayOrigin`으로 보조 디스플레이를 옮겨서 한다(세션 즉시 반영, 되돌리기도 한 줄). 복제 행이 **왼쪽**에 오게 놓아야 재현된다 — 오른쪽이면 x가 한계선보다 커서 어차피 걸러진다.
+- **`genuineRow`에서 ‹ 핸들은 항상 남겨야 한다.** "중심점이 우리 디스플레이 안" 조건으로 거르면, 접혀서 5016pt로 늘어난 핸들의 중심점은 수천 pt 왼쪽 화면 밖이라 **핸들 자신이 빠진다** → `genuine.first(where: handleWindowName)`이 nil → 접힘 상태 목록이 항상 0개("Nothing is hidden right now"), 펼침에서만 정상. 1.1.2(`c880818`)가 이 상태로 출시됐다. 보조 디스플레이가 x>0에서 시작하든 내장 x=0이든 재현된다.
+
+### macOS 27 (Golden Gate) — 메뉴바가 창 하나
+직접 실측이 아니라 **Hidden Bar·Thaw의 macOS 27 실측과 코드**가 근거다(2026-09-30 확인, 아래 기록).
+- **아이템별 창이 없다.** `CGWindowListCopyWindowInfo`에는 전체 폭 `Window Server` 메뉴바 창 하나만 나오고 `MenuBarAgent`가 바를 소유한다. → 창 이름(번들 ID)·ScreenCaptureKit 창 캡처로 만든 숨긴 아이콘 목록은 27에서 성립하지 않는다.
+- **AX로는 읽히지만(`AXUIElementCreateApplication(MenuBarAgent).AXExtrasMenuBar`) 샌드박스가 막고**, 읽혀도 `AXPosition` settable=false·액션 없음이라 옮길 수 없다(Hidden Bar PR #371, 27.0 26A5368g).
+- **길이가 화면 폭 절반 이상인 NSStatusItem은 clamp가 아니라 바에서 제거된다.** 3008pt 화면에서 1480pt 유지·1500pt 제거(Hidden Bar #396, 27.0 26A428). 10,000pt 스페이서는 자기 자신이 사라져 아무것도 숨기지 못한다 — App Store판 Hidden Bar 증상 "자기 구분선만 숨음"과 같다.
+- **샌드박스에서 되는 우회**(Hidden Bar #396 방식, BarStack 1.1.3 채택): 길이 = `max(200, 가장 좁은 화면 폭/2 − 64)`, 부족한 폭은 핸들과 아이콘 사이의 길이 0 스페이서(`isVisible=false`로 슬롯 유지, 접을 때 `isVisible=true` + 같은 길이)로 메운다. 밀려난 아이콘은 화면 밖이 아니라 **시스템 오버플로 버튼**으로 들어간다.
+- **처음 보는 autosave 이름은 바 맨 왼쪽에 놓인다**, 이름 등록 순서대로. 스페이서가 핸들·아이콘 사이에 오려면 셋 다 새 이름(`.v27`)으로 아이콘 → 스페이서 → 핸들 순서로, 생성 직후 이름을 붙인다. 업그레이드 사용자는 숨길 아이콘을 한 번 다시 ⌘-드래그해야 한다.
+- 아이템이 창을 공유할 수 있으므로 순서 판정은 `button.window.frame`이 아니라 `window.convertToScreen(button.convert(button.bounds, to: nil))`.
+- 비샌드박스 도구의 27 경로: Hidden Bar 직접 배포판은 비공개 `MenuBarClientCore.framework`의 `MBAssessmentModeConfiguration(initWithAllowedSystemItems:allowedBundleIdentifiers:)` + `MBAssessmentModeAssertion activateWithConfiguration:`(시험 모드 허용 목록)로 숨기고, Thaw는 plist → CGS → AX → position-lock 다단계. **둘 다 MAS 불가.**
+- 증상 목록(Hidden Bar 이슈 #409·#414·#424·#436): 구분선 사라짐, 보이는 쪽에 둔 시스템 항목(Time Machine·Now Playing·Focus)까지 숨음 — 허용 목록 방식의 부작용.
 
 ## 기록
 
@@ -54,3 +66,9 @@ App Sandbox 안에서 다른 앱의 메뉴바 아이템을 "알아내는" 유일
   - `MaxCapacity`는 기종에 따라 퍼센트(100)로 오므로 mAh가 필요하면 `AppleRawMaxCapacity`(없으면 `NominalChargeCapacity`)를 쓴다. `Temperature`는 1/100 ℃, `Voltage`는 mV, `Amperage`는 mA(방전 시 음수)라 전력(W)은 `V × A / 1000`.
   - 새 배터리는 완충 용량이 설계 용량을 넘겨 보고된다(6360 / 6249 = 101.8%). 시스템 설정과 같게 보이려면 100%로 클램프해야 한다.
 - 근거: 애드혹 서명한 `BattTest.app`(sandbox entitlement만)으로 샌드박스 안/밖 동일 출력 확인 — 사이클 19, 설계 6249mAh, 완충 6360mAh, 30.84℃. 구현은 `Sources/CuteBattery/BatteryHealth.swift`, 커밋 `a791917`.
+
+
+### 2026-09-30 — macOS 27에서 Compact가 안 된다는 제보, 1.1.2 목록 버그
+- 맥락: [BarStack](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md)이 macOS 27에서 안 된다는 얘기. 이 맥은 26.5.1이라 재현 불가, UTM은 홍이 쓰지 않기로 해서 **외부 실측을 근거로** 고쳤다.
+- 배운 것: 위 「macOS 27」 절 전부 + `genuineRow` 핸들 항목.
+- 근거: Hidden Bar [#360](https://github.com/dwarvesf/hidden/issues/360)·[#371](https://github.com/dwarvesf/hidden/pull/371)·[#396](https://github.com/dwarvesf/hidden/pull/396), `hidden/Features/StatusBar/Engine/NativeVisibilityEngine.swift`·`Native/HBNativeVisibilityShim.m`, Thaw [#773](https://github.com/thaw-app/Thaw/pull/773)·[#753](https://github.com/thaw-app/Thaw/pull/753). BarStack 커밋 `07aed98`(1.1.3 build 8, 브랜치 `fix/macos27-compact`) — `MenuBarPlatform.swift` 신설. 목록 버그는 5K 외장(DELL P2723QE, x=605)에서 실측, 고친 뒤 접힘·펼침 모두 Orca 1개. **27 동작은 미실측** — 출시 후 27 사용자 제보로 확인할 것.
