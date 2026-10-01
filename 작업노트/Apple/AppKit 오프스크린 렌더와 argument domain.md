@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-09-01
-updated: 2026-09-04
+updated: 2026-10-01
 projects:
   - "Zappy"
 ---
@@ -38,3 +38,9 @@ projects:
 - 랜딩 카드 재생성: `lockFocus` 결과가 840×528 → `NSBitmapImageRep` 직접 그리기로 420×264.
 - `docs/theme-reference` 재생성에서 69개 노이즈 파일 되돌림; 풍선 레퍼런스 6장이 그동안 빠져 있었던 것도 이때 발견해 추가.
 - 근거: [Zappy 개발 기록 2026-09-04](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-09-04.md), 커밋 `6cda9c7`·`45a171a`·`e4a2b1b`.
+
+### 2026-10-01 — `-renderShots`는 폴더가 없으면 조용히 아무것도 안 남긴다 · `screencapture`는 권한 없이 좌표 에러처럼 죽는다 (Zappy 1.17)
+
+- `open Zappy.app --args -renderShots /tmp/x`에서 `/tmp/x`가 없으면 `try? ... write(to:)`가 실패하고 앱은 렌더 뒤 그대로 종료 — 폴더도 PNG도 안 생긴다. **`mkdir -p` 먼저.** 생기는 파일: `grid.png`·`paywall.png`·`report.png`·`onboarding.png`·`onboarding-2.png`(라이트 외관 고정). 온보딩 2페이지에 체크박스를 추가한 뒤 이걸로 영어 설명이 2줄을 넘는 걸 잡았다.
+- `screencapture -x -R x,y,w,h`가 **"could not create image from rect"** 로 실패하면 좌표 문제가 아니라 터미널(auto 모드 세션)에 화면 기록 권한이 없는 것이다. `-R`이 화면 밖이면 메시지가 다르다("does not intersect any displays" — Finder `bounds of window of desktop`은 여러 모니터 합집합이라 메인 화면 폭으로 쓰면 안 된다; `swift -e 'import AppKit; print(NSScreen.main!.frame)'`로 잰다). 메뉴바 라벨은 캡처 대신 스크린샷 생성기가 같은 L10n 함수로 그린 장으로 확인했다.
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.17 아이콘 옆 「남은 시각」 라벨 검증.

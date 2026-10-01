@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-20
-updated: 2026-09-15
+updated: 2026-10-01
 projects:
   - "Zappy"
   - "보험찾개냥"
@@ -81,3 +81,9 @@ infoPlist: .extendingDefault(with: [
 - 맥락: 탭탭 팀원 맥에서 build 8이 즉시 크래시. Distribution 서명 아카이브는 로컬 실행이 안 돼 `codesign --force --deep -s - --entitlements <sandbox+network만>`로 재서명해 띄웠다.
 - 배운 것: **App Group·iCloud entitlement를 뺀 재서명본은 샌드박스가 그룹 컨테이너 접근을 막아 `Core/AppGroupContainer.swift:29: Fatal error: Failed to initialize ModelContainer`(SQLite 23, `Sandbox access to file-read-data denied`)로 반드시 죽는다** — 원래 크래시와 무관한 거짓 재현이다. **이전 빌드(build 6)를 같은 방식으로 돌리는 대조군**을 두면 같은 자리에서 죽어 바로 가려진다. 게다가 한 번 실행한 재서명본은 LaunchServices에 등록돼 TestFlight 「열기」를 가로챈다(→ [TestFlight 기록](../AppStore/TestFlight%20%EB%82%B4%EB%B6%80%20%EA%B7%B8%EB%A3%B9%EA%B3%BC%20%EC%88%98%EC%B6%9C%20%EA%B7%9C%EC%A0%95.md)) — 끝나면 지우고 `lsregister -u`.
 - 근거: 재현 로그 두 벌(build 8·6 모두 `EXC_BREAKPOINT` · 프레임 `AppGroupContainer.shared` ← `MacApp.body.getter (TapTapMac.swift:49)`), build 6→8 `Info.plist` diff는 이름 2개·빌드 번호뿐.
+
+### 2026-10-01 — `strings`·바이트 검색으로 짧은 Swift 리터럴은 못 찾는다 (Zappy 1.17 너구리 삭제 검증)
+
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.17에서 너구리 테마를 지우고 릴리즈 산출물로 확인하려다 — `strings -a` 결과에 `모찌`(대조군)조차 0건, 바이트 검색(`open(bin,'rb').read().count('모찌'.encode())`)으로는 `모찌` 1건·`너구리` 0건·`W 충전기`(새 문자열) 0건.
+- 원인: ① `strings`는 ASCII 연속 문자열만 뽑는다 — 한글 리터럴은 애초에 안 나온다. ② Swift는 **UTF-8 15바이트 이하 문자열을 immediate(small string)로 코드에 인라인**하므로 데이터 섹션에 리터럴이 없다 — "W 충전기"(11바이트)는 바이트 검색으로도 0건. "너구리" 0건이 삭제의 증거가 아니라 원래 안 보이는 것일 수 있다.
+- 적용: 산출물 검증은 **16바이트 이상의 특징적인 리터럴**(긴 문장·식별자 `menuBarLabel` 같은 ASCII 심볼)로 하고, 대조군도 같은 조건으로 고른다. 짧은 한글은 소스 grep + 빌드 성공으로 대신한다. 1.7의 `strings | grep '^mouseEntered'`가 통했던 건 ASCII 셀렉터 이름이라서다.
