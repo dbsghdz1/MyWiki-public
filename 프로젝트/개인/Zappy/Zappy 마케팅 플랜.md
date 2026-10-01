@@ -301,7 +301,7 @@ iTunes Search API(`entity=macSoftware`, 상위 50)로 5개 스토어프런트를
 - 심사 노트: 너구리 삭제 명시(저장 테마 폴백), 리포트 무료화, 표시 옵션 경로
 
 ### 9. 피처링 노미네이션 — 전문 (복붙용)
-1.17 제출과 함께 `App Enhancements` 1건(위 표). **10-01 16:20 Aside로 제출 시도 → ASC가 Apple 계정 로그인(2FA)을 요구해 미제출.** 홍이 ASC에 로그인한 뒤 Aside 세션을 이어가거나(`aside session resume 2026-10-01_T3F5q76zzuuFnTYK "로그인했어, 이어서"`), 아래를 ASC → Featuring → Nominations에 직접 넣는다. CSV 일괄 업로드는 초안 없이 즉시 제출되니 개별 생성으로.
+1.17 제출과 함께 `App Enhancements` 1건(위 표). **10-01 16:20 Aside로 제출 시도 → ASC가 Apple 계정 로그인(2FA)을 요구해 미제출.** 홍이 ASC에 로그인한 뒤 Aside 세션을 이어가거나(`aside session resume T3F5q76zzuuFnTYK "로그인했어, 이어서"` — 세션 ID는 `aside session list`에 뜨는 16자(날짜 접두 없음), 16:40 재시도도 같은 로그인 화면(이메일만 채워진 상태)에서 멈췄다), 아래를 ASC → Featuring → Nominations에 직접 넣는다. CSV 일괄 업로드는 초안 없이 즉시 제출되니 개별 생성으로.
 
 | 필드 | 값 |
 |---|---|
