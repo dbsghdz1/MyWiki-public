@@ -65,7 +65,7 @@ ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Laun
 |---|---|---|---|
 | 1.7.0 — Zappy+ 강화 | App Enhancements | 데스크톱 펫·배터리 리포트·위젯 라지/테마 선택. "메뉴바 밖으로 나온 캐릭터"가 그림이 되는 소재 | **1.7.0 제출과 함께** ⬜ |
 | 할로윈 시즌 테마 | New Content | 유령 소멸 문법의 할로윈 변형(호박 유령·마녀 모자) | 10월 초 출시 목표 → **9월 중순까지** ⬜ |
-| 1.17 — 배터리 러너웨이 | App Enhancements | 남은 시각·충전기 W를 메뉴바에, 리포트 무료화. "Apple이 안 보여주는 숫자"가 소재 | **1.17 제출과 함께** ⬜ |
+| 1.17 — 배터리 러너웨이 | App Enhancements | 남은 시각·충전기 W를 메뉴바에, 리포트 무료화. "Apple이 안 보여주는 숫자"가 소재 — 전문은 ASO §9 | 1.17 제출(10-01) · **ASC 로그인에 막혀 미제출, 홍 로그인 후** ⬜ |
 | 크리스마스 시즌 테마 | New Content | 눈사람 산타 모자·트리 배터리. 3D 눈사람 에셋 재활용 | 11월 중순 ⬜ |
 
 작성 요령: 상세 설명에 **무엇이 새로운지 + 왜 지금인지 + 시각적으로 무엇이 보이는지**를 적는다. Zappy는 "전부 코드로 그린 벡터 캐릭터, 0.8MB, 네트워크 0" 같은 장인적 디테일이 에디토리얼이 좋아하는 각이다.
@@ -300,8 +300,28 @@ iTunes Search API(`entity=macSoftware`, 상위 50)로 5개 스토어프런트를
 - 프로모션 텍스트: 1.17 출시 시점 문구 → 할로윈(10월 말)·크리스마스(12월) 시즌마다 심사 없이 교체. 1.16까지 1.2 시절 문구가 7개월 남아 있던 실수를 반복하지 않도록 **시즌 캘린더 항목에 "프로모션 텍스트 교체"를 붙인다**
 - 심사 노트: 너구리 삭제 명시(저장 테마 폴백), 리포트 무료화, 표시 옵션 경로
 
-### 9. 피처링 노미네이션
-1.17 제출과 함께 `App Enhancements` 1건(위 표). 설명 초안: "Battery Runway — Mac's menu bar now shows the time your battery lasts until (e.g. 16:40) and what your charger actually delivers (90 W adapter, charging at 40 W). The battery report (cycles, capacity, temperature, 7-day habits) is now free. Every character is drawn in code — 0.8 MB, no network, one permission."
+### 9. 피처링 노미네이션 — 전문 (복붙용)
+1.17 제출과 함께 `App Enhancements` 1건(위 표). **10-01 16:20 Aside로 제출 시도 → ASC가 Apple 계정 로그인(2FA)을 요구해 미제출.** 홍이 ASC에 로그인한 뒤 Aside 세션을 이어가거나(`aside session resume 2026-10-01_T3F5q76zzuuFnTYK "로그인했어, 이어서"`), 아래를 ASC → Featuring → Nominations에 직접 넣는다. CSV 일괄 업로드는 초안 없이 즉시 제출되니 개별 생성으로.
+
+| 필드 | 값 |
+|---|---|
+| Nomination name | `Zappy 1.17 — Battery Runway: the numbers macOS hides, free` |
+| Type · Platform | App Enhancements · macOS |
+| Expected publish date | 2026-10-03 (1.17.0은 승인 즉시 자동 출시) |
+| Countries · Localizations | 전체 · ko·en·ja·es·zh-Hant |
+| Related links | App Store `https://apps.apple.com/app/id6794384033` · Support(메타데이터 `support_url.txt`) |
+
+Description:
+
+> Zappy turns the battery in the Mac menu bar into a living character — 18 characters whose face and shape change with the charge (the moon wanes, the snowman melts, the balloon deflates). Every character is drawn in code: 0.8 MB, no image assets, App Sandbox, no network, one permission.
+>
+> Version 1.17 "Battery Runway" adds the numbers macOS hides from the menu bar — all free:
+> • Time Left: next to the character, the clock time the battery lasts until (e.g. "4:40 PM"), or the time it will be full while charging.
+> • Charger line: the adapter's rated wattage and the real charging wattage ("90 W charger · charging at 40 W"), with a note when the charger is the bottleneck.
+> • The Battery Report — charge cycles, maximum capacity, temperature, 24-hour graph and 7-day charging habits — moves from the paid tier to free.
+> Also new: a 2D Desktop Pet (Zappy+) — the selected character lives on the desktop, can be dragged anywhere and optionally wanders; it rests in its charging scene while plugged in.
+>
+> Why it is a good fit for featuring: a tiny, private, hand-crafted utility that is now genuinely useful for every MacBook owner, not only cute. Fully localized in 5 languages. Seasonal characters (Pumpkin for Halloween) ship as free updates to Zappy+ owners.
 
 ### 10. 2단계 (14일 판정 통과 시)
 - **zh-Hans(중국) 로컬라이즈** — 'battery' 결과 상위에 `Battery-电池健康充电保护管理` 등 중국 개발사 앱이 5개 스토어 전부에 들어와 있다 = 중국 Mac 사용자 수요가 크다. zh-Hant가 있어 변환은 기계적이나 용어(選單列→菜单栏·小工具→小组件)는 손봐야 한다. 1.17에 안 넣는 이유: 14일 판정에 변수를 섞지 않기 위해
