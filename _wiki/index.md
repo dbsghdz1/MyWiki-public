@@ -23,7 +23,7 @@ status: active
 | [Subly](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Subly/README.md) | macOS 실시간 자막·번역 앱 실험의 작업 진입점 | paused | 2026-09-05 |
 | [Tripbox](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Tripbox/README.md) | 가고 싶은 곳 링크를 둘이 공유해 두면 AI가 일정과 근처 현지 맛집을 정리해 주는 iOS 여행 앱 | active | 2026-09-24 |
 | [WristNote](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-09-23 |
-| [Zappy](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-10-01 |
+| [Zappy](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-10-02 |
 | [논문표](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EB%85%BC%EB%AC%B8%ED%91%9C/README.md) | 설문 엑셀을 올리면 한국 학위논문 양식의 통계표와 해석문을 만들어 워드로 내보내는 웹 서비스 | active | 2026-09-26 |
 | [약국맵](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | paused | 2026-09-22 |
 | [오늘 본 장면](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) | 해외 CC BY 영상에 한국어 대사 자막을 입혀 매일 올리는 유튜브 쇼츠 채널과 그 제작·게시 자동화 | active | 2026-09-27 |

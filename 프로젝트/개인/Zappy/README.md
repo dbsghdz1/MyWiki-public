@@ -8,7 +8,7 @@ aliases:
   - CuteBattery
   - 귀여운 배터리
 created: 2026-07-23
-updated: 2026-10-01
+updated: 2026-10-02
 slack_channel: 22-개인-zappy
 repos:
   - "github.com/dbsghdz1/Zappy"
@@ -21,7 +21,7 @@ related_wiki: []
 - **단계**: 운영
 - **현재**: **1.17.0 (build 27) 제출, WAITING_FOR_REVIEW**(10-01 16:12 KST, `asc state` 5로케일 × 5장 확인) — 펫 2D + 배터리 러너웨이(아이콘 옆 남은 시각·충전기 W·리포트 무료) + 너구리 삭제(18종) + 스토어 이름 5로케일 변경. main `6b34beb`. 1.15.0 READY_FOR_SALE — [개발 기록 10-01](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-10-01.md) · [심사 이력](App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md) · [ASO 설계](Zappy%20%EB%A7%88%EC%BC%80%ED%8C%85%20%ED%94%8C%EB%9E%9C.md)
 - **다음 판정**: 1.17 출시 후 14일 다운로드 ≥ 직전 14일 × 1.5 → 2단계(캘린더 「오늘 버틸까」·zh-Hans) 착수, 미만이면 유틸 추가 중단·캐릭터/시즌 복귀. 전환율은 하한선만 — [로드맵 1.17 결정 8](Zappy%20%EB%A1%9C%EB%93%9C%EB%A7%B5%EA%B3%BC%20%EC%9C%A0%EB%A3%8C%ED%99%94%20%EA%B3%84%ED%9A%8D.md)
-- **지금 할 일**: ASC Featuring → Nominations에 `App Enhancements` 1건(문구는 마케팅 플랜 ASO §9) · 승인되면 `asc state`로 확인하고 14일 측정 시작(직전 14일 다운로드를 ASC 앱 분석에서 먼저 적어 둘 것)
+- **지금 할 일**: 1.17.0 승인 확인(`asc state 6794384033`) → ASC 앱 분석에서 직전 14일 다운로드를 적고 14일 측정 시작. 노미네이션은 홍이 나중에 직접(전문: 마케팅 플랜 ASO §9)
 - **하지 않을 일**: 14일 판정 전 캘린더·zh-Hans 착수, 기존 18종 소급 수정, 유료 광고
 
 macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다. 핵심 문법은 **"잔량 = 표정과 형태"** — 달이 이지러지고, 눈사람이 녹고, 불꽃이 사그라들어서 숫자를 읽지 않아도 배터리 상태가 한눈에 보인다. 리포지터리·내부 코드명은 `CuteBattery`, 사용자에게 보이는 제품명은 Zappy다.
