@@ -111,7 +111,7 @@ related_wiki: []
 
 ### 1.17 — 「배터리 러너웨이」: 무료 = Apple이 숨긴 숫자, 결제 = 캐릭터 (2026-10-01 굳힘)
 
-홍 "이 앱을 설치해야만 하는 이유 — 배터리 주요 기능을 넣고 어쩔 수 없이 쓰게 만들고, 캐릭터는 추가 결제". `/grilling`으로 8개 결정을 한 번에 하나씩 굳혔다. 1.16.0(펫) 승인 뒤 착수.
+홍 "이 앱을 설치해야만 하는 이유 — 배터리 주요 기능을 넣고 어쩔 수 없이 쓰게 만들고, 캐릭터는 추가 결제". `/grilling`으로 8개 결정을 한 번에 하나씩 굳혔다. ~~1.16.0(펫) 승인 뒤 착수.~~ → **홍 결정(10-01 오후): 1.16을 따로 내지 않고 펫 + 러너웨이를 1.17 하나로 제출한다.** main의 1.16.0 build 27 준비물(펫 크기 축소·돌아다니기 토글·Dock 배치·메타데이터)은 그대로 1.17.0으로 승계.
 
 **출발점(실측, 2026-10-01 이 맥 `ioreg -rn AppleSmartBattery`)** — 전부 샌드박스 안에서 entitlement 없이 읽힌다([근거](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Apple/macOS%20%EB%A9%94%EB%89%B4%EB%B0%94%EC%99%80%20%EC%83%8C%EB%93%9C%EB%B0%95%EC%8A%A4.md)):
 `AdapterDetails.Watts=90, Description="pd charger"` · `Amperage=3198mA × Voltage=12.5V ≈ 40W 실제 충전` · `AvgTimeToFull=68` · `TimeRemaining=68` · `CycleCount=41` · `AppleRawMaxCapacity 5773 / DesignCapacity 6249 = 92%` · `BatteryData.DailyMinSoc=20 / DailyMaxSoc=80`. Apple은 메뉴바에서 남은 시간을 뺐고 충전기 W는 어디에도 안 보여준다 — 그 자리를 하루 수십 번 보는 메뉴바 한 줄로 채우면 지우지 않게 된다는 가설.
@@ -137,7 +137,7 @@ related_wiki: []
 - 메뉴 충전기 줄: `AdapterDetails.Watts`·`Description`, 실제 W = `Amperage×Voltage`, 맥 최대 수용 W는 `UsbHvcMenu` 최대 항목 또는 모델별 표(실측 뒤 결정)
 - 리포트·충전 습관 게이트 해제(`isPlus` 분기 제거), 페이월 혜택 줄 재정렬
 - 스크린샷 `4_shot` → 유틸 메뉴 장으로 교체, 5로케일 재생성
-- 평점 요청 `SKStoreReviewController.requestReview` 1회(리포트 3번째 열람 시) — ASO 설계 참조
+- 평점 요청 `SKStoreReviewController.requestReview` 1회 — 설치 7일 이상 + 메뉴를 연 순간(ASO 설계 §6, 리포트 3번째 열람안은 폐기)
 - 피처링 노미네이션 `App Enhancements` 1건, 제출과 함께
 
 ### 시즌 테마 캘린더 (2026-08-15 확정) — 연 5회, 개발 반나절 + 마케팅 이벤트 1회씩

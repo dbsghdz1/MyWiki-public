@@ -213,50 +213,110 @@ ASC → 앱 → 사이드바 `Featuring` → `Nominations`. 유형은 **App Laun
 >
 > US App Store 페이지(apps.apple.com/us/app/zappy/id6794384033)는 In-App Purchase를 **Zappy+ $1.99**로 보여준다. 이 문서의 PH·Reddit 문구와 로드맵은 **$2.99**다. 영어 문구를 쓰기 전에 ASC 가격표로 확인하고 고친다.
 
-## ASO 설계 (2026-10-01, 1.17 적용)
+## ASO 설계 (2026-10-01, 1.17 적용 — 실측 기반 재작성)
 
-[로드맵 1.17](Zappy%20%EB%A1%9C%EB%93%9C%EB%A7%B5%EA%B3%BC%20%EC%9C%A0%EB%A3%8C%ED%99%94%20%EA%B3%84%ED%9A%8D.md)의 결정 7("서브타이틀 유지, 설명문·스크린샷으로 설치 이유")을 메타데이터 필드별로 푼 것. Mac 전용이라 Apple Ads·인앱 이벤트·커스텀 제품 페이지가 없으므로([근거](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/App%20Store%20%EC%84%B1%EC%9E%A5%20%EB%8F%84%EA%B5%AC.md)) **검색 노출은 이름·서브타이틀·키워드 100자가 전부**이고, 전환은 스크린샷 1~2장과 설명문 첫 3줄이 결정한다.
+[로드맵 1.17](Zappy%20%EB%A1%9C%EB%93%9C%EB%A7%B5%EA%B3%BC%20%EC%9C%A0%EB%A3%8C%ED%99%94%20%EA%B3%84%ED%9A%8D.md) 결정 7의 상세. 홍 "모델 바꿨으니 성공할 정도로 ASO 설계를 해줘". 추측 대신 **스토어를 직접 재고** 설계했다. 아래 수치는 전부 2026-10-01 실측이며, 재는 명령은 끝의 「측정 절차」에 있다.
 
-### 원칙
-- **검색 색인은 이름(30)·서브타이틀(30)·키워드(100)·IAP 표시명**. 설명문·What's New는 색인되지 않는다 — 설명문은 전환용으로만 쓴다.
-- 키워드는 쉼표만, 공백 없이. **이름·서브타이틀에 이미 있는 단어는 키워드에 다시 넣지 않는다**(자리 낭비). "Mac"·"app"·경쟁 앱 이름은 넣지 않는다.
-- 이름에 들어간 단어가 가장 무겁다. 이름 변경은 심사를 타지만 서브타이틀·키워드와 함께 1.17 제출에 묶으면 추가 비용 0.
-- **프로모션 텍스트(170)는 심사 없이 수시 교체** — 시즌·버전마다 갱신한다. 1.16까지 1.2 시절 문구("잔량 % 표시, 5개 언어")가 남아 있었다 → 10-01 펫 문구로 교체(`3521c80`).
-- 서브타이틀은 브랜드 자산이라 5로케일 모두 유지(결정 7).
+### 1. 진단 — 지금 Zappy는 검색에 거의 안 잡힌다
 
-### 로케일별 후보 (글자 수 검증 완료, 적용은 1.17 제출 때)
+iTunes Search API(`entity=macSoftware`, 상위 50)로 5개 스토어프런트를 검색한 결과. 이 API의 순서는 스토어 검색 순위 그대로는 아니지만 관련성+인기의 근사치로 쓴다.
 
-| 로케일 | 이름(≤30) | 서브타이틀(유지) | 키워드(≤100) |
+| 스토어 | 현재 이름 | 평점 | 검색어 → Zappy 위치 (상위 50 안) |
 |---|---|---|---|
-| ko | `Zappy: 배터리 캐릭터 · 남은 시각` (22) — 현재 `Zappy` 5자로 키워드 0개 | 배터리가 표정이 되는 메뉴바 | `잔량,남은시간,충전,충전기,사이클,수명,건강,상태,퍼센트,위젯,펫,테마,귀여운,아이콘,battery,charger,cycle` (69) — 한국 스토어는 영어 검색도 많아 영어 3개 포함 |
-| en-US | `Zappy: Cute Battery, Time Left` (30) — 현재 `Zappy: Cute Battery` | Cute battery for your menu bar | `health,cycle,charge,charger,watts,percentage,remaining,monitor,widget,pet,character,theme,kawaii` (96) — 현재 키워드의 battery·menubar·cute는 이름·서브타이틀과 중복이라 제거 |
-| ja | `Zappy: かわいいバッテリー・残り時間` (19) | バッテリーが表情になるメニューバー | `残量,充電,充電器,サイクル,寿命,状態,パーセント,ウィジェット,ペット,キャラクター,テーマ,電池,アイコン` |
-| es-ES | `Zappy: Batería con carita` (유지) | Tu batería, ahora con carita | `tiempo restante,carga,cargador,vatios,ciclos,salud,estado,porcentaje,widget,mascota,personaje,tema,lindo` |
-| zh-Hant | `Zappy: 有表情的電池・剩餘時間` (18) | 讓電池有表情的選單列 | `電量,充電,充電器,循環,健康,壽命,狀態,百分比,小工具,寵物,角色,主題,可愛,圖示` |
+| US | `Zappy: Cute Battery` | 0개 | battery ✗ · battery health ✗ · battery menu bar ✗ · battery time remaining ✗ · **cute battery 37위** · desktop pet ✗ |
+| KR | `Zappy` (5자) | 0개 | battery ✗ · 배터리 37위 · 배터리 상태 27위 · 배터리 수명 38위 · 충전 24위 · 배터리 위젯 29위 · 메뉴바 ✗ · 귀여운 ✗ |
+| JP | `Zappy: かわいいバッテリー` | 0개 | battery ✗ · バッテリー ✗ · 電池 27위 · 充電 29위 · かわいい 35위 |
+| ES | `Zappy: Batería con carita` | 0개 | battery ✗ · batería 21위 · barra de menús ✗ |
+| TW | `Zappy: 有表情的電池` | 0개 | battery ✗ · 電池 35위 · 充電 24위 · 選單列 ✗ |
 
-- **IAP 표시명**도 색인된다. `Zappy+`만으로는 검색 가치 0 — 1.17 때 `Zappy+ — 모든 캐릭터와 컬러` 식으로 바꿀지 검토(표시명 변경은 IAP 심사).
-- 키워드 효과 측정은 ASC → 앱 분석 → **검색 노출(Impressions)·제품 페이지 조회 → 다운로드 전환율**. 14일 판정(로드맵 결정 8)과 같은 창으로 본다.
+읽는 법:
+- **이름이 가장 무거운 레버라는 것이 실측됐다.** US 'battery' 상위 8개 중 6개가 평점 0개인데도 1~6위다 — 전부 이름이 `Battery Monitor: Health, Info`, `Battery Health 2: Stats & Info`, `Battery Alerts & Health: Juicy`처럼 **키워드 조합**이다. Apple 문서도 관련성 기준을 "title, subtitle, keywords, primary category"로 못 박는다(§2).
+- 그런데 이름에 `Cute Battery`가 든 US에서도 'cute battery' 37위 — 텍스트만으론 안 되고 **행동 신호(다운로드·평점)가 0**이라 밀린다. 평점 0개가 5개 스토어 공통의 가장 큰 구멍이다.
+- KR 이름 `Zappy`는 30자 중 25자를 버리고 있다. '배터리'에서 37위인 이유.
+- **Mac에서 "귀여운 배터리" 니치는 비어 있다** — US 'cute battery'·KR '귀여운'·JP 'かわいい' 상위에 배터리 캐릭터 앱이 하나도 없다. 경쟁이 없다는 뜻이자 수요가 작다는 뜻이기도 하다. 그래서 이름은 **기능어(battery·남은 시각) + 니치어(cute·캐릭터)** 둘 다 실어야 한다.
+- 수요 검증: 'battery time remaining'에 `Battery Clock: Remaining Time`·`Battery Time Menu Bar`($2.99)·`Simple Battery Monitor`(남은 시간 표시가 설명문 첫 줄)가, 'charger'에 `Charger Wattage`($0.99)·`Watt - Displays Wattage`·JP `WattageViewer`가 있다 — 1.17이 무료로 주는 두 숫자(남은 시각·충전기 W)에 **유료로 파는 단독 앱이 이미 있다.**
 
-### 설명문 구조 (5로케일 동일)
-1. 첫 3줄(펼치기 전에 보이는 전부): 현재 "숫자로만 보던 배터리, 이제 표정으로" 유지하되 **둘째 문단을 "메뉴바에 남은 시각·충전기 W, Apple이 안 보여주는 숫자를 무료로"** 한 문장으로 교체
-2. `◆ Apple이 안 보여주는 숫자` — 남은 시각·충전기 W·실제 충전 W·리포트(사이클·최대 용량·온도)·충전 습관. **전부 무료** 명시. 테마 목록 **위**
-3. `◆ 테마 18종` (너구리 제외)
-4. 이하 현행(모노크롬·기능·Zappy+·가볍고 조용하게·무료로 시작) — Zappy+ 절에서 리포트·습관 줄을 빼고 "무료로 시작" 문단의 무료 테마를 7종으로
-- es-ES는 4,000자 한계가 빡빡하다(1.16에서 3,974) — 섹션을 넣으면 테마 설명 줄을 줄여야 한다
+**검색창 자동완성(실제 사용자 문구)** — Mac 전용 자동완성 API는 없어서 iOS App Store 자동완성을 수요 문구의 근사치로 썼다(플랫폼이 다르니 문구 선택에만 쓴다):
+- KR: `배터리 성능` · `배터리 위젯` · `배터리 충전 속도` · **`배터리 꾸미기`** · `배터리 라이프` · `충전속도`
+- US: `battery life` · `battery widget` · `battery monitor` · `battery temperature` · **`cute battery widget`** · `charger test` · `desktop pet`
+- JP: `バッテリー残量` · `バッテリー寿命` · `バッテリー残量パーセント表示ウィジェット` · `充電速度`
+- TW: `電池健康度` · `電池壽命` · `電池顯示` · **`充電瓦數`** · `充電功率` · `充電速度`
+- ES: `batería baja` · `nivel de batería bajo` · `animación de carga de batería`
 
-### 스크린샷 (코드 생성, `docs/store-screenshots/generate.swift`)
-현재 0 히어로 · 1 "19가지 캐릭터" · 2 잔량=표정 · 3 모노크롬 · 4 "필요한 기능은 전부, 담백하게"(메뉴 + 알림 설정).
-- **4번 교체**: 메뉴를 연 실제 화면 — 아이콘 옆 "16:40", 메뉴 첫 줄 "16:40까지 · 2시간 10분", 충전기 줄 "90W 충전기 · 40W로 충전 중". 캡션 "Apple이 안 보여주는 숫자, 무료로"
-- **순서 추천**: 0 히어로 → **새 유틸 장을 1번으로** → 캐릭터 18종 → 잔량=표정 → 모노크롬. 스토어는 1~2장만 펼치기 전에 보인다. (순서는 내 추천 — 홍 미결)
-- 1번 캡션 "19가지" → "18가지" 5로케일
-- 2.3.3 규칙 그대로: 실제 UI 캡처 위주, 합성 금지
+### 2. Apple이 명시한 규칙 (2026-10-01 확인)
+- 검색 관련성 = **이름(30자)·서브타이틀(30자)·키워드(100자)·기본 카테고리** + 사용자 행동(다운로드·평점·리뷰). 출처: [App Store Search](https://developer.apple.com/app-store/search/)
+- 키워드는 쉼표 구분·쉼표 뒤 공백 없음, 구 안의 공백은 허용(`Real Estate`). 출처: [Product Page](https://developer.apple.com/app-store/product-page/)
+- **프로모션 텍스트(170자)는 검색 순위에 영향 없음**, 심사 없이 수시 교체 가능 — "키워드 자리로 쓰지 말 것". 설명문(4,000자)도 "검색을 노려 키워드를 넣지 말 것" — 둘 다 전환용
+- ASC 레퍼런스는 키워드를 "100 bytes"라 적지만, 현재 ko 키워드 66자(UTF-8로 170바이트 초과)가 업로드돼 있으므로 **실제 한도는 100자**다
+- Mac은 Apple Ads·인앱 이벤트·커스텀 제품 페이지·제품 페이지 최적화(A/B)가 없다([근거](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/App%20Store%20%EC%84%B1%EC%9E%A5%20%EB%8F%84%EA%B5%AC.md)) — 텍스트·스크린샷·평점·피처링이 전부
 
-### 평점
-- `SKStoreReviewController.requestReview()` — 시스템이 연 3회로 제한하는 공식 창. **리포트를 3번째 여는 순간 1회**(리포트가 무료가 된 뒤 가장 "고마운" 순간). 1.13 원칙(재방문 알림·팝업 없음)과 충돌하지 않는 이유: 사용자가 메뉴를 연 흐름 안에서만 뜨고 시스템 창이다.
-- 리뷰 답글은 ASC에서 전부 단다(답글은 공개 페이지에 노출 → 전환 요소).
+### 3. 전략 — 레버 3개, 순서대로
+1. **텍스트 관련성**: 이름에 기능어+니치어, 서브타이틀은 브랜드 문장(이름과 중복 없이), 키워드 100자는 이름·서브타이틀에 없는 단어만
+2. **행동 신호**: 평점 0 → 시스템 평점 요청 1회(§6). 이름을 고쳐도 평점 0이면 37위 → 20위 정도에서 멈춘다
+3. **전환**: 스크린샷 1~2장(검색 결과에 함께 노출)과 설명문 첫 3줄
 
-### What's New
-색인 안 됨. 역할은 **기존 사용자의 업데이트 → 리뷰**. 1.17 첫 줄은 "배터리 리포트가 무료가 됐어요" — 한 번뿐인 훅이라 쪼개지 않는다(결정 6).
+현실적 목표(14일 판정과 같은 창): 롱테일 **top 10** — US `battery time remaining`·`cute battery`·`battery menu bar`, KR `배터리 캐릭터`·`배터리 꾸미기`·`충전`, JP `バッテリー残量`, TW `充電瓦數`·`電池顯示`, ES `batería`. 범용 `battery` top 10은 "1 MILLION downloads" 급 선점 앱들과 겨루는 자리라 1.17 목표에서 뺀다. 평점은 30일 안에 스토어당 5개 이상.
+
+### 4. 로케일별 최종값 (글자 수 검증 완료 — 1.17 메타데이터에 적용)
+
+| 로케일 | 이름(≤30) | 서브타이틀(≤30) | 키워드(≤100) |
+|---|---|---|---|
+| ko | `Zappy: 배터리 캐릭터 · 남은 시각` (22) | `배터리가 표정이 되는 메뉴바` (15) | `잔량,남은시간,충전,충전기,사이클,수명,성능,상태,퍼센트,위젯,펫,테마,귀여운,꾸미기,아이콘,battery,charger,widget` (74) |
+| en-US | `Zappy: Cute Battery, Time Left` (30) | `Menu bar battery with a face` (28) | `health,cycle,charge,charger,watts,percent,remaining,monitor,widget,pet,character,theme,kawaii,life` (98) |
+| ja | `Zappy: かわいいバッテリー・残り時間` (21) | `バッテリーが表情になるメニューバー` (17) | `残量,充電,充電器,充電速度,サイクル,寿命,状態,パーセント,ウィジェット,ペット,キャラクター,テーマ,電池,アイコン` (61) |
+| es-ES | `Zappy: Batería con carita` (25) | `Tu batería, ahora con carita` (28) | `tiempo restante,nivel bajo,carga,cargador,vatios,ciclos,salud,porcentaje,widget,mascota,tema,lindo` (98) |
+| zh-Hant | `Zappy: 有表情的電池・剩餘時間` (18) | `讓電池有表情的選單列` (10) | `電量,充電,充電器,瓦數,循環,健康,壽命,狀態,百分比,小工具,寵物,角色,主題,可愛,圖示` (47) |
+
+근거:
+- ko 이름: 25자가 비어 있었다. `배터리`·`캐릭터`·`남은 시각` 셋을 싣는다. 자동완성의 `배터리 꾸미기`는 키워드로
+- en 이름: 30자 꽉 채움. `Time Left`는 'battery time remaining' 수요 직격. en 서브타이틀은 `Cute battery for your menu bar`가 이름과 `cute battery`를 중복해 낭비 → ko 브랜드 문장("배터리가 표정이 되는 메뉴바")의 직역 `Menu bar battery with a face`로. 브랜드 문장은 유지하고 중복만 푼 것
+- 키워드에서 **battery·menu bar·cute(및 각 언어 대응어)를 제거**했다 — 이름·서브타이틀에 이미 있어 자리만 먹는다. 대신 자동완성에서 본 `꾸미기`·`성능`·`life`·`充電速度`·`瓦數`·`nivel bajo`를 넣었다
+- ko 키워드의 영어 3개(`battery,charger,widget`): KR 스토어에서도 'battery' 영문 검색 결과가 40개 — 영어로 찾는 사용자가 있다
+- es·ja·zh 이름은 `・`/`,`로 두 구를 붙였다. 심사 2.3.7(이름에 설명문 수준 키워드 나열)에 걸리지 않게 **구 2개까지만**
+
+### 5. 설명문 (전환용 — 색인 안 됨)
+구조는 5로케일 동일. 첫 3줄(펼치기 전)이 전부다.
+1. 첫 줄 유지("숫자로만 보던 배터리, 이제 표정으로"). **둘째 문단을 교체**: "메뉴바에 남은 시각과 충전기 W — Apple이 안 보여주는 숫자를 무료로. 캐릭터는 덤."
+2. `◆ Apple이 안 보여주는 숫자` 절을 **테마 목록 위에** 신설: 남은 시각(메뉴바 "16:40")·충전기 W와 실제 충전 W·배터리 리포트(사이클·최대 용량·온도)·충전 습관 7일 — "전부 무료" 명시
+3. `◆ 테마 18종`(너구리 제외) 이하 현행. Zappy+ 절에서 리포트·습관 줄 제거, "무료로 시작" 문단은 무료 7종
+4. es-ES는 4,000자 한계(1.16에서 3,974) — 테마 설명 줄을 더 줄인다
+5. 가격·수상·"1위" 같은 문구 금지(Apple 지침), 다른 앱 이름 언급 금지
+
+### 6. 평점 — 0개를 깨는 것이 1.17의 ASO 절반
+- `SKStoreReviewController.requestReview()` — 시스템이 365일에 3회로 제한하는 공식 창. 자체 팝업 금지(1.13 원칙·심사 5.6.1)
+- **트리거 1개**: 설치 7일 이상 + 메뉴를 연 순간, 앱 수명에 1회(`UserDefaults` 플래그). 사용자가 스스로 연 흐름 안에서만 뜨고 시스템 창이라 1.13의 "재방문 팝업 없음"과 충돌하지 않는다. 리포트 3번째 열람 트리거(10-01 1차안)는 리포트를 안 여는 사용자를 놓치므로 폐기
+- 리뷰 답글은 ASC에서 전부 단다 — 답글이 제품 페이지에 노출돼 전환 요소. 부정 리뷰는 24시간 안에
+- 평점은 스토어프런트별로 따로 쌓인다 — 한국만 모아도 다른 나라는 0
+
+### 7. 스크린샷 (코드 생성 `docs/store-screenshots/generate.swift`, 5로케일)
+검색 결과에 **첫 1~3장**이 함께 뜬다(Apple 문서). 현재 0 히어로 · 1 "19가지 캐릭터" · 2 잔량=표정 · 3 모노크롬 · 4 "필요한 기능은 전부".
+- **새 순서**: 0 히어로(유지) → **1 숫자 장(신설)** → 2 캐릭터 18종 → 3 잔량=표정 → 4 모노크롬. 기존 4번(기능 나열)은 퇴장
+- 1 숫자 장: 메뉴를 연 실제 화면. 아이콘 옆 `16:40`, 메뉴 첫 줄 `16:40까지 · 2시간 10분`, 충전기 줄 `90W 충전기 · 40W로 충전 중`. 캡션 "Apple이 안 보여주는 숫자, 무료로" / "The numbers Apple hides, free"
+- 2번 캡션 `19가지` → `18가지`
+- 2.3.3 규칙: 실제 UI 캡처 위주, 합성 금지. 다크·라이트 섞어 5장
+
+### 8. What's New · 프로모션 텍스트 · 심사 노트
+- What's New 첫 줄: "배터리 리포트가 무료가 됐어요" — 색인은 안 되지만 **기존 사용자의 업데이트 → 리뷰 요청 창**으로 이어지는 유일한 문구. 펫은 둘째 묶음
+- 프로모션 텍스트: 1.17 출시 시점 문구 → 할로윈(10월 말)·크리스마스(12월) 시즌마다 심사 없이 교체. 1.16까지 1.2 시절 문구가 7개월 남아 있던 실수를 반복하지 않도록 **시즌 캘린더 항목에 "프로모션 텍스트 교체"를 붙인다**
+- 심사 노트: 너구리 삭제 명시(저장 테마 폴백), 리포트 무료화, 표시 옵션 경로
+
+### 9. 피처링 노미네이션
+1.17 제출과 함께 `App Enhancements` 1건(위 표). 설명 초안: "Battery Runway — Mac's menu bar now shows the time your battery lasts until (e.g. 16:40) and what your charger actually delivers (90 W adapter, charging at 40 W). The battery report (cycles, capacity, temperature, 7-day habits) is now free. Every character is drawn in code — 0.8 MB, no network, one permission."
+
+### 10. 2단계 (14일 판정 통과 시)
+- **zh-Hans(중국) 로컬라이즈** — 'battery' 결과 상위에 `Battery-电池健康充电保护管理` 등 중국 개발사 앱이 5개 스토어 전부에 들어와 있다 = 중국 Mac 사용자 수요가 크다. zh-Hant가 있어 변환은 기계적이나 용어(選單列→菜单栏·小工具→小组件)는 손봐야 한다. 1.17에 안 넣는 이유: 14일 판정에 변수를 섞지 않기 위해
+- IAP 표시명 `Zappy+` → 검색 결과에 IAP도 노출되므로 `Zappy+ — 모든 캐릭터와 컬러`로(IAP 심사 필요)
+- 캘린더 「오늘 버틸까」(로드맵 결정 2)
+
+### 11. 측정 절차
+- ASC → 앱 분석: **노출(Impressions) · 제품 페이지 조회 · 전환율 · 다운로드(소스별: App Store 검색 / 둘러보기 / 참조)**. 1.17 출시일 기준 직전 14일 vs 이후 14일, 로드맵 결정 8의 1.5배 기준
+- 검색 위치 재측정(주 1회, 결과를 이 절 표에 append):
+```
+# 스토어별 검색 위치 — country·term 바꿔가며, Zappy = 6794384033
+curl -s "https://itunes.apple.com/search?term=battery&entity=macSoftware&country=KR&limit=50" \
+ | python3 -c "import sys,json;r=json.load(sys.stdin)['results'];print(next((i+1 for i,x in enumerate(r) if x['trackId']==6794384033),None))"
+```
+- 평점 수: `https://itunes.apple.com/lookup?id=6794384033&country=KR` → `userRatingCount`
 
 ## 측정
 
