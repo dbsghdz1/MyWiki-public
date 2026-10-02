@@ -128,13 +128,14 @@ projects:
 ### JS
 
 #### JS/언어
-- [JS/언어 학습 계획](JS/%EC%96%B8%EC%96%B4/%ED%95%99%EC%8A%B5%20%EA%B3%84%ED%9A%8D.md) — roadmap.sh HTML 로드맵 H1~H11 + 연습 프로젝트 P1~P6, 09-26 하루에 전부. **일간 루틴이 읽는 파일** (2026-09-26)
+- [JS/언어 학습 계획](JS/%EC%96%B8%EC%96%B4/%ED%95%99%EC%8A%B5%20%EA%B3%84%ED%9A%8D.md) — roadmap.sh HTML(H1~H11, 빵집 미션으로 마무리)·CSS(C1~C14, 10-02 완료) 세션 체크리스트. **일간 루틴이 읽는 파일** (2026-10-02)
 - [JavaScript 기초 문법](JS/%EC%96%B8%EC%96%B4/JavaScript%20%EA%B8%B0%EC%B4%88%20%EB%AC%B8%EB%B2%95.md) — 객체 리터럴·구조 분해·truthy/falsy·고차함수, Swift에 없는 것만. **`SyntaxError`는 원인보다 뒤에서 터진다** (2026-09-09)
 - [고차함수와 배열 메서드](JS/%EC%96%B8%EC%96%B4/%EA%B3%A0%EC%B0%A8%ED%95%A8%EC%88%98%EC%99%80%20%EB%B0%B0%EC%97%B4%20%EB%A9%94%EC%84%9C%EB%93%9C.md) — 함수를 받거나 돌려주면 고차함수(`map`·`filter`·`reduce`), `split`·`padEnd`는 아니다. **짧아서가 아니라 부품이 적어서** 읽기 쉽고, 체인이 길어지면 이름을 붙여 끊는다 (2026-09-23)
 - [bigint와 정수 연산](JS/%EC%96%B8%EC%96%B4/bigint%EC%99%80%20%EC%A0%95%EC%88%98%20%EC%97%B0%EC%82%B0.md) — `bigint`는 `number`와 섞이지 않고 나눗셈은 항상 내림. 돈을 깎는 값만 `bigint`, 변환은 경계에서 한 번, **타입이 통과해도 숫자는 손계산이 검증한다** (2026-09-02)
 - [JavaScript 런타임](JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%9F%B0%ED%83%80%EC%9E%84.md) — Node = V8 + OS 기능, 브라우저와 능력이 다른 이유 (2026-08-18)
 - [브라우저 렌더링과 DOM](JS/%EC%96%B8%EC%96%B4/%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%20%EB%A0%8C%EB%8D%94%EB%A7%81%EA%B3%BC%20DOM.md) — DOM은 **서버가 아니라 브라우저가** HTML을 파싱해 만든다. CSS는 CSSOM으로 따로, JS는 만들어진 DOM을 고치는 쪽 (2026-09-26)
 - [HTML 문서 구조](JS/%EC%96%B8%EC%96%B4/HTML%20%EB%AC%B8%EC%84%9C%20%EA%B5%AC%EC%A1%B0.md) — 뼈대 줄마다 맡은 일(doctype·lang·charset·viewport·defer), 태그≠요소, void 요소, id·class·data-*, 엔티티 (2026-09-26)
+- [CSS 기초](JS/%EC%96%B8%EC%96%B4/CSS%20%EA%B8%B0%EC%B4%88.md) — 충돌은 `!important` > 인라인 > 명시도 > 소스 순서, **inline은 세로가 안 먹는다**, `absolute`는 static 아닌 가장 가까운 조상, 틀린 값은 조용히 버려진다 (2026-10-02)
 - [JavaScript 모듈 시스템](JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%AA%A8%EB%93%88%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) — default/named export, 재수출. **`import.meta.env`는 빌드 타임 치환이라 키가 번들에 박힌다**, `VITE_` 접두사는 「공개해도 된다」는 스위치 (2026-09-09)
 - [비동기와 Promise](JS/%EC%96%B8%EC%96%B4/%EB%B9%84%EB%8F%99%EA%B8%B0%EC%99%80%20Promise.md) — `fetch`는 결과가 아니라 **나중에 채워질 상자**를 즉시 준다. 두 번 기다리고, 403·404에는 reject하지 않으므로 `r.ok`를 직접 본다 (2026-09-08)
 - [TypeScript 타입 시스템](JS/%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) — 타입은 컴파일하면 사라진다. `r.json()`은 `any` — 외부 응답이 들어오는 **경계에 한 줄**로 선언하고, 그건 검사가 아니라 **약속**이다 (2026-09-09)
