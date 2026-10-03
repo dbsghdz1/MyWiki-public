@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-09-01
-updated: 2026-10-01
+updated: 2026-10-03
 projects:
   - "Zappy"
 ---
@@ -44,3 +44,11 @@ projects:
 - `open Zappy.app --args -renderShots /tmp/x`에서 `/tmp/x`가 없으면 `try? ... write(to:)`가 실패하고 앱은 렌더 뒤 그대로 종료 — 폴더도 PNG도 안 생긴다. **`mkdir -p` 먼저.** 생기는 파일: `grid.png`·`paywall.png`·`report.png`·`onboarding.png`·`onboarding-2.png`(라이트 외관 고정). 온보딩 2페이지에 체크박스를 추가한 뒤 이걸로 영어 설명이 2줄을 넘는 걸 잡았다.
 - `screencapture -x -R x,y,w,h`가 **"could not create image from rect"** 로 실패하면 좌표 문제가 아니라 터미널(auto 모드 세션)에 화면 기록 권한이 없는 것이다. `-R`이 화면 밖이면 메시지가 다르다("does not intersect any displays" — Finder `bounds of window of desktop`은 여러 모니터 합집합이라 메인 화면 폭으로 쓰면 안 된다; `swift -e 'import AppKit; print(NSScreen.main!.frame)'`로 잰다). 메뉴바 라벨은 캡처 대신 스크린샷 생성기가 같은 L10n 함수로 그린 장으로 확인했다.
 - 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.17 아이콘 옆 「남은 시각」 라벨 검증.
+
+### 2026-10-03 — 메뉴 문구는 스크린샷 없이 AppleScript로 읽는다 (Zappy 1.18 작업분)
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 메뉴에 새 줄 3개를 넣고 실제 앱에서 뜨는지 확인. `screencapture`는 화면 기록 권한이 없어 못 쓴다(10-01 항목).
+- 배운 것: 터미널에 손쉬운 사용 권한이 있으면 System Events로 **NSStatusItem 메뉴의 항목 제목을 그대로 읽을 수 있다.** 상태 아이템은 그 프로세스의 `menu bar 1`에 있다 — `menu bar 2`는 `Invalid index (-1719)`. 메뉴는 열려 있어야 항목이 읽히므로 click → delay → 읽기 → `key code 53`(esc) 순서. 구분선과 커스텀 뷰 항목은 `missing value`로 나온다.
+  ```
+  osascript -e 'tell application "System Events" to tell process "CuteBattery"' -e 'click menu bar item 1 of menu bar 1' -e 'delay 0.8' -e 'set t to name of every menu item of menu 1 of menu bar item 1 of menu bar 1' -e 'key code 53' -e 'return t' -e 'end tell'
+  ```
+- 근거: `-theme "기본" -forceTemp 42`로 띄운 테스트 앱에서 `Using 8 W`, `Battery 42°C · running hot`, `Heat Alert` 항목 확인 — [개발 기록 10-03](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-10-03.md).

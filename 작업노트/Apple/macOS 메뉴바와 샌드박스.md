@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-16
-updated: 2026-09-30
+updated: 2026-10-03
 projects:
   - "BarStack"
   - "Zappy"
@@ -72,3 +72,12 @@ App Sandbox 안에서 다른 앱의 메뉴바 아이템을 "알아내는" 유일
 - 맥락: [BarStack](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md)이 macOS 27에서 안 된다는 얘기. 이 맥은 26.5.1이라 재현 불가, UTM은 홍이 쓰지 않기로 해서 **외부 실측을 근거로** 고쳤다.
 - 배운 것: 위 「macOS 27」 절 전부 + `genuineRow` 핸들 항목.
 - 근거: Hidden Bar [#360](https://github.com/dwarvesf/hidden/issues/360)·[#371](https://github.com/dwarvesf/hidden/pull/371)·[#396](https://github.com/dwarvesf/hidden/pull/396), `hidden/Features/StatusBar/Engine/NativeVisibilityEngine.swift`·`Native/HBNativeVisibilityShim.m`, Thaw [#773](https://github.com/thaw-app/Thaw/pull/773)·[#753](https://github.com/thaw-app/Thaw/pull/753). BarStack 커밋 `07aed98`(1.1.3 build 8, 브랜치 `fix/macos27-compact`) — `MenuBarPlatform.swift` 신설. 목록 버그는 5K 외장(DELL P2723QE, x=605)에서 실측, 고친 뒤 접힘·펼침 모두 Orca 1개. **27 동작은 미실측** — 출시 후 27 사용자 제보로 확인할 것.
+
+### 2026-10-03 — 소모 전력·충전 사유에 쓸 수 있는 키 (Zappy 1.18 작업분)
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 메뉴에 「지금 소모 전력」「충전이 멈춘 이유」 줄을 넣으며 `ioreg -rn AppleSmartBattery`와 `IOPSGetPowerSourceDescription`을 배터리 구동 상태에서 실측(macOS 26.5).
+- 배운 것:
+  - `PowerTelemetryData.SystemLoad`는 **mW**(8549 → 8.5W) — 맥 전체 부하. 같은 순간 배터리 `Voltage×Amperage`는 7.2~11W로 값이 다르다(표본 시점·측정 지점이 다름). 배터리 구동 중엔 후자, 전원 연결 중엔 전자를 썼다.
+  - `ioreg` 출력의 `Amperage = 18446744073709550657`은 음수의 부호 없는 표기(= −959mA). 코드에선 `NSNumber.int64Value`로 읽어야 부호가 산다.
+  - `ChargerData`에 `NotChargingReason`(배터리 구동 중 128)·`SlowChargingReason`(0)·`ChargerInhibitReason`·`TimeChargingThermallyLimited`가 있으나 **값의 뜻은 문서가 없다** — 해석하지 않고 `SlowChargingReason ≠ 0`만 썼다.
+  - IOPS 사전의 `Optimized Battery Charging Engaged`는 **배터리 구동 중엔 키 자체가 없다**(`LPM Active`·`BatteryHealth`는 있다). 전원 연결 상태에서의 값은 미실측.
+- 근거: Zappy `BatteryHealth.swift`(`systemLoadWatts`·`slowCharging`·`chargeNote()`), `Battery.swift`(`optimizedChargingEngaged()`) — [개발 기록 10-03](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-10-03.md) (작성 시점 미커밋).

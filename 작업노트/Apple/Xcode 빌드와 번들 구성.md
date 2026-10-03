@@ -4,7 +4,7 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-20
-updated: 2026-10-01
+updated: 2026-10-03
 projects:
   - "Zappy"
   - "보험찾개냥"
@@ -87,3 +87,8 @@ infoPlist: .extendingDefault(with: [
 - 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.17에서 너구리 테마를 지우고 릴리즈 산출물로 확인하려다 — `strings -a` 결과에 `모찌`(대조군)조차 0건, 바이트 검색(`open(bin,'rb').read().count('모찌'.encode())`)으로는 `모찌` 1건·`너구리` 0건·`W 충전기`(새 문자열) 0건.
 - 원인: ① `strings`는 ASCII 연속 문자열만 뽑는다 — 한글 리터럴은 애초에 안 나온다. ② Swift는 **UTF-8 15바이트 이하 문자열을 immediate(small string)로 코드에 인라인**하므로 데이터 섹션에 리터럴이 없다 — "W 충전기"(11바이트)는 바이트 검색으로도 0건. "너구리" 0건이 삭제의 증거가 아니라 원래 안 보이는 것일 수 있다.
 - 적용: 산출물 검증은 **16바이트 이상의 특징적인 리터럴**(긴 문장·식별자 `menuBarLabel` 같은 ASCII 심볼)로 하고, 대조군도 같은 조건으로 고른다. 짧은 한글은 소스 grep + 빌드 성공으로 대신한다. 1.7의 `strings | grep '^mouseEntered'`가 통했던 건 ASCII 셀렉터 이름이라서다.
+
+### 2026-10-03 — `swift build`는 통과하는데 `xcodebuild`만 `cannot find type`으로 죽는다 (Zappy 1.18 작업분)
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) `L10n.swift`에 `static func chargeNote(_ note: ChargeNote)`를 넣고 `ChargeNote` enum은 `BatteryHealth.swift`에 뒀다. `swift build`는 성공, `xcodebuild -scheme Zappy`는 `L10n.swift:93:36: error: cannot find type 'ChargeNote' in scope`.
+- 배운 것: **`L10n.swift`·`Themes.swift`·`Mono.swift`·`Shared.swift`는 위젯 타깃에도 들어간다.** SPM(`Package.swift`)은 앱 타깃 하나라 전부 보이지만 Xcode 위젯 타깃엔 `BatteryHealth.swift`가 없다. 이 파일들이 참조하는 타입은 같은 공유 파일 안에 정의해야 한다 → enum을 `L10n.swift`로 옮겼다. **공유 파일을 고쳤으면 `swift build`만으로 끝내지 말고 `xcodebuild`까지 돌린다.**
+- 근거: [개발 기록 10-03](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-10-03.md) (작성 시점 미커밋).
