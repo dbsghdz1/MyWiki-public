@@ -81,3 +81,9 @@ App Sandbox 안에서 다른 앱의 메뉴바 아이템을 "알아내는" 유일
   - `ChargerData`에 `NotChargingReason`(배터리 구동 중 128)·`SlowChargingReason`(0)·`ChargerInhibitReason`·`TimeChargingThermallyLimited`가 있으나 **값의 뜻은 문서가 없다** — 해석하지 않고 `SlowChargingReason ≠ 0`만 썼다.
   - IOPS 사전의 `Optimized Battery Charging Engaged`는 **배터리 구동 중엔 키 자체가 없다**(`LPM Active`·`BatteryHealth`는 있다). 전원 연결 상태에서의 값은 미실측.
 - 근거: Zappy `BatteryHealth.swift`(`systemLoadWatts`·`slowCharging`·`chargeNote()`), `Battery.swift`(`optimizedChargingEngaged()`) — [개발 기록 10-03](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-10-03.md) (작성 시점 미커밋).
+
+### 2026-10-03 (저녁) — `SystemLoad`는 "맥이 쓰는 전력"이 아니다 (같은 날 위 항목 정정)
+- 맥락: [Zappy](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) 1.18 「지금 소모 전력」 줄. 배터리 구동 중 실측만 보고 전원 연결 중엔 `SystemLoad`를 쓰게 짰는데, 충전기를 꽂자 메뉴에 「87W 사용 중」이 떴다.
+- 배운 것: 90W 어댑터로 충전 중 실측 — `SystemPowerIn=85734`, `SystemLoad=87495`, 배터리 `12.2V × 4965mA = 60.6W`. **`SystemLoad`에는 배터리 충전분이 들어 있다.** 맥 본체 소모는 `SystemPowerIn − max(0, Voltage×Amperage)`(≈25W)로 구한다. 배터리 구동 중엔 `SystemPowerIn=0`이라 기존대로 `Voltage×Amperage`. **전원 상태 두 쪽을 다 실측하기 전엔 전력 값을 믿지 않는다.**
+  - 충전 중에도 IOPS 사전에 `Optimized Battery Charging Engaged` 키는 없었다(붙잡힌 상태에서만 나타나는 것으로 보임 — 미확인). `ChargerData.NotChargingReason`은 충전 중 0, 배터리 구동 중 128.
+- 근거: Zappy `BatteryHealth.swift` `pluggedUseWatts`, 커밋 `4c3bd48`.
