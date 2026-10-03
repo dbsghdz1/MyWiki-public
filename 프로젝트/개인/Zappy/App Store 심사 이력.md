@@ -4,7 +4,7 @@ status: active
 aliases:
   - Zappy 심사
 created: 2026-07-25
-updated: 2026-10-01
+updated: 2026-10-03
 related_wiki: []
 ---
 
@@ -58,6 +58,7 @@ related_wiki: []
 | 2026-09-21 | **1.15.0 build 26 재제출** — 온보딩 「로그인 시 자동 실행」 기본 해제(opt-in), `5a70c88`. 심사 노트에 "Guideline 2.4.5(iii) fix in build 26" 기재 — build 25가 이 조항으로 걸린 것으로 추정(반려 원문 미확인). 새 `fastlane review_fix` 레인(`skip_screenshots: true`)으로 스크린샷을 안 건드리고 빌드만 교체. 09-22 00:40 `asc state`: WAITING_FOR_REVIEW · build 26 VALID · 5로케일 × 5장 — [개발 기록 09-22](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-09-22.md) |
 | 2026-09-22 | **1.15.0 (build 26) 승인·출시** — 09-22T07:04Z(16:04 KST). 2026-09-23 lint에서 `asc state 6794384033` READY_FOR_SALE · iTunes lookup `currentVersionReleaseDate`로 확인. build 25 반려 원문은 여전히 미확인 |
 | 2026-10-01 | **1.17.0 (build 27) 제출**, WAITING_FOR_REVIEW(16:12 KST, build 27 VALID, 5로케일 × 5장 — `asc state`로 확인, 이중 업로드 없음: 'Successfully uploaded all screenshots' 1회·재시도 로그 없음). **1.16.0은 제출하지 않고 1.17에 흡수**(홍 결정). 내용: 데스크톱 펫 2D(크기 축소·돌아다니기 토글·Dock 배치) + 배터리 러너웨이(아이콘 옆 남은 시각·메뉴 완충/버티는 시각·충전기 W 줄·리포트/충전 습관 무료화·설치 7일 뒤 평점 요청) + 너구리 삭제(18종, 무료 7종) + **스토어 이름 5로케일 변경**(ko `Zappy: 배터리 캐릭터 · 남은 시각`, en `Zappy: Cute Battery, Time Left`, ja·zh에 残り時間·剩餘時間, es 유지) + en 서브타이틀·키워드 100자 재구성 + 설명문 `◆ Apple이 안 보여주는 숫자` 절 + 스크린샷 1번 장 교체(숫자 장). `fastlane mac release` 한 번에 통과(precheck 오류는 평소처럼 무관). 상세: [개발 기록 10-01](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-10-01.md) · ASO 근거 [마케팅 플랜](Zappy%20%EB%A7%88%EC%BC%80%ED%8C%85%20%ED%94%8C%EB%9E%9C.md) |
+| 2026-10-03 | **1.17.0 심사 취소 → 1.18.0 (build 28) 제출**, WAITING_FOR_REVIEW(18:01 KST, build 28 VALID, 5로케일 × 5장, 'Successfully uploaded all screenshots' 1회·재시도 로그 없음). **1.17.0은 출시되지 않고 1.18에 흡수**(홍 "취소하고 다시 제출해") — `asc cancel-review` → DEVELOPER_REJECTED → 같은 버전 레코드가 1.18.0으로 이름만 바뀐다. 1차 `release`는 **심사 노트 4,458자 → `Review Notes cannot be longer than 4000 characters`**로 메타데이터 단계에서 실패(바이너리 업로드 전, 버전 문자열·로케일 메타데이터는 이미 반영된 상태) → 1.17 승계 항목 축약(3,791자, `5fbbb2d`) 후 재실행 성공. auto 모드에서 cancel-review는 이번에도 차단되지 않았다. 내용: 컨셉 전환(배터리 숫자가 주인공, 캐릭터는 꾸미기) + 기본 배터리 테마 + 소모 전력·충전 사유·발열·충전기 뽑은 뒤·주변기기 알림·용량 추세·단축어 + **스토어 이름 5로케일 재변경**(ko `Zappy: 배터리 남은 시각 · 소모 전력`, en `Zappy: Battery Time & Watts`) — [개발 기록 10-03](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-10-03.md) |
 
 ## 2.1 정보 요청 (2026-07-25)
 
