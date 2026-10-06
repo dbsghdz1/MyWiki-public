@@ -4,7 +4,7 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-08-19
-updated: 2026-09-11
+updated: 2026-10-06
 projects:
   - "Zappy"
 ---
@@ -21,6 +21,7 @@ Apple이 구매·환불 이벤트를 내 서버로 밀어주는 V2 웹훅. **내
 - **테스트 알림**: `POST /inApps/v1/notifications/test` → `testNotificationToken`; `GET /inApps/v1/notifications/test/<token>`으로 결과. 등록된 프로덕션 URL로 실제 `TEST` 타입이 날아오므로 종단 점검용.
 - **인증**: App Store Server API JWT는 `kid`(키 ID)·`iss`(issuer)·`aud: appstoreconnect-v1`·`bid`(번들 ID)·`iat/exp`를 ES256으로 서명. **App Store Connect API 팀 키(fastlane용 AuthKey.p8)로도 호출됐다** — 별도 In-App Purchase 키가 필수는 아니었음(적어도 notifications 계열은).
 - 페이로드 검증은 서버가 직접: `x5c` 체인(리프→중간→Apple Root CA G3) 확인 + ES256 서명 검증. 검증 실패는 400(위조 가능성, 재시도 유도 안 함).
+- **앱에 알림 URL이 등록됐는지는 테스트 알림으로 가른다**: `POST /inApps/v1/notifications/test`(JWT `bid` = 그 앱 번들)가 404 `4040007` "No App Store Server Notification URL found"면 미등록, 200이면 등록. URL 설정 화면은 ASC 웹(앱 정보 > App Store 서버 알림)에만 있다. 미등록 앱은 `notifications/history`도 빈 배열이라 "결제가 없었다"와 구분이 안 된다.
 - 구매자 이메일은 오지 않는다 — 상품·금액(milliunits)·스토어프런트·시각·환경만.
 
 - **앱이 둘 이상이면 알림 URL 하나에 여러 앱이 들어온다.** 앱 구분은 payload의 **`data.bundleId`**다. `notificationType`만 보고 문구를 쓰면(예: `ONE_TIME_CHARGE` → "Zappy+ 구매") 두 번째 앱이 팔릴 때마다 첫 번째 앱이 팔렸다고 보고한다. 등록 안 된 번들이 오면 버리지 말고 눈에 띄게 적어야 한다 — 새 앱에 IAP를 붙이고 등록을 잊는 게 가장 흔하다.
@@ -34,6 +35,11 @@ Apple이 구매·환불 이벤트를 내 서버로 밀어주는 V2 웹훅. **내
   - 서버 복구 후 테스트 알림 2회 모두 `SUCCESS`(04:04:11). 놓친 구매 건은 Apple의 12h 재시도(08-19 ~11:03)에 실리도록 두기로 함 — 수동 재전송하면 재시도와 중복.
   - fastlane의 ASC 팀 키로 App Store Server API가 200으로 열렸다(`bid` 클레임 포함).
 - 근거: `notifications/history` 응답(스크래치 `hist.json`), 테스트 토큰 `76b6cd44…`·`0634aa67…` 결과 `SUCCESS`; 호출 스크립트는 node `crypto.sign('sha256', …, {dsaEncoding:'ieee-p1363'})`로 JWT 생성 → `fetch`. [Zappy 마케팅 플랜](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/Zappy%20%EB%A7%88%EC%BC%80%ED%8C%85%20%ED%94%8C%EB%9E%9C.md) 장애 기록
+
+### 2026-10-06 — 한능검 알림 URL 미등록을 테스트 알림으로 확인 후 등록
+- 맥락: [유료 앱 판매 알림](%EC%9C%A0%EB%A3%8C%20%EC%95%B1%20%ED%8C%90%EB%A7%A4%20%EC%95%8C%EB%A6%BC.md) — 일일 요약을 끄고 결제 순간 알림만 남기기 전 점검
+- 배운 것: 위 「앱에 알림 URL이 등록됐는지」. 09-11에 "홍이 해야 할 두 단계"로 남긴 ②(ASC URL 등록)가 한 달 가까이 안 돼 있었는데 아침 요약이 결제를 대신 보여줘서 아무도 몰랐다. 홍이 ASC 웹에서 Zappy와 같은 URL을 넣은 뒤 테스트 알림 `SUCCESS`(attempt 1791268816837).
+- 근거: `notifications/test` 응답 `4040007`(10-05) → 200 + `sendAttempts` SUCCESS(10-06 15:40), Slack `#밥벌이` «한능검 정복 — Apple 테스트 알림 수신»
 
 ## 참고 자료
 - [Apple — Receiving App Store Server Notifications](https://developer.apple.com/documentation/appstoreservernotifications/receiving-app-store-server-notifications) — 재시도 정책·응답 요건 (2026-08-19 열림 확인, 본문은 JS 렌더)

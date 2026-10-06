@@ -28,7 +28,7 @@ status: active
 | [약국맵](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | paused | 2026-09-22 |
 | [오늘 본 장면](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) | 해외 CC BY 영상에 한국어 대사 자막을 입혀 매일 올리는 유튜브 쇼츠 채널과 그 제작·게시 자동화 | active | 2026-09-27 |
 | [인스타카드뉴스](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) | 인스타그램 카드뉴스 생성·발행 자동화의 작업 진입점 | active | 2026-09-23 |
-| [한국사 정복](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/README.md) | 한국사능력검정시험 학습 앱의 작업 진입점 | active | 2026-10-05 |
+| [한국사 정복](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/README.md) | 한국사능력검정시험 학습 앱의 작업 진입점 | active | 2026-10-06 |
 
 ## 영역 허브
 
