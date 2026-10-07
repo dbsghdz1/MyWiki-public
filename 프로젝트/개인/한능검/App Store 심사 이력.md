@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-28
-updated: 2026-10-06
+updated: 2026-10-07
 ---
 
 # App Store 심사 이력 — 한능검 정복
@@ -176,3 +176,14 @@ deliver가 또 스크린샷을 **두 번 올려 10장**이 됐다(플레이북 �
 **남은 것**
 - iCloud 백업이 키 단위 덮어쓰기라 기기 두 대에서 풀이 기록이 유실될 수 있다(`cloud.ts` 병합 필요, 외부 변경 알림도 안 받음).
 - iPad 필기(`Ink.tsx`)가 같은 localStorage(~5MB)를 써서 꽉 차면 풀이 저장이 조용히 실패한다.
+
+## 2.3.2 (14) — 2026-10-07 제출 · 스토어 스크린샷 교체
+
+홍 요청(10-07) "판매 이미지 업데이트해줘, 새로운 기능이 생겼던데 적용해줘". 스토어 스크린샷이 2.0.2(09-03) 화면 그대로라 그 뒤 생긴 모의고사·AI 예상 모의고사(2.2.0)가 한 장도 없었다. 같은 날 `asc state`로 **2.3.1 READY_FOR_SALE**을 확인했다. 출시된 버전의 스크린샷은 편집할 수 없어 2.3.2를 새로 냈다.
+
+- **컷 변경**: 05 「기본 시험도 전 회차」(01과 거의 같은 홈)를 **「실전 모의고사 · AI 예상 5회」**(모의고사 화면, 예상 1~5회는 「잠금해제 ›」로 보임)로 바꿨다. 01 서브라인은 「국사편찬위원회 기출 전 회차 무료 · 시험 D-day」로 2.3 무료 전환을 반영했다. 나머지는 문구를 두고 현재 UI로 다시 찍었다. en-US도 같은 구성이다.
+- **도구**: `maestro/store.yaml`에 `s5-mock` 단계를 넣었다. iPhone 17 Pro Max(`maestro/shots/20261007-1317-store-2.3.1`)와 iPad Pro 13″(`…-1319-store-2.3.1-ipad`)에서 촬영했고, `tools/storeshots.py`로 합성했다. 이전 합성본은 `store/_old-20260903/`에 있다.
+- **같이 고친 것**: 설정 화면 `APP_VERSION`이 2.3.1 출시 뒤에도 `'2.3.0'`이었다 → `'2.3.2'`. `resubmit`의 `HANGEOM_BUILD` 기본값도 10에 머물러 있어 14로 올렸다.
+- **Fastfile**: `deliver_all`을 `skip_screenshots: false` + `overwrite_screenshots: true`로 바꿨다. 이어받은 이전 컷이 지워진 뒤 새 컷이 올라간다. **스크린샷을 바꾸지 않는 다음 릴리스에서는 `true`로 되돌린다.**
+- **제출**: 홍이 `fastlane ios release`를 직접 실행했다. 자동 모드는 제출용 스크립트 작성까지 막았다. 13:49 제출 → `WAITING_FOR_REVIEW`, build 14 VALID. `asc screenshots`로 ko·en-US × iPhone·iPad **네 세트 모두 6장, 이중 업로드 없음**을 확인했다. 로그의 `Successfully uploaded all screenshots`도 한 번만 찍혔다.
+- **되돌림 조건**: 05 화면은 「제80회 AI 예상 · D-10」을 보여 준다. 10-17 시험이 끝나면 회차가 지난 문구가 된다. 81회 예상 세트를 내는 릴리스에서 다시 찍는다.
