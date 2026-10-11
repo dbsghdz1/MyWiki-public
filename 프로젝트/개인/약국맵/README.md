@@ -7,7 +7,7 @@ aliases:
   - 문연약국
   - 약국 지도
 created: 2026-09-05
-updated: 2026-09-22
+updated: 2026-10-11
 repos: []
 related_wiki:
   - "React TypeScript 제품 개발"
@@ -270,5 +270,6 @@ React · TypeScript · TanStack Query · Vite · Fastify · `react-dom/server` S
 - [JavaScript 기초 문법](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EA%B8%B0%EC%B4%88%20%EB%AC%B8%EB%B2%95.md) — `SyntaxError`는 원인보다 뒤에서 터진다. `async () = {`에서 `>`를 빠뜨리면 파서는 다음 줄 `return`에서야 멈춘다 — **가리킨 줄과 그 위 한두 줄을 같이 본다** (실습 3-A)
 - [렌더링 방식과 SEO](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EB%A0%8C%EB%8D%94%EB%A7%81%20%EB%B0%A9%EC%8B%9D%EA%B3%BC%20SEO.md) — SEO는 배포 플랫폼이 아니라 **크롤러가 받는 첫 HTML**이 정한다. Vite SPA는 `curl | grep -c "약국"` → 0이었고, 네이버·카톡 미리보기 봇은 JS를 거의 안 돌린다 (실습 3-B·3-C)
 - [실습 세션 3-B·3-C](%EC%8B%A4%EC%8A%B5%203-B%C2%B73-C%20%E2%80%94%20SSR%EA%B3%BC%20%ED%95%98%EC%9D%B4%EB%93%9C%EB%A0%88%EC%9D%B4%EC%85%98%202026-09-09.md) — SSR과 하이드레이션, 「웹이 iOS보다 어려운 이유」 정리
-- [실습 세션 1](%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md) · [세션 2·2-B](%EC%8B%A4%EC%8A%B5%202%20%E2%80%94%20useEffect%EC%99%80%20useQuery%202026-09-09.md) · [세션 3-A](%EC%8B%A4%EC%8A%B5%203-A%20%E2%80%94%20Fastify%20%ED%94%84%EB%A1%9D%EC%8B%9C%202026-09-09.md) — 예측·측정 기록과 인출 퀴즈 결과
+- [실습 세션 1](%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md) · [세션 2·2-B](%EC%8B%A4%EC%8A%B5%202%20%E2%80%94%20useEffect%EC%99%80%20useQuery%202026-09-09.md) · [세션 3-A](%EC%8B%A4%EC%8A%B5%203-A%20%E2%80%94%20Fastify%20%ED%94%84%EB%A1%9D%EC%8B%9C%202026-09-09.md) · [세션 4](%EC%8B%A4%EC%8A%B5%204%20%E2%80%94%20%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%20%EC%A0%84%EC%9A%A9%20%EC%A7%80%EB%8F%84%202026-09-10.md) — 예측·측정 기록과 인출 퀴즈 결과
 - [뮤테이션과 낙관적 업데이트](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EB%AE%A4%ED%85%8C%EC%9D%B4%EC%85%98%EA%B3%BC%20%EB%82%99%EA%B4%80%EC%A0%81%20%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8.md) — 서버를 바꾸는 요청에서 화면을 언제 바꿀 것인가. 제보 버튼이 실습 대상이다
+- [네트워크 개요](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC.md): 폴더 지도와 주제별 압축 요약, 막힌 것 (2026-10-11 lint 양방향 링크 보강)

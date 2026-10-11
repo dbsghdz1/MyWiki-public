@@ -8,7 +8,7 @@ aliases:
   - 마이 크립토 다이어리
   - CoinPilot
 created: 2026-07-18
-updated: 2026-09-28
+updated: 2026-10-11
 slack_channel: 20-개인-my-crypto-diary
 repos:
   - "github.com/dbsghdz1/MyCryptoDiary"
@@ -128,6 +128,8 @@ iOS에서 TypeScript·React로 옮겨가며 만드는 **주력 프로젝트**다
 - [bigint와 정수 연산](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/bigint%EC%99%80%20%EC%A0%95%EC%88%98%20%EC%97%B0%EC%82%B0.md) — `bigint`는 `number`와 섞이지 않고 나눗셈은 항상 내림이다. 변환은 경계에서 한 번만 한다
 - [TCP/IP 4계층과 캡슐화](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/TCP-IP%204%EA%B3%84%EC%B8%B5%EA%B3%BC%20%EC%BA%A1%EC%8A%90%ED%99%94.md) — 계층의 차이는 「얼마나 멀리 책임지나」다. 그래서 IP는 끝까지 안 바뀌고 MAC은 홉마다 바뀐다
 - [계층화의 설계 근거](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%EA%B3%84%EC%B8%B5%ED%99%94%EC%9D%98%20%EC%84%A4%EA%B3%84%20%EA%B7%BC%EA%B1%B0.md) — 링크 L가지 × 앱 A가지를 L+A로 줄이려고 나눴고, 대가는 헤더 오버헤드·기능 중복·정보 은닉이다
+- [네트워크 개요](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC.md): 폴더 지도와 주제별 압축 요약, 막힌 것 (2026-10-11 lint 양방향 링크 보강)
+- [데이터베이스 개요](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.md): 폴더 지도와 주제별 압축 요약 (2026-10-11 lint 양방향 링크 보강)
 
 ## 다음에 정할 것
 

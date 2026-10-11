@@ -8,7 +8,7 @@ aliases:
   - CuteBattery
   - 귀여운 배터리
 created: 2026-07-23
-updated: 2026-10-03
+updated: 2026-10-11
 slack_channel: 22-개인-zappy
 repos:
   - "github.com/dbsghdz1/Zappy"
@@ -91,8 +91,13 @@ macOS 메뉴바의 배터리를 살아있는 캐릭터로 바꿔주는 앱이다
 - [AppKit 오프스크린 렌더와 argument domain](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Apple/AppKit%20%EC%98%A4%ED%94%84%EC%8A%A4%ED%81%AC%EB%A6%B0%20%EB%A0%8C%EB%8D%94%EC%99%80%20argument%20domain.md) — 창 없는 뷰는 시스템 외관을 물려받아 다크 Mac에선 라벨이 흰색으로 그려진다(`view.appearance` 고정). `-AppleLanguages`·`-onboarded NO`·`-newThemes` 같은 argument domain으로 실제 설정을 안 건드리고 상태를 강제한다 — 한글 배열은 따옴표 필수 (1.13 스크린샷 생성기). **테스트 앱을 `-theme`로 띄우면 메뉴에서 테마를 골라도 안 바뀐다**(인자가 저장 설정을 덮음). `lockFocus`는 Retina에서 2x로 구워지니 1x가 필요하면 `NSBitmapImageRep`에 직접 (1.14)
 - [macOS 템플릿 아이콘 그리기](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Apple/macOS%20%ED%85%9C%ED%94%8C%EB%A6%BF%20%EC%95%84%EC%9D%B4%EC%BD%98%20%EA%B7%B8%EB%A6%AC%EA%B8%B0.md) — 템플릿 아이콘은 **알파만 남고 색은 버려진다**. '위에 얹힌 것'을 표현할 방법은 knockout 틈뿐이고, 컬러의 하이라이트·결은 대개 실루엣을 조각내므로 빼야 한다 (1.10.0 나무의 가지 위 눈)
 - [유료 앱 판매 알림](../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/AppStore/%EC%9C%A0%EB%A3%8C%20%EC%95%B1%20%ED%8C%90%EB%A7%A4%20%EC%95%8C%EB%A6%BC.md) — App Store Server Notifications는 IAP 전용이라 Zappy+는 웹훅으로 즉시 오지만 유료 다운로드는 안 온다. 같은 `zappy-landing` 웹훅이 한능검 IAP 결제도 받아 Slack `#밥벌이`로 보낸다(2026-10-05부터 결제 순간만, 일일 요약 크론 폐지)
+- [네트워크 개요](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC.md): 폴더 지도와 주제별 압축 요약, 막힌 것 (2026-10-11 lint 양방향 링크 보강)
 
 ## 다른 프로젝트와의 경계
 
 - [BarStack](../BarStack/README.md)과는 별개 프로젝트다. 둘 다 메뉴바 유틸리티지만 BarStack은 **아이콘 정리(숨김)**, Zappy는 **배터리 캐릭터 표시**로 문제 영역이 다르다. 다만 App Store 심사 경험(2.1 정보 요청 등)은 서로 참고한다.
 - Swift/macOS 프로젝트이므로 React·TypeScript 학습 위키와 연결하지 않는다.
+
+## 개발 기록 목록 보강 (2026-10-11 lint)
+
+위 본문에서 직접 링크하지 않은 개발 기록: [2026-07-31](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-07-31.md), [2026-08-08](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-08.md), [2026-08-11](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-11.md), [2026-08-14](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-14.md), [2026-08-18](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-18.md), [2026-08-21](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-21.md), [2026-08-22](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-08-22.md), [2026-09-19](Zappy%20%EA%B0%9C%EB%B0%9C%20%EA%B8%B0%EB%A1%9D%202026-09-19.md), [테마별 잔량 반응](%ED%85%8C%EB%A7%88%EB%B3%84%20%EC%9E%94%EB%9F%89%20%EB%B0%98%EC%9D%91.md). 다른 날짜의 기록은 본문 각 절에서 링크한다.

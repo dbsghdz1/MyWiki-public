@@ -4,10 +4,11 @@ area: JS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-09-23
+updated: 2026-10-11
 aliases: [JS 문법, 객체 리터럴, 구조 분해, destructuring]
 projects:
   - "MyCryptoDiary"
+  - "약국맵"
 ---
 
 # JavaScript 기초 문법

@@ -4,9 +4,10 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-27
-updated: 2026-09-16
+updated: 2026-10-11
 projects:
   - "보험찾개냥"
+  - "한능검"
 ---
 
 # Maestro

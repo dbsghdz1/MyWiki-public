@@ -4,10 +4,11 @@ area: JS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-09-09
+updated: 2026-10-11
 aliases: [타입 소거, type erasure, 컴파일 타임 런타임]
 projects:
   - "MyCryptoDiary"
+  - "약국맵"
 ---
 
 # TypeScript 타입 시스템

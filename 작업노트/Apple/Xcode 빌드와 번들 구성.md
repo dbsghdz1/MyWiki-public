@@ -4,10 +4,12 @@ area: Apple
 audience: ai
 status: active
 created: 2026-08-20
-updated: 2026-10-03
+updated: 2026-10-11
 projects:
   - "Zappy"
   - "보험찾개냥"
+  - "Fadeo(즉석카메라)"
+  - "탭탭"
 ---
 
 # Xcode 빌드와 번들 구성

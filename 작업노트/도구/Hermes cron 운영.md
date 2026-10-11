@@ -4,9 +4,11 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-29
-updated: 2026-09-23
+updated: 2026-10-11
 projects:
   - "Hermes Cloud 배포"
+  - "홍보 자동화"
+  - "계획"
 ---
 
 # Hermes cron 운영

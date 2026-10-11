@@ -4,10 +4,11 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-08-19
-updated: 2026-08-19
+updated: 2026-10-11
 projects:
   - "Zappy"
   - "BarStack"
+  - "홍보 자동화"
 ---
 
 # App Store 성장 도구
