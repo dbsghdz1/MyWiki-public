@@ -9,7 +9,8 @@ aliases:
   - 한국사 앱
 created: 2026-08-26
 updated: 2026-10-11
-repos: []
+repos:
+  - "github.com/dbsghdz1/hangeom-docs (루트 (로컬 경로) git 아님, 2026-10-11 확인)"
 related_wiki:
   - "1인 개발 앱 수익화"
 ---

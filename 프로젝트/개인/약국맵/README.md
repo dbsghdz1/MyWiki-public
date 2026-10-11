@@ -8,7 +8,8 @@ aliases:
   - 약국 지도
 created: 2026-09-05
 updated: 2026-10-11
-repos: []
+repos:
+  - "~/Desktop/pharmacy-map (로컬 git만, 원격 없음 — 2026-10-11 확인)"
 related_wiki:
   - "React TypeScript 제품 개발"
 launch_gate: exempt
