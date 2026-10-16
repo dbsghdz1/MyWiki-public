@@ -157,6 +157,9 @@ projects:
 - [proxy 미들웨어와 matcher](JS/Next.js/proxy%20%EB%AF%B8%EB%93%A4%EC%9B%A8%EC%96%B4%EC%99%80%20matcher.md) — 페이지마다가 아니라 **요청마다** 돈다, 정적 파일을 안 빼면 성능이 아니라 파손. `matcher: []`는 실행 0회 — 빌드 출력 `ƒ Proxy` 줄이 증거 (2026-08-29)
 - [Route Handler와 내부 API](JS/Next.js/Route%20Handler%EC%99%80%20%EB%82%B4%EB%B6%80%20API.md) — `app/api`는 HTTP 창구, `src/**/api`는 내부 함수. 브라우저는 서버 파일을 import할 수 없어서 HTTP가 필요하다 (2026-08-29)
 
+#### JS/Lynx
+- [Lynx 구조와 React와의 차이](JS/Lynx/Lynx%20%EA%B5%AC%EC%A1%B0%EC%99%80%20React%EC%99%80%EC%9D%98%20%EC%B0%A8%EC%9D%B4.md) — 번들 하나를 호스트 앱의 LynxView가 받아 C++ 엔진이 **네이티브 뷰로 그린다**. 코드는 메인 스레드와 백그라운드 스레드 둘에서 돌아 렌더 안 `console.log`가 두 번 찍히고, 부수효과는 백그라운드 전용, 레이아웃 기본은 linear (2026-10-17)
+
 ### 백엔드
 - [API 응답 설계](%EB%B0%B1%EC%97%94%EB%93%9C/API%20%EC%9D%91%EB%8B%B5%20%EC%84%A4%EA%B3%84.md) — 봉투(envelope)는 데이터 옆에 메타를 실을 자리, 실을 것이 없으면 포장 비용만 남는다 — 확장은 봉투가 아니라 쿼리 파라미터·필드 추가로 온다 (2026-09-01)
 - [서버와 프록시](%EB%B0%B1%EC%97%94%EB%93%9C/%EC%84%9C%EB%B2%84%EC%99%80%20%ED%94%84%EB%A1%9D%EC%8B%9C.md) — 서버는 **포트를 붙잡고 안 끝나는 프로그램**, 라우트는 `listen`(=개점) **전에 전부**. 프록시를 두면 요청이 두 홉이 되고 **키가 브라우저를 아예 지나가지 않는다** — Network 탭은 「브라우저가 보낸 것」만 본다. Vite `server.proxy`는 개발 전용이라 배포에선 실제 서버가 그 역할을 맡아야 한다 (2026-09-09)
