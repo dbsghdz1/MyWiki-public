@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-28
+updated: 2026-10-17
 projects: []
 ---
 
@@ -43,6 +43,13 @@ MyWiki 볼트에서 커밋이 막혔을 때 보는 문서. 2026-09-04 개편([LL
 - 우회가 필요하면 `git commit --no-verify` — 단 그 커밋은 index 드리프트를 남길 수 있으니 다음 정상 커밋의 훅이 흡수하게 둔다.
 
 ## 기록
+
+### 2026-10-17: 별도 index 절차를 bash 스크립트로 돌릴 때 heredoc 주의
+
+- 맥락: 오픈소스 기여 기록 커밋(`5ef5a10`). 다른 세션이 커리어 영역 파일 하나를 stage한 채 멈춰 있고 `_wiki/log.md`에 그 세션의 미커밋 항목이 있어 아래 09-20 절차를 스크립트 한 장으로 돌렸다.
+- 지뢰: macOS 기본 `bash` 3.2에서 `ENTRY=$(cat <<EOF … EOF)` 안의 heredoc 본문에 여는 괄호가 든 문장(예: `실측(seed-design dev 트리, …)`)이 있으면 `unexpected EOF while looking for matching ')'`로 스크립트가 **파싱 단계에서** 죽는다. 그 줄 앞의 명령은 이미 실행된 뒤라 부분 실행 상태가 된다(이번에는 log 추가 전이라 피해 없음).
+- 해법: log 항목은 `$( )` 밖의 독립 heredoc으로 파일(`entry.md`)에 먼저 쓰고, `cat entry.md >> _wiki/log.md`와 `{ git show HEAD:_wiki/log.md; cat entry.md; } > log-mine.md` 둘 다 그 파일을 쓴다. 헤더 문자열을 `grep -q`하는 재실행 가드를 맨 앞에 둔다. 백틱은 `\``로 이스케이프한다.
+- 확인: 별도 index에서 `lint-structure.py --staged`는 「index 대상 문서에 stage되지 않은 변경이 있어 index가 작업 트리 기준으로 생성됐다: HSW/README.md, 커리어/README.md」 경고만 내고 통과했다. 09-20 때와 달리 재생성한 `_wiki/index.md`가 HEAD와 같아서(남의 허브 변경이 `updated`를 안 건드림) index.md를 따로 만들 필요가 없었다. 끝난 뒤 공유 index에는 남의 log hunk와 staged 파일만 남았다.
 
 ### 2026-09-28 — 공개판 GitHub 변환(6g): 위키링크 1,174 · 임베드 62 · 콜아웃 124
 
