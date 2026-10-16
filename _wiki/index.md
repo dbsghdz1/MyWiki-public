@@ -26,7 +26,7 @@ status: active
 | [Zappy](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-10-15 |
 | [논문표](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EB%85%BC%EB%AC%B8%ED%91%9C/README.md) | 설문 엑셀을 올리면 한국 학위논문 양식의 통계표와 해석문을 만들어 워드로 내보내는 웹 서비스 | active | 2026-09-26 |
 | [약국맵](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | archived | 2026-10-14 |
-| [오늘 본 장면](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) | 해외 CC BY 영상에 한국어 대사 자막을 입혀 매일 올리는 유튜브 쇼츠 채널과 그 제작·게시 자동화 | active | 2026-09-27 |
+| [오늘 본 장면](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) | 해외 CC BY 영상에 한국어 대사 자막을 입혀 매일 올리는 유튜브 쇼츠 채널과 그 제작·게시 자동화 | paused | 2026-10-17 |
 | [인스타카드뉴스](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) | 인스타그램 카드뉴스 생성·발행 자동화의 작업 진입점 | active | 2026-09-23 |
 | [커플앱](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%BB%A4%ED%94%8C%EC%95%B1/README.md) | 사진과 기록을 두 사람의 폰에 전부 남겨 잃지 않게 하는 iPhone, Android 1회 결제 커플 기록 앱 후보의 문제 검증 작업공간 | idea | 2026-10-16 |
 | [한국사 정복](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/README.md) | 한국사능력검정시험 학습 앱의 작업 진입점 | active | 2026-10-11 |
