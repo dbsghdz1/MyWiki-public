@@ -5,7 +5,7 @@ summary: "다시 읽고 이해를 쌓는 개인 학습 노트 허브"
 status: active
 aliases: [학습 노트, TIL, study]
 created: 2026-08-15
-updated: 2026-10-11
+updated: 2026-10-16
 ---
 
 # 공부
@@ -133,6 +133,7 @@ projects:
 - [고차함수와 배열 메서드](JS/%EC%96%B8%EC%96%B4/%EA%B3%A0%EC%B0%A8%ED%95%A8%EC%88%98%EC%99%80%20%EB%B0%B0%EC%97%B4%20%EB%A9%94%EC%84%9C%EB%93%9C.md) — 함수를 받거나 돌려주면 고차함수(`map`·`filter`·`reduce`), `split`·`padEnd`는 아니다. **짧아서가 아니라 부품이 적어서** 읽기 쉽고, 체인이 길어지면 이름을 붙여 끊는다 (2026-09-23)
 - [bigint와 정수 연산](JS/%EC%96%B8%EC%96%B4/bigint%EC%99%80%20%EC%A0%95%EC%88%98%20%EC%97%B0%EC%82%B0.md) — `bigint`는 `number`와 섞이지 않고 나눗셈은 항상 내림. 돈을 깎는 값만 `bigint`, 변환은 경계에서 한 번, **타입이 통과해도 숫자는 손계산이 검증한다** (2026-09-02)
 - [JavaScript 런타임](JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%9F%B0%ED%83%80%EC%9E%84.md) — Node = V8 + OS 기능, 브라우저와 능력이 다른 이유 (2026-08-18)
+- 문법 로그 — 직접 치다가 막혀 물은 문법을 날짜와 함께 적고 주 1회 다시 쳐 보는 표. 비공개 (2026-10-16)
 - [브라우저 렌더링과 DOM](JS/%EC%96%B8%EC%96%B4/%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%20%EB%A0%8C%EB%8D%94%EB%A7%81%EA%B3%BC%20DOM.md) — DOM은 **서버가 아니라 브라우저가** HTML을 파싱해 만든다. CSS는 CSSOM으로 따로, JS는 만들어진 DOM을 고치는 쪽 (2026-09-26)
 - [HTML 문서 구조](JS/%EC%96%B8%EC%96%B4/HTML%20%EB%AC%B8%EC%84%9C%20%EA%B5%AC%EC%A1%B0.md) — 뼈대 줄마다 맡은 일(doctype·lang·charset·viewport·defer), 태그≠요소, void 요소, id·class·data-*, 엔티티 (2026-09-26)
 - [CSS 기초](JS/%EC%96%B8%EC%96%B4/CSS%20%EA%B8%B0%EC%B4%88.md) — 충돌은 `!important` > 인라인 > 명시도 > 소스 순서, **inline은 세로가 안 먹는다**, `absolute`는 static 아닌 가장 가까운 조상, 틀린 값은 조용히 버려진다 (2026-10-02)
