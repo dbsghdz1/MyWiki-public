@@ -5,7 +5,7 @@ summary: "다음 작업의 AI를 위한 재현 가능한 작업 경험 허브"
 status: active
 aliases: [AI 노트, 작업 경험, worknotes]
 created: 2026-08-28
-updated: 2026-09-26
+updated: 2026-10-16
 ---
 
 # 작업노트
@@ -116,6 +116,7 @@ projects:
 - [실물을 흉내 내는 앱의 상표 위험](AppStore/%EC%8B%A4%EB%AC%BC%EC%9D%84%20%ED%9D%89%EB%82%B4%20%EB%82%B4%EB%8A%94%20%EC%95%B1%EC%9D%98%20%EC%83%81%ED%91%9C%20%EC%9C%84%ED%97%98.md) — 폴라로이드 흰 테두리는 **classic border logo** 등록 상표이고 재판 계류 중, 실질 위험은 소송이 아니라 **App Store 신고 한 건** (2026-08-26)
 
 ### 도구
+- [Jev와 System One 판단 모델](%EB%8F%84%EA%B5%AC/Jev%EC%99%80%20System%20One%20%ED%8C%90%EB%8B%A8%20%EB%AA%A8%EB%8D%B8.md) — Jev는 생성이 아니라 **후보 중 하나를 고르고 확률을 돌려주는 판단 모델**이고 confidence는 정답 확률이 아니라 분포가 몰린 정도다. MCP `aside-jev-direct`의 `jev_choose`는 `choice`, `confidence`, `ready`(0.7 기준)를 반환. 웹 FE 공고 선별 59건 시험에서 **확신 높음 95.5%, 확신 낮음 53%**, 확신 높은 오답은 둘 다 "해당 없음" 쪽이라 확신 높은 `not`은 훑어봐야 한다. 입력에 업무 설명이 없으면 확신 높게 틀린다 (2026-10-16)
 - [토스페이먼츠 결제위젯](%EB%8F%84%EA%B5%AC/%ED%86%A0%EC%8A%A4%ED%8E%98%EC%9D%B4%EB%A8%BC%EC%B8%A0%20%EA%B2%B0%EC%A0%9C%EC%9C%84%EC%A0%AF.md) — 결제위젯 v2(`@tosspayments/tosspayments-sdk`)로 카드·카카오 페이·네이버 페이·토스페이를 한 번에. **`setAmount`는 `{currency,value}` 객체**, 비회원은 `ANONYMOUS`, 주문번호는 한글 불가라 `p80-one-a2-<hex>`로 상품 인코딩, 해시 라우터에선 successUrl을 쿼리로만. 문서 공개 테스트 키로 승인 API까지 되지만 주문 조회는 `NOT_FOUND_MERCHANT`. 테스트 모드도 카드 인증창은 진짜라 헤드리스 완주 불가 (2026-10-02)
 - [앱인토스 미니앱](%EB%8F%84%EA%B5%AC/%EC%95%B1%EC%9D%B8%ED%86%A0%EC%8A%A4%20%EB%AF%B8%EB%8B%88%EC%95%B1.md) — `@apps-in-toss/web-framework` 3.7은 React 19에서도 되고 설정 파일은 `apps-in-toss.config.ts`(문서의 `granite.config.ts`는 구형), 토스 안 판별은 `window.__appsInToss`/`ReactNativeWebView`, IAP는 `createOneTimePurchaseOrder`가 cleanup 함수를 돌려주며 복원은 `getCompletedOrRefundedOrders`, 수수료 20%·공급가 최소 400원, 검수는 **라이트 테마 필수·SSR 불가·앱 설치 링크 금지** (2026-10-01)
 - [macOS 파일 접근 권한과 휴지통](%EB%8F%84%EA%B5%AC/macOS%20%ED%8C%8C%EC%9D%BC%20%EC%A0%91%EA%B7%BC%20%EA%B6%8C%ED%95%9C%EA%B3%BC%20%ED%9C%B4%EC%A7%80%ED%86%B5.md) — **launchd 작업은 `(로컬 경로)`을 못 읽는다**(exit 127 `can't open input file`) → 실행본을 `(로컬 경로)`에 둔다(2026-09-23). Claude Code 셸에서 `(로컬 경로)` 읽기가 `Operation not permitted`면 **터미널 앱의 Full Disk Access 부재**다. `sudo`·root osascript도 같이 막히고, Finder를 AppleScript로 시켜도 커널 로그의 deny 주체는 osascript. 그 상태의 "권한 없음"은 진단 근거가 아니다. Finder "being used by another task"는 `killall Finder`로 해소 (2026-09-22)
