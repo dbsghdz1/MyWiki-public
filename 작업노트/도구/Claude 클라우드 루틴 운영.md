@@ -64,5 +64,5 @@ projects:
   - 프롬프트에서 CCR 전용인 것은 세 절뿐이다. UTC 더하기(맥은 KST라 `date`로 끝), 「git 규칙 (샌드박스 함정)」의 detached HEAD와 merge-base 이야기(로컬 클론은 main 브랜치), egress 차단 문구. 나머지 규격은 글자 하나 안 바꿨다.
   - push는 프롬프트가 아니라 실행기가 한다. 루틴 세션은 커밋까지만 하고 `codex_routine.py`가 `git push origin HEAD:main`을 한다. 2026-08-29 self-abort 같은 「push 안 하고 종료」가 있어도 실행기 로그에 남는다.
   - JD 분석 루틴은 `scripts/wiki-config.json`의 `routines`에 없었다. 이식하면서 `com.hong.mywiki-codex-jd`로 넣었다.
-  - Claude 루틴 셋은 홍이 launchd를 등록할 때까지 켜 둔다. 둘이 같이 돌면 같은 파일을 두 번 만들 수 있어 전환은 같은 날에 한다.
+  - 둘이 같이 돌면 같은 파일을 두 번 만들 수 있어 전환은 같은 날에 했다. 16:01 launchd 등록, 16:02 `RemoteTrigger update {"enabled": false}` 셋. 부분 update에 `enabled`만 보내도 된다(프롬프트를 바꿀 때만 `job_config.ccr` 전체가 필요하다).
 - 근거: `scripts/routines/`, 루틴 목록 JSON은 세션 스크래치에만 보관.
