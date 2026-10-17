@@ -93,6 +93,22 @@ Lynx Engine (C++)
 - 근거: 아래 참고 자료. 번들 실측은 2026-10-17 로컬 빌드.
 - 새로 생긴 궁금증: SEED `lynx-react` 패키지 규칙 문서가 「intrinsic tag는 리터럴 JSX로만 쓴다」 「CSS `inherit`은 지원 안 한다」를 불변식으로 두는 이유가 이 구조(snapshot 컴파일, opt-in 상속)로 설명되는지. SEED를 넣을 때 확인한다.
 
+### 2026-10-17 저녁: 조사 문서가 어려워서 층을 하나씩 다시 물었다
+
+- 계기: 홍 「lynx가 폰에서 작동하는 방법들에 대해서 너가 조사했는데 나에게는 너무 어려워서」. 위 핵심 정리와 아티팩트 둘 다 한 번에 층이 너무 많았다.
+- 물어본 순서와 답 한 줄씩:
+  1. Lynx는 React 바탕이냐: 아니다. 엔진은 C++이고 프레임워크와 무관하다. React처럼 쓰는 층은 ReactLynx이고 Preact 위에 만들었다.
+  2. 그러면 ReactLynx가 C++이냐: 아니다. C++은 엔진이고 ReactLynx는 JavaScript다. 여기서 두 층이 섞였다. 「React와 관련 없다」도 아니고 「React 호환품(Preact) 위에 만들었다」가 맞다.
+  3. `main.lynx.bundle`은 누가 만드나: Rspeedy. 웹의 Vite 자리다. 나는 `src/`에 쓰고, Rspeedy가 번들을 만들고, 엔진이 폰에서 그린다.
+  4. Lynx Explorer는 뭐냐: 엔진을 미리 넣어 둔 개발용 빈 껍데기 앱. 개발 서버 주소를 QR로 받아 번들을 그린다. 배포에는 안 쓴다.
+  5. 앱스토어에는 엔진을 어떻게 넣나: CocoaPods로 `Lynx`와 `PrimJS`를 받고, 앱 시작 때 `LynxEnv`를 깨우고, 번들을 읽어 주는 `LynxTemplateProvider` 클래스 하나를 쓰고, `LynxView`를 `addSubview`로 올린 뒤 `loadTemplateFromURL`을 부른다. 번들 파일은 Copy Bundle Resources에 넣는다. Explorer와 완성 앱의 차이는 번들을 어디서 읽나 하나뿐이다.
+  6. 화면을 바꾸면 재배포냐 서버 갱신이냐: 둘 다 된다. 5번의 Provider가 앱 안 파일을 읽으면 재배포, 서버에서 받으면 서버 갱신이다. 「바이너리 안 바꾸고 갱신」은 Provider를 서버 쪽으로 쓸 때만 생긴다. 네이티브 코드 변경과 앱 성격을 바꾸는 갱신은 어느 쪽이든 재배포다.
+  7. React Native와 뭐가 다르냐: 같은 점은 React 문법, 진짜 네이티브 뷰, JS 번들 + 네이티브 껍데기. 다른 점은 스타일(RN은 `StyleSheet.create` JS 객체, Lynx는 진짜 CSS 파일과 선택자), JS 스레드 수(하나 대 둘), 첫 화면(Lynx는 메인 스레드가 JS를 기다리지 않고 그린다). RN 비교는 에이전트의 정리이고 공식 문서의 비교가 아니다.
+- 막힌 지점: 「C++」이 어느 층 이야기인지. 엔진과 ReactLynx를 한 덩어리로 들으면 「ReactLynx가 C++로 만든 React 비슷한 것」으로 뭉개진다. 표로 층을 나누자 풀렸다.
+- 홍이 「여기까지만 알고 넘어가도 될까」로 닫았다. 지금 보험찾개냥 PR에 필요한 건 세 줄이다: React처럼 쓰되 태그는 `view`, `text`이고 이벤트는 `bindtap`이다. 스타일은 진짜 CSS 파일이되 `display` 기본이 `linear`이고 상속이 꺼져 있다. 화면은 `rspeedy dev` 뒤 Explorer로 본다. 나머지는 「그런 게 있다」까지만.
+- 숙제: 다음 Explorer 세션에서 컴포넌트 함수 맨 위에 `console.log('render')`를 넣고 몇 번 찍힐지 예측한 뒤 확인한다. 위 10-17 항목의 예측 문제와 같다.
+- 근거: 5번은 [Integrate with Existing Apps](https://lynxjs.org/guide/start/integrate-with-existing-apps.html) iOS 절을 다시 열어 확인했다(2026-10-17, Pod 이름과 메서드 이름). 나머지는 위 참고 자료. 출처: Claude 대화, 2026-10-17.
+
 ## 더 알아보면 좋은 것
 
 - Lynx for Web이 같은 번들을 브라우저 안에서 어떻게 그리는가.
