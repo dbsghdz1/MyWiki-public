@@ -2,15 +2,17 @@
 type: study
 area: 도구
 audience: ai
-status: active
+status: stale
 created: 2026-08-22
-updated: 2026-09-26
+updated: 2026-10-17
 projects:
   - "논문표"
   - "사업자 운영"
 ---
 
 # Claude Code 사용량과 한도
+
+> 2026-10-17 홍이 Claude 구독을 끊고 Codex로 옮기면서 `status: stale`로 내렸다. Claude Code를 다시 쓸 때만 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
 
 구독 한도는 하나가 아니다 — **모델별 하위 한도**가 따로 있고, 실제로 먼저 마르는 건 그쪽이다. 그리고 내 사용량은 추측할 필요 없이 **로컬 트랜스크립트로 실측**할 수 있다.
 

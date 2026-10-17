@@ -16,14 +16,14 @@ status: active
 | [개인 프로젝트](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/README.md) | 개인 프로젝트의 상태와 진입점을 묶는 허브 | active | 2026-10-14 |
 | [BarStack](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md) | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-30 |
 | [BookMini](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BookMini/README.md) | MacBook을 맥미니처럼 상시 가동 호스트로 쓰게 하는 내부 도구 — 잠자기 방지·살아있음 감시·로그인 세션 점검 | active | 2026-09-23 |
-| [CoinPilot (MyCryptoDiary)](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) | 가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점 | active | 2026-10-15 |
-| [DayTune](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-09-05 |
+| [CoinPilot (MyCryptoDiary)](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) | 가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점 | active | 2026-10-17 |
+| [DayTune](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-10-17 |
 | [Fadeo](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%A6%89%EC%84%9D%EC%B9%B4%EB%A9%94%EB%9D%BC/README.md) | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-23 |
-| [math-sprint](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/math-sprint/README.md) | Apps in Toss용 짧은 두뇌 퀴즈 스프린트 게임의 작업 진입점 | paused | 2026-09-23 |
+| [math-sprint](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/math-sprint/README.md) | Apps in Toss용 짧은 두뇌 퀴즈 스프린트 게임의 작업 진입점 | paused | 2026-10-17 |
 | [Subly](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Subly/README.md) | macOS 실시간 자막·번역 앱 실험의 작업 진입점 | paused | 2026-09-05 |
-| [Tripbox](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Tripbox/README.md) | 가고 싶은 곳 링크를 둘이 공유해 두면 AI가 일정과 근처 현지 맛집을 정리해 주는 iOS 여행 앱 | active | 2026-10-14 |
+| [Tripbox](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Tripbox/README.md) | 가고 싶은 곳 링크를 둘이 공유해 두면 AI가 일정과 근처 현지 맛집을 정리해 주는 iOS 여행 앱 | active | 2026-10-17 |
 | [WristNote](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-10-11 |
-| [Zappy](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-10-15 |
+| [Zappy](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Zappy/README.md) | 배터리 상태를 캐릭터로 보여주는 macOS 메뉴바 앱의 작업 진입점 | active | 2026-10-17 |
 | [논문표](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EB%85%BC%EB%AC%B8%ED%91%9C/README.md) | 설문 엑셀을 올리면 한국 학위논문 양식의 통계표와 해석문을 만들어 워드로 내보내는 웹 서비스 | active | 2026-09-26 |
 | [약국맵](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | archived | 2026-10-14 |
 | [오늘 본 장면](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) | 해외 CC BY 영상에 한국어 대사 자막을 입혀 매일 올리는 유튜브 쇼츠 채널과 그 제작·게시 자동화 | paused | 2026-10-17 |

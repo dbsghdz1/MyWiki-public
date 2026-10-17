@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-04
-updated: 2026-09-16
+updated: 2026-10-17
 projects:
   - "보험찾개냥"
   - "약국맵"
@@ -45,3 +45,12 @@ projects:
   - **판정판은 이미지로 굽지 말고 Figma 안에서 조립하는 게 낫다.** 배경만 `upload_assets`로 꽂고 패널·핀은 기존 노드를 `clone()`해 절대 좌표로 얹으면, 핀을 끌어 옮겨가며 볼 수 있고 배경 교체도 fill 재업로드 한 번이다. PIL로 합성한 첫 버전은 배경을 바꿀 때마다 전부 다시 구워야 했다.
   - **v1 좌표를 그대로 재사용하면 before/after가 정직해진다** — `get_metadata`가 주는 프레임 x/y/w/h를 그대로 써서 같은 자리에 v1 패널과 v2 핀을 각각 얹었다.
 - 근거: Figma `MyCryptoDiary` 섹션 「약국맵 v2 — 카카오맵 대응 · 3D 아이콘」(`464:467`) / 실패 로그: `Pretendard does not exist`, `no such property 'strokeDashPattern'`, `Can only set layoutPositioning = ABSOLUTE …`
+
+### 2026-10-17 — 공모전 출품 파일 40여 프레임을 만들며 (원 기록 2026-07-28)
+
+- 맥락: 개인 Figma 공모전 출품작(BYRO UI 디자인 공모전, 7페이지에 40여 프레임)을 Figma MCP로 만들었다. 2026-07-31에 제출해 끝났고 프로젝트 문서는 없다. Claude 메모리 이관(원 기록 2026-07-28~31).
+- 배운 것:
+  - **다른 페이지의 children은 그 페이지를 불러온 뒤에야 정확하다.** `setCurrentPageAsync`로 들어가기 전에 세면 프레임이 있는데도 빈 페이지처럼 보인다. 페이지별 프레임 수를 셀 때 걸렸다.
+  - **컨테이너를 새로 만들면 기본 흰 배경이 깔린다.** 투명이 필요하면 `fills = []`를 직접 준다.
+  - **`resize()`를 부른 뒤에는 오토레이아웃의 `primaryAxisSizingMode = 'AUTO'`를 다시 줘야 했다.** 해석: `resize()`가 크기 모드를 고정으로 돌려놓는 것으로 보인다. 위 둘은 각각 두 번씩 겪었다.
+- 근거: 출품 작업 파일의 2026-07-28 세션 기록(Claude 메모리).

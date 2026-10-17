@@ -6,7 +6,7 @@ status: active
 aliases:
   - 여행앱
 created: 2026-09-23
-updated: 2026-10-14
+updated: 2026-10-17
 repos:
   - "github.com/dbsghdz1/Tripbox"
 related_wiki: []
@@ -58,6 +58,7 @@ launch_approved: 2026-09-23
 
 - `(로컬 경로)` — [github.com/dbsghdz1/Tripbox](https://github.com/dbsghdz1/Tripbox) (비공개, 2026-09-24 생성)
 - **PRD 정본은 레포 `docs/PRD.md`**, 결정 표는 `docs/decisions.md`. 위키의 PRD 파일은 09-23 작성본 사본이다.
+
 
 ## 기록
 

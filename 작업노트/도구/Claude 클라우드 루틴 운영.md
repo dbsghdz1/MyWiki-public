@@ -2,14 +2,16 @@
 type: study
 area: 도구
 audience: ai
-status: active
+status: stale
 created: 2026-08-30
-updated: 2026-10-15
+updated: 2026-10-17
 projects:
   - "계획"
 ---
 
 # Claude 클라우드 루틴 운영
+
+> 2026-10-17 홍이 Claude 구독을 끊고 Codex로 옮기면서 `status: stale`로 내렸다. Claude Code를 다시 쓸 때만 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
 
 한 줄 요약 — 루틴 실행 상태 `ROUTINE_RUN_STATUS_SUCCEEDED`는 "세션이 정상 종료됨"일 뿐 **작업이 수행됐다는 뜻이 아니다**. 그리고 CCR 샌드박스의 git 상태는 실제 저장소와 다르다 — detached HEAD가 진짜 최신이고, `refs/remotes/origin/main`은 낡은 캐시일 수 있으며, merge-base 실패는 이력 단절이 아니라 샌드박스 아티팩트다.
 
@@ -54,3 +56,13 @@ projects:
   - 루틴이 샌드박스 안에 만든 `preserve-local-2026-08-29` 브랜치·stash는 샌드박스 소멸과 함께 사라진다 — 정리할 것 없음.
 - 근거: `RemoteTrigger get_run_log cse_01QzpHvADwJer7UYvpseDxkw` 전문, 로컬 `git merge-base`·`git fetch` 실측 (2026-08-30 01:20 KST).
 - 조치 (2026-08-30): 두 루틴("MyWiki 일간 계획 생성"·"MyWiki 주간 회고 스캐폴드") 프롬프트에 **「git 규칙」 섹션** 추가 — detached HEAD 위에서 그대로 커밋, `git checkout main` 금지, push는 `git pull --rebase origin main` → `git push origin HEAD:main`(거부 시 1회 재시도, 강제 push 금지). 일간 루틴에는 **어제 파일 부재 시 가장 최근 일간 파일로 이월 수집**, 회고 루틴에는 **일간 파일 없는 날 표기** 규칙도 추가. 원본 규격은 계획에 반영.
+
+### 2026-10-17 — 루틴 셋을 맥 launchd + Codex exec로 이식, Claude 루틴은 등록 뒤 끈다
+
+- 맥락: 이식 기록. 홍이 Claude 구독을 끊기로 해서 일간 계획 생성, 주간 회고 스캐폴드, 채용 공고 JD 분석 프롬프트를 `RemoteTrigger list`의 `derived_state.prompt`에서 그대로 받아 `scripts/routines/*.md`로 옮겼다.
+- 배운 것:
+  - 프롬프트에서 CCR 전용인 것은 세 절뿐이다. UTC 더하기(맥은 KST라 `date`로 끝), 「git 규칙 (샌드박스 함정)」의 detached HEAD와 merge-base 이야기(로컬 클론은 main 브랜치), egress 차단 문구. 나머지 규격은 글자 하나 안 바꿨다.
+  - push는 프롬프트가 아니라 실행기가 한다. 루틴 세션은 커밋까지만 하고 `codex_routine.py`가 `git push origin HEAD:main`을 한다. 2026-08-29 self-abort 같은 「push 안 하고 종료」가 있어도 실행기 로그에 남는다.
+  - JD 분석 루틴은 `scripts/wiki-config.json`의 `routines`에 없었다. 이식하면서 `com.hong.mywiki-codex-jd`로 넣었다.
+  - Claude 루틴 셋은 홍이 launchd를 등록할 때까지 켜 둔다. 둘이 같이 돌면 같은 파일을 두 번 만들 수 있어 전환은 같은 날에 한다.
+- 근거: `scripts/routines/`, 루틴 목록 JSON은 세션 스크래치에만 보관.
