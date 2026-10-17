@@ -5,7 +5,7 @@ summary: "다음 작업의 AI를 위한 재현 가능한 작업 경험 허브"
 status: active
 aliases: [AI 노트, 작업 경험, worknotes]
 created: 2026-08-28
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # 작업노트
@@ -36,14 +36,14 @@ grep -rl --null "^audience: ai" "$VAULT/작업노트" | xargs -0 grep -l "<프�
 
 ## 파일 규칙
 
-- 경로: **`작업노트/<분야>/<주제>.md`**. 분야는 `Apple` · `AppStore` · `도구` · `Flutter` 넷이고, 아래 「주제 목록」의 절 이름과 1:1로 맞춘다. 주제명은 검색 가능한 명사구.
+- 경로: **`작업노트/<분야>/<주제>.md`**. 분야는 `Apple`, `AppStore`, `도구`, `Flutter`, `Lynx` 다섯이고, 아래 「주제 목록」의 절 이름과 1:1로 맞춘다. 주제명은 검색 가능한 명사구.
 - **어느 분야인지 애매하면 폴더를 새로 만들지 말고 [미분류](%EB%AF%B8%EB%B6%84%EB%A5%98.md)에 항목만 append한다.** 같은 성격이 3개 모이면 그때 분야를 만들고, 만들면 주제 목록에 절을 함께 추가한다.
 - frontmatter:
 
 ```yaml
 ---
 type: study
-area: Apple | AppStore | 도구 | Flutter
+area: Apple | AppStore | 도구 | Flutter | Lynx
 audience: ai
 status: active | stale
 created: YYYY-MM-DD
@@ -177,6 +177,9 @@ projects:
 - [flutter run 프로세스와 앱 수명](Flutter/flutter%20run%20%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4%EC%99%80%20%EC%95%B1%20%EC%88%98%EB%AA%85.md) — `flutter run` 호스트가 죽어도 시뮬레이터 앱은 살지만 **print 로그와 VM Service는 못 살린다**(unified log에도 안 잡힘, attach 불가) — 로그가 필요하면 재실행이 답이고 Keychain 세션은 유지된다 · **안쪽 화면 스크린샷은 `flutter run --route=/<경로>`로 그 화면에서 시작** — 전역 redirect가 없고 인자가 없는 경로면 세션 없이 뜬다 (2026-09-16)
 - [제스처 아레나와 스크롤 경쟁](Flutter/%EC%A0%9C%EC%8A%A4%EC%B2%98%20%EC%95%84%EB%A0%88%EB%82%98%EC%99%80%20%EC%8A%A4%ED%81%AC%EB%A1%A4%20%EA%B2%BD%EC%9F%81.md) — 스크롤러 안 pan은 세로를 빼앗긴다 → `addAllowedPointer`에서 즉시 `resolve(accepted)`로 선점. `Container`에 `alignment`를 주면 부모를 채워 바깥 `Align`이 무력화되고 탭 표면이 행 전체가 된다 (2026-08-27)
 - [iOS 접근성 트리 공백](Flutter/iOS%20%EC%A0%91%EA%B7%BC%EC%84%B1%20%ED%8A%B8%EB%A6%AC%20%EA%B3%B5%EB%B0%B1.md) — 특정 화면(병원 검색 오버레이 계열)에서 접근성 트리가 통째로 빈다. XCTest 도구·VoiceOver 둘 다 못 읽는다 — 자동화가 한 화면에서만 실패하면 셀렉터 전에 `maestro hierarchy`부터 (2026-08-27) · 보험 등록 화면도 트리 공백 — iOS 시뮬레이터를 좌표로 모는 법 (2026-09-16)
+
+### Lynx
+- [ReactLynx 화면 포팅 지뢰](Lynx/ReactLynx%20%ED%99%94%EB%A9%B4%20%ED%8F%AC%ED%8C%85%20%EC%A7%80%EB%A2%B0.md) — 웹 CSS가 맞아도 Lynx가 받는지는 따로다. **`env()` 대비값은 선언째 버려지고, view 기본 `display`는 `linear`라 flex 속성이 무시된다**, `<image>`는 SVG를 못 그린다, 화면이 안 바뀌면 HMR 연결부터 본다 (2026-10-17)
 
 ## 자주 쓰는 요청
 
