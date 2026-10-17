@@ -34,9 +34,9 @@ projects:
 
 ## 기록
 
-### 2026-10-17 — 홍의 Claude Code 설정 전부를 Codex로 옮겼다
+### 2026-10-17 — 홍의 Claude Code 설정 전부를 Codex에 복제했다
 
-- 맥락: 이식 기록. 홍이 이번 주 Claude 구독을 끊고 Codex로 간다고 해서 전역 규칙, 스킬 7개, 훅 1개, 서브에이전트 1개, MCP 4개, 프로젝트 지침 8개, 클라우드 루틴 3개, 메모리 93개를 옮겼다.
+- 맥락: 복제 기록. 홍이 이번 주 Claude 구독을 끊고 Codex로 가되 「나중에 다시 클로드를 쓸 때도 똑같이 쓰게」 해 달라고 해서 전역 규칙, 스킬 7개, 훅 1개, 서브에이전트 1개, MCP 4개, 프로젝트 지침 8개, 클라우드 루틴 3개, 메모리 93개를 Codex에 복제하고 Claude 쪽은 그대로 두었다.
 - 배운 것:
   - **Codex 매뉴얼은 한 파일이다.** `https://developers.openai.com/codex/codex-manual.md`(약 3MB). 토픽은 `grep -n '^#'`로 찾는다. 공식 문서 URL은 `learn.chatgpt.com/docs/...md`로 바뀌어 있다.
   - **`codex exec`에는 `-a`/`--ask-for-approval`가 없다.** `error: unexpected argument '-a' found`. 비대화형이라 승인은 애초에 없고, 샌드박스 밖 명령은 `rules`의 allow만 통한다.

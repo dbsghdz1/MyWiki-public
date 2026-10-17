@@ -2,14 +2,14 @@
 type: study
 area: 도구
 audience: ai
-status: stale
+status: active
 created: 2026-09-10
 updated: 2026-10-17
 ---
 
 # Claude 아티팩트 공개 배포
 
-> 2026-10-17 홍이 Claude 구독을 끊고 Codex로 옮기면서 `status: stale`로 내렸다. Claude Code를 다시 쓸 때만 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
+> 2026-10-17부터 홍은 Codex를 주로 쓰되 Claude Code 설정은 복제본으로 유지한다. 이 노트는 그대로 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
 
 **아티팩트는 Claude 계정이 없는 사람에게 못 보여준다.** 외부에 공유할 페이지면 처음부터 정적 호스팅으로 만들고, 이때 **아티팩트가 자동으로 씌워주던 문서 뼈대를 직접 붙여야 한다** — 안 붙이면 모바일에서 페이지 전체가 축소돼 나온다.
 

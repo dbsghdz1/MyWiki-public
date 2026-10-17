@@ -2,7 +2,7 @@
 type: study
 area: 도구
 audience: ai
-status: stale
+status: active
 created: 2026-08-21
 updated: 2026-10-17
 projects:
@@ -11,7 +11,7 @@ projects:
 
 # Claude Code 설정과 훅
 
-> 2026-10-17 홍이 Claude 구독을 끊고 Codex로 옮기면서 `status: stale`로 내렸다. Claude Code를 다시 쓸 때만 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
+> 2026-10-17부터 홍은 Codex를 주로 쓰되 Claude Code 설정은 복제본으로 유지한다. 이 노트는 그대로 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
 
 **어떤 설정이 "언제 로드되는가"를 틀리면 조용히 아무 일도 안 일어난다**는 노트. 지금까지 겪은 것은 전부 문법이 아니라 **로딩 시점**의 문제였고, 실패해도 에러가 안 나서 몇 달을 모르고 지나갈 수 있다.
 

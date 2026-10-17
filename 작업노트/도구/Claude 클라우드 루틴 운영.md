@@ -2,7 +2,7 @@
 type: study
 area: 도구
 audience: ai
-status: stale
+status: active
 created: 2026-08-30
 updated: 2026-10-17
 projects:
@@ -11,7 +11,7 @@ projects:
 
 # Claude 클라우드 루틴 운영
 
-> 2026-10-17 홍이 Claude 구독을 끊고 Codex로 옮기면서 `status: stale`로 내렸다. Claude Code를 다시 쓸 때만 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
+> 2026-10-17부터 홍은 Codex를 주로 쓰되 Claude Code 설정은 복제본으로 유지한다. 이 노트는 그대로 유효하다. Codex 쪽 대응은 [Codex CLI 설정과 Claude Code 이식](Codex%20CLI%20%EC%84%A4%EC%A0%95%EA%B3%BC%20Claude%20Code%20%EC%9D%B4%EC%8B%9D.md).
 
 한 줄 요약 — 루틴 실행 상태 `ROUTINE_RUN_STATUS_SUCCEEDED`는 "세션이 정상 종료됨"일 뿐 **작업이 수행됐다는 뜻이 아니다**. 그리고 CCR 샌드박스의 git 상태는 실제 저장소와 다르다 — detached HEAD가 진짜 최신이고, `refs/remotes/origin/main`은 낡은 캐시일 수 있으며, merge-base 실패는 이력 단절이 아니라 샌드박스 아티팩트다.
 
