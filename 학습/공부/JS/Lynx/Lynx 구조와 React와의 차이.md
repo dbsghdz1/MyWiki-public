@@ -13,6 +13,8 @@ projects:
 
 한 줄 요약: Lynx는 React와 CSS로 쓴 화면을 브라우저 대신 C++ 엔진이 받아 진짜 네이티브 뷰로 그리는 런타임이고, 내 코드는 메인 스레드와 백그라운드 스레드 둘에서 돈다. 2026-10-17 시점의 이해다.
 
+읽기 쉽게 다시 쓴 판은 [Lynx가 폰에서 도는 법](https://claude.ai/artifact/Rko7n5Dku4mUvPBG5gJ5Xy)이다(2026-10-17, iOS 개념에 빗댄 그림 두 개와 네이티브, RN, Flutter, 웹 React 비교 포함). 에이전트용 세부 기록은 [ReactLynx 두 스레드 내부 구조](../../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Lynx/ReactLynx%20%EB%91%90%20%EC%8A%A4%EB%A0%88%EB%93%9C%20%EB%82%B4%EB%B6%80%20%EA%B5%AC%EC%A1%B0.md), [SEED Lynx 패키지 지도](../../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Lynx/SEED%20Lynx%20%ED%8C%A8%ED%82%A4%EC%A7%80%20%EC%A7%80%EB%8F%84.md), [SEED Lynx 설치와 BGN 툴체인](../../../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/Lynx/SEED%20Lynx%20%EC%84%A4%EC%B9%98%EC%99%80%20BGN%20%ED%88%B4%EC%B2%B4%EC%9D%B8.md)에 있다.
+
 ## 핵심 정리
 
 ### 어디서 왔나

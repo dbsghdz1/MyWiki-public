@@ -20,11 +20,22 @@ projects:
 - **실행 규칙**: `bindtap`에는 함수를 넘긴다. `bindtap={navigate(...)}`처럼 호출 결과를 넘기면 렌더 중에 실행된다. 값을 `import type`으로 가져오면 실행 때 사라진다. ReactLynx에는 `Link`가 없어 `bindtap`에서 `useNavigate()`로 옮긴다.
 - **타입**: `TS2322: Property 'children' does not exist on type 'TextProps'`가 전 파일에 뜨면 `src/index.tsx`가 비었는지 본다.
 - **개발 연결**: 화면이 안 바뀌면 코드보다 HMR 연결을 먼저 본다(`lsof`의 LynxExplorer 연결, 맥 IP, 렌더 중 예외). 번들 주소는 소문자 `http://`로 넣는다. 터미널 앱이 Desktop 권한을 잃어 `Operation not permitted`가 나면 앱을 완전히 종료한다.
+- **Explorer는 환경변수로 연다**: `SIMCTL_CHILD_lynx_initial_url='http://<호스트>:<포트>/main.lynx.bundle?fullscreen=true' xcrun simctl launch <udid 또는 booted> com.lynx.LynxExplorer`. `xcrun simctl openurl <udid> 'lynx://open?url=...'`은 iOS가 「LynxExplorer에서 열겠습니까」 확인창을 띄우고 simctl에는 탭 명령이 없어 막힌다. 다른 시뮬레이터로 옮기려면 `xcrun simctl get_app_container <udid> com.lynx.LynxExplorer app` 경로를 `xcrun simctl install <새 udid> <경로>`.
 - **테스트**: `@lynx-js/react/testing-library`에서 `toBeInTheDocument`가 `Invalid Chai property`로 실패하면 `import '@testing-library/jest-dom';`이 빠진 것이다.
 
 2026-10-17에 [미분류](../%EB%AF%B8%EB%B6%84%EB%A5%98.md)에서 두 항목을 원문 그대로 옮겼다. Lynx 기록이 셋째가 되어 분야를 만들었다.
 
 ## 기록
+
+### 2026-10-17: Explorer를 타이핑 없이 열고 화면을 픽셀로 비교한 법
+
+- 맥락: 소프트웨어마에스트로에 SEED를 넣기 전, 홍이 쓰는 시뮬레이터와 포트 3000을 건드리지 않고 복사본 앱을 다른 시뮬레이터에서 보려고(Fable 에이전트).
+- 배운 것:
+  - 꺼져 있던 iPhone 17을 `xcrun simctl boot`하고 홍 기기의 Explorer 앱 컨테이너를 `get_app_container`로 찾아 `install`하면 같은 Explorer가 뜬다. 설치본은 ObjC `openSchema:`, `openTargetUrl:`이 있는 구버전 계열이라 `lynx_initial_url` 환경변수 진입점이 있었다. 현재 main(Swift 라우팅)의 변수 이름은 미확인.
+  - 화면 전환은 `src/App.tsx`의 `MemoryRouter initialEntries`를 바꿔 재빌드하고 `terminate` 후 `launch`.
+  - 플래그 ON과 OFF 비교는 APFS 복제(`cp -c -R`)로 두 복사본을 두고 다른 포트(3198, 3199)로 dev 서버를 띄워 같은 화면을 `xcrun simctl io <udid> screenshot`으로 찍은 뒤 상태바 아래(y 170 이상)를 허용오차 0으로 픽셀 비교했다.
+  - 기기 로그는 `xcrun simctl spawn <udid> log stream --predicate 'process == "LynxExplorer"'`로 받는다. `CallLepusMethod: getUniqueIdListBySnapshotId` 줄 수로 devtools 호출 횟수를 셀 수 있다.
+- 근거: 스크린샷과 로그는 세션 스크래치에 두고 볼트에 넣지 않았다. 결과 요약은 [SEED Lynx 설치와 BGN 툴체인](SEED%20Lynx%20%EC%84%A4%EC%B9%98%EC%99%80%20BGN%20%ED%88%B4%EC%B2%B4%EC%9D%B8.md).
 
 ### 2026-10-07 — ReactLynx 화면 포팅에서 밟은 지뢰
 
