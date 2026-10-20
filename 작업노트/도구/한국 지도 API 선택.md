@@ -4,9 +4,10 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-16
+updated: 2026-10-20
 projects:
   - "약국맵"
+  - "일상 블로그"
 ---
 
 # 한국 지도 API 선택
@@ -55,8 +56,20 @@ projects:
 - 근거: Figma `MyCryptoDiary` 파일 섹션 「약국맵 v2 — 카카오맵 대응 · 3D 아이콘」(판정 합성 이미지 2장·핀 시스템 3단) / 캡처 2026-09-16 `map.kakao.com/?q=서울대입구역 약국` / 카카오맵 웹 SDK 문서 `apis.map.kakao.com/web/documentation/`의 `setCopyrightPosition`·`MapTypeId`·`MarkerClusterer`·`CustomOverlay` 항목 (2026-09-16 확인, 상세 파라미터는 JS 렌더라 WebFetch로 못 읽음)
 - 기록: [디자인 v2 카카오맵 대응 2026-09-16](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/%EB%94%94%EC%9E%90%EC%9D%B8%20v2%20%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%A7%B5%20%EB%8C%80%EC%9D%91%202026-09-16.md)
 
+### 2026-10-20 — 일상 블로그용 Kakao Local REST 키를 찾으며 (콘솔 개편 뒤 경로)
+
+- 맥락: [일상 블로그](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%BC%EC%83%81%20%EB%B8%94%EB%A1%9C%EA%B7%B8/README.md) 파이프라인이 맛집 글의 주소와 가까운 역을 Kakao Local 「키워드로 장소 검색」으로 채운다. 홍이 Kakao Developers에 앱을 만든 뒤 「키를 어떻게 받느냐」고 물어, 문서와 홍의 콘솔(Aside, 읽기만)로 확인했다.
+- 배운 것:
+  - **키는 신청하는 것이 아니라 앱을 만들면 종류별로 1개씩 자동 발급된다.** 2025-12-03 콘솔 개편으로 위치가 바뀌어 지금은 [앱] > [플랫폼 키] > [REST API 키]다(개편 전 [앱] > [일반] > [앱 키]). 로컬 API는 REST API 키만 쓰고 JavaScript 키는 지도 SDK 전용이라 섞어 쓰면 에러다. 호출 허용 IP 주소도 같은 메뉴 아래에 있고 비워 두면 꺼진 상태다(등록하면 그 IP 밖에서는 -401).
+  - **카카오맵 사용 설정 ON이 먼저다.** [제품 설정] > [카카오맵] > [사용 설정] > [상태]. 2024-12-01부터 신규 앱은 이 설정 없이는 호출이 안 된다.
+  - **무료 쿼터 배지는 앱 목록에서 보인다.** 계정의 첫 활성화 앱에만 「카카오맵 무료 쿼터」 배지가 붙고, 비활성화해도 다른 앱으로 옮길 수 없다. 홍의 계정은 앱이 하나뿐이라 그 앱이 무료 쿼터 앱이다. 두 번째 앱부터는 비즈월렛(세금계산서 주체 정보와 자동 결제 카드)을 연결하고 유료 API 설정을 해야 한다.
+  - 로컬 API 무료 한도는 키워드와 카테고리 장소 검색, 주소와 좌표 변환 각각 **일 10만 건**, 전체 API **월 300만 건**. 초과분은 장소 검색 건당 2원, 주소와 좌표 변환 건당 0.5원. 블로그는 글당 1회 호출이라 한도와 무관하다.
+  - 인증 헤더는 `Authorization: KakaoAK {REST API 키}`, 엔드포인트 `https://dapi.kakao.com/v2/local/search/keyword.json`, 필수 파라미터 `query`뿐이다.
+- 근거: [앱 설정 > 앱](https://developers.kakao.com/docs/ko/app-setting/app), [앱과 앱 키 변경 사항](https://developers.kakao.com/docs/latest/ko/getting-started/app-key-migration), [카카오맵 이해하기](https://developers.kakao.com/docs/ko/kakaomap/common), [쿼터](https://developers.kakao.com/docs/ko/getting-started/quota), [카카오맵 REST API](https://developers.kakao.com/docs/ko/kakaomap/rest-api), [데브톡 공지 2026-07-21 카카오맵 API 변경](https://devtalk.kakao.com/t/api/150222), [유료 API](https://developers.kakao.com/docs/ko/app-setting/paid-api), 홍의 콘솔 제품 설정 > 카카오맵 화면 (전부 2026-10-20 확인)
+
 ## 참고 자료
 
 - [국토교통부_2D 지도 API — 공공데이터포털](https://www.data.go.kr/data/3052419/openapi.do) — VWorld 2D 지도 (2026-09-05 확인)
 - [Kakao Developers — 카카오맵 시작하기](https://developers.kakao.com/docs/ko/kakaomap/common) — 키 발급과 쿼터 정책 (2026-09-05 확인)
 - [네이버 클라우드 플랫폼 공지 — 지도 API 신규 이용 신청 차단 및 무료 혜택 종료](https://www.ncloud.com/support/notice/all/1930) (2026-09-05 확인)
+- [Kakao Developers 앱과 앱 키 변경 사항](https://developers.kakao.com/docs/latest/ko/getting-started/app-key-migration) 2025-12-03 콘솔 개편의 키 메뉴 경로, [쿼터](https://developers.kakao.com/docs/ko/getting-started/quota) 로컬 API 일 10만 건 (2026-10-20 확인)
