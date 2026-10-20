@@ -28,7 +28,7 @@ status: active
 | [약국맵](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%95%BD%EA%B5%AD%EB%A7%B5/README.md) | 지금 실제로 문 연 약국을 확인 여부와 함께 보여주는 지도 웹 서비스 | archived | 2026-10-14 |
 | [오늘 본 장면](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%98%A4%EB%8A%98%20%EB%B3%B8%20%EC%9E%A5%EB%A9%B4/README.md) | 해외 CC BY 영상에 한국어 대사 자막을 입혀 매일 올리는 유튜브 쇼츠 채널과 그 제작·게시 자동화 | paused | 2026-10-17 |
 | [인스타카드뉴스](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%B8%EC%8A%A4%ED%83%80%EC%B9%B4%EB%93%9C%EB%89%B4%EC%8A%A4/README.md) | 인스타그램 카드뉴스 생성·발행 자동화의 작업 진입점 | active | 2026-09-23 |
-| [일상 블로그](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%BC%EC%83%81%20%EB%B8%94%EB%A1%9C%EA%B7%B8/README.md) | 요리, 데이트, 여행, 맛집 일상을 사진과 메모만 주면 AI가 블로그 글로 만들어 개인 도메인에 올리는 파이프라인의 작업 진입점 | idea | 2026-10-20 |
+| [일상 블로그](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%9D%BC%EC%83%81%20%EB%B8%94%EB%A1%9C%EA%B7%B8/README.md) | 요리, 데이트, 여행, 맛집 일상을 사진과 메모만 주면 AI가 규칙서대로 글을 쓰고 번역해 개인 도메인에 올리는 다국어 블로그의 작업 진입점 | idea | 2026-10-20 |
 | [커플앱](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%BB%A4%ED%94%8C%EC%95%B1/README.md) | 사진과 기록을 두 사람의 폰에 전부 남겨 잃지 않게 하는 iPhone, Android 1회 결제 커플 기록 앱 후보의 문제 검증 작업공간 | idea | 2026-10-16 |
 | [한국사 정복](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/README.md) | 한국사능력검정시험 학습 앱의 작업 진입점 | active | 2026-10-11 |
 
