@@ -4,7 +4,7 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-08-26
-updated: 2026-09-02
+updated: 2026-10-26
 projects:
   - "한능검"
 ---
@@ -114,6 +114,9 @@ projects:
   - 폼이 요구한 값 중 사고 방지에 직결된 둘: `Business Structure / Legal Structure`(드롭다운이 아니라 **자유 입력** — `Sole Proprietorship` 타이핑)와 **`Business Registration Number`**(한국 사업자등록번호 전용 필드가 있다). 이 둘이 동명 법인과 갈라주는 장치다. `CEO Title`은 개인사업자면 `Owner`.
   - 첨부 금지 목록이 명시돼 있다 — 운전면허·여권·주민번호·**통장 사본(Banking Statements)**. 보강 서류는 임대차계약서나 사업자명이 찍힌 공과금 고지서 쪽이다.
 - 여파 없음: iOS는 Individual 등록이라 DUNS가 필요 없고, Play는 개인 계정으로 9/4 결제를 이미 마쳤다 — 조직 전환만 밀린다.
+
+### 2026-10-26 결과 메일 부재 기록 정정
+
 
 ## 참고 자료
 
