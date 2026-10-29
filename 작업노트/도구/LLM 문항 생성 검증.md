@@ -4,7 +4,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-09-05
-updated: 2026-09-05
+updated: 2026-10-29
 projects:
   - "한능검"
 ---
@@ -40,3 +40,9 @@ projects:
 ## 참고 자료
 - 규격 원본: `(로컬 경로)`(심화) · `data/predict-basic/SPEC.md`(기본)
 - 도구: `tools/predict_cfg.py`(수준 분기) · `predict_slots.py` · `predict_material.py` · `predict_verify.py` · `predict_blind.py` · `predict_compare.py` · `predict_dedup.py` · `predict_export.py`
+
+## 2026-10-29: 회차 분리와 자체 검토의 한계
+
+- `PREDICT_EXAM=81`로 생성 원본을 `data/predict-81/`에 분리하고 앱 문항 ID를 `P81-N-nn`으로 바꿨다. 과거 문항 ID를 새 내용에 재사용하면 기존 풀이 기록과 충돌한다. 기본 시험이 없는 회차에는 수준별 예상 설정도 분리해야 한다. [작업과 검증 근거](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/80%ED%9A%8C%20%EA%B8%B0%EC%B6%9C%EA%B3%BC%2081%ED%9A%8C%20%EC%98%88%EC%83%81%EB%AC%B8%EC%A0%9C%202026-10-29.md)
+- `predict_export.py`는 판정 파일이 없으면 전부 통과로 취급하던 경로를 없앴다. 검증 판정이 없거나 50문항과 배점 100이 완성되지 않은 세트는 오류로 중단한다. [검증 근거](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/80%ED%9A%8C%20%EA%B8%B0%EC%B6%9C%EA%B3%BC%2081%ED%9A%8C%20%EC%98%88%EC%83%81%EB%AC%B8%EC%A0%9C%202026-10-29.md#검증-근거)
+- 선지 셔플과 정답 제거만으로 독립 검토가 되는 것은 아니다. 이번 250문항은 동일 작성자가 재풀이했으며 `verdict`에 `independent: false`를 기록했다. 불일치 0개를 독립적인 사실 검증이나 난도 검증으로 해석하지 않는다. [점검 범위와 남은 것](../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%ED%95%9C%EB%8A%A5%EA%B2%80/80%ED%9A%8C%20%EA%B8%B0%EC%B6%9C%EA%B3%BC%2081%ED%9A%8C%20%EC%98%88%EC%83%81%EB%AC%B8%EC%A0%9C%202026-10-29.md#점검-범위와-남은-것)
