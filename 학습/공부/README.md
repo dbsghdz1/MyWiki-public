@@ -5,7 +5,7 @@ summary: "다시 읽고 이해를 쌓는 개인 학습 노트 허브"
 status: active
 aliases: [학습 노트, TIL, study]
 created: 2026-08-15
-updated: 2026-10-18
+updated: 2026-11-09
 ---
 
 # 공부
@@ -32,7 +32,7 @@ updated: 2026-10-18
 
 ## 파일 규칙
 
-- 경로: **`학습/공부/<분야>/<주제>.md`**, `CS`·`JS`는 **`학습/공부/<분야>/<세부>/<주제>.md`** (2026-09-16 재편). 분야는 `CS` · `JS` · `백엔드` · `개발방법` 넷이고 (2026-08-28 분리로 Apple·AppStore·도구·Flutter는 [작업노트](../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/README.md) 소속), **아래 「주제 목록」의 절 이름과 폴더를 1:1로 맞춘다.** 주제명은 검색 가능한 명사구 (예: `HTTP 캐싱.md`).
+- 경로: **`학습/공부/<분야>/<주제>.md`**, `CS`·`JS`는 **`학습/공부/<분야>/<세부>/<주제>.md`** (2026-09-16 재편). 분야는 `CS` · `JS` · `백엔드` · `검색과 유입` · `개발방법` 다섯이고 (2026-08-28 분리로 Apple·AppStore·도구·Flutter는 [작업노트](../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/README.md) 소속), **아래 「주제 목록」의 절 이름과 폴더를 1:1로 맞춘다.** 주제명은 검색 가능한 명사구 (예: `HTTP 캐싱.md`).
 - **세부 폴더는 파일 셋을 둘 수 있다** (2026-09-16): ① 폴더 이름과 같은 **개요 파일**(`네트워크/네트워크.md`) — 폴더 지도 + 한 줄씩의 압축 요약 + `## 막힌 것` + 폴더 전체 교재. ② **`학습 계획.md`** — 세션 체크리스트(`## 학습 계획` → `### 영상 세션` / `### 영어 원문 학습 세션`), 일간 루틴이 읽는 파일. ③ **주제 노트** — 궁금증 하나를 파고든 기록과 그 요약. **한 파일이 150줄을 넘으면 쪼갤 때다.** 개요 파일에는 `## 기록`을 쌓지 않는다.
 - **어느 분야인지 애매하면 폴더를 새로 만들지 않는다.** 작업 경험 성격이면 [작업노트/미분류](../../%EC%9E%91%EC%97%85%EB%85%B8%ED%8A%B8/%EB%AF%B8%EB%B6%84%EB%A5%98.md)에 append하고, 내가 이해할 개념인데 분야가 애매하면 가장 가까운 분야에 둔다. 같은 성격이 3개 모이면 그때 분야를 만들고, 만들면 주제 목록에 절을 함께 추가한다.
 - frontmatter:
@@ -40,7 +40,7 @@ updated: 2026-10-18
 ```yaml
 ---
 type: study
-area: CS | JS | 백엔드 | 개발방법
+area: CS | JS | 백엔드 | 검색과 유입 | 개발방법
 audience: me
 status: active | stale
 created: YYYY-MM-DD
@@ -145,7 +145,6 @@ projects:
 #### JS/React
 - [React 컴포넌트와 JSX](JS/React/React%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80%20JSX.md) — JSX는 HTML이 아니라 **함수 호출로 컴파일되는 JS**. `{ }` 안은 렌더 시점에 계산된다. `createRoot`는 서버 HTML을 버리고 `hydrateRoot`는 이어받는다 (2026-09-09)
 - [useEffect와 StrictMode](JS/React/useEffect%EC%99%80%20StrictMode.md) — 의존성 배열 세 가지(없음·`[]`·`[a]`), **`return`은 치울 일**이고 cleanup만 있는 코드는 냄새. StrictMode는 개발에서만 `setup → cleanup → setup` — cleanup에 fetch를 넣으면 개발에서만 되는 버그가 된다 (2026-09-23)
-- [렌더링 방식과 SEO](JS/React/%EB%A0%8C%EB%8D%94%EB%A7%81%20%EB%B0%A9%EC%8B%9D%EA%B3%BC%20SEO.md) — SEO는 플랫폼이 아니라 렌더링 방식(SSR/SSG vs SPA)이 가른다. **판정은 `curl | grep`으로 30초** (2026-09-09)
 - [서버 상태와 TanStack Query](JS/React/%EC%84%9C%EB%B2%84%20%EC%83%81%ED%83%9C%EC%99%80%20TanStack%20Query.md) — 서버 데이터는 **빌려 온 것**. 실측: `useEffect` 2줄·복귀 0줄 vs `useQuery` 1줄·복귀 +1줄. `staleTime`은 새로고침을 못 막고, `dehydrate`는 메모리 캐시를 JSON으로 말려 HTML에 싣는다 (2026-09-13)
 - [뮤테이션과 낙관적 업데이트](JS/React/%EB%AE%A4%ED%85%8C%EC%9D%B4%EC%85%98%EA%B3%BC%20%EB%82%99%EA%B4%80%EC%A0%81%20%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8.md) — 쓰기 쪽. 화면을 먼저 바꾸고 실패하면 되돌리는 처리 (2026-09-13 시작)
 - [외부 API 데이터 모델링](JS/React/%EC%99%B8%EB%B6%80%20API%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%AA%A8%EB%8D%B8%EB%A7%81.md) — 응답 타입 두 겹, 숫자로 들고 다니기, 메타데이터 하드코딩의 함정 (2026-08-20)
@@ -165,7 +164,11 @@ projects:
 - [서버와 프록시](%EB%B0%B1%EC%97%94%EB%93%9C/%EC%84%9C%EB%B2%84%EC%99%80%20%ED%94%84%EB%A1%9D%EC%8B%9C.md) — 서버는 **포트를 붙잡고 안 끝나는 프로그램**, 라우트는 `listen`(=개점) **전에 전부**. 프록시를 두면 요청이 두 홉이 되고 **키가 브라우저를 아예 지나가지 않는다** — Network 탭은 「브라우저가 보낸 것」만 본다. Vite `server.proxy`는 개발 전용이라 배포에선 실제 서버가 그 역할을 맡아야 한다 (2026-09-09)
 - [JPA와 Spring Data](%EB%B0%B1%EC%97%94%EB%93%9C/JPA%EC%99%80%20Spring%20Data.md) — 매핑 실패는 행이 아니라 조회 전체를 죽인다, `DataAccessException` 번역은 완전하지 않다, **지우는 순서가 의미를 가지면 벌크 JPQL DELETE여야 한다** (2026-09-09)
 - [Spring Boot 설정 파일](%EB%B0%B1%EC%97%94%EB%93%9C/Spring%20Boot%20%EC%84%A4%EC%A0%95%20%ED%8C%8C%EC%9D%BC.md) — `src/main/resources`는 **컴파일 안 되는 파일이 JAR로 복사되는 자리**, `application.yaml`은 부팅 때 이름으로 찾아 읽는 설정. 우선순위는 **명령줄 > 환경변수 > 프로필 파일 > 기본 파일**, 비밀은 `${ENV:}`로 끌어온다. 같은 「Gemini 모델」이 랜딩은 `.env`, 서버는 yaml이라 **한쪽을 고쳐도 다른 쪽은 그대로** (2026-09-11)
-- [UTM 파라미터와 유입 분석](%EB%B0%B1%EC%97%94%EB%93%9C/UTM%20%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%99%80%20%EC%9C%A0%EC%9E%85%20%EB%B6%84%EC%84%9D.md) — `utm_*`는 **링크 만든 쪽이 출처를 직접 적은 꼬리표**(앱→브라우저는 `Referer`가 비어 direct로 뭉치니까). **source는 고유명사(`ig`), medium은 분류(`social`)** — GA4는 **medium만 `social`이어도 Organic Social**로 분류하고, 값은 대소문자 그대로 갈려 집계된다 (2026-09-12)
+
+### 검색과 유입
+- [렌더링 방식과 SEO](%EA%B2%80%EC%83%89%EA%B3%BC%20%EC%9C%A0%EC%9E%85/%EB%A0%8C%EB%8D%94%EB%A7%81%20%EB%B0%A9%EC%8B%9D%EA%B3%BC%20SEO.md) — SEO는 플랫폼이 아니라 렌더링 방식(SSR/SSG vs SPA)이 가른다. **판정은 `curl | grep`으로 30초** (2026-09-09)
+- [UTM 파라미터와 유입 분석](%EA%B2%80%EC%83%89%EA%B3%BC%20%EC%9C%A0%EC%9E%85/UTM%20%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%99%80%20%EC%9C%A0%EC%9E%85%20%EB%B6%84%EC%84%9D.md) — `utm_*`는 **링크 만든 쪽이 출처를 직접 적은 꼬리표**(앱→브라우저는 `Referer`가 비어 direct로 뭉치니까). **source는 고유명사(`ig`), medium은 분류(`social`)** — GA4는 **medium만 `social`이어도 Organic Social**로 분류하고, 값은 대소문자 그대로 갈려 집계된다 (2026-09-12)
+- GEO 학습 — 생성형 검색에 나오려면 **발견, 읽기, 이해, 인용, 행동** 다섯 단계를 따로 본다. 바탕은 SEO이고, 검색 수집과 학습 수집은 따로 제어하며, 인용과 유입과 설치는 다른 숫자다. 제품 설계는 한국사와 탭탭 폴더에 따로 있다. 비공개 (2026-11-09)
 
 ### 개발방법
 - [테스트 코드](%EA%B0%9C%EB%B0%9C%EB%B0%A9%EB%B2%95/%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%BD%94%EB%93%9C.md) — 초록인데 아무것도 안 지키는 단언들, Testcontainers 컨테이너 수명·Docker 의존(커밋 게이트에 못 넣는 이유), mock과 stub·「가짜로 바꾸는 선」, **손으로 적은 목록은 스키마가 자라면 낡는다** (2026-09-09) · 2026-09-26 토스 FE 검증법 — 코드에서 E2E 추론 실패 → 사람·실기기 표면에서 출발, 깨진 테스트는 replay를 AI에게

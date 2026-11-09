@@ -4,7 +4,7 @@ area: AppStore
 audience: ai
 status: active
 created: 2026-08-26
-updated: 2026-10-26
+updated: 2026-10-27
 projects:
   - "한능검"
 ---

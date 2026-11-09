@@ -138,7 +138,7 @@ React · TypeScript · TanStack Query · Vite · Fastify · `react-dom/server` S
 | 스택 | 왜 필요한가 |
 |---|---|
 | **Fastify** | **서비스키가 브라우저 번들에 실리는 것을 막는다** — Vite는 `VITE_` 접두사 변수를 번들에 그대로 넣는다. 그리고 FullData를 받아 캐싱하는 자리다. **CORS는 근거가 아니다** — 아래 09-08 실측 |
-| **SSR (`renderToPipeableStream`)** | `<동네명> 문 연 약국` 검색이 유입 경로다. 첫 HTML에 목록이 있어야 색인된다 → [렌더링 방식과 SEO](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EB%A0%8C%EB%8D%94%EB%A7%81%20%EB%B0%A9%EC%8B%9D%EA%B3%BC%20SEO.md) |
+| **SSR (`renderToPipeableStream`)** | `<동네명> 문 연 약국` 검색이 유입 경로다. 첫 HTML에 목록이 있어야 색인된다 → [렌더링 방식과 SEO](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/%EA%B2%80%EC%83%89%EA%B3%BC%20%EC%9C%A0%EC%9E%85/%EB%A0%8C%EB%8D%94%EB%A7%81%20%EB%B0%A9%EC%8B%9D%EA%B3%BC%20SEO.md) |
 | **TanStack Query** | 영업 상태는 시간에 따라 변한다. 폴링·캐시 무효화가 본질 기능이다 |
 | **지도 렌더링** | 카카오맵 위 마커 수백~수천 개. 리렌더 최적화가 실제 문제로 나온다 |
 
@@ -270,7 +270,7 @@ React · TypeScript · TanStack Query · Vite · Fastify · `react-dom/server` S
 - [TypeScript 타입 시스템](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) — `r.json()`은 `any`다. **외부 응답이 들어오는 경계에서** 타입을 선언하고, 그건 검사가 아니라 약속
 - [서버 상태와 TanStack Query](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EC%84%9C%EB%B2%84%20%EC%83%81%ED%83%9C%EC%99%80%20TanStack%20Query.md) — `useEffect` 2줄 vs `useQuery` 1줄(중복 제거), 그리고 **`staleTime`이 재요청 빈도를 정한다**. 영업 상태는 변하는 데이터라 «복귀 시 재요청»이 기본값인 게 이 제품에 맞다. **`dehydrate`**는 서버 캐시를 JSON으로 말려 HTML에 싣고 `HydrationBoundary`가 브라우저 캐시에 붓는 것 — `window.__PHARMACIES__`를 대체한다(실습 6)
 - [JavaScript 기초 문법](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EA%B8%B0%EC%B4%88%20%EB%AC%B8%EB%B2%95.md) — `SyntaxError`는 원인보다 뒤에서 터진다. `async () = {`에서 `>`를 빠뜨리면 파서는 다음 줄 `return`에서야 멈춘다 — **가리킨 줄과 그 위 한두 줄을 같이 본다** (실습 3-A)
-- [렌더링 방식과 SEO](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EB%A0%8C%EB%8D%94%EB%A7%81%20%EB%B0%A9%EC%8B%9D%EA%B3%BC%20SEO.md) — SEO는 배포 플랫폼이 아니라 **크롤러가 받는 첫 HTML**이 정한다. Vite SPA는 `curl | grep -c "약국"` → 0이었고, 네이버·카톡 미리보기 봇은 JS를 거의 안 돌린다 (실습 3-B·3-C)
+- [렌더링 방식과 SEO](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/%EA%B2%80%EC%83%89%EA%B3%BC%20%EC%9C%A0%EC%9E%85/%EB%A0%8C%EB%8D%94%EB%A7%81%20%EB%B0%A9%EC%8B%9D%EA%B3%BC%20SEO.md) — SEO는 배포 플랫폼이 아니라 **크롤러가 받는 첫 HTML**이 정한다. Vite SPA는 `curl | grep -c "약국"` → 0이었고, 네이버·카톡 미리보기 봇은 JS를 거의 안 돌린다 (실습 3-B·3-C)
 - [실습 세션 3-B·3-C](%EC%8B%A4%EC%8A%B5%203-B%C2%B73-C%20%E2%80%94%20SSR%EA%B3%BC%20%ED%95%98%EC%9D%B4%EB%93%9C%EB%A0%88%EC%9D%B4%EC%85%98%202026-09-09.md) — SSR과 하이드레이션, 「웹이 iOS보다 어려운 이유」 정리
 - [실습 세션 1](%EC%8B%A4%EC%8A%B5%201%20%E2%80%94%20fetch%EC%99%80%20useState%202026-09-08.md) · [세션 2·2-B](%EC%8B%A4%EC%8A%B5%202%20%E2%80%94%20useEffect%EC%99%80%20useQuery%202026-09-09.md) · [세션 3-A](%EC%8B%A4%EC%8A%B5%203-A%20%E2%80%94%20Fastify%20%ED%94%84%EB%A1%9D%EC%8B%9C%202026-09-09.md) · [세션 4](%EC%8B%A4%EC%8A%B5%204%20%E2%80%94%20%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%20%EC%A0%84%EC%9A%A9%20%EC%A7%80%EB%8F%84%202026-09-10.md) — 예측·측정 기록과 인출 퀴즈 결과
 - [뮤테이션과 낙관적 업데이트](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EB%AE%A4%ED%85%8C%EC%9D%B4%EC%85%98%EA%B3%BC%20%EB%82%99%EA%B4%80%EC%A0%81%20%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8.md) — 서버를 바꾸는 요청에서 화면을 언제 바꿀 것인가. 제보 버튼이 실습 대상이다

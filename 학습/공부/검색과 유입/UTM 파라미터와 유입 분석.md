@@ -1,10 +1,10 @@
 ---
 type: study
-area: 백엔드
+area: 검색과 유입
 audience: me
 status: active
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-11-09
 projects: []
 ---
 
