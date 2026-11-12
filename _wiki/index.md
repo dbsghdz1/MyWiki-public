@@ -16,7 +16,7 @@ status: active
 | [개인 프로젝트](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/README.md) | 개인 프로젝트의 상태와 진입점을 묶는 허브 | active | 2026-10-21 |
 | [BarStack](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BarStack/README.md) | macOS 메뉴바 아이콘을 정리하는 앱의 작업 진입점 | shipped | 2026-09-30 |
 | [BookMini](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/BookMini/README.md) | MacBook을 맥미니처럼 상시 가동 호스트로 쓰게 하는 내부 도구 — 잠자기 방지·살아있음 감시·로그인 세션 점검 | active | 2026-09-23 |
-| [CoinPilot (MyCryptoDiary)](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) | 가상자산 모의투자와 매매 회고를 결합한 웹 서비스의 작업 진입점 | active | 2026-10-17 |
+| [CoinPilot (MyCryptoDiary)](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) | 실시간 코인 시세로 시장가 매매와 자산, 수익률 랭킹을 경험하는 모의투자 서비스의 작업 진입점 | active | 2026-11-12 |
 | [DayTune](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-10-17 |
 | [Fadeo](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%A6%89%EC%84%9D%EC%B9%B4%EB%A9%94%EB%9D%BC/README.md) | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-09-23 |
 | [math-sprint](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/math-sprint/README.md) | Apps in Toss용 짧은 두뇌 퀴즈 스프린트 게임의 작업 진입점 | paused | 2026-10-17 |
