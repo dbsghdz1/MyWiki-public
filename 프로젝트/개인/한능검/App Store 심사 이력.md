@@ -208,3 +208,12 @@ deliver가 또 스크린샷을 **두 번 올려 10장**이 됐다(플레이북 �
 
 - 후속 확인: Jev의 계정 선택 신뢰도가 0.68로 낮아 홍 본인의 추가 두 계정을 Codex가 직접 확인했다. 개발용 계정의 hon9 개발자 계정은 Google 신원 확인 중이고 전화번호 인증 전이라 앱 만들기가 비활성화돼 있다. 별도 개인 계정은 개발자 가입 전 상태다. 우선 hon9의 인증 완료 후 등록을 이어간다. 신원 확인 문서나 비밀번호는 열지 않았다. 근거: Aside Google 계정 스킬과 Play Console 홈, 2026-11-16.
 - UI 검증: 기본 Maestro 흐름은 시뮬레이터의 Apple 계정 확인창 때문에 처음 실패했다. 해당 창을 닫는 임시 전처리 후 핵심 풀이, 채점, 강의, 모의고사 잠금과 사진 선지 흐름이 종료 코드 0으로 통과했다. 실제 Play 결제 검증을 대신하지 않는다. 근거: `maestro/flow.yaml` 실행, 2026-11-16.
+
+
+### Google Play 에뮬레이터 준비 2026-11-16
+
+홍 요청으로 기존 `pixel_ssh`를 보존하고 Google Play 포함 Android 36 ARM64 이미지 revision 7과 Pixel 7 프로필로 `pixel_play`를 생성하고 실행했다. 기존 이미지의 `com.android.vending`은 `LicenseChecker.apk`였지만 새 이미지는 `Phonesky.apk`다. 새 기기 `emulator-5556`에서 Play Console 설치 링크를 열어 Play 스토어의 `Sign in` 화면을 확인했다. 근거: SDK Manager 설치 성공, AVD Manager 생성 성공, adb 패키지 경로와 UI hierarchy 직접 확인, Codex 대화 2026-11-16. [현재 카드](README.md#현재-카드)
+
+- 완료: Google Play 포함 에뮬레이터 생성과 부팅, 실제 Play 스토어 실행 확인.
+- 남음: 홍의 Google 로그인 후 Play Console 설치. 계정 신원과 전화번호 인증, 실제 Android 기기 접근 인증은 완료하지 않았다. 에뮬레이터의 인증 통과 여부도 미확인이다.
+- 다음 배정: 로그인 뒤 설치부터 이어가며 에뮬레이터 준비를 다시 배정하지 않는다. 기존 챌린지 시간과 출시 마감은 변경하지 않는다.
