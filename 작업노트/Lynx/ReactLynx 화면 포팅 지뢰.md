@@ -4,7 +4,7 @@ area: Lynx
 audience: ai
 status: active
 created: 2026-10-07
-updated: 2026-10-17
+updated: 2026-11-17
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -64,3 +64,9 @@ projects:
   - 테스트(`@lynx-js/react/testing-library`)에서 `toBeInTheDocument`가 "Invalid Chai property"로 실패하면 `import '@testing-library/jest-dom';` 줄이 빠진 것이다. 같은 글자가 두 번 그려지면 "Found multiple elements"가 먼저 나서 이 원인이 가려진다
 - 근거: `ASMSSH/BGN` PR #21(커밋 `43d8044`, `92bd3cd`, `07ea887`, `380e99e`, 머지 `8c78bf6`), Lynx Explorer iOS 시뮬레이터 재현, Explorer 로그(`xcrun simctl spawn booted log show --predicate 'process == "LynxExplorer"'`)
 - 애플 로그인 버튼은 Lynx에 공식 버튼이 없어 이번에 넣지 않았다. RN 패키지도 네이티브 브릿지 방식이 달라 못 쓴다. 애플 로그인 티켓에서 iOS 네이티브 엘리먼트로 감싼다(SSH-592 Jira 댓글)
+
+## 2026-11-17: LynxExplorer를 명령으로 여는 법
+
+- iOS 시뮬레이터의 LynxExplorer는 `xcrun simctl openurl <기기> "lynx://open?url=http://localhost:3000/main.lynx.bundle"`로 번들을 바로 연다. url 값을 퍼센트 인코딩하면 빈 화면이 뜨고 로그에 `loadTemplateFromURL url is empty`가 남는다. 인코딩하지 않은 주소를 그대로 넣어야 한다. 2026-09-07 빌드에서 확인했다.
+- 다른 시뮬레이터 기기에서 시험하면 작업 중인 기기 화면을 건드리지 않는다. 연결 여부는 `lsof -nP -iTCP:<포트> | grep ESTABLISHED`로 본다.
+- 메인 스레드 함수를 HMR로 추가했을 때 실행되지 않는 문제는 react-rsbuild-plugin 0.22.1 이상과 `@lynx-js/react` 0.128 이상에서 해결됐다. 구버전(0.20.3, 0.126.2)에서는 전체 재실행이 필요하다.
