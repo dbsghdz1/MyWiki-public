@@ -33,7 +33,8 @@ projects:
   - 그래서 `default as ExchangePage`는 이름 없는 대표에 이름표를 붙여 다시 내보내는 것이고, 쓰는 쪽은 `import { ExchangePage }`처럼 중괄호로 받는다
   - 반대 방향도 같은 문법이다. Next의 `page.tsx`는 대표로 내보낸 것을 화면으로 쓰므로 `export { ExchangePage as default } from '@/_pages/exchange';` 한 줄이면 `_pages`의 화면을 그대로 넘길 수 있다
 - 근거: MyCryptoDiary `129f16f`(`src/_pages/exchange/index.ts`), `src/widgets/app-shell/index.ts`
-- 새로 생긴 궁금증: `as default` 한 줄 방식은 안내만 받았고 아직 직접 쓰지 않았다. `app/(shell)/page.tsx`는 import해서 감싸는 4줄로 썼다(`40a5f55`)
+- 이어서 직접 써 봄: `app/(shell)/page.tsx`를 이 한 줄로 바꿨다(`2833d7b`). 처음에는 `import { ExchangePage as default }`로 써서 `Identifier expected` 오류가 났다. `import`의 `as` 뒤는 이 파일 안에서 부를 변수 이름이라 `default`를 쓸 수 없고, `export`의 `as` 뒤는 밖에 보일 이름이라 `default`를 쓸 수 있다. 한 줄이 이미 대표를 내보내므로 아래의 `export default function`은 지운다
+- 왜 한 줄로 쓰나: 동작은 import해서 감싸는 4줄과 같다. 함수 몸통이 없어서 데이터 가져오기나 제목 같은 화면 코드를 끼워 넣을 자리가 없다는 점이 다르다
 
 ### 2026-09-09 — 「번들에 실린다」를 실제로 측정하고, `process.env`로 옮겼다
 
