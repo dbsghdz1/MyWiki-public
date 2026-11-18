@@ -8,7 +8,7 @@ aliases:
   - 마이 크립토 다이어리
   - CoinPilot
 created: 2026-07-18
-updated: 2026-11-17
+updated: 2026-11-18
 slack_channel: 20-개인-my-crypto-diary
 repos:
   - "github.com/dbsghdz1/MyCryptoDiary"
@@ -208,6 +208,9 @@ iOS에서 TypeScript·React로 옮겨가며 만드는 **주력 프로젝트**다
 - [Route Handler와 내부 API](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/Route%20Handler%EC%99%80%20%EB%82%B4%EB%B6%80%20API.md) — 같은 로직을 함수(`src/**/api`)와 HTTP(`app/api/**/route.ts`) 두 가지로 노출한다. 서버 컴포넌트는 함수를 직접 부르고 브라우저는 HTTP로 부탁한다
 - [proxy 미들웨어와 matcher](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/proxy%20%EB%AF%B8%EB%93%A4%EC%9B%A8%EC%96%B4%EC%99%80%20matcher.md) — proxy(구 middleware)는 페이지마다가 아니라 요청마다 돈다. matcher 빈 배열은 「아무 데서도 안 돈다」이고 빌드 출력의 `ƒ Proxy (Middleware)` 줄이 실행 증거다
 - [빌드 타임과 런타임](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/%EB%B9%8C%EB%93%9C%20%ED%83%80%EC%9E%84%EA%B3%BC%20%EB%9F%B0%ED%83%80%EC%9E%84.md) — 빌드 때 번들에 새겨지는 것(타입·Tailwind 클래스·`NEXT_PUBLIC_`)과 실행 때 결정되는 것을 나누면 환경변수 유출과 클래스명 조립 금지가 같은 이야기다
+- [Tailwind 레이아웃](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/Tailwind%20%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83.md): 화면 틀을 만들며 `flex`는 부모에, `flex-1`은 자식에 붙는다는 것과 본문만 스크롤시키는 법을 익혔다 (`76207da`부터 `b5aac92`)
+- [레이아웃과 라우트 그룹](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83%EA%B3%BC%20%EB%9D%BC%EC%9A%B0%ED%8A%B8%20%EA%B7%B8%EB%A3%B9.md): 틀을 어느 화면에 씌울지는 코드가 아니라 파일 위치가 정한다. 생김새는 widget에, 적용 범위는 `layout.tsx`에 둔다 (`228ee17`, `40a5f55`)
+- [React 컴포넌트와 JSX](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/React%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80%20JSX.md): `children`으로 내용을 받는 법과 props 구조 분해의 타입 위치 (`b6c0159`)
 - [bigint와 정수 연산](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/bigint%EC%99%80%20%EC%A0%95%EC%88%98%20%EC%97%B0%EC%82%B0.md) — `bigint`는 `number`와 섞이지 않고 나눗셈은 항상 내림이다. 변환은 경계에서 한 번만 한다
 - [TCP/IP 4계층과 캡슐화](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/TCP-IP%204%EA%B3%84%EC%B8%B5%EA%B3%BC%20%EC%BA%A1%EC%8A%90%ED%99%94.md) — 계층의 차이는 「얼마나 멀리 책임지나」다. 그래서 IP는 끝까지 안 바뀌고 MAC은 홉마다 바뀐다
 - [계층화의 설계 근거](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%EA%B3%84%EC%B8%B5%ED%99%94%EC%9D%98%20%EC%84%A4%EA%B3%84%20%EA%B7%BC%EA%B1%B0.md) — 링크 L가지 × 앱 A가지를 L+A로 줄이려고 나눴고, 대가는 헤더 오버헤드·기능 중복·정보 은닉이다

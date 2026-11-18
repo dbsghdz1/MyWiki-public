@@ -5,7 +5,7 @@ summary: "다시 읽고 이해를 쌓는 개인 학습 노트 허브"
 status: active
 aliases: [학습 노트, TIL, study]
 created: 2026-08-15
-updated: 2026-11-09
+updated: 2026-11-18
 ---
 
 # 공부
@@ -138,6 +138,7 @@ projects:
 - [브라우저 렌더링과 DOM](JS/%EC%96%B8%EC%96%B4/%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%20%EB%A0%8C%EB%8D%94%EB%A7%81%EA%B3%BC%20DOM.md) — DOM은 **서버가 아니라 브라우저가** HTML을 파싱해 만든다. CSS는 CSSOM으로 따로, JS는 만들어진 DOM을 고치는 쪽 (2026-09-26)
 - [HTML 문서 구조](JS/%EC%96%B8%EC%96%B4/HTML%20%EB%AC%B8%EC%84%9C%20%EA%B5%AC%EC%A1%B0.md) — 뼈대 줄마다 맡은 일(doctype·lang·charset·viewport·defer), 태그≠요소, void 요소, id·class·data-*, 엔티티 (2026-09-26)
 - [CSS 기초](JS/%EC%96%B8%EC%96%B4/CSS%20%EA%B8%B0%EC%B4%88.md) — 충돌은 `!important` > 인라인 > 명시도 > 소스 순서, **inline은 세로가 안 먹는다**, `absolute`는 static 아닌 가장 가까운 조상, 틀린 값은 조용히 버려진다 (2026-10-02)
+- [Tailwind 레이아웃](JS/%EC%96%B8%EC%96%B4/Tailwind%20%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83.md): 숫자는 4를 곱한 px, `flex`는 부모에 `flex-1`은 자식에, 본문만 스크롤시키려면 높이를 정하고 그 박스에 `overflow-y-auto` (2026-11-18)
 - [JavaScript 모듈 시스템](JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%AA%A8%EB%93%88%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) — default/named export, 재수출. **`import.meta.env`는 빌드 타임 치환이라 키가 번들에 박힌다**, `VITE_` 접두사는 「공개해도 된다」는 스위치 (2026-09-09)
 - [비동기와 Promise](JS/%EC%96%B8%EC%96%B4/%EB%B9%84%EB%8F%99%EA%B8%B0%EC%99%80%20Promise.md) — `fetch`는 결과가 아니라 **나중에 채워질 상자**를 즉시 준다. 두 번 기다리고, 403·404에는 reject하지 않으므로 `r.ok`를 직접 본다 (2026-09-08)
 - [TypeScript 타입 시스템](JS/%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) — 타입은 컴파일하면 사라진다. `r.json()`은 `any` — 외부 응답이 들어오는 **경계에 한 줄**로 선언하고, 그건 검사가 아니라 **약속**이다 (2026-09-09)
@@ -154,6 +155,7 @@ projects:
 - [Next.js 서버와 캐싱](JS/Next.js/Next.js%20%EC%84%9C%EB%B2%84%EC%99%80%20%EC%BA%90%EC%8B%B1.md) — 개요. Next이 React를 부른다, 서버 컴포넌트, `fetch` revalidate는 데이터가 변하는 속도로, Next 16 변경점 (2026-09-16)
 - [빌드 타임과 런타임](JS/Next.js/%EB%B9%8C%EB%93%9C%20%ED%83%80%EC%9E%84%EA%B3%BC%20%EB%9F%B0%ED%83%80%EC%9E%84.md) — 축이 두 개(tsc·Tailwind는 빌드 타임). **`NEXT_PUBLIC_`은 허가가 아니라 「번들에 박아라」는 명령** — 유출은 되돌릴 수 없고 키 폐기만 남는다 (2026-08-28)
 - [proxy 미들웨어와 matcher](JS/Next.js/proxy%20%EB%AF%B8%EB%93%A4%EC%9B%A8%EC%96%B4%EC%99%80%20matcher.md) — 페이지마다가 아니라 **요청마다** 돈다, 정적 파일을 안 빼면 성능이 아니라 파손. `matcher: []`는 실행 0회 — 빌드 출력 `ƒ Proxy` 줄이 증거 (2026-08-29)
+- [레이아웃과 라우트 그룹](JS/Next.js/%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83%EA%B3%BC%20%EB%9D%BC%EC%9A%B0%ED%8A%B8%20%EA%B7%B8%EB%A3%B9.md): `layout.tsx`는 같은 폴더 아래 화면을 `children`으로 받아 감싼다. 괄호 폴더는 주소에 안 나오고, 어느 화면에 씌울지는 파일 위치가 정한다 (2026-11-18)
 - [Route Handler와 내부 API](JS/Next.js/Route%20Handler%EC%99%80%20%EB%82%B4%EB%B6%80%20API.md) — `app/api`는 HTTP 창구, `src/**/api`는 내부 함수. 브라우저는 서버 파일을 import할 수 없어서 HTTP가 필요하다 (2026-08-29)
 
 #### JS/Lynx

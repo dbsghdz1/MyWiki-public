@@ -4,9 +4,10 @@ area: JS
 audience: me
 status: active
 created: 2026-09-08
-updated: 2026-09-23
+updated: 2026-11-18
 projects:
   - "약국맵"
+  - "MyCryptoDiary"
 ---
 
 # React 컴포넌트와 JSX
@@ -95,6 +96,18 @@ function App() {
 `useEffect`는 화면을 그린 **뒤에** 할 일이고, `return`하는 함수는 「치울 일」이다. StrictMode는 개발 모드에서만 `setup → cleanup → setup`을 돌린다. (2026-09-23 분리)
 
 ## 기록
+
+### 2026-11-18: 빈 `src/`에서 첫 컴포넌트를 치며 막힌 자리
+- 궁금했던 것: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md)의 화면 틀 `AppShell`을 아홉 단계로 직접 쳤다. 에러 문구가 아니라 「뭐가 틀린 거지」에서 멈춘 자리만 적는다
+- 예측: `{ children }: ReactNode`라고 쓰고 「객체 `children`의 타입이 `ReactNode`라는 뜻인가」라고 생각했다. 틀렸다
+- 알게 된 것:
+  - 콜론 오른쪽 타입은 구조 분해한 변수 하나가 아니라 **props 객체 전체**에 붙는다. 그래서 `{ children }: { children: ReactNode }`처럼 오른쪽도 객체 모양이어야 한다
+  - 컴포넌트는 JSX를 `return`해야 그려진다. 중괄호만 있는 빈 함수는 오류 없이 아무것도 그리지 않는다. `AppShell`과 `ShellLayout`에서 두 번 겪었다
+  - `<AppShell>내용</AppShell>`처럼 여는 태그와 닫는 태그 사이에 넣은 것이 `children`으로 들어온다. 닫는 태그는 `</AppShell>`이고 `<AppShell />`은 내용 없이 혼자 닫는 태그다
+  - 웹의 태그는 `div`와 `p`다. Lynx에서 쓰던 `view`와 `text`를 그대로 쳐서 막혔다. [Lynx 구조와 React와의 차이](../Lynx/Lynx%20%EA%B5%AC%EC%A1%B0%EC%99%80%20React%EC%99%80%EC%9D%98%20%EC%B0%A8%EC%9D%B4.md)
+  - `div`만으로도 화면은 같지만 역할이 있는 박스는 `aside`, `nav`, `header`, `main`으로 쓴다. `main`은 한 화면에 하나라서, 틀 안에 `main`을 두면 그 틀을 감싸는 쪽의 `main`은 지워야 한다
+  - 타입만 가져올 때는 `import type { ReactNode }`로 쓴다
+- 근거: MyCryptoDiary `b6c0159`(children), `c4eeb75`(의미 있는 태그), `2bbd5d3`(타입 전용 import), `src/widgets/app-shell/ui/AppShell.tsx`
 
 ### 2026-09-09 — `createRoot` vs `hydrateRoot`, 그리고 JSX 없이 `createElement` 직접 쓰기
 

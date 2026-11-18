@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-16
-updated: 2026-09-09
+updated: 2026-11-18
 aliases: [ES Modules, export/import, 모듈 재수출]
 projects:
   - "MyCryptoDiary"
@@ -24,6 +24,16 @@ projects:
 - **접근제어자가 없다.** export = 그 파일 밖 누구나(Swift `public`), export 없음 = 그 파일 안에서만(Swift `fileprivate`). "index.ts에는 보이고 다른 파일엔 안 보이게"는 언어 차원에 없다. index.ts도 그냥 옆에 있는 파일이라, 원본이 export 하지 않은 건 index.ts에게도 안 보인다. (`class`의 `private`은 TS가 검사하지만 그건 클래스 멤버 얘기.)
 
 ## 기록
+
+### 2026-11-18: `export { default as X } from`에서 `default`는 무엇인가
+- 궁금했던 것: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md)에서 `src/_pages/exchange/index.ts`를 직접 치다가 `export { default as ExchangePage } from './ui/ExchangePage';`를 다시 물었다. 8월에 한 번 쓴 문장인데 뜻이 남아 있지 않았다
+- 예측: 「`ExchangePage`라는 이름으로 export한다는 말」까지는 맞게 읽었고, 앞의 `default`가 무엇인지는 몰랐다
+- 알게 된 것:
+  - `export default`로 내보낸 것은 파일 밖에서 볼 때 이름이 `default`다. 함수에 붙인 이름은 파일 안에서만 쓰는 이름이고 밖으로 따라 나가지 않는다
+  - 그래서 `default as ExchangePage`는 이름 없는 대표에 이름표를 붙여 다시 내보내는 것이고, 쓰는 쪽은 `import { ExchangePage }`처럼 중괄호로 받는다
+  - 반대 방향도 같은 문법이다. Next의 `page.tsx`는 대표로 내보낸 것을 화면으로 쓰므로 `export { ExchangePage as default } from '@/_pages/exchange';` 한 줄이면 `_pages`의 화면을 그대로 넘길 수 있다
+- 근거: MyCryptoDiary `129f16f`(`src/_pages/exchange/index.ts`), `src/widgets/app-shell/index.ts`
+- 새로 생긴 궁금증: `as default` 한 줄 방식은 안내만 받았고 아직 직접 쓰지 않았다. `app/(shell)/page.tsx`는 import해서 감싸는 4줄로 썼다(`40a5f55`)
 
 ### 2026-09-09 — 「번들에 실린다」를 실제로 측정하고, `process.env`로 옮겼다
 
