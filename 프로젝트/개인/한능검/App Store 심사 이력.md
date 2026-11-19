@@ -235,3 +235,11 @@ deliver가 또 스크린샷을 **두 번 올려 10장**이 됐다(플레이북 �
 Play Console의 새 앱 양식에 기존 입력명 「한능검 기출」과 기본 언어 한국어를 유지하고 유형은 앱, 가격은 무료로 골랐다. Android 빌드의 패키지명 `com.hong.hangeom`을 입력하자 콘솔에 「사용 가능한 패키지 이름」이 표시됐다. 무료 다운로드와 일회성 인앱 구매 모델은 프로젝트의 `store/google-play/README.md`, 패키지명은 `web/android/app/build.gradle`에서 대조했다. [현재 카드](README.md#현재-카드)
 
 앱 생성 전의 입력 상태다. 앱을 만들려면 개발자 정책 준수, Play 앱 서명 약관, 미국 수출법에 관한 선언 세 가지를 확인해야 한다. 근거는 11월 19일 Play Console의 「앱 만들기」 화면이다.
+
+## Google Play 비공개 테스트 준비 2026-11-19
+
+앱이 생성된 Play Console 대시보드를 확인했다. 비공개 테스트 기본 Alpha 트랙에는 아직 버전이 없고, 프로덕션 액세스 기준의 참여 테스터는 0명이었다. [앱 대시보드](https://play.google.com/console/u/1/developers/8659976242606546267/app/4972810417107330608/app-dashboard)
+
+도플리의 2026-07-01 갱신 가이드에서 테스터 CSV를 내려받아 44행의 서로 다른 이메일 주소가 있는지 검증했다. Play Console에 「도플리 테스터 20260701」 목록을 만들어 44명 모두 등록하고 Alpha 트랙의 테스터로 선택해 저장했다. 국가에는 대한민국을 추가했다. 콘솔의 트랙 설정은 4단계 중 2단계 완료로 표시된다. 테스터의 이메일 주소는 이 기록에 옮기지 않았다. [테스터 가이드](https://kyulabs.notion.site/1beb1a95c66380f8a879ca1e13089215?pvs=4) [Alpha 트랙](https://play.google.com/console/u/1/developers/8659976242606546267/app/4972810417107330608/tracks/4699997280995403726)
+
+로컬의 `app-release.aab`는 미서명 검증용 빌드다. 테스트 버전 게시에는 업로드 키와 Play 공개키를 설정한 서명 빌드가 남았다. 테스터 참여 링크는 앱 게시 뒤 활성화된다. 근거는 프로젝트 `store/google-play/README.md`, `tools/android-release.sh`, Play Console 테스터 화면이다.
