@@ -22,7 +22,7 @@ related_wiki:
 - **단계**: 운영
 - **현재**: iOS 2.3.5(18)은 11월 16일 제출했다. Android 한능검 기출 앱을 Play Console에서 확인하고 비공개 테스트 Alpha 트랙에 도플리 테스터 44명과 대한민국을 저장했다. [iOS 제출](App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md#235-18-2026-11-16-제출-심사-대기) [Android 테스트 준비](App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md#google-play-비공개-테스트-준비-2026-11-19)
 - **다음 판정**: 새 핵심 페이지의 Google 수집과 색인, 승인 후 앱 유입 변화를 비교한다. 앱 노출, 조회와 다운로드의 기준선은 확보했으며 IAP는 해당 기간 보고서가 없어 미확정이다. 측정 상태
-- **지금 할 일**: iOS 2.3.5(18)의 심사 결과를 확인한다. Android는 업로드 키와 Play 공개키를 설정해 서명 AAB를 만들고 Alpha 트랙에 게시한다. [iOS 제출 기준점](App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md#235-18-2026-11-16-제출-심사-대기) [Android 다음 단계](App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md#google-play-비공개-테스트-준비-2026-11-19)
+- **지금 할 일**: iOS 2.3.5(18)의 심사 결과를 확인한다. Android 업로드 키는 생성됐고, 판매자 결제 프로필 선택과 Play 공개키, 서명 AAB, Alpha 트랙 게시가 남았다. [iOS 제출 기준점](App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md#235-18-2026-11-16-제출-심사-대기) [Android 다음 단계](App%20Store%20%EC%8B%AC%EC%82%AC%20%EC%9D%B4%EB%A0%A5.md#google-play-비공개-테스트-준비-2026-11-19)
 - **하지 않을 일**: 필기(v2)·옛 고급 기출·계정·분석 SDK(지표는 ASC만) · 가격 A/B(이 시장에선 금액 차별로 읽혀 1★)
 
 ## 정리 전 진행 기록

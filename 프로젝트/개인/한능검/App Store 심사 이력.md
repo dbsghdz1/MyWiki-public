@@ -243,3 +243,5 @@ Play Console의 새 앱 양식에 기존 입력명 「한능검 기출」과 기
 도플리의 2026-07-01 갱신 가이드에서 테스터 CSV를 내려받아 44행의 서로 다른 이메일 주소가 있는지 검증했다. Play Console에 「도플리 테스터 20260701」 목록을 만들어 44명 모두 등록하고 Alpha 트랙의 테스터로 선택해 저장했다. 국가에는 대한민국을 추가했다. 콘솔의 트랙 설정은 4단계 중 2단계 완료로 표시된다. 테스터의 이메일 주소는 이 기록에 옮기지 않았다. [테스터 가이드](https://kyulabs.notion.site/1beb1a95c66380f8a879ca1e13089215?pvs=4) [Alpha 트랙](https://play.google.com/console/u/1/developers/8659976242606546267/app/4972810417107330608/tracks/4699997280995403726)
 
 로컬의 `app-release.aab`는 미서명 검증용 빌드다. 테스트 버전 게시에는 업로드 키와 Play 공개키를 설정한 서명 빌드가 남았다. 테스터 참여 링크는 앱 게시 뒤 활성화된다. 근거는 프로젝트 `store/google-play/README.md`, `tools/android-release.sh`, Play Console 테스터 화면이다.
+
+11월 19일 홍이 `keytool`로 한능검 업로드 키를 생성했고, 파일 존재만 확인했다. 키 내용과 비밀번호는 읽지 않았다. Play Console에서 구매용 공개키를 찾다가 앱 수익 창출에 판매자 결제 프로필 설정이 필요함을 확인했다. 결제 프로필 화면에는 기존 개인 프로필 연결과 신규 생성 선택지가 표시되며 선택은 아직 하지 않았다. 서명 빌드와 구매 검증, 비공개 테스트 버전 게시는 남아 있다. [Play Console 결제 프로필](https://play.google.com/console/u/1/developers/8659976242606546267/paymentssettings)
