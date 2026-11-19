@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-28
-updated: 2026-11-16
+updated: 2026-11-19
 ---
 
 # App Store 심사 이력 — 한능검 정복
@@ -229,3 +229,9 @@ deliver가 또 스크린샷을 **두 번 올려 10장**이 됐다(플레이북 �
 - 계약 오류 해소: 홍이 18:03 무렵 계약에 동의한 직후 몇 분 동안 같은 ASC API 요청이 200과 `403 FORBIDDEN.REQUIRED_AGREEMENTS_MISSING_OR_EXPIRED`를 오갔다. 첫 `upload_ipa`는 파일을 보내기 전에 403으로 실패했고 1분 안의 재시도에서 통과했다. 동의 직후의 403은 반영 지연이므로 다시 동의를 요청하지 말고 재시도한다. 근거: ASC API 응답과 fastlane 로그, 2026-11-16.
 - 도구: 이날 `asc state`와 `asc builds`는 출력 없이 종료 코드 0으로 끝났다. 원인은 확인하지 않았고 `asc get`으로 `/v1/apps/<id>/appStoreVersions`와 `/v1/builds`를 직접 조회했다. 근거: 명령 실행 결과, 2026-11-16.
 - Android: versionCode 18의 검증용 미서명 AAB만 다시 만들었다. 출시 서명과 Play 계정 조치는 위 2.3.5(17) 절 그대로 남아 있다. 근거: `tools/android-release.sh unsigned` 실행, 2026-11-16.
+
+## Google Play 앱 등록 2026-11-19
+
+Play Console의 새 앱 양식에 기존 입력명 「한능검 기출」과 기본 언어 한국어를 유지하고 유형은 앱, 가격은 무료로 골랐다. Android 빌드의 패키지명 `com.hong.hangeom`을 입력하자 콘솔에 「사용 가능한 패키지 이름」이 표시됐다. 무료 다운로드와 일회성 인앱 구매 모델은 프로젝트의 `store/google-play/README.md`, 패키지명은 `web/android/app/build.gradle`에서 대조했다. [현재 카드](README.md#현재-카드)
+
+앱 생성 전의 입력 상태다. 앱을 만들려면 개발자 정책 준수, Play 앱 서명 약관, 미국 수출법에 관한 선언 세 가지를 확인해야 한다. 근거는 11월 19일 Play Console의 「앱 만들기」 화면이다.
