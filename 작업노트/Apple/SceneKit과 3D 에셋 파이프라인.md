@@ -1,4 +1,6 @@
 ---
+title: "SceneKit과 3D 에셋 파이프라인"
+summary: "3D 에셋을 다시 내보낼 때 가시성, 변환, USDZ 애니메이션 재생이 바뀌는 조건"
 type: study
 area: Apple
 audience: ai

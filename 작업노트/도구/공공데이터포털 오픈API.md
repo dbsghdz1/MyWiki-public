@@ -1,4 +1,6 @@
 ---
+title: "공공데이터포털 오픈API"
+summary: "공공 API 연결 전 엔드포인트, 경로와 CORS 응답을 확인해 프록시 필요성을 판단한 기록"
 type: study
 area: 도구
 audience: ai

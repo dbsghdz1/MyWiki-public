@@ -1,4 +1,6 @@
 ---
+title: "Aside 브라우저 폼 자동 입력"
+summary: "aside repl로 로그인된 웹 폼을 채울 때 파일 업로드, 화면 확인과 사용량을 점검한 사례"
 type: study
 area: 도구
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "소셜 게시 API와 자동화 정책"
+summary: "소셜 플랫폼별 게시 API, 자동 답글과 메시지 발송 조건을 확인한 기록"
 type: study
 area: 도구
 audience: ai

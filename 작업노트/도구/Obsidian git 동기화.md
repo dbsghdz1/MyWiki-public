@@ -1,4 +1,6 @@
 ---
+title: "Obsidian git 동기화"
+summary: "편집한 체크박스가 원격에 없을 때 Obsidian Git 백업과 스테이징 상태를 점검하는 방법"
 type: study
 area: 도구
 audience: ai

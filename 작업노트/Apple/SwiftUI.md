@@ -1,4 +1,6 @@
 ---
+title: "SwiftUI"
+summary: "버튼의 터치 영역, 포커스, 오버레이 키 입력과 시각 효과가 실제 화면에서 달라지는 조건"
 type: study
 area: Apple
 audience: ai

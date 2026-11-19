@@ -1,4 +1,6 @@
 ---
+title: "Xcode 빌드와 번들 구성"
+summary: "동기화 폴더에서 파일을 제외하고 릴리즈 앱 번들에 실제로 포함된 내용을 검증하는 방법"
 type: study
 area: Apple
 audience: ai

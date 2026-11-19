@@ -1,4 +1,6 @@
 ---
+title: "WidgetKit과 AppIntents"
+summary: "위젯 설정의 현지화, AppIntent 문구와 번들 리소스 제약을 확인한 기록"
 type: study
 area: Apple
 audience: ai

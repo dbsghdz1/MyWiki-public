@@ -1,4 +1,6 @@
 ---
+title: "Claude Code 설정과 훅"
+summary: "Claude Code 설정과 훅이 로드되는 시점과 변경이 실행에 반영되지 않을 때의 점검 방법"
 type: study
 area: 도구
 audience: ai

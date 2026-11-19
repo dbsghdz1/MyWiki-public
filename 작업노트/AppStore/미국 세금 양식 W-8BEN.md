@@ -1,4 +1,6 @@
 ---
+title: "미국 세금 양식 W-8BEN"
+summary: "App Store Connect 세금 입력 화면과 IRS 양식의 필드 차이를 확인한 기록"
 type: study
 area: AppStore
 audience: ai

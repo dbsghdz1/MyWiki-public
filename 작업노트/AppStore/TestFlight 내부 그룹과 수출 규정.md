@@ -1,4 +1,6 @@
 ---
+title: "TestFlight 내부 그룹과 수출 규정"
+summary: "업로드한 빌드를 내부 테스트에 배정하고 암호화 수출 규정 응답을 처리한 기록"
 type: study
 area: AppStore
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "Gemini API"
+summary: "모델 접근 실패와 구조화 응답의 숫자 필드를 실제 서버 호출에서 점검한 사례"
 type: study
 area: 도구
 audience: ai

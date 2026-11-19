@@ -1,4 +1,6 @@
 ---
+title: "카카오 로그인 Android 키 해시"
+summary: "동의 화면에서 진행되지 않을 때 실행 중 앱의 키 해시와 개발자 콘솔 설정을 대조하는 방법"
 type: study
 area: Flutter
 audience: ai

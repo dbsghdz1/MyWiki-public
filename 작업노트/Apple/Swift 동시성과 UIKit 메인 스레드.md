@@ -1,4 +1,6 @@
 ---
+title: "Swift 동시성과 UIKit 메인 스레드"
+summary: "await 이후 화면 전환이 백그라운드에서 실행되는 원인과 MainActor 격리"
 type: study
 area: Apple
 audience: ai

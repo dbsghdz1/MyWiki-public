@@ -1,4 +1,6 @@
 ---
+title: "GA4와 Amplitude 앱 계측"
+summary: "앱 이벤트를 수동 계측하고 Firebase Analytics와 Amplitude 수치로 수집 상태를 대조하는 방법"
 type: study
 area: 도구
 audience: ai

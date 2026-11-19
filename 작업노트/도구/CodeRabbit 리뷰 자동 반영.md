@@ -1,4 +1,6 @@
 ---
+title: "CodeRabbit 리뷰 자동 반영"
+summary: "리뷰 등급과 GitHub 스레드 해결 상태로 아직 처리할 지적을 찾는 방법"
 type: study
 area: 도구
 audience: ai

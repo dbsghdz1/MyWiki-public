@@ -1,4 +1,6 @@
 ---
+title: "Instagram 콘텐츠 발행 API"
+summary: "Instagram Login 방식으로 게시 컨테이너를 만들고 발행 결과를 확인하는 절차"
 type: study
 area: 도구
 audience: ai

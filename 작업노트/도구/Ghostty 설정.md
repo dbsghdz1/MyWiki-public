@@ -1,4 +1,6 @@
 ---
+title: "Ghostty 설정"
+summary: "macOS에서 Ghostty 설정이 적용되지 않을 때 설정 파일과 cmux의 리소스 경로를 구분하는 방법"
 type: study
 area: 도구
 audience: ai

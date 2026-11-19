@@ -1,4 +1,6 @@
 ---
+title: "Spring Boot 4와 Flyway"
+summary: "서버 실행 시 마이그레이션이 누락되는 의존성과 병렬 브랜치의 버전 번호 충돌"
 type: study
 area: 도구
 audience: ai

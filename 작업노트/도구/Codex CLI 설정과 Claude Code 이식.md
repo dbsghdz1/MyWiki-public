@@ -1,4 +1,6 @@
 ---
+title: "Codex CLI 설정과 Claude Code 이식"
+summary: "두 도구의 전역 지침, 스킬, MCP와 훅 설치 위치 및 이식할 수 없는 설정"
 type: study
 area: 도구
 audience: ai

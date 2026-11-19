@@ -1,4 +1,6 @@
 ---
+title: "Jira MCP"
+summary: "Rovo로 하위 작업의 부모, 스프린트와 상태 전환을 확인하고 변경 결과를 다시 읽는 방법"
 type: study
 area: 도구
 audience: ai

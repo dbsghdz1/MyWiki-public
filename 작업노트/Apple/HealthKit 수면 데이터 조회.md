@@ -1,4 +1,6 @@
 ---
+title: "HealthKit 수면 데이터 조회"
+summary: "자정을 넘는 수면 샘플을 지난밤 세션으로 묶고 여러 수면 구간을 구분하는 방법"
 type: study
 area: Apple
 audience: ai

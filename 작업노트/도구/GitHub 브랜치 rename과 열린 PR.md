@@ -1,4 +1,6 @@
 ---
+title: "GitHub 브랜치 rename과 열린 PR"
+summary: "열린 PR의 head 브랜치를 바꿀 때 GitHub의 브랜치 이름 변경이 PR에 미치는 영향"
 type: study
 area: 도구
 audience: ai

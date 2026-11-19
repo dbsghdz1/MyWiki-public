@@ -1,4 +1,6 @@
 ---
+title: "macOS 앱 QA 자동화"
+summary: "시뮬레이터 없이 맥 앱의 클릭, 호버와 화면 캡처로 동작을 검증하는 방법"
 type: study
 area: 도구
 audience: ai

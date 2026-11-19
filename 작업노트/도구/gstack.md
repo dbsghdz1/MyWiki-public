@@ -1,4 +1,6 @@
 ---
+title: "gstack"
+summary: "Claude Code용 gstack 스킬의 설치 위치와 브라우저 도구 설치 옵션을 확인한 기록"
 type: study
 area: 도구
 audience: ai

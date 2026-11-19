@@ -1,4 +1,6 @@
 ---
+title: "드래그 편집 UI의 좌표계와 경계"
+summary: "사진 위 박스를 이동하거나 늘릴 때 화면 배율, 원본 좌표와 히트 테스트 경계"
 type: study
 area: Flutter
 audience: ai

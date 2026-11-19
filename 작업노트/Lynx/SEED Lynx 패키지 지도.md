@@ -1,4 +1,6 @@
 ---
+title: "SEED Lynx 패키지 지도"
+summary: "스타일 컴포넌트, headless 패키지, CSS 토큰과 CLI 스니펫 중 어디서 구현을 찾을지 안내"
 type: study
 area: Lynx
 audience: ai

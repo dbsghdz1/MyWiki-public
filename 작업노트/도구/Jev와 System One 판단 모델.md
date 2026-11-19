@@ -1,10 +1,12 @@
 ---
+title: "Jev와 System One 판단 모델"
+summary: "위키 문서를 고를 때 Jev에 보낼 제목과 요약의 제약, confidence 해석과 실제 후보 선택 시험 결과"
 type: study
 area: 도구
 audience: ai
 status: active
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-11-19
 projects:
   - "운영"
 ---
@@ -18,7 +20,7 @@ Jev는 글을 쓰는 모델이 아니라 **정해진 후보 중 하나를 고르
 - **정체**: TypeSafe의 System One 모델 중 첫 번째(`jev-latest`, `POST /v1/systemone`). 입력은 텍스트나 JSON 상태뿐이고 출력은 타입이 있는 값과 확률이다. 질문 유형은 셋이다: Choice(후보 중 하나), Score(순서 있는 척도), Noul(참일 확률).
 - **confidence의 뜻**: 정답일 확률이 아니다. 확률 분포가 한 후보에 몰린 정도다. Choice는 `(p_max − 1/n) / (1 − 1/n)`. 문서는 "보정은 예측 집단 단위로 측정되며 개별 답의 정확성을 보장하지 않는다"고 적는다. Noul에는 confidence 필드가 없다.
 - **이 환경의 연결**: Claude Code user scope에 등록한 MCP `aside-jev-direct`(스크립트 `(로컬 경로)`, 키는 macOS Keychain, 원문을 읽거나 출력하지 않는다). 도구는 `mcp__aside-jev-direct__jev_choose`(후보 선택), `jev_browser_step`(링크 한 단계 선택), `aside_tabs`(탭 조회). `jev_choose`는 `choice`, `confidence`, `ready`를 돌려주고 기본 최소 confidence는 0.7이다. `ready=false`는 0.7 미만이다. 현재 Noul 도구는 없어서 "맞음/아님" 두 후보의 Choice로 대신한다.
-- **쓰는 규칙**: 전역 `(로컬 경로)`에 두 절이 있다. 「Aside 탐색의 Jev 사용」(상품 비교, 링크 선택)과 「MyWiki 검색의 Jev 사용」(2026-10-16 추가: 후보는 index, grep으로 먼저 뽑고, 후보 설명은 제목과 `summary`만, 본문과 금액, 토큰, 제3자 실명은 보내지 않는다). Claude 전용 지침이라 자동으로 강제되지 않고 Codex와 Hermes에는 적용되지 않는다.
+- **쓰는 규칙**: 전역 `(로컬 경로)`에 두 절이 있다. 「Aside 탐색의 Jev 사용」(상품 비교, 링크 선택)과 「MyWiki 검색의 Jev 사용」(2026-10-16 추가: 후보는 index, grep으로 먼저 뽑고, 후보 설명은 제목과 `summary`만, 본문과 금액, 토큰, 제3자 실명은 보내지 않는다). 2026-11-19 확인 기준 Codex 전역 지침에도 같은 위키 검색 규칙이 있다. 두 도구에서 후보를 만들고 호출하는 책임은 에이전트에 있다. 이식 기록
 - **한계**: 검색을 못 한다. 근거를 설명하지 않는다. 텍스트만 받는다. **입력이 부실해도 확신 높게 답한다**(업무 설명이 없는 공고를 0.98로 판정한 사례). 사용 전에 업무와 자격 같은 판단 근거가 입력에 들어갔는지 코드로 먼저 거른다.
 
 ## 기록

@@ -1,4 +1,6 @@
 ---
+title: "Swift와 Objective-C 브리징"
+summary: "AppKit 콜백이 호출되지 않을 때 Swift 인자 레이블과 Objective-C 셀렉터를 대조하는 방법"
 type: study
 area: Apple
 audience: ai

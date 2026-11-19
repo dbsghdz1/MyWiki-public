@@ -1,4 +1,6 @@
 ---
+title: "HTML을 이미지로 렌더링"
+summary: "macOS에서 WKWebView 스냅샷으로 HTML을 지정한 픽셀 크기의 이미지로 만드는 방법"
 type: study
 area: 도구
 audience: ai

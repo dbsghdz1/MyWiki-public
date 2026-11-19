@@ -1,4 +1,6 @@
 ---
+title: "앱 이름 속 Apple 상표 (5.2.5)"
+summary: "Guideline 5.2.5 심사 반려에서 제품명과 스크린샷 문구를 찾아 고친 기록"
 type: study
 area: AppStore
 audience: ai

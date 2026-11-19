@@ -1,4 +1,6 @@
 ---
+title: "ReactLynx 화면 포팅 지뢰"
+summary: "웹 UI를 Lynx로 옮길 때 무시되는 CSS, 이미지 포맷과 Explorer 화면 갱신 문제"
 type: study
 area: Lynx
 audience: ai

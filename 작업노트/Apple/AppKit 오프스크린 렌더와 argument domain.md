@@ -1,4 +1,6 @@
 ---
+title: "AppKit 오프스크린 렌더와 argument domain"
+summary: "창 밖 NSView의 외관과 렌더 배율, 실행 인자로 언어와 초기 상태를 고정하는 방법"
 type: study
 area: Apple
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "UIKit 내비게이션 바 숨김과 pop 제스처"
+summary: "내비게이션 바를 숨긴 뒤 가장자리 스와이프로 돌아가기가 멈추는 이유와 처리"
 type: study
 area: Apple
 audience: ai

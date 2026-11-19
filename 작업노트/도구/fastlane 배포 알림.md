@@ -1,4 +1,6 @@
 ---
+title: "fastlane 배포 알림"
+summary: "배포 성공 후 알림이 오지 않을 때 lane 호출 경로와 webhook 설정을 확인하는 방법"
 type: study
 area: 도구
 audience: ai

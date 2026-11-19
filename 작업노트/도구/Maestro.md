@@ -1,4 +1,6 @@
 ---
+title: "Maestro"
+summary: "모바일 화면 테스트의 YAML 흐름, 접근성 셀렉터와 시뮬레이터 실행 문제"
 type: study
 area: 도구
 audience: ai

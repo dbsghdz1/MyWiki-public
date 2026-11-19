@@ -1,4 +1,6 @@
 ---
+title: "Google Play 개발자 계정"
+summary: "첫 Android 앱을 출시할 때 개인과 조직 계정의 인증 및 비공개 테스트 조건을 확인한 기록"
 type: study
 area: AppStore
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "macOS 메뉴바와 샌드박스"
+summary: "샌드박스에서 메뉴바 아이템과 기기 정보를 읽을 때 화면 기록 권한과 API별 제약"
 type: study
 area: Apple
 audience: ai

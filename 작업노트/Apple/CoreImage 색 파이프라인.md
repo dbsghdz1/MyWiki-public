@@ -1,4 +1,6 @@
 ---
+title: "CoreImage 색 파이프라인"
+summary: "실제 사진으로 CI 필터의 색조, 블랙 레벨, EXIF 방향과 처리 비용을 비교한 기록"
 type: study
 area: Apple
 audience: ai

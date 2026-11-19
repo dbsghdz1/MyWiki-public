@@ -1,4 +1,6 @@
 ---
+title: "Claude Code 사용량과 한도"
+summary: "모델별 구독 한도와 로컬 사용 기록을 대조해 어느 작업이 한도를 소모하는지 확인한 기록"
 type: study
 area: 도구
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "LLM 문항 생성 검증"
+summary: "생성된 시험 문항의 정답, 해설과 오류를 검토하고 검증기 자체의 누락을 찾은 사례"
 type: study
 area: 도구
 audience: ai

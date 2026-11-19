@@ -1,4 +1,6 @@
 ---
+title: "macOS 템플릿 아이콘 그리기"
+summary: "isTemplate 이미지의 알파 마스크, 메뉴바 배경에 맞춘 실루엣과 투명 영역"
 type: study
 area: Apple
 audience: ai

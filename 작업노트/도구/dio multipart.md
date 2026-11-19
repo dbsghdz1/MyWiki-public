@@ -1,4 +1,6 @@
 ---
+title: "dio multipart"
+summary: "multipart 요청에서 JSON 파트의 Content-Type과 재시도 시 파트 재생성 문제"
 type: study
 area: 도구
 audience: ai

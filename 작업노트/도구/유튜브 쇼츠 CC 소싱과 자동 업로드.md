@@ -1,4 +1,6 @@
 ---
+title: "유튜브 쇼츠 CC 소싱과 자동 업로드"
+summary: "CC BY 영상의 출처를 검증하고 쇼츠 자막 배치와 업로드 결과를 확인하는 방법"
 type: study
 area: 도구
 audience: ai

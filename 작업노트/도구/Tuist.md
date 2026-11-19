@@ -1,4 +1,6 @@
 ---
+title: "Tuist"
+summary: "Project.swift로 Xcode 프로젝트를 생성할 때 로컬 설치 버전과 생성 결과를 확인한 기록"
 type: study
 area: 도구
 audience: ai

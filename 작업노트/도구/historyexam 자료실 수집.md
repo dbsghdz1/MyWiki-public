@@ -1,4 +1,6 @@
 ---
+title: "historyexam 자료실 수집"
+summary: "한국사 시험 자료실에서 회차별 PDF를 확보하고 오래된 게시물의 보존 여부를 확인한 기록"
 type: study
 area: 도구
 audience: ai

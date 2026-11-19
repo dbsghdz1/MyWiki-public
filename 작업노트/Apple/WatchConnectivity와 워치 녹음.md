@@ -1,4 +1,6 @@
 ---
+title: "WatchConnectivity와 워치 녹음"
+summary: "워치 녹음을 닫고 아이폰으로 전송할 때 시뮬레이터와 실기기에서 달랐던 동작"
 type: study
 area: Apple
 audience: ai

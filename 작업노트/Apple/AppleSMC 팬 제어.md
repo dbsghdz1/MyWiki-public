@@ -1,4 +1,6 @@
 ---
+title: "AppleSMC 팬 제어"
+summary: "팬 회전수와 온도를 읽을 때 SMC 키 이름, 구조체 정렬과 접근 권한을 점검한 기록"
 type: study
 area: Apple
 audience: ai

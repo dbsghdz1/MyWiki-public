@@ -1,4 +1,6 @@
 ---
+title: "fastlane 로컬 실행 환경"
+summary: "맥에서만 fastlane이 실패할 때 하위 프로세스에 전달된 Ruby 환경과 경로 확인"
 type: study
 area: 도구
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "flutter run 프로세스와 앱 수명"
+summary: "디버그 호스트 종료 후 시뮬레이터 앱, VM Service와 로그에 남는 것"
 type: study
 area: Flutter
 audience: ai

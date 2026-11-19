@@ -1,4 +1,6 @@
 ---
+title: "Flutter iOS TestFlight 업로드"
+summary: "Flutter iOS 아카이브를 클라우드 서명해 TestFlight에 올리고 빌드 번호를 확인하는 방법"
 type: study
 area: Flutter
 audience: ai

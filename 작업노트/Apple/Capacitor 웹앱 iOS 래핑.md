@@ -1,4 +1,6 @@
 ---
+title: "Capacitor 웹앱 iOS 래핑"
+summary: "웹앱을 iOS로 감쌀 때 safe-area 여백, 번들 자원, 오프라인 화면과 임베드 동작"
 type: study
 area: Apple
 audience: ai

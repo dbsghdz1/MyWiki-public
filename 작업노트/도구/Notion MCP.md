@@ -1,4 +1,6 @@
 ---
+title: "Notion MCP"
+summary: "Notion 커넥터에서 하위 페이지와 데이터베이스 연결이 본문 수정에 따라 달라지는 조건"
 type: study
 area: 도구
 audience: ai

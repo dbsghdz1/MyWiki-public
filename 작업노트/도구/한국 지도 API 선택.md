@@ -1,4 +1,6 @@
 ---
+title: "한국 지도 API 선택"
+summary: "국내 지도 서비스를 선택할 때 신규 등록 가능 여부와 웹 및 앱 SDK 조건을 비교한 기록"
 type: study
 area: 도구
 audience: ai

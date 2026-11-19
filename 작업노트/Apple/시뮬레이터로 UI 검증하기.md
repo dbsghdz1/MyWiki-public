@@ -1,4 +1,6 @@
 ---
+title: "시뮬레이터로 UI 검증하기"
+summary: "카메라와 권한 창처럼 재현이 어려운 화면을 DEBUG 데모 상태로 검증하는 방법"
 type: study
 area: Apple
 audience: ai

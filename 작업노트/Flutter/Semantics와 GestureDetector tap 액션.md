@@ -1,4 +1,6 @@
 ---
+title: "Semantics와 GestureDetector tap 액션"
+summary: "onTap이 비어 있어도 접근성 트리에 탭 동작이 남는 조건과 화면 읽기 확인"
 type: study
 area: Flutter
 audience: ai

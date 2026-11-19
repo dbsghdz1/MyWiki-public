@@ -1,4 +1,6 @@
 ---
+title: "ReactLynx 두 스레드 내부 구조"
+summary: "메인 스레드의 스냅샷과 백그라운드 JS 간 이벤트, hydrate와 patch 오류를 추적한 기록"
 type: study
 area: Lynx
 audience: ai

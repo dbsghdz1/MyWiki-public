@@ -1,4 +1,6 @@
 ---
+title: "인앱 구매 등록 API"
+summary: "App Store Connect API로 상품을 등록할 때 MISSING_METADATA의 누락 항목 찾기"
 type: study
 area: AppStore
 audience: ai

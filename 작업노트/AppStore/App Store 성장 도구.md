@@ -1,4 +1,6 @@
 ---
+title: "App Store 성장 도구"
+summary: "Mac 앱이 사용할 수 있는 스토어 노출 수단과 피처링 후보 제출 경험"
 type: study
 area: AppStore
 audience: ai

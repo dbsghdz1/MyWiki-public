@@ -1,4 +1,6 @@
 ---
+title: "머티리얼 날짜 피커와 ko 로케일"
+summary: "showDatePicker 직접 입력에서 한국어 안내 예시와 DateFormat 파서가 어긋난 사례"
 type: study
 area: Flutter
 audience: ai

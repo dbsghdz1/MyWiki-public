@@ -1,4 +1,6 @@
 ---
+title: "SEED Lynx 설치와 BGN 툴체인"
+summary: "SEED 컴포넌트와 CSS를 기존 rspeedy 빌드에 연결해 테스트와 번들 크기를 측정한 기록"
 type: study
 area: Lynx
 audience: ai

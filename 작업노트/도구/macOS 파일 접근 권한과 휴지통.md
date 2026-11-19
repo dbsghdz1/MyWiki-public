@@ -1,4 +1,6 @@
 ---
+title: "macOS 파일 접근 권한과 휴지통"
+summary: "터미널에서 휴지통 조회가 거부될 때 전체 디스크 접근 권한과 오류를 확인한 기록"
 type: study
 area: 도구
 audience: ai

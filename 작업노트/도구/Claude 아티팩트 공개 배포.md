@@ -1,4 +1,6 @@
 ---
+title: "Claude 아티팩트 공개 배포"
+summary: "Claude 아티팩트를 공유할 때 공개 설정과 독자가 보게 되는 화면을 확인한 기록"
 type: study
 area: 도구
 audience: ai

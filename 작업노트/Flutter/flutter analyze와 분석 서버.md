@@ -1,4 +1,6 @@
 ---
+title: "flutter analyze와 분석 서버"
+summary: "Flutter 분석 서버가 FormatException으로 종료될 때 dart analyze와 포맷 검사를 구분한 기록"
 type: study
 area: Flutter
 audience: ai

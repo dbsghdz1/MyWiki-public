@@ -1,4 +1,6 @@
 ---
+title: "App Store Connect 분석 리포트 API"
+summary: "앱별 analyticsReportRequests 생성부터 다운로드 지표가 리포트에 나타나기까지의 조회 절차와 지연"
 type: study
 area: AppStore
 audience: ai

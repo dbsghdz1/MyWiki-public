@@ -1,4 +1,6 @@
 ---
+title: "Hermes cron 운영"
+summary: "예약 작업이 멈추거나 빈 보고를 보낼 때 실행 로그, LLM 사용량, 포매터와 로컬 경로를 점검한 사례"
 type: study
 area: 도구
 audience: ai

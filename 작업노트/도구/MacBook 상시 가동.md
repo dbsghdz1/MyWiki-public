@@ -1,4 +1,6 @@
 ---
+title: "MacBook 상시 가동"
+summary: "전원 연결과 배터리 상태에 따라 잠자기와 원격 세션 지속 여부를 확인하는 방법"
 type: study
 area: 도구
 audience: ai

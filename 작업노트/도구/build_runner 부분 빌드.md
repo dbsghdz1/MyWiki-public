@@ -1,4 +1,6 @@
 ---
+title: "build_runner 부분 빌드"
+summary: "build-filter로 일부만 생성할 때 범위 밖의 기존 생성 파일이 사라지는 조건"
 type: study
 area: 도구
 audience: ai

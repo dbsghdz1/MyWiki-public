@@ -1,4 +1,6 @@
 ---
+title: "SPSS와 같은 통계 계산"
+summary: "scipy와 statsmodels 결과를 SPSS와 대조할 때 분석별 기본값과 검증 데이터 선택"
 type: study
 area: 도구
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "Vercel 배포"
+summary: "하위 폴더의 웹앱을 Git으로 배포한 뒤 404가 날 때 Root Directory와 배포 설정 점검"
 type: study
 area: 도구
 audience: ai

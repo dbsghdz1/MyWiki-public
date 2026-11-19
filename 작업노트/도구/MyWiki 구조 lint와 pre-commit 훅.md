@@ -1,4 +1,6 @@
 ---
+title: "MyWiki 구조 lint와 pre-commit 훅"
+summary: "위키 커밋이 막힐 때 색인 드리프트, 잘못된 링크, 로그 형식과 공유 Git index 충돌을 진단하는 방법"
 type: study
 area: 도구
 audience: ai

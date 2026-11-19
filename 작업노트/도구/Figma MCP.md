@@ -1,4 +1,6 @@
 ---
+title: "Figma MCP"
+summary: "use_figma와 get_design_context로 노드, 화면 구조, 컴포넌트를 읽고 수정한 기록"
 type: study
 area: 도구
 audience: ai

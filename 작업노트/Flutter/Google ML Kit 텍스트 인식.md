@@ -1,4 +1,6 @@
 ---
+title: "Google ML Kit 텍스트 인식"
+summary: "Flutter 앱에 한국어 OCR 모델을 포함하고 iOS 배포 대상과 시뮬레이터 아키텍처를 확인하는 방법"
 type: study
 area: Flutter
 audience: ai

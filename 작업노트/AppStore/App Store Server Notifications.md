@@ -1,4 +1,6 @@
 ---
+title: "App Store Server Notifications"
+summary: "구매와 환불 V2 알림에서 서버 응답, 재시도, 전송 이력으로 누락을 확인하는 방법"
 type: study
 area: AppStore
 audience: ai

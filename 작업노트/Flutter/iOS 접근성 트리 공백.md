@@ -1,4 +1,6 @@
 ---
+title: "iOS 접근성 트리 공백"
+summary: "특정 화면의 텍스트를 Maestro와 VoiceOver가 찾지 못할 때 XCTest 트리를 확인한 사례"
 type: study
 area: Flutter
 audience: ai

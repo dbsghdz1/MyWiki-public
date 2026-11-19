@@ -1,4 +1,6 @@
 ---
+title: "LLM 콘텐츠 생산 파이프라인"
+summary: "다량의 요약과 해설을 생성할 때 작업을 나누고 개수와 품질을 검증한 기록"
 type: study
 area: 도구
 audience: ai

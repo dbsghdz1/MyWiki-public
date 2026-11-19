@@ -1,4 +1,6 @@
 ---
+title: "StoreKit 2 권리 확인"
+summary: "currentEntitlements가 비거나 환불 거래가 도착할 때 구매 권한을 판정하는 방법"
 type: study
 area: Apple
 audience: ai

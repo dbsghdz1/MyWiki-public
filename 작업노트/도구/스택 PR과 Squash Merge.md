@@ -1,4 +1,6 @@
 ---
+title: "스택 PR과 Squash Merge"
+summary: "앞 PR을 squash한 뒤 뒤 PR에서 충돌 여부와 실제 변경 범위를 확인하는 방법"
 type: study
 area: 도구
 audience: ai

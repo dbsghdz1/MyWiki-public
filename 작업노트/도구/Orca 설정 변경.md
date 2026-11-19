@@ -1,4 +1,6 @@
 ---
+title: "Orca 설정 변경"
+summary: "앱이 로컬 설정을 덮어쓰는 시점과 재실행 후 설정 적용을 확인하는 방법"
 type: study
 area: 도구
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "KBO 하이라이트 클립 수급과 릴스 컷"
+summary: "경기 하이라이트에서 장면과 길이를 정하고 릴스용 클립을 구성한 기록"
 type: study
 area: 도구
 audience: ai

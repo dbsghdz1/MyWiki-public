@@ -1,4 +1,6 @@
 ---
+title: "도메인 이름 확인 RDAP"
+summary: "도메인 후보의 등록 여부와 등록 대행사의 판매 조건을 확인하는 방법"
 type: study
 area: 도구
 audience: ai

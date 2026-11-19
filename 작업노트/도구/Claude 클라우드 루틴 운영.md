@@ -1,4 +1,6 @@
 ---
+title: "Claude 클라우드 루틴 운영"
+summary: "클라우드 루틴의 성공 표시와 실제 파일 변경을 Git 상태로 대조하는 방법"
 type: study
 area: 도구
 audience: ai

@@ -1,4 +1,6 @@
 ---
+title: "위젯 테스트와 ListView 지연 빌드"
+summary: "Flutter 테스트 화면 밖 목록 항목을 find.text가 찾지 못할 때 뷰포트를 조정하는 방법"
 type: study
 area: Flutter
 audience: ai
