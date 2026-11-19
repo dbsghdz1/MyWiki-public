@@ -245,3 +245,5 @@ Play Console의 새 앱 양식에 기존 입력명 「한능검 기출」과 기
 로컬의 `app-release.aab`는 미서명 검증용 빌드다. 테스트 버전 게시에는 업로드 키와 Play 공개키를 설정한 서명 빌드가 남았다. 테스터 참여 링크는 앱 게시 뒤 활성화된다. 근거는 프로젝트 `store/google-play/README.md`, `tools/android-release.sh`, Play Console 테스터 화면이다.
 
 11월 19일 홍이 `keytool`로 한능검 업로드 키를 생성했고, 파일 존재만 확인했다. 키 내용과 비밀번호는 읽지 않았다. Play Console에서 구매용 공개키를 찾다가 앱 수익 창출에 판매자 결제 프로필 설정이 필요함을 확인했다. 결제 프로필 화면에는 기존 개인 프로필 연결과 신규 생성 선택지가 표시되며 선택은 아직 하지 않았다. 서명 빌드와 구매 검증, 비공개 테스트 버전 게시는 남아 있다. [Play Console 결제 프로필](https://play.google.com/console/u/1/developers/8659976242606546267/paymentssettings)
+
+홍이 기존 개인 결제 프로필 연결을 승인하고 공개 판매자 정보 세 값을 제공했다. 이를 입력해 제출한 뒤 콘솔에서 결제 프로필과 지급 설정 화면이 열리는 것을 확인했다. 앱 비공개 테스트 대시보드에는 여전히 참여 테스터 0명, 테스트 버전 게시 전 상태가 표시된다. 구매용 공개키와 서명 AAB, 테스트 버전 게시가 다음 단계다. 제공받은 판매자 정보의 개인 식별값은 이 공개 기록에 옮기지 않는다. [Play Console 결제 프로필](https://play.google.com/console/u/1/developers/8659976242606546267/paymentssettings) [앱 대시보드](https://play.google.com/console/u/1/developers/8659976242606546267/app/4972810417107330608/app-dashboard)
