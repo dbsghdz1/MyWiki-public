@@ -8,7 +8,7 @@ aliases:
   - 마이 크립토 다이어리
   - CoinPilot
 created: 2026-07-18
-updated: 2026-11-19
+updated: 2026-11-21
 slack_channel: 20-개인-my-crypto-diary
 repos:
   - "github.com/dbsghdz1/MyCryptoDiary"
@@ -204,11 +204,11 @@ iOS에서 TypeScript·React로 옮겨가며 만드는 **주력 프로젝트**다
 - [Next.js 서버와 캐싱](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/Next.js%20%EC%84%9C%EB%B2%84%EC%99%80%20%EC%BA%90%EC%8B%B1.md) — 서버 컴포넌트·Route Handler, `app/api` HTTP 출입구와 `src/**/api` 내부 함수, `revalidate`, 환경변수 인라인, proxy의 요청 단위 실행
 - [포트와 localhost](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%ED%8F%AC%ED%8A%B8%EC%99%80%20localhost.md) — 서버는 포트를 잡은 프로그램일 뿐, `localhost`는 루프백이고 `*:3000`은 같은 와이파이에 열려 있다
 - [외부 API 데이터 모델링](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EC%99%B8%EB%B6%80%20API%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%AA%A8%EB%8D%B8%EB%A7%81.md) — 응답 타입을 두 겹으로, 숫자로 들고 다니다 그릴 때만 포맷, 코인 이름은 업비트에서 받는다
-- [키와 스키마 설계](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4/%ED%82%A4%EC%99%80%20%EC%8A%A4%ED%82%A4%EB%A7%88%20%EC%84%A4%EA%B3%84.md) — 스키마·DTO·Model의 경계, PK·FK·복합 PK, Drizzle `numeric`/`bigint`, 파생 랭킹 스냅샷
+- [키와 스키마 설계](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4/%ED%82%A4%EC%99%80%20%EC%8A%A4%ED%82%A4%EB%A7%88%20%EC%84%A4%EA%B3%84.md) — 스키마·DTO·Model의 경계, PK·FK·복합 PK, Drizzle `numeric`/`bigint`, 파생 랭킹 스냅샷. 매수 트랜잭션의 조건부 UPDATE와 return이면 COMMIT (`3503c90`부터 `24b40a2`, 2026-11-21)
 - [Route Handler와 내부 API](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/Route%20Handler%EC%99%80%20%EB%82%B4%EB%B6%80%20API.md) — 같은 로직을 함수(`src/**/api`)와 HTTP(`app/api/**/route.ts`) 두 가지로 노출한다. 서버 컴포넌트는 함수를 직접 부르고 브라우저는 HTTP로 부탁한다
 - [proxy 미들웨어와 matcher](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/proxy%20%EB%AF%B8%EB%93%A4%EC%9B%A8%EC%96%B4%EC%99%80%20matcher.md) — proxy(구 middleware)는 페이지마다가 아니라 요청마다 돈다. matcher 빈 배열은 「아무 데서도 안 돈다」이고 빌드 출력의 `ƒ Proxy (Middleware)` 줄이 실행 증거다
 - [빌드 타임과 런타임](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/%EB%B9%8C%EB%93%9C%20%ED%83%80%EC%9E%84%EA%B3%BC%20%EB%9F%B0%ED%83%80%EC%9E%84.md) — 빌드 때 번들에 새겨지는 것(타입·Tailwind 클래스·`NEXT_PUBLIC_`)과 실행 때 결정되는 것을 나누면 환경변수 유출과 클래스명 조립 금지가 같은 이야기다
-- [Tailwind 레이아웃](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/Tailwind%20%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83.md): 화면 틀을 만들며 `flex`는 부모에, `flex-1`은 자식에 붙는다는 것과 본문만 스크롤시키는 법을 익혔다 (`76207da`부터 `b5aac92`)
+- [Tailwind 레이아웃](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/Tailwind%20%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83.md): 화면 틀을 만들며 `flex`는 부모에, `flex-1`은 자식에 붙는다는 것과 본문만 스크롤시키는 법을 익혔다 (`76207da`부터 `b5aac92`). 거래소 세 칸에서 `items`와 `self`, `h-screen`과 `h-full`의 차이 (`33549f1`, 2026-11-21)
 - [레이아웃과 라우트 그룹](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83%EA%B3%BC%20%EB%9D%BC%EC%9A%B0%ED%8A%B8%20%EA%B7%B8%EB%A3%B9.md): 틀을 어느 화면에 씌울지는 코드가 아니라 파일 위치가 정한다. 생김새는 widget에, 적용 범위는 `layout.tsx`에 둔다 (`228ee17`, `40a5f55`)
 - [React 컴포넌트와 JSX](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/React%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80%20JSX.md): `children`으로 내용을 받는 법과 props 구조 분해의 타입 위치 (`b6c0159`)
 - [bigint와 정수 연산](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/bigint%EC%99%80%20%EC%A0%95%EC%88%98%20%EC%97%B0%EC%82%B0.md) — `bigint`는 `number`와 섞이지 않고 나눗셈은 항상 내림이다. 변환은 경계에서 한 번만 한다
