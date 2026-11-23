@@ -4,9 +4,10 @@ area: JS
 audience: me
 status: active
 created: 2026-09-08
-updated: 2026-09-08
+updated: 2026-11-24
 projects:
   - "약국맵"
+  - "MyCryptoDiary"
 ---
 
 # 비동기와 Promise
@@ -68,6 +69,14 @@ MDN이 명시한다 — *"if the server responds with an error like 404, then `f
   - `PromiseResult`에 `Response`가 들어 있고 `bodyUsed: false`인 것을 눈으로 봄 → **응답 ≠ 본문**
   - `.then` 두 번이 왜 필요한지가 여기서 풀렸다
 - 근거: 브라우저 콘솔 세션, `pharmacy-map` 커밋 `3c81de8`
+
+### 2026-11-23 — WebSocket 메시지와 빠진 await (CoinPilot)
+
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) 거래소의 실시간 가격. 업비트 WebSocket은 메시지를 글자가 아니라 Blob으로 보내서 `event.data.text()`로 풀어야 한다
+- 배운 것:
+  - `JSON.parse(event.data.text())`로 `await`를 빼먹었다. `.text()`도 `fetch`처럼 결과가 아니라 Promise를 주므로 `JSON.parse`가 받은 것은 `"[object Promise]"`라는 글자다. Node에서 재현하면 `SyntaxError: Unexpected token 'o', "[object Promise]" is not valid JSON`
+  - 9월에 콘솔에서 본 「`fetch`는 상자를 준다」가 `Blob.text()`에도 그대로 적용된다. `onmessage`를 `async` 함수로 두고 `await`를 붙여 풀었다
+- 근거: 커밋 `8326357` (`src/widgets/market-ticker/ui/MarketTicker.tsx`)
 
 ## 참고 자료
 
