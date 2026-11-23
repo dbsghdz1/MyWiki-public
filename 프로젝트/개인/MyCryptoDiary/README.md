@@ -8,7 +8,7 @@ aliases:
   - 마이 크립토 다이어리
   - CoinPilot
 created: 2026-07-18
-updated: 2026-11-21
+updated: 2026-11-23
 slack_channel: 20-개인-my-crypto-diary
 repos:
   - "github.com/dbsghdz1/MyCryptoDiary"
