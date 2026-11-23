@@ -46,5 +46,7 @@ projects:
   - 조작: `window.__store!.getState()`의 `updateSettings({ uiLanguage: 'ko' })`, `openSettingsPage()`, `closeSettingsPage()`, `openAutomationsPage()`로 상태를 만들고, 판단은 화면 글자(DOM)로 한다. `orcaAppExtraEnv`로 PATH 같은 환경 변수를 넘길 수 있고 HOME은 못 바꾼다.
   - 지뢰: pnpm을 corepack으로만 쓰면 global-setup의 `execSync('pnpm run build:cli')`가 `/bin/sh: pnpm: command not found`로 멈춘다. `exec corepack pnpm "$@"` 한 줄짜리 `pnpm` 스크립트를 PATH 앞에 두면 된다.
   - 뒷정리: spec은 지우고 `git status`가 깨끗한지 본다. 사진이 쌓이는 `test-results/`는 git이 무시한다.
+  - 설정 칸 열기: `openSettingsPage()` 뒤 `openSettingsTarget({ pane: 'integrations', repoId: null })`처럼 칸을 고르면 그 칸이 열린다. 저장소 설정은 `pane: 'repo'`와 그 저장소 id다.
+  - 사진에서 일부 가리기: Playwright `screenshot({ mask })`는 줄바꿈된 인라인 요소면 여러 줄을 감싼 사각형 전체를 덮어 같은 줄의 다른 글자까지 가린다. `getClientRects()`로 줄마다 덮개를 얹고 찍은 뒤 치우면 된다.
 - 결과: 설정 화면에서 언어를 영어에서 한국어로 바꾸자 전역 `translate()`로 만든 필터 이름까지 바로 바뀌었다. 조각에서 영어로 남은 것은 조각 환경 탓이었다. 대신 그 화면 사진에서 번역 조각을 이어 붙인 문장이 한국어로 깨진 것을 찾았다.
 - 근거: Orca `main` `231551f9f6`, macOS. 시험 spec과 출력은 비공개 기여 기록에 둠.
