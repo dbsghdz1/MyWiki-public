@@ -50,3 +50,14 @@ projects:
   - 사진에서 일부 가리기: Playwright `screenshot({ mask })`는 줄바꿈된 인라인 요소면 여러 줄을 감싼 사각형 전체를 덮어 같은 줄의 다른 글자까지 가린다. `getClientRects()`로 줄마다 덮개를 얹고 찍은 뒤 치우면 된다.
 - 결과: 설정 화면에서 언어를 영어에서 한국어로 바꾸자 전역 `translate()`로 만든 필터 이름까지 바로 바뀌었다. 조각에서 영어로 남은 것은 조각 환경 탓이었다. 대신 그 화면 사진에서 번역 조각을 이어 붙인 문장이 한국어로 깨진 것을 찾았다.
 - 근거: Orca `main` `231551f9f6`, macOS. 시험 spec과 출력은 비공개 기여 기록에 둠.
+
+### 2026-11-24: 화면 조각으로 한국어 화면 찍기
+- 맥락: Orca 기여 중 실제 앱에서 만들기 어려운 상태(스킬 설치 충돌, 온보딩의 Ghostty 질문)를 한국어로 확인해야 했다.
+- 배운 것:
+  - `pnpm fixtures:shot <id>`는 Electron 없이 컴포넌트 하나를 띄워 찍는다. 커밋하지 않을 `*.fixture.tsx`를 컴포넌트 옆에 두고 `store`의 `settings`에 `getDefaultSettings()` 결과를 펼치고 `uiLanguage: 'ko'`를 더해 한국어 화면을 고른다(인자는 아무 홈 경로나 된다). 찍은 뒤 파일을 지워야 `pnpm check:changed`에 섞이지 않는다.
+  - 지뢰: `No headless Chromium found`가 나면 `ORCA_FIXTURES_BROWSER`에 Playwright 캐시의 `chrome-headless-shell` 실행 파일 경로를 준다. 저장소가 찾는 것과 다른 버전도 동작했다.
+  - 지뢰: 브랜치를 바꾼 뒤 `Failed to fetch dynamically imported module`이 나면 `pnpm fixtures:shot --stop`으로 조각 서버를 내리고 다시 찍는다.
+  - 카드의 한 부분만 찍으려면 `interact(frame)`에서 다른 요소에 `style.display = 'none'`만 준다. DOM을 옮기지 않는다.
+  - 시험용 개발 빌드는 실제 홈 폴더를 쓰므로, 스킬 설치처럼 홈 폴더에 쓰는 상태는 실제 앱 대신 화면 조각으로 확인한다.
+- 결과: 스킬 설치 충돌 안내의 한국어 전후 다섯 경우를 한 번에 찍었다(서버가 뜬 뒤에는 한 장에 1초 안쪽).
+- 근거: Orca `main` `d889dccbc3`, macOS. 조각 소스와 사진은 비공개 기여 기록에 둠.
