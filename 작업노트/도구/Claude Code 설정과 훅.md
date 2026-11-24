@@ -6,7 +6,7 @@ area: 도구
 audience: ai
 status: active
 created: 2026-08-21
-updated: 2026-10-17
+updated: 2026-11-25
 projects:
   - "소프트웨어마에스트로"
 ---
@@ -217,3 +217,10 @@ Failed with non-blocking status code: (같은 메시지)
 - 찾는 법: `(로컬 경로)`의 `hooks`에는 없다 — **플러그인 훅은 `(로컬 경로)`에 있다.** 에러 메시지의 경로로 `grep -rl "<경로 조각>" (로컬 경로)` 하면 바로 나온다. 훅 에러가 «없는 경로»를 가리키면 `settings.json`보다 여기부터.
 - 조치: `claude plugin uninstall gitkraken-hooks@gitkraken` → `✔ Successfully uninstalled plugin` 이후 `settings.json`의 `enabledPlugins` 항목과 `installed_plugins.json` 등록이 함께 사라졌다(09-08 항목과 같은 이유로 캐시만 지우지 않는다). **이미 열린 세션은 훅을 로드해 둔 상태라 그대로 뜨고, 새 세션부터 사라진다.**
 - 일반화: 앱을 uninstall해도 그 앱이 등록한 Claude Code 플러그인은 따라 지워지지 않는다. GitKraken·Orca 같은 «호스트 앱 + 훅 플러그인» 조합은 **앱을 지울 때 `claude plugin list`도 같이 본다.**
+
+### 2026-11-25: Edit 도구로 쓴 정규식 `\uXXXX`가 실제 문자로 들어갔다
+
+- 증상: Edit 도구의 새 문자열에 `/[\u0300-\uffff]/`를 썼는데, 파일에는 U+0300(결합 문자)과 U+FFFF가 글자 그대로 들어갔다. 동작이 같아 빌드와 시험은 통과했고, `git diff`에서 대괄호 안이 깨져 보여서 알았다. 같은 세션의 앞선 수정에서 쓴 `/[\u0080-\u{10ffff}]/u`는 이스케이프로 남았다. 왜 하나만 바뀌었는지는 확인하지 못했다.
+- 확인: `grep -n '<상수 이름>' <파일> | od -c`로 바이트를 본다. `\ u 0 3 0 0`이 아니라 `314 200` 같은 바이트가 보이면 실제 문자다. 파일 전체가 ASCII여야 하면 `LC_ALL=C grep -n -P '[^\x00-\x7F]' <파일>`로 찾는다.
+- 고치는 법: Python으로 역슬래시를 따로 붙여(`'\\' + 'u0300'`) 다시 써 넣었다. oxfmt는 이스케이프를 그대로 둔다.
+- 일반화: 소스에 `\uXXXX` 이스케이프를 Edit 도구로 쓴 뒤에는 `git diff`만 믿지 말고 바이트로 한 번 확인한다.
