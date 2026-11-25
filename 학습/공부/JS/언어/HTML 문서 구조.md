@@ -4,9 +4,10 @@ area: JS
 audience: me
 status: active
 created: 2026-09-26
-updated: 2026-09-29
-aliases: [HTML 문서 구조, HTML 뼈대, 빵집 미션, X-Frame-Options, blockquote, scope, ul, ol, dl, 목록, strong, em, b vs strong, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer]
-projects: []
+updated: 2026-11-26
+aliases: [HTML 문서 구조, HTML 뼈대, 빵집 미션, X-Frame-Options, blockquote, scope, ul, ol, dl, 목록, strong, em, b vs strong, 하이퍼링크, target _blank, document fragment, 시맨틱 태그, semantic HTML, landmark, viewport, 뷰포트, charset, 문자 인코딩, UTF-8, void element, 빈 요소, boolean attribute, HTML entity, quirks mode, defer, form, FormData, 제출 버튼, button name value]
+projects:
+  - "MyCryptoDiary"
 ---
 
 # HTML 문서 구조
@@ -110,6 +111,12 @@ projects: []
 - **`defer` vs `async`**: 옵션은 `<script>` 태그 **하나마다** 붙는 양자택일. 둘 다 파싱과 **동시에 내려받고**(Network 탭에 `script.js`가 따로 받아진다), `defer`는 파싱이 끝난 뒤 **쓴 순서대로**, `async`는 **도착하는 순간** 파싱을 멈추고 실행(순서·DOM 보장 없음). 실험: `head`의 스크립트에서 `document.querySelector("footer")` → `defer`면 요소, 옵션 없음이면 `null`.
 - **스크린 리더**(맥 VoiceOver, Cmd+F5)는 화면을 못 보고 태그를 읽는다 — 시맨틱 태그를 「랜드마크」 목록으로 모아 본문·메뉴로 바로 이동시킨다. 그래서 시맨틱 태그는 화면이 아니라 **읽는 쪽**을 바꾼다(`header`·`main` 등은 기본 모양도 `div`와 같다).
 - 몰입: 단계마다 검증받는 방식이 맞았다. 폼(5단계)에서 「굳이 알아야 하나」 — 지루함 쪽 신호 → 핵심 셋만 코드로 받고 넘어가서 다시 붙었다.
+
+### 2026-11-26: 폼이 값을 보내는 방식과 제출 버튼 (MyCryptoDiary 매도)
+
+- 제출하면 브라우저가 폼 안에서 `name`이 있는 칸을 찾아 `name=value` 쌍으로 모아 `action`으로 HTTP 요청을 보낸다. `name`이 없는 칸은 보내지 않는다.
+- `method`의 기본값은 GET이라 값이 주소 뒤 `?a=1&b=2`에 실린다. 무언가를 바꾸는 요청은 POST로 본문에 싣는다. React 19에서 `action`에 Server Action 함수를 넣으면 Next가 POST로 보내고 값은 `FormData`로 도착한다.
+- 폼 안의 `<button>`은 기본이 제출 버튼이다. 눌린 버튼 하나의 `name=value`만 함께 실려 간다. 그래서 `name="rate"`는 같고 `value`만 10, 25, 50, 100인 버튼 4개로 상태 없이 비율을 보냈다 (`a0ca463`). 처음에 `name="10"`처럼 이름과 값을 바꿔 써서 서버의 `formData.get('rate')`가 `null`이 될 뻔했다.
 
 ## 참고 자료
 - roadmap.sh, [Anatomy of an HTML document](https://roadmap.sh/packs/html) — HTML pack 2강, 로그인 필요(본문은 홍이 붙여 준 원문으로 확인, 2026-09-26)

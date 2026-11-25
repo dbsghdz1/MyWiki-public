@@ -4,8 +4,8 @@ area: JS
 audience: me
 status: active
 created: 2026-08-18
-updated: 2026-10-11
-aliases: [타입 소거, type erasure, 컴파일 타임 런타임]
+updated: 2026-11-26
+aliases: [타입 소거, type erasure, 컴파일 타임 런타임, 판별 유니온, discriminated union, Record, 리터럴 넓어짐]
 projects:
   - "MyCryptoDiary"
   - "약국맵"
@@ -72,6 +72,14 @@ import type { UpbitTicker } from './types';
 타입만 가져올 때 쓴다. "컴파일 때만 필요하다"고 명시하는 것이라 **빌드 결과에서 이 import 줄 자체가 지워진다**. 값(함수·상수)을 가져올 땐 그냥 `import`.
 
 ## 기록
+
+### 2026-11-26: 매도 실패 이유를 타입으로 나누기 (MyCryptoDiary)
+
+- **판별 유니온**: `{ ok: true } | { ok: false; reason: 'notHeld' | 'quantityTooSmall' }`. 공통 칸 `ok`로 갈리므로 `if (!order.ok)` 안에서는 `order.reason`이 있다고 TypeScript가 안다. Swift의 연관값 있는 `enum`과 같은 역할이다 (`75caa3c`).
+- **리터럴은 넓어진다**: 반환 타입을 붙이지 않으면 `{ ok: false, fail: 'notHold' }`가 `{ ok: boolean; fail: string }`으로 추론된다. 오타가 잡히지 않는다. 객체를 **만드는 함수**에 타입을 붙여야 한다. 바깥 함수에만 붙이면 `db.transaction(async (tx) => ...)` 안의 화살표 함수는 모른다. 그래서 `async (tx): Promise<PlaceSellOrderResult> =>`로 붙였다.
+- **에러 메시지 읽는 법**: `Type 'A' is not assignable to type 'B'`에서 A가 지금 있는 것, B가 있어야 하는 것이다. 처음에 A(잘못 넓어진 타입)를 정답으로 알고 변수에 붙였다.
+- **`Record<K, V>`로 빠짐 검사**: 실패 이유에서 한국어 메시지로 가는 표를 `Record<SellFailReason, string>`로 선언하면 이유가 하나 늘 때 표에서 `TS2741`이 난다. `'marketClosed'`를 임시로 더해 확인했다 (`8f013f7`). 꺼낼 때는 `표[order.reason]`. 앞에 객체 없이 `[order.reason]`만 쓰면 배열을 만든다.
+- **두 층의 결과 타입**: DB 함수는 코드가 읽을 `reason`, Server Action은 사람이 읽을 `message`를 돌려준다. 로그인과 입력 검사 실패는 DB 함수 이전 단계라 `reason` 목록에 넣지 않는다.
 
 ### 2026-09-09 — 외부 응답이 들어오는 「경계」에서 타입을 선언한다
 

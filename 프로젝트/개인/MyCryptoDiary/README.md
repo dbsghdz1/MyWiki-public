@@ -8,7 +8,7 @@ aliases:
   - 마이 크립토 다이어리
   - CoinPilot
 created: 2026-07-18
-updated: 2026-11-23
+updated: 2026-11-26
 slack_channel: 20-개인-my-crypto-diary
 repos:
   - "github.com/dbsghdz1/MyCryptoDiary"
@@ -42,6 +42,27 @@ related_wiki:
 > 당시의 실습 전환은 과거 기록이다. 현재 배정은 위 현재 카드를 따른다.
 
 **CoinPilot**은 가상 1,000만원으로 시작하는 모의투자 거래소 + 매매일기 + 유저 랭킹 앱이다. 2026-08-29에 서비스 표시명을 `CoinPilot`로 확정했고, 기존 링크와 코드 저장소 연결을 보존하기 위해 프로젝트 작업공간·저장소 이름은 `MyCryptoDiary`를 유지한다. 2026-08-15 전환 전에는 암호자산 거래 기록을 돌아보고 누적 손익, 거래 수, 승률 같은 지표를 확인하는 개인 앱이었다. 현재 설명은 2026-07-24에 수집한 사용자 학습 노트 [MyCryptoDiary Day 1–4 학습 노트](../../../_wiki/Sources/2026/07/2026-07-24-mycryptodiary-day1-4-learning-notes.md)를 기준으로 한다.
+
+## 프로젝트 마무리 후 고칠 것
+
+홍 결정(2026-11-26): 매도 피처 리뷰 지적은 지금 고치지 않고 프로젝트 마무리 때 전체 코드를 정리하며 한 번에 고친다. 출처는 `/review`와 `mattpocock-skills:code-review`(고정점 `7c04b2c`, 2026-11-26).
+
+| 고칠 것 | 위치 | 출처 |
+|---|---|---|
+| 현금에 더할 금액(`proceeds - fee`)을 `model/` 함수와 테스트로 | `placeSellOrder.ts:68` | 표준(CLAUDE.md 「테스트」) |
+| 배율 상수 이름 붙이기: `10_000_000_000_000_000n`, 테스트의 `WON` | `calculateSell.ts:7` | review, 표준 |
+| 산 금액에도 쓰는 `calculateProceeds` 이름(수량 × 가격 → 원) | `calculateSell.ts:16` | review, 냄새 |
+| 같은 `where(and(userId, market))` 세 번(매수에도 두 번) | `placeSellOrder.ts:37`, `57`, `61` | review, 냄새 |
+| 없는 마켓(`KRW-NOPE`)이면 `getCurrentPrice`가 던져 에러 화면. 메시지로 돌려주기(매수도 같음) | `sellMarket.ts:42` | 명세 |
+| 사용자 메시지 말투, `import type` 두 곳, `<input />`, `throw` 문구, `calculateSellQuantity` 반환 타입 | `sellMarket.ts`, `SellForm.tsx` | review, 표준 |
+
+기록만 하는 것(증상이 보이면 고친다):
+- 수량이 0이 아니어도 판 금액이 0원일 수 있다. 아주 적은 잔량을 100% 팔면 코인이 0원에 사라지고 `amount: 0` 주문이 남는다. `placeSellOrder.ts:47`의 검사 대상을 바꾸면 막힌다.
+- 잠금이 매도에만 있다. 매수 `placeBuyOrder.ts:37`은 보유를 잠그지 않고 읽어 덮어쓴다. 에이전트 추정: 매수가 `accounts`를 먼저 잠그므로 동시 주문은 조용히 틀어지기보다 교착 상태 에러로 한쪽이 실패한다.
+- 계좌 줄이 없으면 현금 update가 0줄이어도 매도는 기록된다. 가입 때 계좌가 생기므로 지금은 일어나지 않는다.
+- 매수(`boolean`, `return;`, `throw`)와 매도(판별 유니온과 메시지)의 실패 표현이 다르다.
+- DB 동작과 비율 검사의 테스트가 없다(통합 테스트 범위는 홍과 정하기로 한 것).
+- `SellForm` 버튼 4개를 배열 `map`으로, `calculateRealizedPnl` 인자 4개(전부 `bigint`, 배율 셋)를 객체로.
 
 ## 에이전트 작업 규칙
 
@@ -200,10 +221,11 @@ iOS에서 TypeScript·React로 옮겨가며 만드는 **주력 프로젝트**다
 - [JavaScript 기초 문법](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EA%B8%B0%EC%B4%88%20%EB%AC%B8%EB%B2%95.md) — 객체 리터럴과 구조 분해가 JS의 절반, truthy/falsy, **`bigint` 나눗셈은 항상 내림이라 올림은 직접 만든다**
 - [고차함수와 배열 메서드](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/%EA%B3%A0%EC%B0%A8%ED%95%A8%EC%88%98%EC%99%80%20%EB%B0%B0%EC%97%B4%20%EB%A9%94%EC%84%9C%EB%93%9C.md) — `while`로 0을 채우다 버그 둘을 만든 자리가 `padEnd` 한 번으로 사라졌다: 짧아서가 아니라 부품이 적어서 (D4 블록 5a)
 - [JavaScript 런타임](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/JavaScript%20%EB%9F%B0%ED%83%80%EC%9E%84.md) — Node는 V8 + OS 기능이라 서버가 될 수 있고, 그래서 API 키를 서버에만 둔다
-- [TypeScript 타입 시스템](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) — 타입은 컴파일하면 사라지므로 `res.ok` 검사를 손으로 넣는다
+- [TypeScript 타입 시스템](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/TypeScript%20%ED%83%80%EC%9E%85%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md) — 타입은 컴파일하면 사라지므로 `res.ok` 검사를 손으로 넣는다. 매도 실패를 판별 유니온과 `Record`로 나눠 이유를 빠뜨리면 컴파일 에러가 나게 했다 (`75caa3c`, `8f013f7`)
 - [Next.js 서버와 캐싱](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/Next.js%20%EC%84%9C%EB%B2%84%EC%99%80%20%EC%BA%90%EC%8B%B1.md) — 서버 컴포넌트·Route Handler, `app/api` HTTP 출입구와 `src/**/api` 내부 함수, `revalidate`, 환경변수 인라인, proxy의 요청 단위 실행
 - [포트와 localhost](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/%ED%8F%AC%ED%8A%B8%EC%99%80%20localhost.md) — 서버는 포트를 잡은 프로그램일 뿐, `localhost`는 루프백이고 `*:3000`은 같은 와이파이에 열려 있다
 - [외부 API 데이터 모델링](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/React/%EC%99%B8%EB%B6%80%20API%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%AA%A8%EB%8D%B8%EB%A7%81.md) — 응답 타입을 두 겹으로, 숫자로 들고 다니다 그릴 때만 포맷, 코인 이름은 업비트에서 받는다
+- [HTML 문서 구조](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/%EC%96%B8%EC%96%B4/HTML%20%EB%AC%B8%EC%84%9C%20%EA%B5%AC%EC%A1%B0.md): 폼은 `name`이 있는 칸만 `name=value`로 모아 보내고, 눌린 제출 버튼도 그 칸에 든다. 비율 버튼 4개를 상태 없이 만들었다 (`a0ca463`)
 - [키와 스키마 설계](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/CS/%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4/%ED%82%A4%EC%99%80%20%EC%8A%A4%ED%82%A4%EB%A7%88%20%EC%84%A4%EA%B3%84.md) — 스키마·DTO·Model의 경계, PK·FK·복합 PK, Drizzle `numeric`/`bigint`, 파생 랭킹 스냅샷. 매수 트랜잭션의 조건부 UPDATE와 return이면 COMMIT (`3503c90`부터 `24b40a2`, 2026-11-21)
 - [Route Handler와 내부 API](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/Route%20Handler%EC%99%80%20%EB%82%B4%EB%B6%80%20API.md) — 같은 로직을 함수(`src/**/api`)와 HTTP(`app/api/**/route.ts`) 두 가지로 노출한다. 서버 컴포넌트는 함수를 직접 부르고 브라우저는 HTTP로 부탁한다
 - [proxy 미들웨어와 matcher](../../../%ED%95%99%EC%8A%B5/%EA%B3%B5%EB%B6%80/JS/Next.js/proxy%20%EB%AF%B8%EB%93%A4%EC%9B%A8%EC%96%B4%EC%99%80%20matcher.md) — proxy(구 middleware)는 페이지마다가 아니라 요청마다 돈다. matcher 빈 배열은 「아무 데서도 안 돈다」이고 빌드 출력의 `ƒ Proxy (Middleware)` 줄이 실행 증거다
