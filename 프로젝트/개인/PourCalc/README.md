@@ -22,9 +22,9 @@ launch_approved: 2026-11-25
 ## 현재 카드
 
 - **단계**: 7일 MVP
-- **현재**: 2026-11-25 https://pourcalc.vercel.app 배포. 계산기 5개와 설명 글, sitemap, robots.txt 응답 200 확인, 계산 단위 테스트 9개 통과. 브라우저 화면 확인은 못 함(Aside 미실행). Search Console 미등록, 광고 없음
+- **현재**: 2026-11-25 https://pourcalc.vercel.app 배포. 계산기 5개와 설명 글, sitemap, robots.txt 응답 200 확인, 계산 단위 테스트 9개 통과. 같은 날 Search Console에 URL 접두어 속성을 HTML 태그로 인증하고 `sitemap-index.xml` 제출(Aside로 진행). 계산기 화면의 실제 동작은 아직 브라우저로 확인 못 함. 광고 없음
 - **다음 판정**: 2026-12-25 도메인 구매 여부(계속할 마음이 들면 사서 옮김), 2027-02-25 Search Console 노출 판정(꾸준히 늘면 분야 확장과 애드센스 신청, 거의 없으면 접거나 방향 전환)
-- **지금 할 일**: 홍이 Google 계정으로 Search Console에 URL 접두어 방식으로 등록하고 HTML 인증 태그를 넘기면, 태그를 넣어 재배포하고 `sitemap-index.xml`을 제출한다
+- **지금 할 일**: 1~2주 뒤 Search Console에서 사이트맵 처리 상태와 색인된 페이지 수를 확인한다
 - **하지 않을 일**: 검색 노출 확인 전 다른 분야(페인트, 바닥재 등) 계산기 추가
 
 ## 무엇
@@ -62,4 +62,5 @@ launch_approved: 2026-11-25
 
 - 로컬 `(로컬 경로)`, GitHub 원격 미생성. Astro 7.4 정적 사이트, `@astrojs/sitemap`, Vercel 프로젝트 `pourcalc`
 - 계산 로직은 `src/lib/concrete.ts`(순수 함수), 테스트는 `npm test`(Node 내장 test runner로 TS 직접 실행)
-- 커밋: `c0689ea` 계산기 5개 첫 배포
+- 커밋: `c0689ea` 계산기 5개 첫 배포, 이어서 Search Console 인증 메타태그 추가
+- Search Console 인증 메타태그는 `src/layouts/Layout.astro`에 있다. 지우면 인증이 풀린다
