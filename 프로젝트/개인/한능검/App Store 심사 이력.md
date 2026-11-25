@@ -2,7 +2,7 @@
 type: project
 status: active
 created: 2026-08-28
-updated: 2026-11-19
+updated: 2026-11-25
 ---
 
 # App Store 심사 이력 — 한능검 정복
@@ -269,3 +269,14 @@ Play Console의 새 앱 양식에 기존 입력명 「한능검 기출」과 기
 한국 개발자 계정에 기존 사업자등록번호를 저장했다. 신고번호와 신고기관은 확인되지 않아 비워 두었다. Play Console의 사전 확인이 다시 끝나자 이전의 계정 정보 문제가 사라지고 변경사항 제출 버튼이 활성화됐다. 비공개 테스트 전용 2.3.6(19), 도플리 테스터 목록과 앱 정보 변경사항 14개를 Google 검토에 제출했으며, 게시 개요가 「검토 중인 변경사항」으로 바뀐 것을 확인했다. 이는 테스트 게시나 테스터 설치 가능 상태와 다르다. [한국 개발자 계정 요구사항](https://support.google.com/googleplay/android-developer/answer/6223646?hl=en-CA-3)과 Play Console 게시 개요, 2026-11-20. [현재 상태](README.md#현재-카드)
 
 크몽 판매자에게 심사 제출과 검토 중 상태를 알렸다. 설치 링크가 실제로 활성화되면 전달하기로 했으며 아직 링크를 보내거나 주문을 완료 처리하지 않았다. 유료 앱이나 인앱 구매를 배포할 때 필요한 한국 개발자 정보는 별도로 확인해야 한다. 근거: 2026-11-20 크몽 대화와 위 Google 안내. [다음 단계](README.md#현재-카드)
+
+## 2.3.6 (19): 2026-11-25 제출, 심사 대기
+
+홍의 「배포하고 1.2.3.4.5 를하자」 가운데 앱 반영 요청이다. 제출 전 조회에서 2.3.5(18)는 판매 중(`READY_FOR_SALE`)이었다. 19:10 KST에 심사 제출했고, 조회로 2.3.6 `WAITING_FOR_REVIEW`, 빌드 19 연결(`VALID`), 승인 후 자동 출시, 한국어와 영어 출시 노트를 확인했다. 근거: ASC API `appStoreVersions`, `reviewSubmissions` 응답, Claude 대화 2026-11-25. [작업 기록](%EC%98%88%EC%83%81%20%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC%20v2%EC%99%80%20PDF%202026-11-25.md)
+
+- 내용: 81회 심화 예상 5회 v2, 80회 기본 예상 5회 v2, 요약 노트 과전법 오류 수정. 앱 소스는 빌드 18 이후 리뷰 요청 시점을 기록하는 한 줄(`noteGoodMoment`, Android 시험판에도 들어간 코드)만 바뀐 것을 빌드 18 IPA의 번들과 문자열 비교로 확인했다.
+- 버전: 앱과 위젯 2.3.6(19), `src/Settings.tsx`와 Fastfile 2.3.6, 빌드 19.
+- 검증: IPA 안의 버전과 데이터 파일(81회 2회, 기본 3회, 노트)이 `web/public/data`와 같은지 해시로 대조했다. 스크린샷은 건드리지 않았다(`skip_screenshots`).
+- 진행: 에이전트의 `fastlane ios release`는 auto 모드 분류기가 「Destructive or Unwanted Actions」로 막았다. 로컬 `fastlane ios archive`만 에이전트가 하고, 업로드와 제출은 홍이 `!`로 실행했다.
+- 지뢰: `upload_ipa` 바로 뒤에 이어 돌린 `submit`은 빌드가 ASC 목록에 아직 없어 빌드 연결과 제출 없이 끝났다(18:59 업로드, 빌드 19가 `VALID`로 보인 것은 19:02). 출력이 잘려 에러 문구는 보지 못했다. `VALID`가 된 뒤 `submit`만 다시 돌려 제출됐다. 11-16에는 같은 순서가 3분 만에 통과했으므로 애플 처리 시간에 따라 갈린다. 다음부터는 `asc get "/v1/builds?filter[app]=<id>&filter[version]=<빌드>"`로 `VALID`를 확인한 뒤 `submit`을 돌린다.
+- Android: versionCode 20(2.3.6) 비공개 테스트 빌드를 준비했다. 서명은 홍이 `tools/android-sign-test.sh`로 한다.
