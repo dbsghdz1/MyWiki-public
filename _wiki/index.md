@@ -20,6 +20,7 @@ status: active
 | [DayTune](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/DayTune/README.md) | 수면 데이터를 바탕으로 하루 계획을 돕는 iOS 앱의 작업 진입점 | paused | 2026-11-19 |
 | [Fadeo](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/%EC%A6%89%EC%84%9D%EC%B9%B4%EB%A9%94%EB%9D%BC/README.md) | 기다림과 흔들기 경험을 살린 iOS 즉석카메라 앱의 작업 진입점 | active | 2026-11-19 |
 | [math-sprint](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/math-sprint/README.md) | Apps in Toss용 짧은 두뇌 퀴즈 스프린트 게임의 작업 진입점 | paused | 2026-11-19 |
+| [PourCalc](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/PourCalc/README.md) | 미국 DIY 사용자를 위한 콘크리트 자재량 계산기 웹사이트로, 구글 검색 유입과 웹 광고 수익 가능성을 시험한다 | active | 2026-11-25 |
 | [Subly](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Subly/README.md) | macOS 실시간 자막·번역 앱 실험의 작업 진입점 | paused | 2026-11-19 |
 | [Tripbox](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/Tripbox/README.md) | 가고 싶은 곳 링크를 둘이 공유해 두면 AI가 일정과 근처 현지 맛집을 정리해 주는 iOS 여행 앱 | active | 2026-11-19 |
 | [WristNote](../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/WristNote/README.md) | Apple Watch 녹음과 온디바이스 전사·요약 앱의 작업 진입점 | shipped | 2026-11-19 |
