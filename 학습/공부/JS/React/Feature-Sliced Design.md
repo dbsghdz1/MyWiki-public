@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-16
-updated: 2026-08-29
+updated: 2026-11-27
 aliases: [FSD, 피처 슬라이스 디자인]
 projects:
   - "MyCryptoDiary"
@@ -49,6 +49,17 @@ projects:
 엄밀히 말하면 루트 `app/api`에서 특별한 이름은 `api` 폴더가 아니라 **`route.ts`**다. `api`는 URL을 `/api/...`로 만들기 위한 관례적인 경로 조각이다. 반면 `src/entities/account/api/getOrCreateAccount.ts`는 Clerk·Neon과 통신하지만 HTTP 주소를 만들지 않고, 서버 컴포넌트가 함수로 직접 호출한다.
 
 ## 기록
+
+### 2026-11-27 — 왜 `shared/lib`는 `index.ts`를 거치지 않나 (다시 물어볼 것)
+
+- 맥락: [MyCryptoDiary](../../../../%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EA%B0%9C%EC%9D%B8/MyCryptoDiary/README.md) 내 자산 화면. 매도의 `calculateProceeds`를 `src/shared/lib/toWonAmount.ts`로 내리면서 홍이 물었다: 슬라이스는 `index.ts`로만 여는데 이건 왜 `@/shared/lib/toWonAmount`로 바로 가져오나. 홍이 「나중에 다시 물어볼 것」으로 기록을 요청했다.
+- 답(짧게 들은 것):
+  - `index.ts`는 **슬라이스의 안과 밖을 가르는 문**이다. `entities/holding`처럼 한 덩어리 안의 `api/`, `model/`, `ui/`는 내부 사정이라 밖에서 직접 건드리지 않는다. 안을 옮겨도 문만 같으면 바깥이 안 깨진다.
+  - `shared`에는 슬라이스가 없다. `decimal.ts`와 `toWonAmount.ts`는 한 덩어리의 부품이 아니라 서로 무관한 독립 도구라 지킬 내부 사정이 없다. 그래서 **도구 하나가 곧 공개 지점**이다.
+  - `shared/lib/index.ts` 하나로 전부 모으지 않는 이유: 하나만 필요해도 모은 파일이 가리키는 모듈을 다 읽게 되고, 서버 전용 모듈이 클라이언트로 딸려 갈 위험이 생긴다.
+  - 정리: 슬라이스는 문 하나, `shared`는 도구마다 각자 문.
+- 아직 남은 것: CLAUDE.md의 「`shared`는 세그먼트가 문 (`@/shared/ui`)」 문구와 실제 사용(`@/shared/lib/decimal`, 파일 단위)이 어긋나 보인다. 이번 피처 code-review에서 짚는다. 「공식 문서가 도구별 공개 지점을 권한다」는 설명은 에이전트가 기억으로 한 말이라, 다시 볼 때 아래 Public API 문서에서 확인한다.
+- 근거: `src/shared/lib/toWonAmount.ts`, `src/features/market-sell/api/placeSellOrder.ts`의 `@/shared/lib/decimal` import
 
 ### 2026-08-29 — `app/`과 `src/`, 두 `api`의 경계
 
