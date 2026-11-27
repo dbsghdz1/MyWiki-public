@@ -51,9 +51,15 @@ related_wiki:
 |---|---|---|
 | 현금에 더할 금액(`proceeds - fee`)을 `model/` 함수와 테스트로 | `placeSellOrder.ts:68` | 표준(CLAUDE.md 「테스트」) |
 | 배율 상수 이름 붙이기: `10_000_000_000_000_000n`, 테스트의 `WON` | `calculateSell.ts:7` | review, 표준 |
-| 산 금액에도 쓰는 `calculateProceeds` 이름(수량 × 가격 → 원) | `calculateSell.ts:16` | review, 냄새 |
+| ~~산 금액에도 쓰는 `calculateProceeds` 이름~~ 2026-11-27 `toWonAmount`로 해결(`3a627a8`) | `calculateSell.ts:16` | review, 냄새 |
 | 같은 `where(and(userId, market))` 세 번(매수에도 두 번) | `placeSellOrder.ts:37`, `57`, `61` | review, 냄새 |
-| 없는 마켓(`KRW-NOPE`)이면 `getCurrentPrice`가 던져 에러 화면. 메시지로 돌려주기(매수도 같음) | `sellMarket.ts:42` | 명세 |
+| 없는 마켓(`KRW-NOPE`)이면 `getCurrentPrice`가 던져 에러 화면. 메시지로 돌려주기(매수도 같음). 내 자산은 `d52f309`로 해결 | `sellMarket.ts:42` | 명세 |
+| 「1억 배」 규칙이 네 군데(`toWonAmount`, `decimal.ts`, `toScaledPrice`, `formatMoney`)에 흩어짐. 원, 수량, 가격이 모두 그냥 `bigint`라 `formatWon(가격)` 실수를 타입이 못 잡음 | 여러 곳 | 내 자산 리뷰, 냄새 |
+| `calculateUnrealizedPnl` 안에서 `toWonAmount`를 다시 계산하는 중복 | `calculateUnrealizedPnl.ts:12` | 내 자산 리뷰, 냄새 |
+| `toPairLabel`과 한글 이름 찾기를 `entities/market`으로 | `PortfolioPage.tsx` | 내 자산 리뷰, 냄새 |
+| `getHoldings` 안 배열 변수 이름이 단수 `holding` | `getHoldings.ts:7` | 내 자산 리뷰, 냄새 |
+| 로그인 뒤 원래 주소(`/portfolio`)로 돌아가지 않음 | `PortfolioPage.tsx` | 내 자산 리뷰, 명세 참고 |
+| 실현손익 표시(계획의 「평가손익과 실현손익」). 매매 내역 박스와 함께 | 내 자산 | 내 자산 리뷰, 명세 |
 | 사용자 메시지 말투, `import type` 두 곳, `<input />`, `throw` 문구, `calculateSellQuantity` 반환 타입 | `sellMarket.ts`, `SellForm.tsx` | review, 표준 |
 
 기록만 하는 것(증상이 보이면 고친다):

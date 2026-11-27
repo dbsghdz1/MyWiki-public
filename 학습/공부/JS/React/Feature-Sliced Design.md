@@ -4,7 +4,7 @@ area: JS
 audience: me
 status: active
 created: 2026-08-16
-updated: 2026-11-27
+updated: 2026-11-28
 aliases: [FSD, 피처 슬라이스 디자인]
 projects:
   - "MyCryptoDiary"
@@ -49,6 +49,17 @@ projects:
 엄밀히 말하면 루트 `app/api`에서 특별한 이름은 `api` 폴더가 아니라 **`route.ts`**다. `api`는 URL을 `/api/...`로 만들기 위한 관례적인 경로 조각이다. 반면 `src/entities/account/api/getOrCreateAccount.ts`는 Clerk·Neon과 통신하지만 HTTP 주소를 만들지 않고, 서버 컴포넌트가 함수로 직접 호출한다.
 
 ## 기록
+
+### 2026-11-28 — `shared/lib` 안에 폴더를 만들면 `index.ts`가 필요하다 (11-27 질문의 답 일부)
+
+- 맥락: 에이전트가 포맷 함수를 `src/shared/lib/format/formatMoney.ts`에 넣고 `@/shared/lib/format/formatMoney`로 가져왔다. 커밋 전 검사 출력의 마지막 줄만 보고 통과로 잘못 읽었고, 리뷰 에이전트가 위반 2건을 찾았다.
+- Steiger가 실제로 낸 오류:
+  - `fsd/public-api`: 「This top-level folder in shared/lib is missing a public API.」
+  - `fsd/no-public-api-sidestep`: 「Forbidden sidestep of public API when importing from "@/shared/lib/format/formatMoney".」
+- 그래서 규칙은 이렇다: `shared/lib` 바로 아래의 **파일 하나**(`decimal.ts`, `toWonAmount.ts`)는 그 자체가 공개 지점이라 `@/shared/lib/decimal`로 가져와도 된다. `shared/lib` 아래에 **폴더**(`format/`)를 만들면 그 폴더가 한 묶음이 되어 `index.ts`가 필요하고, 밖에서는 `@/shared/lib/format`으로만 가져온다.
+- 11-27 기록의 「도구마다 각자 문」은 맞고, 「도구가 폴더면 그 폴더의 `index.ts`가 문」이 덧붙는다.
+- 교훈(에이전트): 검사 결과는 마지막 줄이 아니라 전체 출력을 본다.
+- 근거: `src/shared/lib/format/index.ts`, 커밋 `e8bcca5`
 
 ### 2026-11-27 — 왜 `shared/lib`는 `index.ts`를 거치지 않나 (다시 물어볼 것)
 
